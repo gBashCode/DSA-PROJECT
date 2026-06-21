@@ -3,8 +3,9 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
-  Shield, Swords, Calendar, Edit3, Save, X, LogOut, Loader2,
+  Shield, Swords, Calendar, Edit3, Save, X, LogOut, Loader2, RefreshCw,
 } from "lucide-react";
+import { fullSync } from "@/lib/sync";
 import { cn } from "@/lib/utils";
 import { useAuth, AVATARS } from "@/lib/auth";
 import { getGuildByUser } from "@/lib/guild";
@@ -31,6 +32,7 @@ export default function ProfilePage() {
   const [newPw, setNewPw] = useState("");
   const [pwError, setPwError] = useState("");
   const [pwSuccess, setPwSuccess] = useState("");
+  const [syncing, setSyncing] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -80,6 +82,14 @@ export default function ProfilePage() {
     } else {
       setPwError(result.error ?? "Failed.");
     }
+  }
+
+  async function handleSync() {
+    if (!user) return;
+    setSyncing(true);
+    await fullSync(user.id);
+    setSyncing(false);
+    window.location.reload();
   }
 
   async function handleLogout() {
@@ -220,6 +230,15 @@ export default function ProfilePage() {
 
         <button onClick={handleLogout} className="flex items-center gap-2 font-mono text-xs text-text-muted transition-colors hover:text-accent-danger">
           <LogOut className="h-3.5 w-3.5" /> Logout
+        </button>
+
+        <button
+          onClick={handleSync}
+          disabled={syncing}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-border bg-surface text-text text-xs font-mono hover:bg-bg transition-colors disabled:opacity-50"
+        >
+          <RefreshCw className={`w-3.5 h-3.5 ${syncing ? "animate-spin" : ""}`} />
+          {syncing ? "Syncing..." : "Sync to Cloud"}
         </button>
       </div>
     </div>
