@@ -148,8 +148,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = useCallback(
     async (email: string, password: string): Promise<{ ok: boolean; error?: string }> => {
-      const { error } = await getSupabase().auth.signInWithPassword({ email, password });
+      const { data, error } = await getSupabase().auth.signInWithPassword({ email, password });
       if (error) return { ok: false, error: error.message };
+
+      if (data.user) {
+        setUser(data.user);
+        const { data: profileData } = await getSupabase()
+          .from("profiles")
+          .select("*")
+          .eq("id", data.user.id)
+          .single();
+        setProfile(profileData);
+      }
+
       return { ok: true };
     },
     [getSupabase]
