@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback, useRef } from "react";
+import { useState, useEffect, useMemo, useCallback, useRef } from "react";
 import { problems } from "@/data/problems";
 import { useLocalStorageState } from "@/lib/use-local-storage-state";
 import Sidebar from "@/components/tracker/sidebar";
@@ -14,8 +14,10 @@ import { ShortcutsModal } from "@/components/shortcuts-modal";
 import { exportProgressAsJSON, exportProgressAsMarkdown } from "@/lib/export";
 import { getDailyChallenge, markDailyChallengeComplete } from "@/lib/daily-challenge";
 import { getProblemsForReview } from "@/lib/spaced-repetition";
-import { Download, FileText, Flame, Calendar, ChevronDown, ChevronUp } from "lucide-react";
+import { Download, FileText, Flame, Calendar, ChevronDown, ChevronUp, RefreshCw } from "lucide-react";
 import { Recommendations } from "@/components/recommendations";
+import { useAuth } from "@/lib/auth";
+import { fullSync } from "@/lib/sync";
 
 interface TrackerState {
   solved: Record<string, boolean>;
@@ -45,6 +47,13 @@ export default function TrackerPage() {
   const searchRef = useRef<HTMLInputElement>(null);
   const timer = useTimer();
   const timerStartRef = useRef<number>(0);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      fullSync(user.id).catch(console.error);
+    }
+  }, [user]);
 
   const topics = useMemo(() => {
     const map = new Map<string, { total: number; solved: number }>();
@@ -205,6 +214,16 @@ export default function TrackerPage() {
                   </div>
                 )}
               </div>
+              {user && (
+                <button
+                  onClick={() => fullSync(user.id).then(() => window.location.reload())}
+                  className="flex items-center gap-1.5 px-2 py-1 rounded border border-border bg-bg font-mono text-xs text-text-muted hover:text-text transition-colors"
+                  title="Sync to cloud"
+                >
+                  <RefreshCw className="w-3.5 h-3.5" />
+                  Sync
+                </button>
+              )}
             </div>
           </div>
 
