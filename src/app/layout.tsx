@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ThemeProvider } from "next-themes";
+import { AuthProvider } from "@/components/auth-provider";
 import Nav from "@/components/nav";
 import "./globals.css";
 
@@ -61,13 +62,15 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange={false}
         >
-          <Nav />
-          <main className="flex-1">{children}</main>
-          <footer className="border-t border-border py-8 text-center">
-            <p className="text-xs font-mono text-text-muted">
-              &copy; {new Date().getFullYear()} DSA Practice &middot; Track your progress &middot; Visualize algorithms &middot; Ship with confidence
-            </p>
-          </footer>
+          <AuthProvider>
+            <Nav />
+            <main className="flex-1">{children}</main>
+            <footer className="border-t border-border py-8 text-center">
+              <p className="text-xs font-mono text-text-muted">
+                &copy; {new Date().getFullYear()} DSA Practice &middot; Track your progress &middot; Visualize algorithms &middot; Ship with confidence
+              </p>
+            </footer>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>
