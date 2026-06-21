@@ -8,25 +8,15 @@ export async function GET(request: Request) {
   const next = searchParams.get("next") ?? "/profile";
 
   if (token_hash && token_hash.length > 0) {
-    const supabaseResponse = NextResponse.next({ request });
-
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       {
         cookies: {
           getAll() {
-            return request.cookies.getAll();
+            return [];
           },
-          setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value }) =>
-              request.cookies.set(name, value)
-            );
-            supabaseResponse.headers.set(
-              "set-cookie",
-              request.cookies.toString()
-            );
-          },
+          setAll() {},
         },
       }
     );
@@ -37,7 +27,7 @@ export async function GET(request: Request) {
     });
 
     if (!error) {
-      return supabaseResponse;
+      return NextResponse.redirect(`${origin}${next}`);
     }
   }
 
