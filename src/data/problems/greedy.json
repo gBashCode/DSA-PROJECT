@@ -1,0 +1,256 @@
+[
+  {
+    "id": "greedy-001",
+    "leetcode": 55,
+    "title": "Jump Game",
+    "difficulty": "Medium",
+    "description": "You are given an integer array nums where nums[i] represents the maximum number of positions you can jump forward from index i. Starting at index 0, determine if you can reach the last index of the array.",
+    "examples": [
+      { "input": "nums = [2,3,1,1,4]", "output": "true" },
+      { "input": "nums = [3,2,1,0,4]", "output": "false" }
+    ],
+    "hints": [
+      "Track the farthest index you can reach at each step.",
+      "If the current index exceeds the farthest reachable, return false."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "solutions": {
+      "python": "class Solution:\n    def canJump(self, nums: List[int]) -> bool:\n        farthest = 0\n        for i in range(len(nums)):\n            if i > farthest:\n                return False\n            farthest = max(farthest, i + nums[i])\n        return True",
+      "java": "class Solution {\n    public boolean canJump(int[] nums) {\n        int farthest = 0;\n        for (int i = 0; i < nums.length; i++) {\n            if (i > farthest) return false;\n            farthest = Math.max(farthest, i + nums[i]);\n        }\n        return true;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    bool canJump(vector<int>& nums) {\n        int farthest = 0;\n        for (int i = 0; i < nums.size(); i++) {\n            if (i > farthest) return false;\n            farthest = max(farthest, i + nums[i]);\n        }\n        return true;\n    }\n};",
+      "javascript": "var canJump = function(nums) {\n    let farthest = 0;\n    for (let i = 0; i < nums.length; i++) {\n        if (i > farthest) return false;\n        farthest = Math.max(farthest, i + nums[i]);\n    }\n    return true;\n};",
+      "go": "func canJump(nums []int) bool {\n    farthest := 0\n    for i := 0; i < len(nums); i++ {\n        if i > farthest {\n            return false\n        }\n        if i+nums[i] > farthest {\n            farthest = i + nums[i]\n        }\n    }\n    return true\n}",
+      "rust": "impl Solution {\n    pub fn can_jump(nums: Vec<i32>) -> bool {\n        let mut farthest = 0i32;\n        for i in 0..nums.len() {\n            if i as i32 > farthest {\n                return false;\n            }\n            farthest = farthest.max(i as i32 + nums[i]);\n        }\n        true\n    }\n}"
+    }
+  },
+  {
+    "id": "greedy-002",
+    "leetcode": 45,
+    "title": "Jump Game II",
+    "difficulty": "Medium",
+    "description": "You are given a 0-indexed array of non-negative integers nums where nums[i] represents the maximum number of positions you can jump forward from index i. Return the minimum number of jumps to reach the last index. You can assume you can always reach the last index.",
+    "examples": [
+      { "input": "nums = [2,3,1,1,4]", "output": "2" },
+      { "input": "nums = [2,3,0,1,4]", "output": "2" }
+    ],
+    "hints": [
+      "Use a greedy approach by tracking the current end of the jump range and the farthest reachable.",
+      "When you reach the end of the current range, increment jumps and update the range."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "solutions": {
+      "python": "class Solution:\n    def jump(self, nums: List[int]) -> int:\n        jumps = 0\n        current_end = 0\n        farthest = 0\n        for i in range(len(nums) - 1):\n            farthest = max(farthest, i + nums[i])\n            if i == current_end:\n                jumps += 1\n                current_end = farthest\n        return jumps",
+      "java": "class Solution {\n    public int jump(int[] nums) {\n        int jumps = 0, currentEnd = 0, farthest = 0;\n        for (int i = 0; i < nums.length - 1; i++) {\n            farthest = Math.max(farthest, i + nums[i]);\n            if (i == currentEnd) {\n                jumps++;\n                currentEnd = farthest;\n            }\n        }\n        return jumps;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int jump(vector<int>& nums) {\n        int jumps = 0, currentEnd = 0, farthest = 0;\n        for (int i = 0; i < nums.size() - 1; i++) {\n            farthest = max(farthest, i + nums[i]);\n            if (i == currentEnd) {\n                jumps++;\n                currentEnd = farthest;\n            }\n        }\n        return jumps;\n    }\n};",
+      "javascript": "var jump = function(nums) {\n    let jumps = 0, currentEnd = 0, farthest = 0;\n    for (let i = 0; i < nums.length - 1; i++) {\n        farthest = Math.max(farthest, i + nums[i]);\n        if (i === currentEnd) {\n            jumps++;\n            currentEnd = farthest;\n        }\n    }\n    return jumps;\n};",
+      "go": "func jump(nums []int) int {\n    jumps, currentEnd, farthest := 0, 0, 0\n    for i := 0; i < len(nums)-1; i++ {\n        if i+nums[i] > farthest {\n            farthest = i + nums[i]\n        }\n        if i == currentEnd {\n            jumps++\n            currentEnd = farthest\n        }\n    }\n    return jumps\n}",
+      "rust": "impl Solution {\n    pub fn jump(nums: Vec<i32>) -> i32 {\n        let mut jumps = 0i32;\n        let mut current_end = 0i32;\n        let mut farthest = 0i32;\n        for i in 0..nums.len() - 1 {\n            farthest = farthest.max(i as i32 + nums[i]);\n            if i as i32 == current_end {\n                jumps += 1;\n                current_end = farthest;\n            }\n        }\n        jumps\n    }\n}"
+    }
+  },
+  {
+    "id": "greedy-003",
+    "leetcode": 134,
+    "title": "Gas Station",
+    "difficulty": "Medium",
+    "description": "There are n gas stations along a circular route. The amount of gas at station i is gas[i]. The cost to travel from station i to station i+1 is cost[i]. Return the index of the starting gas station if you can travel around the circuit once in the clockwise direction, otherwise return -1. There is a unique solution.",
+    "examples": [
+      { "input": "gas = [1,2,3,4,5], cost = [3,4,5,1,2]", "output": "3" },
+      { "input": "gas = [2,3,4], cost = [3,4,3]", "output": "-1" }
+    ],
+    "hints": [
+      "If the total gas is less than the total cost, no solution exists.",
+      "If you start at station i and run out of gas at station j, no station between i and j can be the start."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "solutions": {
+      "python": "class Solution:\n    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:\n        total_tank = 0\n        current_tank = 0\n        start = 0\n        for i in range(len(gas)):\n            diff = gas[i] - cost[i]\n            total_tank += diff\n            current_tank += diff\n            if current_tank < 0:\n                start = i + 1\n                current_tank = 0\n        return start if total_tank >= 0 else -1",
+      "java": "class Solution {\n    public int canCompleteCircuit(int[] gas, int[] cost) {\n        int totalTank = 0, currentTank = 0, start = 0;\n        for (int i = 0; i < gas.length; i++) {\n            int diff = gas[i] - cost[i];\n            totalTank += diff;\n            currentTank += diff;\n            if (currentTank < 0) {\n                start = i + 1;\n                currentTank = 0;\n            }\n        }\n        return totalTank >= 0 ? start : -1;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {\n        int totalTank = 0, currentTank = 0, start = 0;\n        for (int i = 0; i < gas.size(); i++) {\n            int diff = gas[i] - cost[i];\n            totalTank += diff;\n            currentTank += diff;\n            if (currentTank < 0) {\n                start = i + 1;\n                currentTank = 0;\n            }\n        }\n        return totalTank >= 0 ? start : -1;\n    }\n};",
+      "javascript": "var canCompleteCircuit = function(gas, cost) {\n    let totalTank = 0, currentTank = 0, start = 0;\n    for (let i = 0; i < gas.length; i++) {\n        const diff = gas[i] - cost[i];\n        totalTank += diff;\n        currentTank += diff;\n        if (currentTank < 0) {\n            start = i + 1;\n            currentTank = 0;\n        }\n    }\n    return totalTank >= 0 ? start : -1;\n};",
+      "go": "func canCompleteCircuit(gas []int, cost []int) int {\n    totalTank, currentTank, start := 0, 0, 0\n    for i := 0; i < len(gas); i++ {\n        diff := gas[i] - cost[i]\n        totalTank += diff\n        currentTank += diff\n        if currentTank < 0 {\n            start = i + 1\n            currentTank = 0\n        }\n    }\n    if totalTank >= 0 {\n        return start\n    }\n    return -1\n}",
+      "rust": "impl Solution {\n    pub fn can_complete_circuit(gas: Vec<i32>, cost: Vec<i32>) -> i32 {\n        let mut total_tank = 0i32;\n        let mut current_tank = 0i32;\n        let mut start = 0i32;\n        for i in 0..gas.len() {\n            let diff = gas[i] - cost[i];\n            total_tank += diff;\n            current_tank += diff;\n            if current_tank < 0 {\n                start = i as i32 + 1;\n                current_tank = 0;\n            }\n        }\n        if total_tank >= 0 { start } else { -1 }\n    }\n}"
+    }
+  },
+  {
+    "id": "greedy-004",
+    "leetcode": 621,
+    "title": "Task Scheduler",
+    "difficulty": "Medium",
+    "description": "Given a characters array tasks representing tasks a CPU needs to do, where each letter represents a different task. The CPU can only do one task at a time. Each task takes one unit of time to complete. There is a non-negative integer n that represents the cooldown period between two same tasks (there must be at least n units of time between two executions of the same task). Return the least number of units of time that the CPU will take to finish all the given tasks.",
+    "examples": [
+      { "input": "tasks = [\"A\",\"A\",\"A\",\"B\",\"B\",\"B\"], n = 2", "output": "8" },
+      { "input": "tasks = [\"A\",\"A\",\"A\",\"B\",\"B\",\"B\"], n = 0", "output": "6" },
+      { "input": "tasks = [\"A\",\"A\",\"A\",\"A\",\"A\",\"A\",\"B\",\"C\",\"D\",\"E\",\"F\",\"G\"], n = 2", "output": "16" }
+    ],
+    "hints": [
+      "The most frequent task determines the minimum length. Place the most frequent tasks first with n gaps between them.",
+      "The answer is max(len(tasks), (maxCount - 1) * (n + 1) + countOfMax)."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "solutions": {
+      "python": "class Solution:\n    def leastInterval(self, tasks: List[str], n: int) -> int:\n        from collections import Counter\n        freq = Counter(tasks)\n        max_count = max(freq.values())\n        num_max = sum(1 for v in freq.values() if v == max_count)\n        return max(len(tasks), (max_count - 1) * (n + 1) + num_max)",
+      "java": "class Solution {\n    public int leastInterval(char[] tasks, int n) {\n        int[] freq = new int[26];\n        for (char c : tasks) freq[c - 'A']++;\n        int maxCount = 0, numMax = 0;\n        for (int f : freq) {\n            if (f > maxCount) {\n                maxCount = f;\n                numMax = 1;\n            } else if (f == maxCount) {\n                numMax++;\n            }\n        }\n        return Math.max(tasks.length, (maxCount - 1) * (n + 1) + numMax);\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int leastInterval(vector<char>& tasks, int n) {\n        vector<int> freq(26, 0);\n        for (char c : tasks) freq[c - 'A']++;\n        int maxCount = 0, numMax = 0;\n        for (int f : freq) {\n            if (f > maxCount) {\n                maxCount = f;\n                numMax = 1;\n            } else if (f == maxCount) {\n                numMax++;\n            }\n        }\n        return max((int)tasks.size(), (maxCount - 1) * (n + 1) + numMax);\n    }\n};",
+      "javascript": "var leastInterval = function(tasks, n) {\n    const freq = new Array(26).fill(0);\n    for (const c of tasks) freq[c.charCodeAt(0) - 65]++;\n    let maxCount = 0, numMax = 0;\n    for (const f of freq) {\n        if (f > maxCount) { maxCount = f; numMax = 1; }\n        else if (f === maxCount) numMax++;\n    }\n    return Math.max(tasks.length, (maxCount - 1) * (n + 1) + numMax);\n};",
+      "go": "func leastInterval(tasks []byte, n int) int {\n    freq := make([]int, 26)\n    for _, c := range tasks {\n        freq[c-'A']++\n    }\n    maxCount, numMax := 0, 0\n    for _, f := range freq {\n        if f > maxCount {\n            maxCount = f\n            numMax = 1\n        } else if f == maxCount {\n            numMax++\n        }\n    }\n    result := (maxCount-1)*(n+1) + numMax\n    if len(tasks) > result {\n        return len(tasks)\n    }\n    return result\n}",
+      "rust": "impl Solution {\n    pub fn least_interval(tasks: Vec<char>, n: i32) -> i32 {\n        let mut freq = [0i32; 26];\n        for &c in &tasks {\n            freq[(c as u8 - b'A') as usize] += 1;\n        }\n        let mut max_count = 0i32;\n        let mut num_max = 0i32;\n        for &f in &freq {\n            if f > max_count {\n                max_count = f;\n                num_max = 1;\n            } else if f == max_count {\n                num_max += 1;\n            }\n        }\n        let result = (max_count - 1) * (n + 1) + num_max;\n        (tasks.len() as i32).max(result)\n    }\n}"
+    }
+  },
+  {
+    "id": "greedy-005",
+    "leetcode": 763,
+    "title": "Partition Labels",
+    "difficulty": "Medium",
+    "description": "You are given a string s consisting of lowercase English letters. Partition the string into as many parts as possible so that each letter appears in at most one part. Return a list of integers representing the size of these parts.",
+    "examples": [
+      { "input": "s = \"ababcbacadefegdehijhklij\"", "output": "[9,7,8]" },
+      { "input": "s = \"eccbbbbdec\"", "output": "[10]" }
+    ],
+    "hints": [
+      "First find the last occurrence of each character.",
+      "Iterate through the string and extend the current partition's end to the last occurrence of each character seen."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "solutions": {
+      "python": "class Solution:\n    def partitionLabels(self, s: str) -> List[int]:\n        last = {c: i for i, c in enumerate(s)}\n        result = []\n        start = end = 0\n        for i, c in enumerate(s):\n            end = max(end, last[c])\n            if i == end:\n                result.append(end - start + 1)\n                start = i + 1\n        return result",
+      "java": "class Solution {\n    public List<Integer> partitionLabels(String s) {\n        int[] last = new int[26];\n        for (int i = 0; i < s.length(); i++) last[s.charAt(i) - 'a'] = i;\n        List<Integer> result = new ArrayList<>();\n        int start = 0, end = 0;\n        for (int i = 0; i < s.length(); i++) {\n            end = Math.max(end, last[s.charAt(i) - 'a']);\n            if (i == end) {\n                result.add(end - start + 1);\n                start = i + 1;\n            }\n        }\n        return result;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    vector<int> partitionLabels(string s) {\n        int last[26] = {0};\n        for (int i = 0; i < s.size(); i++) last[s[i] - 'a'] = i;\n        vector<int> result;\n        int start = 0, end = 0;\n        for (int i = 0; i < s.size(); i++) {\n            end = max(end, last[s[i] - 'a']);\n            if (i == end) {\n                result.push_back(end - start + 1);\n                start = i + 1;\n            }\n        }\n        return result;\n    }\n};",
+      "javascript": "var partitionLabels = function(s) {\n    const last = new Array(26).fill(0);\n    for (let i = 0; i < s.length; i++) last[s.charCodeAt(i) - 97] = i;\n    const result = [];\n    let start = 0, end = 0;\n    for (let i = 0; i < s.length; i++) {\n        end = Math.max(end, last[s.charCodeAt(i) - 97]);\n        if (i === end) {\n            result.push(end - start + 1);\n            start = i + 1;\n        }\n    }\n    return result;\n};",
+      "go": "func partitionLabels(s string) []int {\n    last := [26]int{}\n    for i := 0; i < len(s); i++ {\n        last[s[i]-'a'] = i\n    }\n    var result []int\n    start, end := 0, 0\n    for i := 0; i < len(s); i++ {\n        if last[s[i]-'a'] > end {\n            end = last[s[i]-'a']\n        }\n        if i == end {\n            result = append(result, end-start+1)\n            start = i + 1\n        }\n    }\n    return result\n}",
+      "rust": "impl Solution {\n    pub fn partition_labels(s: String) -> Vec<i32> {\n        let mut last = [0i32; 26];\n        for (i, c) in s.chars().enumerate() {\n            last[(c as u8 - b'a') as usize] = i as i32;\n        }\n        let mut result = Vec::new();\n        let mut start = 0i32;\n        let mut end = 0i32;\n        for (i, c) in s.chars().enumerate() {\n            end = end.max(last[(c as u8 - b'a') as usize]);\n            if i as i32 == end {\n                result.push(end - start + 1);\n                start = i as i32 + 1;\n            }\n        }\n        result\n    }\n}"
+    }
+  },
+  {
+    "id": "greedy-006",
+    "leetcode": 435,
+    "title": "Non-overlapping Intervals",
+    "difficulty": "Medium",
+    "description": "Given an array of intervals intervals where intervals[i] = [start_i, end_i], return the minimum number of intervals you need to remove to make the rest of the intervals non-overlapping.",
+    "examples": [
+      { "input": "intervals = [[1,2],[2,3],[3,4],[1,3]]", "output": "1" },
+      { "input": "intervals = [[1,2],[1,2],[1,2]]", "output": "2" },
+      { "input": "intervals = [[1,2],[2,3]]", "output": "0" }
+    ],
+    "hints": [
+      "Sort intervals by their end times.",
+      "Greedy: always keep the interval with the earliest end time and remove overlapping ones."
+    ],
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(1)",
+    "solutions": {
+      "python": "class Solution:\n    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:\n        intervals.sort(key=lambda x: x[1])\n        count = 0\n        prev_end = float('-inf')\n        for start, end in intervals:\n            if start >= prev_end:\n                prev_end = end\n            else:\n                count += 1\n        return count",
+      "java": "class Solution {\n    public int eraseOverlapIntervals(int[][] intervals) {\n        Arrays.sort(intervals, (a, b) -> Integer.compare(a[1], b[1]));\n        int count = 0, prevEnd = Integer.MIN_VALUE;\n        for (int[] interval : intervals) {\n            if (interval[0] >= prevEnd) {\n                prevEnd = interval[1];\n            } else {\n                count++;\n            }\n        }\n        return count;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int eraseOverlapIntervals(vector<vector<int>>& intervals) {\n        sort(intervals.begin(), intervals.end(), [](const auto& a, const auto& b) {\n            return a[1] < b[1];\n        });\n        int count = 0, prevEnd = INT_MIN;\n        for (const auto& interval : intervals) {\n            if (interval[0] >= prevEnd) {\n                prevEnd = interval[1];\n            } else {\n                count++;\n            }\n        }\n        return count;\n    }\n};",
+      "javascript": "var eraseOverlapIntervals = function(intervals) {\n    intervals.sort((a, b) => a[1] - b[1]);\n    let count = 0, prevEnd = -Infinity;\n    for (const [start, end] of intervals) {\n        if (start >= prevEnd) {\n            prevEnd = end;\n        } else {\n            count++;\n        }\n    }\n    return count;\n};",
+      "go": "func eraseOverlapIntervals(intervals [][]int) int {\n    sort.Slice(intervals, func(i, j int) bool {\n        return intervals[i][1] < intervals[j][1]\n    })\n    count, prevEnd := 0, math.MinInt32\n    for _, interval := range intervals {\n        if interval[0] >= prevEnd {\n            prevEnd = interval[1]\n        } else {\n            count++\n        }\n    }\n    return count\n}",
+      "rust": "impl Solution {\n    pub fn erase_overlap_intervals(mut intervals: Vec<Vec<i32>>) -> i32 {\n        intervals.sort_by_key(|i| i[1]);\n        let mut count = 0i32;\n        let mut prev_end = i32::MIN;\n        for interval in &intervals {\n            if interval[0] >= prev_end {\n                prev_end = interval[1];\n            } else {\n                count += 1;\n            }\n        }\n        count\n    }\n}"
+    }
+  },
+  {
+    "id": "greedy-007",
+    "leetcode": 1029,
+    "title": "Two City Scheduling",
+    "difficulty": "Medium",
+    "description": "A company is planning to interview 2n people. Given an array costs where costs[i] = [aCost_i, bCost_i], the cost of flying the i-th person to city A is aCost_i and to city B is bCost_i. Return the minimum cost to fly every person to a city such that exactly n people go to each city.",
+    "examples": [
+      { "input": "costs = [[10,20],[30,200],[400,50],[30,20]]", "output": "110" },
+      { "input": "costs = [[259,770],[448,54],[926,667],[184,139],[840,118],[577,469]]", "output": "1859" },
+      { "input": "costs = [[515,563],[451,713],[537,715],[124,329],[203,473]]", "output": "1187" }
+    ],
+    "hints": [
+      "Sort by the difference between the two costs (costA - costB).",
+      "The first n people go to city A, the rest go to city B."
+    ],
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(1)",
+    "solutions": {
+      "python": "class Solution:\n    def twoCitySchedCost(self, costs: List[List[int]]) -> int:\n        costs.sort(key=lambda x: x[0] - x[1])\n        n = len(costs) // 2\n        return sum(c[0] for c in costs[:n]) + sum(c[1] for c in costs[n:])",
+      "java": "class Solution {\n    public int twoCitySchedCost(int[][] costs) {\n        Arrays.sort(costs, (a, b) -> (a[0] - a[1]) - (b[0] - b[1]));\n        int n = costs.length / 2, total = 0;\n        for (int i = 0; i < n; i++) total += costs[i][0] + costs[i + n][1];\n        return total;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int twoCitySchedCost(vector<vector<int>>& costs) {\n        sort(costs.begin(), costs.end(), [](const auto& a, const auto& b) {\n            return (a[0] - a[1]) < (b[0] - b[1]);\n        });\n        int n = costs.size() / 2, total = 0;\n        for (int i = 0; i < n; i++) total += costs[i][0] + costs[i + n][1];\n        return total;\n    }\n};",
+      "javascript": "var twoCitySchedCost = function(costs) {\n    costs.sort((a, b) => (a[0] - a[1]) - (b[0] - b[1]));\n    const n = costs.length / 2;\n    let total = 0;\n    for (let i = 0; i < n; i++) total += costs[i][0] + costs[i + n][1];\n    return total;\n};",
+      "go": "func twoCitySchedCost(costs [][]int) int {\n    sort.Slice(costs, func(i, j int) bool {\n        return (costs[i][0] - costs[i][1]) < (costs[j][0] - costs[j][1])\n    })\n    n := len(costs) / 2\n    total := 0\n    for i := 0; i < n; i++ {\n        total += costs[i][0] + costs[i+n][1]\n    }\n    return total\n}",
+      "rust": "impl Solution {\n    pub fn two_city_sched_cost(mut costs: Vec<Vec<i32>>) -> i32 {\n        costs.sort_by_key(|c| c[0] - c[1]);\n        let n = costs.len() / 2;\n        let mut total = 0i32;\n        for i in 0..n {\n            total += costs[i][0] + costs[i + n][1];\n        }\n        total\n    }\n}"
+    }
+  },
+  {
+    "id": "greedy-008",
+    "leetcode": 135,
+    "title": "Candy",
+    "difficulty": "Hard",
+    "description": "There are n children standing in a line. Each child is assigned a rating value. You are giving candies to these children subject to the following requirements: each child must have at least one candy, and children with a higher rating get more candies than their neighbors. Return the minimum number of candies you need to have to distribute to the children.",
+    "examples": [
+      { "input": "ratings = [1,0,2]", "output": "5" },
+      { "input": "ratings = [1,2,2]", "output": "4" }
+    ],
+    "hints": [
+      "Two passes: left to right, then right to left.",
+      "If a child has a higher rating than the previous, increment the candy count; similarly from the right."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "solutions": {
+      "python": "class Solution:\n    def candy(self, ratings: List[int]) -> int:\n        n = len(ratings)\n        candies = [1] * n\n        for i in range(1, n):\n            if ratings[i] > ratings[i - 1]:\n                candies[i] = candies[i - 1] + 1\n        for i in range(n - 2, -1, -1):\n            if ratings[i] > ratings[i + 1]:\n                candies[i] = max(candies[i], candies[i + 1] + 1)\n        return sum(candies)",
+      "java": "class Solution {\n    public int candy(int[] ratings) {\n        int n = ratings.length;\n        int[] candies = new int[n];\n        Arrays.fill(candies, 1);\n        for (int i = 1; i < n; i++)\n            if (ratings[i] > ratings[i - 1])\n                candies[i] = candies[i - 1] + 1;\n        for (int i = n - 2; i >= 0; i--)\n            if (ratings[i] > ratings[i + 1])\n                candies[i] = Math.max(candies[i], candies[i + 1] + 1);\n        int total = 0;\n        for (int c : candies) total += c;\n        return total;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int candy(vector<int>& ratings) {\n        int n = ratings.size();\n        vector<int> candies(n, 1);\n        for (int i = 1; i < n; i++)\n            if (ratings[i] > ratings[i - 1])\n                candies[i] = candies[i - 1] + 1;\n        for (int i = n - 2; i >= 0; i--)\n            if (ratings[i] > ratings[i + 1])\n                candies[i] = max(candies[i], candies[i + 1] + 1);\n        return accumulate(candies.begin(), candies.end(), 0);\n    }\n};",
+      "javascript": "var candy = function(ratings) {\n    const n = ratings.length;\n    const candies = new Array(n).fill(1);\n    for (let i = 1; i < n; i++)\n        if (ratings[i] > ratings[i - 1])\n            candies[i] = candies[i - 1] + 1;\n    for (let i = n - 2; i >= 0; i--)\n        if (ratings[i] > ratings[i + 1])\n            candies[i] = Math.max(candies[i], candies[i + 1] + 1);\n    return candies.reduce((a, b) => a + b, 0);\n};",
+      "go": "func candy(ratings []int) int {\n    n := len(ratings)\n    candies := make([]int, n)\n    for i := range candies {\n        candies[i] = 1\n    }\n    for i := 1; i < n; i++ {\n        if ratings[i] > ratings[i-1] {\n            candies[i] = candies[i-1] + 1\n        }\n    }\n    for i := n - 2; i >= 0; i-- {\n        if ratings[i] > ratings[i+1] {\n            if candies[i] <= candies[i+1] {\n                candies[i] = candies[i+1] + 1\n            }\n        }\n    }\n    total := 0\n    for _, c := range candies {\n        total += c\n    }\n    return total\n}",
+      "rust": "impl Solution {\n    pub fn candy(ratings: Vec<i32>) -> i32 {\n        let n = ratings.len();\n        let mut candies = vec![1i32; n];\n        for i in 1..n {\n            if ratings[i] > ratings[i - 1] {\n                candies[i] = candies[i - 1] + 1;\n            }\n        }\n        for i in (0..n - 1).rev() {\n            if ratings[i] > ratings[i + 1] {\n                candies[i] = candies[i].max(candies[i + 1] + 1);\n            }\n        }\n        candies.iter().sum()\n    }\n}"
+    }
+  },
+  {
+    "id": "greedy-009",
+    "leetcode": 871,
+    "title": "Minimum Number of Refueling Stops",
+    "difficulty": "Hard",
+    "description": "A car travels from a starting position to a destination which is target miles east. The car starts with startFuel gallons of fuel. The car can only drive when it has fuel. There are gas stations along the way, each represented as a tuple [position, fuel] where position is the miles east from the starting position and fuel is the gallons of fuel available. The car's fuel consumption is 1 mile per gallon. Return the minimum number of refueling stops required to reach the destination, or -1 if impossible.",
+    "examples": [
+      { "input": "target = 1, startFuel = 1, stations = []", "output": "0" },
+      { "input": "target = 100, startFuel = 1, stations = [[10,100]]", "output": "-1" },
+      { "input": "target = 100, startFuel = 10, stations = [[10,60],[20,30],[30,40],[60,40]]", "output": "2" }
+    ],
+    "hints": [
+      "Use a max-heap to greedily refuel at the station with the most fuel that you have passed.",
+      "At each step, if you cannot reach the next station or the destination, refuel from the heap."
+    ],
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(n)",
+    "solutions": {
+      "python": "import heapq\n\nclass Solution:\n    def minRefuelStops(self, target: int, startFuel: int, stations: List[List[int]]) -> int:\n        max_heap = []\n        stations.append([target, 0])\n        fuel = startFuel\n        stops = 0\n        prev = 0\n        for position, gas in stations:\n            fuel -= position - prev\n            while max_heap and fuel < 0:\n                fuel += -heapq.heappop(max_heap)\n                stops += 1\n            if fuel < 0:\n                return -1\n            heapq.heappush(max_heap, -gas)\n            prev = position\n        return stops",
+      "java": "class Solution {\n    public int minRefuelStops(int target, int startFuel, int[][] stations) {\n        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());\n        int fuel = startFuel, stops = 0, prev = 0;\n        for (int[] station : stations) {\n            fuel -= station[0] - prev;\n            while (!maxHeap.isEmpty() && fuel < 0) {\n                fuel += maxHeap.poll();\n                stops++;\n            }\n            if (fuel < 0) return -1;\n            maxHeap.add(station[1]);\n            prev = station[0];\n        }\n        while (!maxHeap.isEmpty() && fuel < 0) {\n            fuel += maxHeap.poll();\n            stops++;\n        }\n        return fuel >= 0 ? stops : -1;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int minRefuelStops(int target, int startFuel, vector<vector<int>>& stations) {\n        priority_queue<int> maxHeap;\n        int fuel = startFuel, stops = 0, prev = 0;\n        stations.push_back({target, 0});\n        for (auto& station : stations) {\n            fuel -= station[0] - prev;\n            while (!maxHeap.empty() && fuel < 0) {\n                fuel += maxHeap.top();\n                maxHeap.pop();\n                stops++;\n            }\n            if (fuel < 0) return -1;\n            maxHeap.push(station[1]);\n            prev = station[0];\n        }\n        return stops;\n    }\n};",
+      "javascript": "var minRefuelStops = function(target, startFuel, stations) {\n    const maxHeap = [];\n    const push = (v) => { maxHeap.push(v); maxHeap.sort((a, b) => b - a); };\n    const pop = () => maxHeap.shift();\n    stations.push([target, 0]);\n    let fuel = startFuel, stops = 0, prev = 0;\n    for (const [pos, gas] of stations) {\n        fuel -= pos - prev;\n        while (maxHeap.length && fuel < 0) {\n            fuel += pop();\n            stops++;\n        }\n        if (fuel < 0) return -1;\n        push(gas);\n        prev = pos;\n    }\n    return stops;\n};",
+      "go": "func minRefuelStops(target int, startFuel int, stations [][]int) int {\n    maxHeap := &IntHeap{}\n    heap.Init(maxHeap)\n    fuel := startFuel\n    stops, prev := 0, 0\n    stations = append(stations, []int{target, 0})\n    for _, station := range stations {\n        fuel -= station[0] - prev\n        for maxHeap.Len() > 0 && fuel < 0 {\n            fuel += heap.Pop(maxHeap).(int)\n            stops++\n        }\n        if fuel < 0 {\n            return -1\n        }\n        heap.Push(maxHeap, station[1])\n        prev = station[0]\n    }\n    return stops\n}\n\ntype IntHeap []int\nfunc (h IntHeap) Len() int           { return len(h) }\nfunc (h IntHeap) Less(i, j int) bool { return h[i] > h[j] }\nfunc (h IntHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }\nfunc (h *IntHeap) Push(x interface{}) { *h = append(*h, x.(int)) }\nfunc (h *IntHeap) Pop() interface{} {\n    old := *h\n    n := len(old)\n    x := old[n-1]\n    *h = old[:n-1]\n    return x\n}",
+      "rust": "use std::collections::BinaryHeap;\n\nimpl Solution {\n    pub fn min_refuel_stops(target: i32, start_fuel: i32, mut stations: Vec<Vec<i32>>) -> i32 {\n        let mut max_heap = BinaryHeap::new();\n        let mut fuel = start_fuel;\n        let mut stops = 0;\n        let mut prev = 0;\n        stations.push(vec![target, 0]);\n        for station in &stations {\n            fuel -= station[0] - prev;\n            while let Some(f) = max_heap.peek() {\n                if fuel >= 0 { break; }\n                fuel += f;\n                max_heap.pop();\n                stops += 1;\n            }\n            if fuel < 0 {\n                return -1;\n            }\n            max_heap.push(station[1]);\n            prev = station[0];\n        }\n        stops\n    }\n}"
+    }
+  },
+  {
+    "id": "greedy-010",
+    "leetcode": 502,
+    "title": "IPO",
+    "difficulty": "Hard",
+    "description": "Suppose LeetCode is starting its IPO. To sell a good price, it wants to work on some projects. Given n projects, each project i has a pure profit profits[i] and a minimum capital capital[i] is needed to start it. Initially, you have w capital. At most, you can complete k projects. Return the maximum capital you can have after completing at most k projects.",
+    "examples": [
+      { "input": "k = 2, w = 0, profits = [1,2,3], capital = [0,1,1]", "output": "4" },
+      { "input": "k = 3, w = 0, profits = [1,2,3], capital = [0,1,2]", "output": "6" }
+    ],
+    "hints": [
+      "Use a min-heap for projects sorted by capital and a max-heap for profits of affordable projects.",
+      "Greedily pick the most profitable project you can afford."
+    ],
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(n)",
+    "solutions": {
+      "python": "import heapq\n\nclass Solution:\n    def findMaximizedCapital(self, k: int, w: int, profits: List[int], capital: List[int]) -> int:\n        projects = sorted(zip(capital, profits))\n        max_heap = []\n        idx = 0\n        for _ in range(k):\n            while idx < len(projects) and projects[idx][0] <= w:\n                heapq.heappush(max_heap, -projects[idx][1])\n                idx += 1\n            if not max_heap:\n                break\n            w += -heapq.heappop(max_heap)\n        return w",
+      "java": "class Solution {\n    public int findMaximizedCapital(int k, int w, int[] profits, int[] capital) {\n        int n = profits.length;\n        int[][] projects = new int[n][2];\n        for (int i = 0; i < n; i++) {\n            projects[i][0] = capital[i];\n            projects[i][1] = profits[i];\n        }\n        Arrays.sort(projects, (a, b) -> Integer.compare(a[0], b[0]));\n        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());\n        int idx = 0;\n        for (int i = 0; i < k; i++) {\n            while (idx < n && projects[idx][0] <= w) {\n                maxHeap.add(projects[idx][1]);\n                idx++;\n            }\n            if (maxHeap.isEmpty()) break;\n            w += maxHeap.poll();\n        }\n        return w;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int findMaximizedCapital(int k, int w, vector<int>& profits, vector<int>& capital) {\n        int n = profits.size();\n        vector<pair<int,int>> projects(n);\n        for (int i = 0; i < n; i++) projects[i] = {capital[i], profits[i]};\n        sort(projects.begin(), projects.end());\n        priority_queue<int> maxHeap;\n        int idx = 0;\n        for (int i = 0; i < k; i++) {\n            while (idx < n && projects[idx].first <= w) {\n                maxHeap.push(projects[idx].second);\n                idx++;\n            }\n            if (maxHeap.empty()) break;\n            w += maxHeap.top();\n            maxHeap.pop();\n        }\n        return w;\n    }\n};",
+      "javascript": "var findMaximizedCapital = function(k, w, profits, capital) {\n    const n = profits.length;\n    const projects = [];\n    for (let i = 0; i < n; i++) projects.push([capital[i], profits[i]]);\n    projects.sort((a, b) => a[0] - b[0]);\n    const maxHeap = [];\n    const push = (v) => { maxHeap.push(v); maxHeap.sort((a, b) => b - a); };\n    const pop = () => maxHeap.shift();\n    let idx = 0;\n    for (let i = 0; i < k; i++) {\n        while (idx < n && projects[idx][0] <= w) {\n            push(projects[idx][1]);\n            idx++;\n        }\n        if (!maxHeap.length) break;\n        w += pop();\n    }\n    return w;\n};",
+      "go": "import \"container/heap\"\n\nfunc findMaximizedCapital(k int, w int, profits []int, capital []int) int {\n    n := len(profits)\n    projects := make([][2]int, n)\n    for i := 0; i < n; i++ {\n        projects[i] = [2]int{capital[i], profits[i]}\n    }\n    sort.Slice(projects, func(i, j int) bool {\n        return projects[i][0] < projects[j][0]\n    })\n    maxHeap := &IntMaxHeap{}\n    heap.Init(maxHeap)\n    idx := 0\n    for i := 0; i < k; i++ {\n        for idx < n && projects[idx][0] <= w {\n            heap.Push(maxHeap, projects[idx][1])\n            idx++\n        }\n        if maxHeap.Len() == 0 {\n            break\n        }\n        w += heap.Pop(maxHeap).(int)\n    }\n    return w\n}\n\ntype IntMaxHeap []int\nfunc (h IntMaxHeap) Len() int           { return len(h) }\nfunc (h IntMaxHeap) Less(i, j int) bool { return h[i] > h[j] }\nfunc (h IntMaxHeap) Swap(i, j int)      { h[i], h[j] = h[j], h[i] }\nfunc (h *IntMaxHeap) Push(x interface{}) { *h = append(*h, x.(int)) }\nfunc (h *IntMaxHeap) Pop() interface{} {\n    old := *h\n    n := len(old)\n    x := old[n-1]\n    *h = old[:n-1]\n    return x\n}",
+      "rust": "use std::collections::BinaryHeap;\n\nimpl Solution {\n    pub fn find_maximized_capital(k: i32, mut w: i32, profits: Vec<i32>, capital: Vec<i32>) -> i32 {\n        let mut projects: Vec<(i32, i32)> = capital.into_iter().zip(profits.into_iter()).collect();\n        projects.sort_by_key(|p| p.0);\n        let mut max_heap = BinaryHeap::new();\n        let mut idx = 0;\n        let n = projects.len();\n        for _ in 0..k {\n            while idx < n && projects[idx].0 <= w {\n                max_heap.push(projects[idx].1);\n                idx += 1;\n            }\n            if let Some(profit) = max_heap.pop() {\n                w += profit;\n            } else {\n                break;\n            }\n        }\n        w\n    }\n}"
+    }
+  }
+]

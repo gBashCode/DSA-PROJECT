@@ -1,0 +1,170 @@
+[
+  {
+    "slug": "message-queues",
+    "name": "Message Queues",
+    "tier": "components",
+    "description": "Enable asynchronous communication between services by decoupling producers from consumers. Absorb traffic spikes and enable fault tolerance.",
+    "keyPoints": [
+      "Kafka: Distributed log, high throughput, message retention, replay capability",
+      "RabbitMQ: AMQP protocol, flexible routing, message deleted after consumption",
+      "Consumer groups enable parallel processing across partitions",
+      "Dead Letter Queues capture messages that fail processing",
+      "Idempotency is critical: same message may be delivered multiple times",
+      "AWS SQS: Managed serverless queue with FIFO and standard modes"
+    ],
+    "whenToUse": "Kafka for event streaming, log aggregation. RabbitMQ for task queues, complex routing. SQS for AWS ecosystem.",
+    "interviewQuestions": [
+      "What is the difference between Kafka and RabbitMQ?",
+      "What are delivery semantics (at-least-once, exactly-once)?",
+      "How do you handle message ordering in a distributed queue?",
+      "What is a dead letter queue?"
+    ]
+  },
+  {
+    "slug": "database-sharding",
+    "name": "Database Sharding",
+    "tier": "components",
+    "description": "Horizontal partitioning that splits a large database into smaller shards distributed across multiple servers.",
+    "keyPoints": [
+      "Hash-based sharding: Even distribution but range queries are expensive",
+      "Range-based sharding: Efficient for range queries but can create hotspots",
+      "Directory-based sharding: Flexible but adds latency",
+      "Shard key selection is critical for even distribution",
+      "Cross-shard queries are expensive and complex",
+      "Consistent hashing minimizes data movement during rebalancing"
+    ],
+    "whenToUse": "When single DB can't handle write throughput or data volume exceeds single-node capacity.",
+    "interviewQuestions": [
+      "What is database sharding vs replication?",
+      "How do you choose a good shard key?",
+      "What problems arise with cross-shard queries?",
+      "How do you handle adding a new shard?"
+    ]
+  },
+  {
+    "slug": "database-replication",
+    "name": "Database Replication",
+    "tier": "components",
+    "description": "Creates multiple copies of data across nodes to improve availability, read performance, and fault tolerance.",
+    "keyPoints": [
+      "Leader-Follower: Writes to leader, reads from replicas; simple but leader is SPOF for writes",
+      "Multi-Leader: Multiple nodes accept writes; needs conflict resolution",
+      "Leaderless (Quorum): Any node accepts reads/writes; R + W > N ensures consistency",
+      "Asynchronous: Leader writes and returns; risk of data loss",
+      "Synchronous: Stronger consistency but higher latency",
+      "Replication lag can cause stale reads"
+    ],
+    "whenToUse": "Read-heavy workloads, high availability needs, geographic distribution for low-latency reads.",
+    "interviewQuestions": [
+      "What are different types of database replication?",
+      "How does replication lag affect consistency?",
+      "When would you choose synchronous vs asynchronous?",
+      "What is a quorum and how does it work?"
+    ]
+  },
+  {
+    "slug": "indexing",
+    "name": "Indexing",
+    "tier": "components",
+    "description": "Data structure technique that speeds up data retrieval by creating shortcuts to data locations, turning O(n) scans into O(log n) lookups.",
+    "keyPoints": [
+      "B-Tree index: Most common; efficient for equality and range queries",
+      "Hash index: O(1) for exact matches; cannot support range queries",
+      "Composite index: Column order matters for query optimization",
+      "Inverted index: Maps words to documents; used in full-text search",
+      "LSM-Tree: Write-optimized; used in Cassandra, RocksDB",
+      "Trade-off: Faster reads but slower writes, additional storage"
+    ],
+    "whenToUse": "Columns in WHERE, JOIN, ORDER BY clauses. High-read, low-write tables benefit most.",
+    "interviewQuestions": [
+      "What is the difference between B-Tree and Hash indexes?",
+      "How does a composite index work?",
+      "What are trade-offs of too many indexes?",
+      "What is an inverted index?"
+    ]
+  },
+  {
+    "slug": "microservices-vs-monolith",
+    "name": "Microservices vs Monolith",
+    "tier": "components",
+    "description": "Monolith deploys as single unit. Microservices decompose into independent, loosely coupled services with separate data stores.",
+    "keyPoints": [
+      "Monolith: Simpler initially, shared codebase, scales as a unit",
+      "Microservices: Independent deployment, technology diversity, team autonomy",
+      "Communication: Synchronous (REST, gRPC) or asynchronous (queues)",
+      "Challenges: Distributed transactions, network failures, debugging complexity",
+      "Saga pattern: Compensating transactions instead of 2-phase commit",
+      "Strangler Fig: Gradually replace monolith components"
+    ],
+    "whenToUse": "Monolith for small teams, early products. Microservices for large teams, complex domains, independent scaling needs.",
+    "interviewQuestions": [
+      "What are pros and cons of microservices vs monolith?",
+      "When should you choose monolith over microservices?",
+      "How do you handle distributed transactions?",
+      "What is the Saga pattern?"
+    ]
+  },
+  {
+    "slug": "cdn",
+    "name": "CDN (Content Delivery Network)",
+    "tier": "components",
+    "description": "Geographically distributed network of proxy servers that caches and delivers static content from edge locations close to users.",
+    "keyPoints": [
+      "Edge servers cache content at locations near users",
+      "Push CDN: You push content to edges; good for stable content",
+      "Pull CDN: Edge fetches from origin on first request; good for dynamic content",
+      "Providers: Cloudflare, AWS CloudFront, Akamai, Fastly",
+      "Cache invalidation: TTL-based, manual purge, versioned URLs",
+      "Benefits: Reduced latency, bandwidth costs, DDoS protection"
+    ],
+    "whenToUse": "Static assets, video streaming, global applications, API response caching for read-heavy endpoints.",
+    "interviewQuestions": [
+      "What is a CDN and how does it improve performance?",
+      "What is the difference between Push and Pull CDN?",
+      "How do you handle cache invalidation in a CDN?",
+      "Can a CDN cache dynamic content?"
+    ]
+  },
+  {
+    "slug": "dns",
+    "name": "DNS (Domain Name System)",
+    "tier": "components",
+    "description": "Translates human-readable domain names into IP addresses. Hierarchical, distributed naming system.",
+    "keyPoints": [
+      "Resolution: Browser -> OS -> Recursive resolver -> Root -> TLD -> Authoritative",
+      "Record types: A (IPv4), AAAA (IPv6), CNAME (alias), MX (mail), TXT, NS",
+      "TTL: How long records are cached; lower TTL = faster propagation",
+      "DNS caching at multiple levels: Browser, OS, ISP",
+      "Geographic routing: Route users to nearest data center",
+      "DNS-based load balancing: Round-robin, weighted, latency-based"
+    ],
+    "whenToUse": "Always needed. Geographic routing, failover, load balancing, service discovery in microservices.",
+    "interviewQuestions": [
+      "How does DNS resolution work step by step?",
+      "What is the difference between A, CNAME, and MX records?",
+      "How does DNS caching work at different levels?",
+      "How can DNS be used for load balancing?"
+    ]
+  },
+  {
+    "slug": "consensus-algorithms",
+    "name": "Consensus Algorithms",
+    "tier": "components",
+    "description": "Enable distributed systems to agree on a single value or state despite failures. Ensure consistency across multiple nodes.",
+    "keyPoints": [
+      "Paxos: Foundational but complex; used in Google Chubby",
+      "Raft: Designed for understandability; leader-based; used in etcd, CockroachDB",
+      "Byzantine Fault Tolerance: Tolerates malicious nodes; expensive",
+      "Leader election: Designated node coordinates consensus",
+      "Log replication: Leader replicates to followers; majority must acknowledge",
+      "Two-Phase Commit (2PC): Coordinator asks prepare then commit; blocks if coordinator fails"
+    ],
+    "whenToUse": "Distributed databases needing strong consistency, leader election, configuration management, blockchain.",
+    "interviewQuestions": [
+      "What is the difference between Paxos and Raft?",
+      "How does Raft achieve consensus?",
+      "What is Byzantine Fault Tolerance?",
+      "How does 2PC work and what are its limitations?"
+    ]
+  }
+]

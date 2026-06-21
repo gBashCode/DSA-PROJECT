@@ -1,0 +1,304 @@
+[
+  {
+    "id": 1,
+    "leetcode": 20,
+    "title": "Valid Parentheses",
+    "difficulty": "Easy",
+    "description": "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid. An input string is valid if: 1. Open brackets must be closed by the same type of brackets. 2. Open brackets must be closed in the correct order. 3. Every close bracket has a corresponding open bracket of the same type.",
+    "examples": [
+      { "input": "s = \"()\"", "output": "true" },
+      { "input": "s = \"()[]{}\"", "output": "true" },
+      { "input": "s = \"(]\"", "output": "false" }
+    ],
+    "hints": [
+      "Use a stack to keep track of opening brackets.",
+      "When you encounter a closing bracket, check if it matches the top of the stack."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "solutions": {
+      "python": "class Solution:\n    def isValid(self, s: str) -> bool:\n        stack = []\n        mapping = {')': '(', '}': '{', ']': '['}\n        for char in s:\n            if char in mapping:\n                top = stack.pop() if stack else '#'\n                if mapping[char] != top:\n                    return False\n            else:\n                stack.append(char)\n        return not stack",
+      "java": "class Solution {\n    public boolean isValid(String s) {\n        Deque<Character> stack = new ArrayDeque<>();\n        for (char c : s.toCharArray()) {\n            if (c == '(' || c == '{' || c == '[') {\n                stack.push(c);\n            } else {\n                if (stack.isEmpty()) return false;\n                char top = stack.pop();\n                if ((c == ')' && top != '(') || (c == '}' && top != '{') || (c == ']' && top != '[')) {\n                    return false;\n                }\n            }\n        }\n        return stack.isEmpty();\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    bool isValid(string s) {\n        stack<char> st;\n        for (char c : s) {\n            if (c == '(' || c == '{' || c == '[') {\n                st.push(c);\n            } else {\n                if (st.empty()) return false;\n                char top = st.top(); st.pop();\n                if ((c == ')' && top != '(') || (c == '}' && top != '{') || (c == ']' && top != '[')) {\n                    return false;\n                }\n            }\n        }\n        return st.empty();\n    }\n};",
+      "javascript": "var isValid = function(s) {\n    const stack = [];\n    const map = { ')': '(', '}': '{', ']': '[' };\n    for (const char of s) {\n        if (char in map) {\n            if (stack.pop() !== map[char]) return false;\n        } else {\n            stack.push(char);\n        }\n    }\n    return stack.length === 0;\n};",
+      "go": "func isValid(s string) bool {\n    stack := []rune{}\n    match := map[rune]rune{')': '(', '}': '{', ']': '['}\n    for _, c := range s {\n        if _, ok := match[c]; ok {\n            if len(stack) == 0 || stack[len(stack)-1] != match[c] {\n                return false\n            }\n            stack = stack[:len(stack)-1]\n        } else {\n            stack = append(stack, c)\n        }\n    }\n    return len(stack) == 0\n}",
+      "rust": "impl Solution {\n    pub fn is_valid(s: String) -> bool {\n        let mut stack = Vec::new();\n        for c in s.chars() {\n            match c {\n                '(' | '{' | '[' => stack.push(c),\n                ')' if stack.last() == Some(&'(') => { stack.pop(); }\n                '}' if stack.last() == Some(&'{') => { stack.pop(); }\n                ']' if stack.last() == Some(&'[') => { stack.pop(); }\n                _ => return false,\n            }\n        }\n        stack.is_empty()\n    }\n}"
+    }
+  },
+  {
+    "id": 2,
+    "leetcode": 155,
+    "title": "Min Stack",
+    "difficulty": "Easy",
+    "description": "Design a stack that supports push, pop, top, and retrieving the minimum element in constant time. Implement the MinStack class: void push(int val) pushes the element val onto the stack, void pop() removes the element on the top of the stack, int top() gets the top element of the stack, int getMin() retrieves the minimum element in the stack. You must implement a solution with O(1) time complexity for each function.",
+    "examples": [
+      { "input": "[\"MinStack\",\"push\",\"push\",\"push\",\"getMin\",\"pop\",\"top\",\"getMin\"]\n[[],[-2],[0],[-3],[],[],[],[]]", "output": "[null,null,null,null,-3,null,0,-2]" }
+    ],
+    "hints": [
+      "Consider using an auxiliary stack to keep track of minimum values.",
+      "Each element in the辅助 stack represents the minimum value at that point in the main stack."
+    ],
+    "timeComplexity": "O(1) for all operations",
+    "spaceComplexity": "O(n)",
+    "solutions": {
+      "python": "class MinStack:\n    def __init__(self):\n        self.stack = []\n        self.min_stack = []\n\n    def push(self, val: int) -> None:\n        self.stack.append(val)\n        val = min(val, self.min_stack[-1] if self.min_stack else val)\n        self.min_stack.append(val)\n\n    def pop(self) -> None:\n        self.stack.pop()\n        self.min_stack.pop()\n\n    def top(self) -> int:\n        return self.stack[-1]\n\n    def getMin(self) -> int:\n        return self.min_stack[-1]",
+      "java": "class MinStack {\n    private Deque<Integer> stack = new ArrayDeque<>();\n    private Deque<Integer> minStack = new ArrayDeque<>();\n\n    public void push(int val) {\n        stack.push(val);\n        int min = minStack.isEmpty() ? val : Math.min(val, minStack.peek());\n        minStack.push(min);\n    }\n\n    public void pop() {\n        stack.pop();\n        minStack.pop();\n    }\n\n    public int top() {\n        return stack.peek();\n    }\n\n    public int getMin() {\n        return minStack.peek();\n    }\n}",
+      "cpp": "class MinStack {\n    stack<int> st;\n    stack<int> minSt;\npublic:\n    void push(int val) {\n        st.push(val);\n        int minVal = minSt.empty() ? val : min(val, minSt.top());\n        minSt.push(minVal);\n    }\n    void pop() {\n        st.pop();\n        minSt.pop();\n    }\n    int top() {\n        return st.top();\n    }\n    int getMin() {\n        return minSt.top();\n    }\n};",
+      "javascript": "var MinStack = function() {\n    this.stack = [];\n    this.minStack = [];\n};\n\nMinStack.prototype.push = function(val) {\n    this.stack.push(val);\n    const min = this.minStack.length ? Math.min(val, this.minStack[this.minStack.length - 1]) : val;\n    this.minStack.push(min);\n};\n\nMinStack.prototype.pop = function() {\n    this.stack.pop();\n    this.minStack.pop();\n};\n\nMinStack.prototype.top = function() {\n    return this.stack[this.stack.length - 1];\n};\n\nMinStack.prototype.getMin = function() {\n    return this.minStack[this.minStack.length - 1];\n};",
+      "go": "type MinStack struct {\n    stack    []int\n    minStack []int\n}\n\nfunc Constructor() MinStack {\n    return MinStack{}\n}\n\nfunc (this *MinStack) Push(val int) {\n    this.stack = append(this.stack, val)\n    minVal := val\n    if len(this.minStack) > 0 && this.minStack[len(this.minStack)-1] < minVal {\n        minVal = this.minStack[len(this.minStack)-1]\n    }\n    this.minStack = append(this.minStack, minVal)\n}\n\nfunc (this *MinStack) Pop() {\n    this.stack = this.stack[:len(this.stack)-1]\n    this.minStack = this.minStack[:len(this.minStack)-1]\n}\n\nfunc (this *MinStack) Top() int {\n    return this.stack[len(this.stack)-1]\n}\n\nfunc (this *MinStack) GetMin() int {\n    return this.minStack[len(this.minStack)-1]\n}",
+      "rust": "struct MinStack {\n    stack: Vec<i32>,\n    min_stack: Vec<i32>,\n}\n\nimpl MinStack {\n    fn new() -> Self {\n        MinStack { stack: vec![], min_stack: vec![] }\n    }\n    fn push(&mut self, val: i32) {\n        self.stack.push(val);\n        let min_val = match self.min_stack.last() {\n            Some(&m) => m.min(val),\n            None => val,\n        };\n        self.min_stack.push(min_val);\n    }\n    fn pop(&mut self) {\n        self.stack.pop();\n        self.min_stack.pop();\n    }\n    fn top(&self) -> i32 {\n        *self.stack.last().unwrap()\n    }\n    fn get_min(&self) -> i32 {\n        *self.min_stack.last().unwrap()\n    }\n}"
+    }
+  },
+  {
+    "id": 3,
+    "leetcode": 150,
+    "title": "Evaluate Reverse Polish Notation",
+    "difficulty": "Easy",
+    "description": "You are given an array of strings tokens that represents an arithmetic expression in Reverse Polish Notation. Evaluate the expression and return an integer that represents the value of the expression. Note that the valid operations are '+', '-', '*', and '/'. Each operand may be an integer or another expression. The division between two integers always truncates toward zero.",
+    "examples": [
+      { "input": "tokens = [\"2\",\"1\",\"+\",\"3\",\"*\"]", "output": "9" },
+      { "input": "tokens = [\"4\",\"13\",\"5\",\"/\",\"+\"]", "output": "6" },
+      { "input": "tokens = [\"10\",\"6\",\"9\",\"3\",\"+\",\"-11\",\"*\",\"/\",\"*\",\"17\",\"+\",\"5\",\"+\"]", "output": "22" }
+    ],
+    "hints": [
+      "Use a stack to store operands.",
+      "When you encounter an operator, pop the top two operands, apply the operator, and push the result."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "solutions": {
+      "python": "class Solution:\n    def evalRPN(self, tokens: list[str]) -> int:\n        stack = []\n        for token in tokens:\n            if token in '+-*/':\n                b, a = stack.pop(), stack.pop()\n                if token == '+': stack.append(a + b)\n                elif token == '-': stack.append(a - b)\n                elif token == '*': stack.append(a * b)\n                else: stack.append(int(a / b))\n            else:\n                stack.append(int(token))\n        return stack[0]",
+      "java": "class Solution {\n    public int evalRPN(String[] tokens) {\n        Deque<Integer> stack = new ArrayDeque<>();\n        for (String t : tokens) {\n            switch (t) {\n                case \"+\": stack.push(stack.pop() + stack.pop()); break;\n                case \"-\": {\n                    int b = stack.pop();\n                    stack.push(stack.pop() - b);\n                    break;\n                }\n                case \"*\": stack.push(stack.pop() * stack.pop()); break;\n                case \"/\": {\n                    int b = stack.pop();\n                    stack.push(stack.pop() / b);\n                    break;\n                }\n                default: stack.push(Integer.parseInt(t));\n            }\n        }\n        return stack.pop();\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int evalRPN(vector<string>& tokens) {\n        stack<int> st;\n        for (auto& t : tokens) {\n            if (t == \"+\" || t == \"-\" || t == \"*\" || t == \"/\") {\n                int b = st.top(); st.pop();\n                int a = st.top(); st.pop();\n                if (t == \"+\") st.push(a + b);\n                else if (t == \"-\") st.push(a - b);\n                else if (t == \"*\") st.push(a * b);\n                else st.push(a / b);\n            } else {\n                st.push(stoi(t));\n            }\n        }\n        return st.top();\n    }\n};",
+      "javascript": "var evalRPN = function(tokens) {\n    const stack = [];\n    for (const t of tokens) {\n        if ('+-*/'.includes(t)) {\n            const b = stack.pop();\n            const a = stack.pop();\n            if (t === '+') stack.push(a + b);\n            else if (t === '-') stack.push(a - b);\n            else if (t === '*') stack.push(a * b);\n            else stack.push(Math.trunc(a / b));\n        } else {\n            stack.push(parseInt(t));\n        }\n    }\n    return stack[0];\n};",
+      "go": "func evalRPN(tokens []string) int {\n    stack := []int{}\n    for _, t := range tokens {\n        switch t {\n        case \"+\":\n            stack[len(stack)-2] += stack[len(stack)-1]\n            stack = stack[:len(stack)-1]\n        case \"-\":\n            stack[len(stack)-2] -= stack[len(stack)-1]\n            stack = stack[:len(stack)-1]\n        case \"*\":\n            stack[len(stack)-2] *= stack[len(stack)-1]\n            stack = stack[:len(stack)-1]\n        case \"/\":\n            stack[len(stack)-2] /= stack[len(stack)-1]\n            stack = stack[:len(stack)-1]\n        default:\n            val, _ := strconv.Atoi(t)\n            stack = append(stack, val)\n        }\n    }\n    return stack[0]\n}",
+      "rust": "impl Solution {\n    pub fn eval_rpn(tokens: Vec<String>) -> i32 {\n        let mut stack: Vec<i32> = Vec::new();\n        for t in tokens {\n            match t.as_str() {\n                \"+\" => {\n                    let b = stack.pop().unwrap();\n                    let a = stack.pop().unwrap();\n                    stack.push(a + b);\n                }\n                \"-\" => {\n                    let b = stack.pop().unwrap();\n                    let a = stack.pop().unwrap();\n                    stack.push(a - b);\n                }\n                \"*\" => {\n                    let b = stack.pop().unwrap();\n                    let a = stack.pop().unwrap();\n                    stack.push(a * b);\n                }\n                \"/\" => {\n                    let b = stack.pop().unwrap();\n                    let a = stack.pop().unwrap();\n                    stack.push(a / b);\n                }\n                _ => stack.push(t.parse().unwrap()),\n            }\n        }\n        stack[0]\n    }\n}"
+    }
+  },
+  {
+    "id": 4,
+    "leetcode": 232,
+    "title": "Implement Queue using Stacks",
+    "difficulty": "Easy",
+    "description": "Implement a first in first out (FIFO) queue using only two stacks. The implemented queue should support all the functions of a normal queue (push, peek, pop, and empty). Implement the MyQueue class: void push(int x) Pushes element x to the back of the queue, int pop() Removes the element from the front of the queue and returns it, int peek() Returns the element at the front of the queue, boolean empty() Returns true if the queue is empty, false otherwise.",
+    "examples": [
+      { "input": "[\"MyQueue\",\"push\",\"push\",\"peek\",\"pop\",\"empty\"]\n[[],[1],[2],[],[],[]]", "output": "[null,null,null,1,1,false]" }
+    ],
+    "hints": [
+      "Use two stacks: one for input and one for output.",
+      "When the output stack is empty and you need to pop or peek, transfer all elements from the input stack to the output stack."
+    ],
+    "timeComplexity": "O(1) amortized",
+    "spaceComplexity": "O(n)",
+    "solutions": {
+      "python": "class MyQueue:\n    def __init__(self):\n        self.in_stack = []\n        self.out_stack = []\n\n    def push(self, x: int) -> None:\n        self.in_stack.append(x)\n\n    def pop(self) -> int:\n        self._transfer()\n        return self.out_stack.pop()\n\n    def peek(self) -> int:\n        self._transfer()\n        return self.out_stack[-1]\n\n    def empty(self) -> bool:\n        return not self.in_stack and not self.out_stack\n\n    def _transfer(self):\n        if not self.out_stack:\n            while self.in_stack:\n                self.out_stack.append(self.in_stack.pop())",
+      "java": "class MyQueue {\n    private Deque<Integer> inStack = new ArrayDeque<>();\n    private Deque<Integer> outStack = new ArrayDeque<>();\n\n    public void push(int x) {\n        inStack.push(x);\n    }\n\n    public int pop() {\n        if (outStack.isEmpty()) transfer();\n        return outStack.pop();\n    }\n\n    public int peek() {\n        if (outStack.isEmpty()) transfer();\n        return outStack.peek();\n    }\n\n    public boolean empty() {\n        return inStack.isEmpty() && outStack.isEmpty();\n    }\n\n    private void transfer() {\n        while (!inStack.isEmpty()) {\n            outStack.push(inStack.pop());\n        }\n    }\n}",
+      "cpp": "class MyQueue {\n    stack<int> inStack, outStack;\n    void transfer() {\n        while (!inStack.empty()) {\n            outStack.push(inStack.top());\n            inStack.pop();\n        }\n    }\npublic:\n    void push(int x) { inStack.push(x); }\n    int pop() {\n        if (outStack.empty()) transfer();\n        int val = outStack.top(); outStack.pop();\n        return val;\n    }\n    int peek() {\n        if (outStack.empty()) transfer();\n        return outStack.top();\n    }\n    bool empty() { return inStack.empty() && outStack.empty(); }\n};",
+      "javascript": "var MyQueue = function() {\n    this.inStack = [];\n    this.outStack = [];\n};\n\nMyQueue.prototype.transfer = function() {\n    if (this.outStack.length === 0) {\n        while (this.inStack.length) {\n            this.outStack.push(this.inStack.pop());\n        }\n    }\n};\n\nMyQueue.prototype.push = function(x) { this.inStack.push(x); };\nMyQueue.prototype.pop = function() {\n    this.transfer();\n    return this.outStack.pop();\n};\nMyQueue.prototype.peek = function() {\n    this.transfer();\n    return this.outStack[this.outStack.length - 1];\n};\nMyQueue.prototype.empty = function() {\n    return this.inStack.length === 0 && this.outStack.length === 0;\n};",
+      "go": "type MyQueue struct {\n    inStack  []int\n    outStack []int\n}\n\nfunc Constructor() MyQueue { return MyQueue{} }\n\nfunc (this *MyQueue) transfer() {\n    if len(this.outStack) == 0 {\n        for len(this.inStack) > 0 {\n            n := len(this.inStack)\n            this.outStack = append(this.outStack, this.inStack[n-1])\n            this.inStack = this.inStack[:n-1]\n        }\n    }\n}\n\nfunc (this *MyQueue) Push(x int) { this.inStack = append(this.inStack, x) }\n\nfunc (this *MyQueue) Pop() int {\n    this.transfer()\n    n := len(this.outStack)\n    val := this.outStack[n-1]\n    this.outStack = this.outStack[:n-1]\n    return val\n}\n\nfunc (this *MyQueue) Peek() int {\n    this.transfer()\n    return this.outStack[len(this.outStack)-1]\n}\n\nfunc (this *MyQueue) Empty() bool {\n    return len(this.inStack) == 0 && len(this.outStack) == 0\n}",
+      "rust": "struct MyQueue {\n    in_stack: Vec<i32>,\n    out_stack: Vec<i32>,\n}\n\nimpl MyQueue {\n    fn new() -> Self {\n        MyQueue { in_stack: vec![], out_stack: vec![] }\n    }\n    fn transfer(&mut self) {\n        if self.out_stack.is_empty() {\n            while let Some(v) = self.in_stack.pop() {\n                self.out_stack.push(v);\n            }\n        }\n    }\n    fn push(&mut self, x: i32) {\n        self.in_stack.push(x);\n    }\n    fn pop(&mut self) -> i32 {\n        self.transfer();\n        self.out_stack.pop().unwrap()\n    }\n    fn peek(&mut self) -> i32 {\n        self.transfer();\n        *self.out_stack.last().unwrap()\n    }\n    fn empty(&self) -> bool {\n        self.in_stack.is_empty() && self.out_stack.is_empty()\n    }\n}"
+    }
+  },
+  {
+    "id": 5,
+    "leetcode": 225,
+    "title": "Implement Stack using Queues",
+    "difficulty": "Easy",
+    "description": "Implement a last-in-first-out (LIFO) stack using only two queues. The implemented stack should support all the functions of a normal stack (push, top, pop, and empty). Implement the MyStack class: void push(int x) Pushes element x to the top of the stack, int pop() Removes the element on the top of the stack and returns it, int top() Returns the element on the top of the stack, boolean empty() Returns true if the stack is empty, false otherwise.",
+    "examples": [
+      { "input": "[\"MyStack\",\"push\",\"push\",\"top\",\"pop\",\"empty\"]\n[[],[1],[2],[],[],[]]", "output": "[null,null,null,2,2,false]" }
+    ],
+    "hints": [
+      "Use one queue to store elements and rotate it to simulate stack behavior.",
+      "On push, enqueue the new element and then rotate the queue to move it to the front."
+    ],
+    "timeComplexity": "O(n) for push, O(1) for others",
+    "spaceComplexity": "O(n)",
+    "solutions": {
+      "python": "from collections import deque\n\nclass MyStack:\n    def __init__(self):\n        self.q = deque()\n\n    def push(self, x: int) -> None:\n        self.q.append(x)\n        for _ in range(len(self.q) - 1):\n            self.q.append(self.q.popleft())\n\n    def pop(self) -> int:\n        return self.q.popleft()\n\n    def top(self) -> int:\n        return self.q[0]\n\n    def empty(self) -> bool:\n        return len(self.q) == 0",
+      "java": "class MyStack {\n    private Queue<Integer> q = new LinkedList<>();\n\n    public void push(int x) {\n        q.add(x);\n        int size = q.size();\n        for (int i = 0; i < size - 1; i++) {\n            q.add(q.remove());\n        }\n    }\n\n    public int pop() {\n        return q.remove();\n    }\n\n    public int top() {\n        return q.peek();\n    }\n\n    public boolean empty() {\n        return q.isEmpty();\n    }\n}",
+      "cpp": "class MyStack {\n    queue<int> q;\npublic:\n    void push(int x) {\n        q.push(x);\n        int size = q.size();\n        for (int i = 0; i < size - 1; i++) {\n            q.push(q.front());\n            q.pop();\n        }\n    }\n    int pop() {\n        int val = q.front(); q.pop();\n        return val;\n    }\n    int top() { return q.front(); }\n    bool empty() { return q.empty(); }\n};",
+      "javascript": "var MyStack = function() { this.q = []; };\n\nMyStack.prototype.push = function(x) {\n    this.q.push(x);\n    for (let i = 0; i < this.q.length - 1; i++) {\n        this.q.push(this.q.shift());\n    }\n};\n\nMyStack.prototype.pop = function() { return this.q.shift(); };\nMyStack.prototype.top = function() { return this.q[0]; };\nMyStack.prototype.empty = function() { return this.q.length === 0; };",
+      "go": "type MyStack struct {\n    q []int\n}\n\nfunc Constructor() MyStack { return MyStack{} }\n\nfunc (this *MyStack) Push(x int) {\n    this.q = append(this.q, x)\n    for i := 0; i < len(this.q)-1; i++ {\n        this.q = append(this.q, this.q[0])\n        this.q = this.q[1:]\n    }\n}\n\nfunc (this *MyStack) Pop() int {\n    val := this.q[0]\n    this.q = this.q[1:]\n    return val\n}\n\nfunc (this *MyStack) Top() int { return this.q[0] }\nfunc (this *MyStack) Empty() bool { return len(this.q) == 0 }",
+      "rust": "struct MyStack {\n    q: Vec<i32>,\n}\n\nimpl MyStack {\n    fn new() -> Self { MyStack { q: vec![] } }\n    fn push(&mut self, x: i32) {\n        self.q.push(x);\n        let len = self.q.len();\n        for _ in 0..len - 1 {\n            let v = self.q.remove(0);\n            self.q.push(v);\n        }\n    }\n    fn pop(&mut self) -> i32 { self.q.remove(0) }\n    fn top(&self) -> i32 { self.q[0] }\n    fn empty(&self) -> bool { self.q.is_empty() }\n}"
+    }
+  },
+  {
+    "id": 6,
+    "leetcode": 496,
+    "title": "Next Greater Element I",
+    "difficulty": "Easy",
+    "description": "The next greater element of some element x in an array is the first greater element that is to the right of x in the same array. You are given two distinct 0-indexed integer arrays nums1 and nums2, where nums1 is a subset of nums2. For each 0 <= i < nums1.length, find the index j such that nums1[i] == nums2[j] and determine the next greater element of nums2[j] in nums2. If there is no next greater element, then the answer for this query is -1.",
+    "examples": [
+      { "input": "nums1 = [4,1,2], nums2 = [1,3,4,2]", "output": "[-1,3,-1]" },
+      { "input": "nums1 = [2,4], nums2 = [1,2,3,4]", "output": "[-1,-1]" }
+    ],
+    "hints": [
+      "Use a monotonic decreasing stack to precompute the next greater element for each element in nums2.",
+      "Store results in a hash map for O(1) lookup."
+    ],
+    "timeComplexity": "O(n + m)",
+    "spaceComplexity": "O(m)",
+    "solutions": {
+      "python": "class Solution:\n    def nextGreaterElement(self, nums1: list[int], nums2: list[int]) -> list[int]:\n        stack = []\n        next_greater = {}\n        for num in nums2:\n            while stack and stack[-1] < num:\n                next_greater[stack.pop()] = num\n            stack.append(num)\n        return [next_greater.get(num, -1) for num in nums1]",
+      "java": "class Solution {\n    public int[] nextGreaterElement(int[] nums1, int[] nums2) {\n        Map<Integer, Integer> map = new HashMap<>();\n        Deque<Integer> stack = new ArrayDeque<>();\n        for (int num : nums2) {\n            while (!stack.isEmpty() && stack.peek() < num) {\n                map.put(stack.pop(), num);\n            }\n            stack.push(num);\n        }\n        int[] result = new int[nums1.length];\n        for (int i = 0; i < nums1.length; i++) {\n            result[i] = map.getOrDefault(nums1[i], -1);\n        }\n        return result;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {\n        unordered_map<int, int> map;\n        stack<int> st;\n        for (int num : nums2) {\n            while (!st.empty() && st.top() < num) {\n                map[st.top()] = num;\n                st.pop();\n            }\n            st.push(num);\n        }\n        vector<int> result;\n        for (int num : nums1) {\n            result.push_back(map.count(num) ? map[num] : -1);\n        }\n        return result;\n    }\n};",
+      "javascript": "var nextGreaterElement = function(nums1, nums2) {\n    const map = new Map();\n    const stack = [];\n    for (const num of nums2) {\n        while (stack.length && stack[stack.length - 1] < num) {\n            map.set(stack.pop(), num);\n        }\n        stack.push(num);\n    }\n    return nums1.map(num => map.get(num) ?? -1);\n};",
+      "go": "func nextGreaterElement(nums1 []int, nums2 []int) []int {\n    nextGreater := map[int]int{}\n    stack := []int{}\n    for _, num := range nums2 {\n        for len(stack) > 0 && stack[len(stack)-1] < num {\n            nextGreater[stack[len(stack)-1]] = num\n            stack = stack[:len(stack)-1]\n        }\n        stack = append(stack, num)\n    }\n    result := make([]int, len(nums1))\n    for i, num := range nums1 {\n        if v, ok := nextGreater[num]; ok {\n            result[i] = v\n        } else {\n            result[i] = -1\n        }\n    }\n    return result\n}",
+      "rust": "impl Solution {\n    pub fn next_greater_element(nums1: Vec<i32>, nums2: Vec<i32>) -> Vec<i32> {\n        let mut map = std::collections::HashMap::new();\n        let mut stack = Vec::new();\n        for &num in &nums2 {\n            while let Some(&top) = stack.last() {\n                if top < num {\n                    map.insert(stack.pop().unwrap(), num);\n                } else {\n                    break;\n                }\n            }\n            stack.push(num);\n        }\n        nums1.iter().map(|&n| *map.get(&n).unwrap_or(&-1)).collect()\n    }\n}"
+    }
+  },
+  {
+    "id": 7,
+    "leetcode": 1047,
+    "title": "Remove All Adjacent Duplicates in String",
+    "difficulty": "Easy",
+    "description": "You are given a string s consisting of lowercase English letters. A duplicate removal consists of choosing two adjacent and equal characters and removing them. We repeatedly make duplicate removals on s until we no longer can. Return the final string after all such duplicate removals.",
+    "examples": [
+      { "input": "s = \"abbaca\"", "output": "ca" },
+      { "input": "s = \"azxxzy\"", "output": "ay" }
+    ],
+    "hints": [
+      "Use a stack to process characters one by one.",
+      "If the current character matches the top of the stack, pop from the stack; otherwise, push it."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "solutions": {
+      "python": "class Solution:\n    def removeDuplicates(self, s: str) -> str:\n        stack = []\n        for char in s:\n            if stack and stack[-1] == char:\n                stack.pop()\n            else:\n                stack.append(char)\n        return ''.join(stack)",
+      "java": "class Solution {\n    public String removeDuplicates(String s) {\n        StringBuilder stack = new StringBuilder();\n        for (char c : s.toCharArray()) {\n            if (stack.length() > 0 && stack.charAt(stack.length() - 1) == c) {\n                stack.deleteCharAt(stack.length() - 1);\n            } else {\n                stack.append(c);\n            }\n        }\n        return stack.toString();\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    string removeDuplicates(string s) {\n        string stack;\n        for (char c : s) {\n            if (!stack.empty() && stack.back() == c) {\n                stack.pop_back();\n            } else {\n                stack.push_back(c);\n            }\n        }\n        return stack;\n    }\n};",
+      "javascript": "var removeDuplicates = function(s) {\n    const stack = [];\n    for (const char of s) {\n        if (stack.length && stack[stack.length - 1] === char) {\n            stack.pop();\n        } else {\n            stack.push(char);\n        }\n    }\n    return stack.join('');\n};",
+      "go": "func removeDuplicates(s string) string {\n    stack := []rune{}\n    for _, c := range s {\n        if len(stack) > 0 && stack[len(stack)-1] == c {\n            stack = stack[:len(stack)-1]\n        } else {\n            stack = append(stack, c)\n        }\n    }\n    return string(stack)\n}",
+      "rust": "impl Solution {\n    pub fn remove_duplicates(s: String) -> String {\n        let mut stack = Vec::new();\n        for c in s.chars() {\n            if stack.last() == Some(&c) {\n                stack.pop();\n            } else {\n                stack.push(c);\n            }\n        }\n        stack.iter().collect()\n    }\n}"
+    }
+  },
+  {
+    "id": 8,
+    "leetcode": 739,
+    "title": "Daily Temperatures",
+    "difficulty": "Medium",
+    "description": "Given an array of integers temperatures represents the daily temperatures, return an array answer such that answer[i] is the number of days you have to wait after the ith day to get a warmer temperature. If there is no future day for which this is possible, keep answer[i] == 0 instead.",
+    "examples": [
+      { "input": "temperatures = [73,74,75,71,69,72,76,73]", "output": "[1,1,4,2,1,1,0,0]" },
+      { "input": "temperatures = [30,40,50,60]", "output": "[1,1,1,0]" },
+      { "input": "temperatures = [30,60,90]", "output": "[1,1,0]" }
+    ],
+    "hints": [
+      "Use a monotonic decreasing stack that stores indices.",
+      "For each temperature, while the stack is not empty and the current temperature is warmer than the temperature at the index on top of the stack, pop and calculate the difference in days."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "solutions": {
+      "python": "class Solution:\n    def dailyTemperatures(self, temperatures: list[int]) -> list[int]:\n        n = len(temperatures)\n        answer = [0] * n\n        stack = []\n        for i in range(n):\n            while stack and temperatures[i] > temperatures[stack[-1]]:\n                j = stack.pop()\n                answer[j] = i - j\n            stack.append(i)\n        return answer",
+      "java": "class Solution {\n    public int[] dailyTemperatures(int[] temperatures) {\n        int n = temperatures.length;\n        int[] answer = new int[n];\n        Deque<Integer> stack = new ArrayDeque<>();\n        for (int i = 0; i < n; i++) {\n            while (!stack.isEmpty() && temperatures[i] > temperatures[stack.peek()]) {\n                int j = stack.pop();\n                answer[j] = i - j;\n            }\n            stack.push(i);\n        }\n        return answer;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    vector<int> dailyTemperatures(vector<int>& temperatures) {\n        int n = temperatures.size();\n        vector<int> answer(n, 0);\n        stack<int> st;\n        for (int i = 0; i < n; i++) {\n            while (!st.empty() && temperatures[i] > temperatures[st.top()]) {\n                int j = st.top(); st.pop();\n                answer[j] = i - j;\n            }\n            st.push(i);\n        }\n        return answer;\n    }\n};",
+      "javascript": "var dailyTemperatures = function(temperatures) {\n    const n = temperatures.length;\n    const answer = new Array(n).fill(0);\n    const stack = [];\n    for (let i = 0; i < n; i++) {\n        while (stack.length && temperatures[i] > temperatures[stack[stack.length - 1]]) {\n            const j = stack.pop();\n            answer[j] = i - j;\n        }\n        stack.push(i);\n    }\n    return answer;\n};",
+      "go": "func dailyTemperatures(temperatures []int) []int {\n    n := len(temperatures)\n    answer := make([]int, n)\n    stack := []int{}\n    for i := 0; i < n; i++ {\n        for len(stack) > 0 && temperatures[i] > temperatures[stack[len(stack)-1]] {\n            j := stack[len(stack)-1]\n            stack = stack[:len(stack)-1]\n            answer[j] = i - j\n        }\n        stack = append(stack, i)\n    }\n    return answer\n}",
+      "rust": "impl Solution {\n    pub fn daily_temperatures(temperatures: Vec<i32>) -> Vec<i32> {\n        let n = temperatures.len();\n        let mut answer = vec![0; n];\n        let mut stack: Vec<usize> = Vec::new();\n        for i in 0..n {\n            while let Some(&j) = stack.last() {\n                if temperatures[i] > temperatures[j] {\n                    stack.pop();\n                    answer[j] = (i - j) as i32;\n                } else {\n                    break;\n                }\n            }\n            stack.push(i);\n        }\n        answer\n    }\n}"
+    }
+  },
+  {
+    "id": 9,
+    "leetcode": 503,
+    "title": "Next Greater Element II",
+    "difficulty": "Medium",
+    "description": "Given a circular integer array nums (the next element of nums[nums.length - 1] is nums[0]), return the next greater number for every element in nums. The next greater number of a number x is the first greater number to its traversing-order next in the array, which means you could search circularly to find its next greater number. If it doesn't exist, return -1 for this number.",
+    "examples": [
+      { "input": "nums = [1,2,1]", "output": "[2,-1,2]" },
+      { "input": "nums = [1,2,3,4,3]", "output": "[2,3,4,-1,4]" }
+    ],
+    "hints": [
+      "Traverse the array twice to simulate circular behavior.",
+      "Use a monotonic decreasing stack storing indices."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "solutions": {
+      "python": "class Solution:\n    def nextGreaterElements(self, nums: list[int]) -> list[int]:\n        n = len(nums)\n        result = [-1] * n\n        stack = []\n        for i in range(2 * n):\n            while stack and nums[i % n] > nums[stack[-1]]:\n                result[stack.pop()] = nums[i % n]\n            if i < n:\n                stack.append(i)\n        return result",
+      "java": "class Solution {\n    public int[] nextGreaterElements(int[] nums) {\n        int n = nums.length;\n        int[] result = new int[n];\n        Arrays.fill(result, -1);\n        Deque<Integer> stack = new ArrayDeque<>();\n        for (int i = 0; i < 2 * n; i++) {\n            while (!stack.isEmpty() && nums[i % n] > nums[stack.peek()]) {\n                result[stack.pop()] = nums[i % n];\n            }\n            if (i < n) stack.push(i);\n        }\n        return result;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    vector<int> nextGreaterElements(vector<int>& nums) {\n        int n = nums.size();\n        vector<int> result(n, -1);\n        stack<int> st;\n        for (int i = 0; i < 2 * n; i++) {\n            while (!st.empty() && nums[i % n] > nums[st.top()]) {\n                result[st.top()] = nums[i % n];\n                st.pop();\n            }\n            if (i < n) st.push(i);\n        }\n        return result;\n    }\n};",
+      "javascript": "var nextGreaterElements = function(nums) {\n    const n = nums.length;\n    const result = new Array(n).fill(-1);\n    const stack = [];\n    for (let i = 0; i < 2 * n; i++) {\n        while (stack.length && nums[i % n] > nums[stack[stack.length - 1]]) {\n            result[stack.pop()] = nums[i % n];\n        }\n        if (i < n) stack.push(i);\n    }\n    return result;\n};",
+      "go": "func nextGreaterElements(nums []int) []int {\n    n := len(nums)\n    result := make([]int, n)\n    for i := range result { result[i] = -1 }\n    stack := []int{}\n    for i := 0; i < 2*n; i++ {\n        for len(stack) > 0 && nums[i%n] > nums[stack[len(stack)-1]] {\n            result[stack[len(stack)-1]] = nums[i%n]\n            stack = stack[:len(stack)-1]\n        }\n        if i < n {\n            stack = append(stack, i)\n        }\n    }\n    return result\n}",
+      "rust": "impl Solution {\n    pub fn next_greater_elements(nums: Vec<i32>) -> Vec<i32> {\n        let n = nums.len();\n        let mut result = vec![-1; n];\n        let mut stack: Vec<usize> = Vec::new();\n        for i in 0..2 * n {\n            while let Some(&j) = stack.last() {\n                if nums[i % n] > nums[j] {\n                    stack.pop();\n                    result[j] = nums[i % n];\n                } else {\n                    break;\n                }\n            }\n            if i < n {\n                stack.push(i);\n            }\n        }\n        result\n    }\n}"
+    }
+  },
+  {
+    "id": 10,
+    "leetcode": 394,
+    "title": "Decode String",
+    "difficulty": "Medium",
+    "description": "Given an encoded string, return its decoded string. The encoding rule is: k[encoded_string], where the encoded_string inside the square brackets is being repeated exactly k times. Note that k is guaranteed to be a positive integer. You may assume that the input string is always valid; there are no extra white spaces, square brackets are well-formed, etc. Furthermore, you may assume that the original data does not contain any digits and that digits are only for those repeat numbers, k.",
+    "examples": [
+      { "input": "s = \"3[a2[c]]\"", "output": "accaccacc" },
+      { "input": "s = \"2[abc]3[cd]ef\"", "output": "abcabccdcdcdef" },
+      { "input": "s = \"abc3[cd]xyz\"", "output": "abccdcdcdxyz" }
+    ],
+    "hints": [
+      "Use two stacks: one for numbers and one for strings.",
+      "When you see '[', push the current string and number onto the stacks. When you see ']', pop and combine."
+    ],
+    "timeComplexity": "O(n * maxK) where maxK is the max nesting depth",
+    "spaceComplexity": "O(n)",
+    "solutions": {
+      "python": "class Solution:\n    def decodeString(self, s: str) -> str:\n        stack = []\n        current_str = ''\n        current_num = 0\n        for char in s:\n            if char.isdigit():\n                current_num = current_num * 10 + int(char)\n            elif char == '[':\n                stack.append((current_str, current_num))\n                current_str = ''\n                current_num = 0\n            elif char == ']':\n                prev_str, num = stack.pop()\n                current_str = prev_str + current_str * num\n            else:\n                current_str += char\n        return current_str",
+      "java": "class Solution {\n    public String decodeString(String s) {\n        Deque<String> strStack = new ArrayDeque<>();\n        Deque<Integer> numStack = new ArrayDeque<>();\n        StringBuilder current = new StringBuilder();\n        int num = 0;\n        for (char c : s.toCharArray()) {\n            if (Character.isDigit(c)) {\n                num = num * 10 + c - '0';\n            } else if (c == '[') {\n                strStack.push(current.toString());\n                numStack.push(num);\n                current = new StringBuilder();\n                num = 0;\n            } else if (c == ']') {\n                StringBuilder temp = new StringBuilder(strStack.pop());\n                int repeat = numStack.pop();\n                for (int i = 0; i < repeat; i++) temp.append(current);\n                current = temp;\n            } else {\n                current.append(c);\n            }\n        }\n        return current.toString();\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    string decodeString(string s) {\n        stack<string> strStack;\n        stack<int> numStack;\n        string current;\n        int num = 0;\n        for (char c : s) {\n            if (isdigit(c)) {\n                num = num * 10 + c - '0';\n            } else if (c == '[') {\n                strStack.push(current);\n                numStack.push(num);\n                current = \"\";\n                num = 0;\n            } else if (c == ']') {\n                string temp = strStack.top(); strStack.pop();\n                int repeat = numStack.top(); numStack.pop();\n                for (int i = 0; i < repeat; i++) temp += current;\n                current = temp;\n            } else {\n                current += c;\n            }\n        }\n        return current;\n    }\n};",
+      "javascript": "var decodeString = function(s) {\n    const strStack = [];\n    const numStack = [];\n    let current = '';\n    let num = 0;\n    for (const c of s) {\n        if (c >= '0' && c <= '9') {\n            num = num * 10 + parseInt(c);\n        } else if (c === '[') {\n            strStack.push(current);\n            numStack.push(num);\n            current = '';\n            num = 0;\n        } else if (c === ']') {\n            current = strStack.pop() + current.repeat(numStack.pop());\n        } else {\n            current += c;\n        }\n    }\n    return current;\n};",
+      "go": "func decodeString(s string) string {\n    strStack := []string{\"\n}\n    numStack := []int{}\n    current := \"\"\n    num := 0\n    for _, c := range s {\n        if c >= '0' && c <= '9' {\n            num = num*10 + int(c-'0')\n        } else if c == '[' {\n            strStack = append(strStack, current)\n            numStack = append(numStack, num)\n            current = \"\"\n            num = 0\n        } else if c == ']' {\n            prev := strStack[len(strStack)-1]\n            strStack = strStack[:len(strStack)-1]\n            repeat := numStack[len(numStack)-1]\n            numStack = numStack[:len(numStack)-1]\n            for i := 0; i < repeat; i++ {\n                prev += current\n            }\n            current = prev\n        } else {\n            current += string(c)\n        }\n    }\n    return current\n}",
+      "rust": "impl Solution {\n    pub fn decode_string(s: String) -> String {\n        let mut str_stack: Vec<String> = Vec::new();\n        let mut num_stack: Vec<usize> = Vec::new();\n        let mut current = String::new();\n        let mut num = 0;\n        for c in s.chars() {\n            if c.is_ascii_digit() {\n                num = num * 10 + c.to_digit(10).unwrap() as usize;\n            } else if c == '[' {\n                str_stack.push(current.clone());\n                num_stack.push(num);\n                current.clear();\n                num = 0;\n            } else if c == ']' {\n                let prev = str_stack.pop().unwrap();\n                let repeat = num_stack.pop().unwrap();\n                current = prev + &current.repeat(repeat);\n            } else {\n                current.push(c);\n            }\n        }\n        current\n    }\n}"
+    }
+  },
+  {
+    "id": 11,
+    "leetcode": 735,
+    "title": "Asteroid Collision",
+    "difficulty": "Medium",
+    "description": "We are given an array asteroids of integers representing asteroids in a row. The index represents their position in space. For each asteroid, the absolute value represents its size, and the sign represents its direction (positive meaning right, negative meaning left). Each asteroid moves at the same speed. Find out the state of the asteroids after all collisions. If two asteroids meet, the smaller one will explode. If both are the same size, both will explode. Two asteroids moving in the same direction will never meet.",
+    "examples": [
+      { "input": "asteroids = [5,10,-5]", "output": "[5,10]" },
+      { "input": "asteroids = [8,-8]", "output": "[]" },
+      { "input": "asteroids = [10,2,-5]", "output": "[10]" },
+      { "input": "asteroids = [-2,-1,1,2]", "output": "[-2,-1,1,2]" }
+    ],
+    "hints": [
+      "Use a stack to simulate the collisions.",
+      "A collision only occurs when a positive asteroid is followed by a negative asteroid (left-moving after right-moving)."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "solutions": {
+      "python": "class Solution:\n    def asteroidCollision(self, asteroids: list[int]) -> list[int]:\n        stack = []\n        for ast in asteroids:\n            while stack and ast < 0 < stack[-1]:\n                if stack[-1] < -ast:\n                    stack.pop()\n                elif stack[-1] == -ast:\n                    stack.pop()\n                    break\n                else:\n                    break\n            else:\n                stack.append(ast)\n        return stack",
+      "java": "class Solution {\n    public int[] asteroidCollision(int[] asteroids) {\n        Deque<Integer> stack = new ArrayDeque<>();\n        for (int ast : asteroids) {\n            boolean alive = true;\n            while (alive && !stack.isEmpty() && stack.peek() > 0 && ast < 0) {\n                if (stack.peek() < -ast) {\n                    stack.pop();\n                } else if (stack.peek() == -ast) {\n                    stack.pop();\n                    alive = false;\n                } else {\n                    alive = false;\n                }\n            }\n            if (alive) stack.push(ast);\n        }\n        int[] result = new int[stack.size()];\n        for (int i = result.length - 1; i >= 0; i--) {\n            result[i] = stack.pop();\n        }\n        return result;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    vector<int> asteroidCollision(vector<int>& asteroids) {\n        stack<int> st;\n        for (int ast : asteroids) {\n            bool alive = true;\n            while (alive && !st.empty() && st.top() > 0 && ast < 0) {\n                if (st.top() < -ast) {\n                    st.pop();\n                } else if (st.top() == -ast) {\n                    st.pop();\n                    alive = false;\n                } else {\n                    alive = false;\n                }\n            }\n            if (alive) st.push(ast);\n        }\n        vector<int> result(st.size());\n        for (int i = result.size() - 1; i >= 0; i--) {\n            result[i] = st.top(); st.pop();\n        }\n        return result;\n    }\n};",
+      "javascript": "var asteroidCollision = function(asteroids) {\n    const stack = [];\n    for (const ast of asteroids) {\n        let alive = true;\n        while (alive && stack.length && stack[stack.length - 1] > 0 && ast < 0) {\n            if (stack[stack.length - 1] < -ast) {\n                stack.pop();\n            } else if (stack[stack.length - 1] === -ast) {\n                stack.pop();\n                alive = false;\n            } else {\n                alive = false;\n            }\n        }\n        if (alive) stack.push(ast);\n    }\n    return stack;\n};",
+      "go": "func asteroidCollision(asteroids []int) []int {\n    stack := []int{}\n    for _, ast := range asteroids {\n        alive := true\n        for alive && len(stack) > 0 && stack[len(stack)-1] > 0 && ast < 0 {\n            if stack[len(stack)-1] < -ast {\n                stack = stack[:len(stack)-1]\n            } else if stack[len(stack)-1] == -ast {\n                stack = stack[:len(stack)-1]\n                alive = false\n            } else {\n                alive = false\n            }\n        }\n        if alive {\n            stack = append(stack, ast)\n        }\n    }\n    return stack\n}",
+      "rust": "impl Solution {\n    pub fn asteroid_collision(asteroids: Vec<i32>) -> Vec<i32> {\n        let mut stack: Vec<i32> = Vec::new();\n        for ast in asteroids {\n            let mut alive = true;\n            while alive && !stack.is_empty() && *stack.last().unwrap() > 0 && ast < 0 {\n                if *stack.last().unwrap() < -ast {\n                    stack.pop();\n                } else if *stack.last().unwrap() == -ast {\n                    stack.pop();\n                    alive = false;\n                } else {\n                    alive = false;\n                }\n            }\n            if alive {\n                stack.push(ast);\n            }\n        }\n        stack\n    }\n}"
+    }
+  },
+  {
+    "id": 12,
+    "leetcode": 901,
+    "title": "Online Stock Span",
+    "difficulty": "Medium",
+    "description": "Design an algorithm that collects daily price quotes for some stock and returns the span of that stock's price for the current day. The span of the stock's price today is defined as the maximum number of consecutive days (starting from today and going backward) for which the stock price was less than or equal to today's price. Implement the StockSpanner class: StockSpanner() Initializes the object of the stock spanner, int next(int price) Returns the span of the stock's price given that today's price is price.",
+    "examples": [
+      { "input": "[\"StockSpanner\",\"next\",\"next\",\"next\",\"next\",\"next\",\"next\",\"next\"]\n[[],[100],[80],[60],[70],[60],[75],[85]]", "output": "[null,1,1,1,2,1,4,6]" }
+    ],
+    "hints": [
+      "Use a stack that stores pairs of (price, span).",
+      "For each new price, pop from the stack while the top price is less than or equal to the current price and accumulate the span."
+    ],
+    "timeComplexity": "O(1) amortized",
+    "spaceComplexity": "O(n)",
+    "solutions": {
+      "python": "class StockSpanner:\n    def __init__(self):\n        self.stack = []\n\n    def next(self, price: int) -> int:\n        span = 1\n        while self.stack and self.stack[-1][0] <= price:\n            span += self.stack.pop()[1]\n        self.stack.append((price, span))\n        return span",
+      "java": "class StockSpanner {\n    private Deque<int[]> stack = new ArrayDeque<>();\n\n    public int next(int price) {\n        int span = 1;\n        while (!stack.isEmpty() && stack.peek()[0] <= price) {\n            span += stack.pop()[1];\n        }\n        stack.push(new int[]{price, span});\n        return span;\n    }\n}",
+      "cpp": "class StockSpanner {\n    stack<pair<int, int>> st;\npublic:\n    int next(int price) {\n        int span = 1;\n        while (!st.empty() && st.top().first <= price) {\n            span += st.top().second;\n            st.pop();\n        }\n        st.push({price, span});\n        return span;\n    }\n};",
+      "javascript": "var StockSpanner = function() {\n    this.stack = [];\n};\n\nStockSpanner.prototype.next = function(price) {\n    let span = 1;\n    while (this.stack.length && this.stack[this.stack.length - 1][0] <= price) {\n        span += this.stack.pop()[1];\n    }\n    this.stack.push([price, span]);\n    return span;\n};",
+      "go": "type StockSpanner struct {\n    stack [][2]int\n}\n\nfunc Constructor() StockSpanner {\n    return StockSpanner{}\n}\n\nfunc (this *StockSpanner) Next(price int) int {\n    span := 1\n    for len(this.stack) > 0 && this.stack[len(this.stack)-1][0] <= price {\n        span += this.stack[len(this.stack)-1][1]\n        this.stack = this.stack[:len(this.stack)-1]\n    }\n    this.stack = append(this.stack, [2]int{price, span})\n    return span\n}",
+      "rust": "struct StockSpanner {\n    stack: Vec<(i32, i32)>,\n}\n\nimpl StockSpanner {\n    fn new() -> Self {\n        StockSpanner { stack: vec![] }\n    }\n    fn next(&mut self, price: i32) -> i32 {\n        let mut span = 1;\n        while let Some(&(p, s)) = self.stack.last() {\n            if p <= price {\n                span += s;\n                self.stack.pop();\n            } else {\n                break;\n            }\n        }\n        self.stack.push((price, span));\n        span\n    }\n}"
+    }
+  }
+]

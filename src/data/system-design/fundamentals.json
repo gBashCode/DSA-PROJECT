@@ -1,0 +1,210 @@
+[
+  {
+    "slug": "scalability",
+    "name": "Scalability",
+    "tier": "fundamentals",
+    "description": "The ability of a system to handle increased load by adding resources. Vertical scaling upgrades a single server; horizontal scaling adds more servers.",
+    "keyPoints": [
+      "Vertical scaling is limited by hardware maximums and creates single point of failure",
+      "Horizontal scaling requires load balancing and stateless services",
+      "Horizontal scaling is preferred for production systems - scales indefinitely",
+      "Vertical scaling is simpler and requires no code changes",
+      "Cloud auto-scaling enables horizontal scaling based on traffic patterns",
+      "Stateless services are a prerequisite for effective horizontal scaling"
+    ],
+    "whenToUse": "Vertical for small apps and quick fixes. Horizontal for large-scale production systems requiring fault tolerance.",
+    "interviewQuestions": [
+      "What is the difference between vertical and horizontal scaling?",
+      "When would you choose vertical over horizontal scaling?",
+      "How do you make an application horizontally scalable?",
+      "What challenges arise with horizontal scaling?"
+    ]
+  },
+  {
+    "slug": "load-balancing",
+    "name": "Load Balancing",
+    "tier": "fundamentals",
+    "description": "Distributes incoming network traffic across multiple servers to ensure no single server becomes overwhelmed. Improves availability and throughput.",
+    "keyPoints": [
+      "Layer 4 (Transport) routes based on IP/port without inspecting content",
+      "Layer 7 (Application) inspects HTTP headers for content-based routing",
+      "Algorithms: Round Robin, Least Connections, Weighted Round Robin, IP Hash",
+      "Load balancers provide health checks and automatic failover",
+      "Hardware (F5) vs Software (Nginx, HAProxy) vs Cloud (AWS ALB/NLB)",
+      "Can terminate SSL/TLS, reducing backend server overhead"
+    ],
+    "whenToUse": "Always needed with multiple application servers. Essential for high availability and zero-downtime deployments.",
+    "interviewQuestions": [
+      "What are different load balancing algorithms and their trade-offs?",
+      "What is the difference between Layer 4 and Layer 7 load balancing?",
+      "How does a load balancer handle server failures?",
+      "What are sticky sessions and when are they needed?"
+    ]
+  },
+  {
+    "slug": "caching",
+    "name": "Caching",
+    "tier": "fundamentals",
+    "description": "Stores frequently accessed data in fast storage to reduce database load and improve response times. Redis for app-level caching, CDN for static content.",
+    "keyPoints": [
+      "Cache-aside (lazy loading): App checks cache first, fetches from DB on miss",
+      "Write-through: Writes go to cache and DB simultaneously",
+      "Write-back: Writes go to cache first, async flush to DB",
+      "Eviction policies: LRU, LFU, FIFO, TTL-based",
+      "Cache stampede: Many requests hit DB when cache expires",
+      "CDN types: Push CDN vs Pull CDN"
+    ],
+    "whenToUse": "Redis for sessions, leaderboards, rate limiting. CDN for static assets, video streaming. DB caching for read-heavy workloads.",
+    "interviewQuestions": [
+      "What are different caching strategies and their trade-offs?",
+      "How do you handle cache invalidation?",
+      "What is the cache stampede problem?",
+      "When would you use Redis vs Memcached?"
+    ]
+  },
+  {
+    "slug": "sql-vs-nosql",
+    "name": "SQL vs NoSQL",
+    "tier": "fundamentals",
+    "description": "SQL databases are relational with ACID properties. NoSQL databases are non-relational with flexible schemas and horizontal scalability.",
+    "keyPoints": [
+      "SQL: PostgreSQL, MySQL - complex queries, JOINs, transactions",
+      "NoSQL types: Key-Value (Redis), Document (MongoDB), Column (Cassandra), Graph (Neo4j)",
+      "SQL scales vertically; NoSQL scales horizontally by design",
+      "NoSQL offers eventual consistency, trading consistency for availability",
+      "SQL for financial systems, inventory; NoSQL for feeds, logs, analytics",
+      "CAP theorem influences database choice"
+    ],
+    "whenToUse": "SQL for banking, payments, complex transactions. NoSQL for social feeds, IoT, real-time analytics, high write throughput.",
+    "interviewQuestions": [
+      "When would you choose SQL over NoSQL?",
+      "What are ACID properties?",
+      "Explain the CAP theorem",
+      "How do you handle schema migration in NoSQL?"
+    ]
+  },
+  {
+    "slug": "cap-theorem",
+    "name": "CAP Theorem",
+    "tier": "fundamentals",
+    "description": "A distributed system can guarantee at most two of three: Consistency, Availability, Partition Tolerance. Since partitions are unavoidable, the choice is between C and A.",
+    "keyPoints": [
+      "CP systems: Sacrifice availability during partitions (PostgreSQL, MongoDB)",
+      "AP systems: Sacrifice consistency during partitions (Cassandra, DynamoDB)",
+      "CA systems are theoretical only in distributed contexts",
+      "Eventual consistency: Data will become consistent eventually",
+      "PACELC extends CAP: trade-off between latency and consistency even without partitions"
+    ],
+    "whenToUse": "CP for financial transactions, leader election. AP for social feeds, DNS, shopping carts.",
+    "interviewQuestions": [
+      "Explain the CAP theorem with examples",
+      "What is the difference between strong and eventual consistency?",
+      "Can a system be CA? Why or why not?",
+      "What is the PACELC theorem?"
+    ]
+  },
+  {
+    "slug": "api-design",
+    "name": "API Design (REST, GraphQL)",
+    "tier": "fundamentals",
+    "description": "REST uses HTTP methods with resource-based URLs. GraphQL lets clients request exactly the data they need in a single request.",
+    "keyPoints": [
+      "REST: Stateless, cacheable, standard HTTP methods, resource-oriented URLs",
+      "GraphQL: Single endpoint, client specifies fields, supports nested queries",
+      "GraphQL solves over-fetching and under-fetching",
+      "gRPC: Binary protocol using Protocol Buffers for high-performance inter-service communication",
+      "API Gateway: Single entry point handling auth, rate limiting, routing",
+      "REST best practices: proper status codes, versioning, pagination"
+    ],
+    "whenToUse": "REST for CRUD apps, public APIs. GraphQL for complex data needs, mobile apps. gRPC for internal microservice communication.",
+    "interviewQuestions": [
+      "What are principles of RESTful API design?",
+      "When would you choose GraphQL over REST?",
+      "What is the N+1 problem in GraphQL?",
+      "What is an API Gateway?"
+    ]
+  },
+  {
+    "slug": "consistent-hashing",
+    "name": "Consistent Hashing",
+    "tier": "fundamentals",
+    "description": "Distributes data across nodes using a hash ring, minimizing redistribution when nodes are added or removed.",
+    "keyPoints": [
+      "Hash ring maps both servers and keys to positions on a circular ring",
+      "Key assigned to first server found clockwise from its position",
+      "Adding/removing node only affects keys between that node and its neighbor",
+      "Virtual nodes: Each physical server maps to multiple positions for better load distribution",
+      "Used in Redis Cluster, Cassandra, DynamoDB, CDNs"
+    ],
+    "whenToUse": "Distributed caching, database partitioning, load balancing with session affinity, any system where minimizing data movement during scaling is critical.",
+    "interviewQuestions": [
+      "What problem does consistent hashing solve?",
+      "What are virtual nodes and why are they needed?",
+      "How does consistent hashing handle node failures?",
+      "Compare consistent hashing with modulo-based hashing"
+    ]
+  },
+  {
+    "slug": "rate-limiting",
+    "name": "Rate Limiting",
+    "tier": "fundamentals",
+    "description": "Controls the number of requests a client can make within a given time window. Protects against abuse, DDoS, and system overload.",
+    "keyPoints": [
+      "Fixed Window Counter: Simple but allows burst at window boundaries",
+      "Sliding Window Log: Accurate but memory-intensive",
+      "Token Bucket: Allows controlled bursts up to bucket size",
+      "Leaky Bucket: Processes at fixed rate, smooths traffic",
+      "Implementation uses Redis with atomic Lua scripts",
+      "Fail open if rate limiter goes down to maintain availability"
+    ],
+    "whenToUse": "Protecting public APIs, preventing resource monopolization, enforcing tier-based quotas, mitigating DDoS.",
+    "interviewQuestions": [
+      "What are different rate limiting algorithms?",
+      "How would you implement a distributed rate limiter?",
+      "What happens when the rate limiter goes down?",
+      "How do you handle rate limiting across multiple servers?"
+    ]
+  },
+  {
+    "slug": "websockets",
+    "name": "WebSockets",
+    "tier": "fundamentals",
+    "description": "Persistent, full-duplex communication channel between client and server over a single TCP connection. Both parties can send data at any time.",
+    "keyPoints": [
+      "Initiated via HTTP upgrade handshake",
+      "Full-duplex: Both client and server send messages independently",
+      "Persistent connection eliminates HTTP overhead per message",
+      "Requires sticky sessions or connection-aware routing behind load balancers",
+      "Alternatives: SSE for server-to-client, Long Polling for compatibility",
+      "Challenge: Each WebSocket holds persistent connection; need horizontal scaling"
+    ],
+    "whenToUse": "Real-time chat, live notifications, multiplayer gaming, collaborative editing, financial tickers, live streaming chat.",
+    "interviewQuestions": [
+      "What is the difference between WebSockets and HTTP?",
+      "How do WebSockets scale across multiple servers?",
+      "When would you use WebSockets vs SSE vs Long Polling?",
+      "What challenges do WebSockets introduce in load balancing?"
+    ]
+  },
+  {
+    "slug": "proxies",
+    "name": "Proxies (Forward/Reverse)",
+    "tier": "fundamentals",
+    "description": "A proxy acts as intermediary between clients and servers. Forward proxy hides client identity; reverse proxy hides server identity.",
+    "keyPoints": [
+      "Forward Proxy: Client-initiated, hides client IP, enables content filtering",
+      "Reverse Proxy: Server-side, handles SSL termination, load balancing, caching",
+      "Common reverse proxies: Nginx, HAProxy, Cloudflare",
+      "API Gateway is a specialized reverse proxy with auth, rate limiting",
+      "Reverse proxy enables zero-downtime deployments (blue-green, canary)",
+      "Always use reverse proxy in production to protect backend servers"
+    ],
+    "whenToUse": "Forward proxy for privacy, geo-bypassing. Reverse proxy for any production web app.",
+    "interviewQuestions": [
+      "What is the difference between forward and reverse proxy?",
+      "Why is a reverse proxy important in system design?",
+      "How does SSL termination work at a reverse proxy?",
+      "How does an API Gateway differ from a reverse proxy?"
+    ]
+  }
+]

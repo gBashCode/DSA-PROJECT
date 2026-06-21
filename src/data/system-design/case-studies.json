@@ -1,0 +1,182 @@
+[
+  {
+    "slug": "google-maps",
+    "name": "Google Maps",
+    "tier": "case-studies",
+    "difficulty": "Hard",
+    "description": "Design a navigation system like Google Maps with real-time traffic, turn-by-turn directions, and place search.",
+    "keyComponents": [
+      "Graph algorithms (Dijkstra/A*) for shortest path",
+      "Tile rendering with vector tiles at multiple zoom levels",
+      "Real-time traffic data ingestion and processing",
+      "Geocoding service (address <-> coordinates)",
+      "Place search with relevance ranking",
+      "Turn-by-turn navigation with voice guidance"
+    ],
+    "mainChallenges": [
+      "Handling billions of road segments in the graph",
+      "Real-time traffic updates from millions of drivers",
+      "Tile pre-computation and CDN caching strategy",
+      "Offline maps with limited storage",
+      "Multi-modal routing (driving, walking, transit, cycling)"
+    ],
+    "keyPoints": [
+      "Road network is a weighted directed graph with ~500M segments",
+      "A* with heuristics is faster than Dijkstra for point-to-point",
+      "Tiles are 256x256px images, pre-rendered at 20+ zoom levels",
+      "Traffic data comes from anonymous phone GPS in real-time",
+      "Pre-computed routes for common origin-destination pairs"
+    ],
+    "interviewQuestions": [
+      "How would you store the road network graph?",
+      "How does real-time traffic routing work?",
+      "How would you design offline maps?",
+      "How do you handle multi-modal routing?"
+    ],
+    "companies": ["Google", "Apple", "Uber", "Lyft"]
+  },
+  {
+    "slug": "google-docs",
+    "name": "Google Docs",
+    "tier": "case-studies",
+    "difficulty": "Hard",
+    "description": "Design a real-time collaborative document editor like Google Docs with multiple cursors and conflict resolution.",
+    "keyComponents": [
+      "Operational Transformation (OT) or CRDTs for conflict resolution",
+      "WebSocket connections for real-time sync",
+      "Document versioning and history",
+      "Presence system showing active collaborators",
+      "Offline editing with sync on reconnection",
+      "Commenting and suggestion system"
+    ],
+    "mainChallenges": [
+      "Resolving concurrent edits without conflicts",
+      "Maintaining document consistency across clients",
+      "Handling offline edits that conflict with online changes",
+      "Scaling to thousands of concurrent editors",
+      "Cursor position tracking for all collaborators"
+    ],
+    "keyPoints": [
+      "OT transforms operations to maintain convergence guarantee",
+      "CRDTs (Conflict-free Replicated Data Types) avoid central server",
+      "Google Docs uses OT with a central server as source of truth",
+      "Each character operation gets a unique Lamport timestamp",
+      "WebSocket for real-time, with HTTP fallback for firewalls"
+    ],
+    "interviewQuestions": [
+      "What is the difference between OT and CRDTs?",
+      "How would you handle offline editing?",
+      "How do you resolve conflicts when two users edit the same line?",
+      "How would you scale to 10K concurrent editors?"
+    ],
+    "companies": ["Google", "Microsoft", "Dropbox", "Notion"]
+  },
+  {
+    "slug": "dropbox",
+    "name": "Dropbox / Google Drive",
+    "tier": "case-studies",
+    "difficulty": "Hard",
+    "description": "Design a file storage and sync system like Dropbox with conflict resolution and delta sync.",
+    "keyComponents": [
+      "Chunked file upload and storage (4MB blocks)",
+      "Delta sync (only transfer changed blocks)",
+      "File deduplication across users",
+      "Conflict resolution for simultaneous edits",
+      "Metadata service for file tree",
+      "Block-level storage with content-addressable hashing"
+    ],
+    "mainChallenges": [
+      "Efficient sync of large files with many small changes",
+      "Resolving conflicts when same file edited offline on multiple devices",
+      "Deduplication to save storage across billions of files",
+      "Handling version history without exploding storage",
+      "Cross-platform sync with varying network conditions"
+    ],
+    "keyPoints": [
+      "Files split into 4MB chunks, each SHA-256 hashed",
+      "Delta sync: only upload changed blocks, not entire file",
+      "Deduplication: if block hash exists, just add reference",
+      "Conflict: create conflict copy, let user resolve",
+      "Metadata tree stored separately from file blocks"
+    ],
+    "interviewQuestions": [
+      "How would you implement delta sync?",
+      "How do you handle file conflicts?",
+      "How does deduplication work at scale?",
+      "How would you design the sync protocol?"
+    ],
+    "companies": ["Dropbox", "Google", "Microsoft", "Apple"]
+  },
+  {
+    "slug": "spotify",
+    "name": "Spotify",
+    "tier": "case-studies",
+    "difficulty": "Hard",
+    "description": "Design a music streaming platform like Spotify with recommendations, playlists, and real-time playback.",
+    "keyComponents": [
+      "Audio streaming with adaptive bitrate",
+      "Music catalog with metadata and search",
+      "Recommendation engine (collaborative + content-based filtering)",
+      "Playlist management and social features",
+      "Offline playback with DRM",
+      "Real-time listening activity and social features"
+    ],
+    "mainChallenges": [
+      "Streaming audio at scale with low latency",
+      "Personalized recommendations from billions of listening events",
+      "Handling music licensing and regional availability",
+      "Offline sync with DRM protection",
+      "Social features (listening activity, shared playlists)"
+    ],
+    "keyPoints": [
+      "Audio files stored in multiple quality tiers (96kbps to 320kbps)",
+      "Ogg Vorbis codec for streaming, AAC for podcast",
+      "Recommendations: collaborative filtering + NLP on audio features",
+      "Pre-fetch next 30 seconds for gapless playback",
+      "CDN for audio delivery, edge caching for popular tracks"
+    ],
+    "interviewQuestions": [
+      "How would you design the recommendation engine?",
+      "How do you handle gapless playback?",
+      "How would you design offline mode?",
+      "How do you handle music licensing at scale?"
+    ],
+    "companies": ["Spotify", "Apple", "Amazon", "Google"]
+  },
+  {
+    "slug": "zoom",
+    "name": "Video Conferencing (Zoom)",
+    "tier": "case-studies",
+    "difficulty": "Hard",
+    "description": "Design a video conferencing system like Zoom with screen sharing, recording, and breakout rooms.",
+    "keyComponents": [
+      "WebRTC for peer-to-peer and SFU-based video",
+      "Selective Forwarding Unit (SFU) for group calls",
+      "Screen sharing with dynamic quality adjustment",
+      "Cloud recording and transcription",
+      "Breakout rooms and meeting scheduling",
+      "Virtual backgrounds with ML segmentation"
+    ],
+    "mainChallenges": [
+      "Handling 100+ participants in a single call",
+      "Maintaining video quality under varying network conditions",
+      "Low-latency audio/video synchronization",
+      "Screen sharing with minimal lag",
+      "Recording and transcription at scale"
+    ],
+    "keyPoints": [
+      "SFU forwards streams without re-encoding (saves CPU)",
+      "Adaptive bitrate: client reports bandwidth, server adjusts quality",
+      "Audio prioritized over video (audio packets get QoS)",
+      "Simulcast: client sends 3 quality layers, SFU picks best per viewer",
+      "SFU clusters for geographic distribution"
+    ],
+    "interviewQuestions": [
+      "What is the difference between SFU and MCU?",
+      "How does adaptive bitrate work for video?",
+      "How would you handle 1000 participants in a webinar?",
+      "How do you optimize for mobile video calls?"
+    ],
+    "companies": ["Google", "Microsoft", "Zoom", "Meta"]
+  }
+]

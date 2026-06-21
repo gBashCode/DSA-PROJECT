@@ -1,0 +1,258 @@
+[
+  {
+    "id": "bit-001",
+    "leetcode": 136,
+    "title": "Single Number",
+    "difficulty": "Easy",
+    "description": "Given a non-empty array of integers where every element appears twice except for one, find that single one. You must implement a solution with linear runtime complexity and use only constant extra space.",
+    "examples": [
+      { "input": "[2,2,1]", "output": "1" },
+      { "input": "[4,1,2,1,2]", "output": "4" },
+      { "input": "[1]", "output": "1" }
+    ],
+    "hints": [
+      "XOR of a number with itself is 0.",
+      "XOR all numbers together; duplicates cancel out, leaving the unique one."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "solutions": {
+      "python": "def singleNumber(nums):\n    result = 0\n    for num in nums:\n        result ^= num\n    return result",
+      "java": "class Solution {\n    public int singleNumber(int[] nums) {\n        int result = 0;\n        for (int num : nums) {\n            result ^= num;\n        }\n        return result;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int singleNumber(vector<int>& nums) {\n        int result = 0;\n        for (int num : nums) {\n            result ^= num;\n        }\n        return result;\n    }\n};",
+      "javascript": "var singleNumber = function(nums) {\n    let result = 0;\n    for (const num of nums) {\n        result ^= num;\n    }\n    return result;\n};",
+      "go": "func singleNumber(nums []int) int {\n    result := 0\n    for _, num := range nums {\n        result ^= num\n    }\n    return result\n}",
+      "rust": "impl Solution {\n    pub fn single_number(nums: Vec<i32>) -> i32 {\n        let mut result = 0;\n        for num in nums {\n            result ^= num;\n        }\n        result\n    }\n}"
+    }
+  },
+  {
+    "id": "bit-002",
+    "leetcode": 191,
+    "title": "Number of 1 Bits",
+    "difficulty": "Easy",
+    "description": "Write a function that takes the binary representation of a 32-bit unsigned integer and returns the number of '1' bits it has (also known as the Hamming weight).",
+    "examples": [
+      { "input": "00000000000000000000000000001011", "output": "3" },
+      { "input": "00000000000000000000000010000000", "output": "1" },
+      { "input": "11111111111111111111111111111101", "output": "31" }
+    ],
+    "hints": [
+      "Clear the lowest set bit in each iteration using n & (n - 1).",
+      "Count how many times you can do this before n becomes 0."
+    ],
+    "timeComplexity": "O(k) where k is the number of set bits",
+    "spaceComplexity": "O(1)",
+    "solutions": {
+      "python": "def hammingWeight(n):\n    count = 0\n    while n:\n        n &= n - 1\n        count += 1\n    return count",
+      "java": "public class Solution {\n    public int hammingWeight(int n) {\n        int count = 0;\n        while (n != 0) {\n            n &= (n - 1);\n            count++;\n        }\n        return count;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int hammingWeight(uint32_t n) {\n        int count = 0;\n        while (n) {\n            n &= (n - 1);\n            count++;\n        }\n        return count;\n    }\n};",
+      "javascript": "var hammingWeight = function(n) {\n    let count = 0;\n    while (n) {\n        n &= (n - 1);\n        count++;\n    }\n    return count;\n};",
+      "go": "func hammingWeight(num uint32) int {\n    count := 0\n    for num != 0 {\n        num &= num - 1\n        count++\n    }\n    return count\n}",
+      "rust": "impl Solution {\n    pub fn hamming_weight(n: u32) -> i32 {\n        let mut n = n;\n        let mut count = 0;\n        while n != 0 {\n            n &= n - 1;\n            count += 1;\n        }\n        count\n    }\n}"
+    }
+  },
+  {
+    "id": "bit-003",
+    "leetcode": 338,
+    "title": "Counting Bits",
+    "difficulty": "Easy",
+    "description": "Given an integer n, return an array ans of length n + 1 where ans[i] is the number of 1's in the binary representation of i.",
+    "examples": [
+      { "input": "2", "output": "[0,1,1]" },
+      { "input": "5", "output": "[0,1,1,2,1,2]" }
+    ],
+    "hints": [
+      "Use dynamic programming: ans[i] = ans[i & (i - 1)] + 1.",
+      "i & (i - 1) removes the lowest set bit of i."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "solutions": {
+      "python": "def countBits(n):\n    ans = [0] * (n + 1)\n    for i in range(1, n + 1):\n        ans[i] = ans[i & (i - 1)] + 1\n    return ans",
+      "java": "class Solution {\n    public int[] countBits(int n) {\n        int[] ans = new int[n + 1];\n        for (int i = 1; i <= n; i++) {\n            ans[i] = ans[i & (i - 1)] + 1;\n        }\n        return ans;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    vector<int> countBits(int n) {\n        vector<int> ans(n + 1, 0);\n        for (int i = 1; i <= n; i++) {\n            ans[i] = ans[i & (i - 1)] + 1;\n        }\n        return ans;\n    }\n};",
+      "javascript": "var countBits = function(n) {\n    const ans = new Array(n + 1).fill(0);\n    for (let i = 1; i <= n; i++) {\n        ans[i] = ans[i & (i - 1)] + 1;\n    }\n    return ans;\n};",
+      "go": "func countBits(n int) []int {\n    ans := make([]int, n+1)\n    for i := 1; i <= n; i++ {\n        ans[i] = ans[i&(i-1)] + 1\n    }\n    return ans\n}",
+      "rust": "impl Solution {\n    pub fn count_bits(n: i32) -> Vec<i32> {\n        let n = n as usize;\n        let mut ans = vec![0i32; n + 1];\n        for i in 1..=n {\n            ans[i] = ans[i & (i - 1)] + 1;\n        }\n        ans\n    }\n}"
+    }
+  },
+  {
+    "id": "bit-004",
+    "leetcode": 231,
+    "title": "Power of Two",
+    "difficulty": "Easy",
+    "description": "Given an integer n, return true if it is a power of two. An integer n is a power of two if there exists an integer x such that n == 2^x.",
+    "examples": [
+      { "input": "1", "output": "true" },
+      { "input": "16", "output": "true" },
+      { "input": "3", "output": "false" }
+    ],
+    "hints": [
+      "A power of two in binary has exactly one set bit: 1, 10, 100, 1000, etc.",
+      "n & (n - 1) removes the lowest set bit. If n is a power of two, the result is 0."
+    ],
+    "timeComplexity": "O(1)",
+    "spaceComplexity": "O(1)",
+    "solutions": {
+      "python": "def isPowerOfTwo(n):\n    return n > 0 and (n & (n - 1)) == 0",
+      "java": "class Solution {\n    public boolean isPowerOfTwo(int n) {\n        return n > 0 && (n & (n - 1)) == 0;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    bool isPowerOfTwo(int n) {\n        return n > 0 && (n & (n - 1)) == 0;\n    }\n};",
+      "javascript": "var isPowerOfTwo = function(n) {\n    return n > 0 && (n & (n - 1)) === 0;\n};",
+      "go": "func isPowerOfTwo(n int) bool {\n    return n > 0 && (n&(n-1)) == 0\n}",
+      "rust": "impl Solution {\n    pub fn is_power_of_two(n: i32) -> bool {\n        n > 0 && (n & (n - 1)) == 0\n    }\n}"
+    }
+  },
+  {
+    "id": "bit-005",
+    "leetcode": 190,
+    "title": "Reverse Bits",
+    "difficulty": "Easy",
+    "description": "Reverse bits of a given 32 bits unsigned integer.",
+    "examples": [
+      { "input": "00000010100101000001111010011100", "output": "00111001011110000010100101000000" },
+      { "input": "11111111111111111111111111111101", "output": "10111111111111111111111111111111" }
+    ],
+    "hints": [
+      "Process the input bit by bit from right to left and build the reversed number.",
+      "Shift the result left and OR with the last bit of n, then shift n right."
+    ],
+    "timeComplexity": "O(1)",
+    "spaceComplexity": "O(1)",
+    "solutions": {
+      "python": "def reverseBits(n):\n    result = 0\n    for _ in range(32):\n        result = (result << 1) | (n & 1)\n        n >>= 1\n    return result",
+      "java": "public class Solution {\n    public int reverseBits(int n) {\n        int result = 0;\n        for (int i = 0; i < 32; i++) {\n            result = (result << 1) | (n & 1);\n            n >>= 1;\n        }\n        return result;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    uint32_t reverseBits(uint32_t n) {\n        uint32_t result = 0;\n        for (int i = 0; i < 32; i++) {\n            result = (result << 1) | (n & 1);\n            n >>= 1;\n        }\n        return result;\n    }\n};",
+      "javascript": "var reverseBits = function(n) {\n    let result = 0;\n    for (let i = 0; i < 32; i++) {\n        result = (result << 1) | (n & 1);\n        n >>>= 1;\n    }\n    return result >>> 0;\n};",
+      "go": "func reverseBits(num uint32) uint32 {\n    var result uint32\n    for i := 0; i < 32; i++ {\n        result = (result << 1) | (num & 1)\n        num >>= 1\n    }\n    return result\n}",
+      "rust": "impl Solution {\n    pub fn reverse_bits(n: u32) -> u32 {\n        let mut result = 0u32;\n        let mut n = n;\n        for _ in 0..32 {\n            result = (result << 1) | (n & 1);\n            n >>= 1;\n        }\n        result\n    }\n}"
+    }
+  },
+  {
+    "id": "bit-006",
+    "leetcode": 268,
+    "title": "Missing Number",
+    "difficulty": "Easy",
+    "description": "Given an array nums containing n distinct numbers in the range [0, n], return the only number in the range that is missing from the array. You must implement a solution with O(n) runtime complexity and O(1) extra space.",
+    "examples": [
+      { "input": "[3,0,1]", "output": "2" },
+      { "input": "[0,1]", "output": "2" },
+      { "input": "[9,6,4,2,3,5,7,0,1]", "output": "8" }
+    ],
+    "hints": [
+      "XOR all indices 0..n with all array elements. Duplicates cancel.",
+      "result = 0 ^ 0 ^ 1 ^ 1 ^ ... ^ n ^ nums[0] ^ nums[1] ^ ..."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "solutions": {
+      "python": "def missingNumber(nums):\n    result = len(nums)\n    for i, num in enumerate(nums):\n        result ^= i ^ num\n    return result",
+      "java": "class Solution {\n    public int missingNumber(int[] nums) {\n        int result = nums.length;\n        for (int i = 0; i < nums.length; i++) {\n            result ^= i ^ nums[i];\n        }\n        return result;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int missingNumber(vector<int>& nums) {\n        int result = nums.size();\n        for (int i = 0; i < nums.size(); i++) {\n            result ^= i ^ nums[i];\n        }\n        return result;\n    }\n};",
+      "javascript": "var missingNumber = function(nums) {\n    let result = nums.length;\n    for (let i = 0; i < nums.length; i++) {\n        result ^= i ^ nums[i];\n    }\n    return result;\n};",
+      "go": "func missingNumber(nums []int) int {\n    result := len(nums)\n    for i, num := range nums {\n        result ^= i ^ num\n    }\n    return result\n}",
+      "rust": "impl Solution {\n    pub fn missing_number(nums: Vec<i32>) -> i32 {\n        let mut result = nums.len() as i32;\n        for (i, &num) in nums.iter().enumerate() {\n            result ^= i as i32 ^ num;\n        }\n        result\n    }\n}"
+    }
+  },
+  {
+    "id": "bit-007",
+    "leetcode": 371,
+    "title": "Sum of Two Integers",
+    "difficulty": "Medium",
+    "description": "Given two integers a and b, return the sum of the two integers without using the operators + and -.",
+    "examples": [
+      { "input": "a = 1, b = 2", "output": "3" },
+      { "input": "a = 2, b = 3", "output": "5" }
+    ],
+    "hints": [
+      "XOR gives the sum without carry: a ^ b.",
+      "AND gives the carry bits: (a & b) << 1. Repeat until carry is 0."
+    ],
+    "timeComplexity": "O(1)",
+    "spaceComplexity": "O(1)",
+    "solutions": {
+      "python": "def getSum(a, b):\n    MASK = 0xFFFFFFFF\n    MAX_INT = 0x7FFFFFFF\n    while b != 0:\n        carry = (a & b) & MASK\n        a = (a ^ b) & MASK\n        b = (carry << 1) & MASK\n    return a if a <= MAX_INT else ~(a ^ MASK)",
+      "java": "class Solution {\n    public int getSum(int a, int b) {\n        while (b != 0) {\n            int carry = a & b;\n            a = a ^ b;\n            b = carry << 1;\n        }\n        return a;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int getSum(int a, int b) {\n        while (b != 0) {\n            int carry = a & b;\n            a = a ^ b;\n            b = (unsigned)carry << 1;\n        }\n        return a;\n    }\n};",
+      "javascript": "var getSum = function(a, b) {\n    while (b !== 0) {\n        const carry = (a & b) >>> 0;\n        a = (a ^ b) >>> 0;\n        b = (carry << 1) >>> 0;\n    }\n    return a | 0;\n};",
+      "go": "func getSum(a int, b int) int {\n    for b != 0 {\n        carry := a & b\n        a = a ^ b\n        b = carry << 1\n    }\n    return a\n}",
+      "rust": "impl Solution {\n    pub fn get_sum(a: i32, b: i32) -> i32 {\n        let (mut a, mut b) = (a as u32, b as u32);\n        while b != 0 {\n            let carry = a & b;\n            a ^= b;\n            b = carry << 1;\n        }\n        a as i32\n    }\n}"
+    }
+  },
+  {
+    "id": "bit-008",
+    "leetcode": 137,
+    "title": "Single Number II",
+    "difficulty": "Medium",
+    "description": "Given an integer array nums where every element appears three times except for one, which appears exactly once. Find the single element and return it. You must implement a solution with linear runtime complexity and use only constant extra space.",
+    "examples": [
+      { "input": "[2,2,3,2]", "output": "3" },
+      { "input": "[0,1,0,1,0,1,99]", "output": "99" }
+    ],
+    "hints": [
+      "Count the number of 1s at each bit position across all numbers.",
+      "For each bit position, if the count of 1s is not divisible by 3, that bit belongs to the single number."
+    ],
+    "timeComplexity": "O(32n) = O(n)",
+    "spaceComplexity": "O(1)",
+    "solutions": {
+      "python": "def singleNumber(nums):\n    result = 0\n    for i in range(32):\n        bit_count = 0\n        for num in nums:\n            bit_count += (num >> i) & 1\n        if bit_count % 3 != 0:\n            result |= 1 << i\n    if result >= (1 << 31):\n        result -= 1 << 32\n    return result",
+      "java": "class Solution {\n    public int singleNumber(int[] nums) {\n        int result = 0;\n        for (int i = 0; i < 32; i++) {\n            int bitCount = 0;\n            for (int num : nums) {\n                bitCount += (num >> i) & 1;\n            }\n            if (bitCount % 3 != 0) {\n                result |= 1 << i;\n            }\n        }\n        return result;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int singleNumber(vector<int>& nums) {\n        int result = 0;\n        for (int i = 0; i < 32; i++) {\n            int bitCount = 0;\n            for (int num : nums) {\n                bitCount += (num >> i) & 1;\n            }\n            if (bitCount % 3 != 0) {\n                result |= 1 << i;\n            }\n        }\n        return result;\n    }\n};",
+      "javascript": "var singleNumber = function(nums) {\n    let result = 0;\n    for (let i = 0; i < 32; i++) {\n        let bitCount = 0;\n        for (const num of nums) {\n            bitCount += (num >> i) & 1;\n        }\n        if (bitCount % 3 !== 0) {\n            result |= 1 << i;\n        }\n    }\n    return result;\n};",
+      "go": "func singleNumber(nums []int) int {\n    result := 0\n    for i := 0; i < 32; i++ {\n        bitCount := 0\n        for _, num := range nums {\n            bitCount += (num >> i) & 1\n        }\n        if bitCount%3 != 0 {\n            result |= 1 << i\n        }\n    }\n    return result\n}",
+      "rust": "impl Solution {\n    pub fn single_number(nums: Vec<i32>) -> i32 {\n        let mut result = 0i32;\n        for i in 0..32 {\n            let mut bit_count = 0i32;\n            for &num in &nums {\n                bit_count += (num >> i) & 1;\n            }\n            if bit_count % 3 != 0 {\n                result |= 1 << i;\n            }\n        }\n        result\n    }\n}"
+    }
+  },
+  {
+    "id": "bit-009",
+    "leetcode": 260,
+    "title": "Single Number III",
+    "difficulty": "Medium",
+    "description": "Given an integer array nums, in which exactly two elements appear only once and all the other elements appear exactly twice. Find the two elements that appear only once. You must implement a solution with linear runtime complexity and use only constant extra space.",
+    "examples": [
+      { "input": "[1,2,1,3,2,5]", "output": "[3,5]" },
+      { "input": "[2,1]", "output": "[2,1]" },
+      { "input": "[4,1,2,1,2]", "output": "[4]" }
+    ],
+    "hints": [
+      "XOR all numbers to get xor = a ^ b where a and b are the two unique numbers.",
+      "Find any set bit in xor (e.g., xor & -xor). This bit differs between a and b.",
+      "Use that bit to partition all numbers into two groups and XOR each group separately."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "solutions": {
+      "python": "def singleNumber(nums):\n    xor = 0\n    for num in nums:\n        xor ^= num\n    diff_bit = xor & (-xor)\n    a = 0\n    for num in nums:\n        if num & diff_bit:\n            a ^= num\n    b = xor ^ a\n    return [a, b]",
+      "java": "class Solution {\n    public int[] singleNumber(int[] nums) {\n        int xor = 0;\n        for (int num : nums) {\n            xor ^= num;\n        }\n        int diffBit = xor & (-xor);\n        int a = 0;\n        for (int num : nums) {\n            if ((num & diffBit) != 0) {\n                a ^= num;\n            }\n        }\n        int b = xor ^ a;\n        return new int[]{a, b};\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    vector<int> singleNumber(vector<int>& nums) {\n        int xorAll = 0;\n        for (int num : nums) {\n            xorAll ^= num;\n        }\n        int diffBit = xorAll & (-xorAll);\n        int a = 0;\n        for (int num : nums) {\n            if (num & diffBit) {\n                a ^= num;\n            }\n        }\n        int b = xorAll ^ a;\n        return {a, b};\n    }\n};",
+      "javascript": "var singleNumber = function(nums) {\n    let xor = 0;\n    for (const num of nums) {\n        xor ^= num;\n    }\n    const diffBit = xor & (-xor);\n    let a = 0;\n    for (const num of nums) {\n        if (num & diffBit) {\n            a ^= num;\n        }\n    }\n    const b = xor ^ a;\n    return [a, b];\n};",
+      "go": "func singleNumber(nums []int) []int {\n    xor := 0\n    for _, num := range nums {\n        xor ^= num\n    }\n    diffBit := xor & (-xor)\n    a := 0\n    for _, num := range nums {\n        if num&diffBit != 0 {\n            a ^= num\n        }\n    }\n    b := xor ^ a\n    return []int{a, b}\n}",
+      "rust": "impl Solution {\n    pub fn single_number(nums: Vec<i32>) -> Vec<i32> {\n        let mut xor = 0i32;\n        for &num in &nums {\n            xor ^= num;\n        }\n        let diff_bit = xor & (-xor);\n        let mut a = 0i32;\n        for &num in &nums {\n            if num & diff_bit != 0 {\n                a ^= num;\n            }\n        }\n        vec![a, xor ^ a]\n    }\n}"
+    }
+  },
+  {
+    "id": "bit-010",
+    "leetcode": 461,
+    "title": "Hamming Distance",
+    "difficulty": "Easy",
+    "description": "The Hamming distance between two integers is the number of positions at which the corresponding bits are different. Given two integers x and y, return the Hamming distance between them.",
+    "examples": [
+      { "input": "x = 1, y = 4", "output": "2" },
+      { "input": "x = 3, y = 1", "output": "1" }
+    ],
+    "hints": [
+      "XOR x and y to get a number where set bits indicate differing positions.",
+      "Count the number of 1 bits in the XOR result."
+    ],
+    "timeComplexity": "O(1)",
+    "spaceComplexity": "O(1)",
+    "solutions": {
+      "python": "def hammingDistance(x, y):\n    xor = x ^ y\n    count = 0\n    while xor:\n        xor &= xor - 1\n        count += 1\n    return count",
+      "java": "class Solution {\n    public int hammingDistance(int x, int y) {\n        int xor = x ^ y;\n        int count = 0;\n        while (xor != 0) {\n            xor &= (xor - 1);\n            count++;\n        }\n        return count;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int hammingDistance(int x, int y) {\n        int xor = x ^ y;\n        int count = 0;\n        while (xor) {\n            xor &= (xor - 1);\n            count++;\n        }\n        return count;\n    }\n};",
+      "javascript": "var hammingDistance = function(x, y) {\n    let xor = x ^ y;\n    let count = 0;\n    while (xor) {\n        xor &= (xor - 1);\n        count++;\n    }\n    return count;\n};",
+      "go": "func hammingDistance(x int, y int) int {\n    xor := x ^ y\n    count := 0\n    for xor != 0 {\n        xor &= xor - 1\n        count++\n    }\n    return count\n}",
+      "rust": "impl Solution {\n    pub fn hamming_distance(x: i32, y: i32) -> i32 {\n        let mut xor = x ^ y;\n        let mut count = 0;\n        while xor != 0 {\n            xor &= xor - 1;\n            count += 1;\n        }\n        count\n    }\n}"
+    }
+  }
+]

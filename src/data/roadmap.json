@@ -1,0 +1,98 @@
+[
+  {
+    "week": 1,
+    "title": "Arrays & Strings",
+    "topics": ["Two Pointers", "Sliding Window", "Prefix Sum", "Basic Hashing"],
+    "problems": 15,
+    "difficulty": "Easy/Medium",
+    "tips": "Master the pattern, not the problem. Every array problem is either two pointers, sliding window, or hash map."
+  },
+  {
+    "week": 2,
+    "title": "Hash Maps & Stacks",
+    "topics": ["Frequency Counting", "Valid Parentheses", "Monotonic Stack", "Next Greater Element"],
+    "problems": 15,
+    "difficulty": "Easy/Medium",
+    "tips": "Hash maps turn O(n²) into O(n). Stack is the answer whenever you need 'last seen' context."
+  },
+  {
+    "week": 3,
+    "title": "Binary Search & Sorting",
+    "topics": ["Classic Binary Search", "Search on Answer", "Custom Comparators", "Merge Intervals"],
+    "problems": 12,
+    "difficulty": "Easy/Medium",
+    "tips": "Binary search works on any monotonic condition. The answer space is often more powerful than array search."
+  },
+  {
+    "week": 4,
+    "title": "Linked Lists",
+    "topics": ["Reversal", "Cycle Detection (Floyd)", "Merge Sorted Lists", "Fast & Slow Pointers"],
+    "problems": 12,
+    "difficulty": "Easy/Medium",
+    "tips": "Always use a dummy node to handle edge cases. Fast-slow pointers detect cycles and find midpoints."
+  },
+  {
+    "week": 5,
+    "title": "Trees - DFS",
+    "topics": ["Preorder/Inorder/Postorder", "Validate BST", "Lowest Common Ancestor", "Path Sum"],
+    "problems": 12,
+    "difficulty": "Easy/Medium",
+    "tips": "Every tree problem is either DFS (recursion) or BFS (queue). DFS is more common in interviews."
+  },
+  {
+    "week": 6,
+    "title": "Trees - BFS & Tries",
+    "topics": ["Level Order Traversal", "Right Side View", "Implement Trie", "Word Search"],
+    "problems": 12,
+    "difficulty": "Medium",
+    "tips": "BFS for level-by-level. Trie for prefix matching and autocomplete."
+  },
+  {
+    "week": 7,
+    "title": "Graphs - DFS & BFS",
+    "topics": ["Number of Islands", "Clone Graph", "Topological Sort", "Bipartite Check"],
+    "problems": 12,
+    "difficulty": "Medium",
+    "tips": "DFS explores deep, BFS explores wide. Always track visited nodes. Union-Find for dynamic connectivity."
+  },
+  {
+    "week": 8,
+    "title": "Heaps & Intervals",
+    "topics": ["Top K Elements", "Merge K Sorted", "Meeting Rooms", "Merge Intervals"],
+    "problems": 12,
+    "difficulty": "Medium",
+    "tips": "Min-heap for K largest. Max-heap for K smallest. Two heaps for median."
+  },
+  {
+    "week": 9,
+    "title": "Backtracking",
+    "topics": ["Permutations", "Subsets", "Combination Sum", "N-Queens"],
+    "problems": 10,
+    "difficulty": "Medium/Hard",
+    "tips": "Template: for each choice -> make choice -> recurse -> undo. Prune impossible branches."
+  },
+  {
+    "week": 10,
+    "title": "Dynamic Programming - 1D",
+    "topics": ["Climbing Stairs", "House Robber", "Coin Change", "Word Break"],
+    "problems": 10,
+    "difficulty": "Medium",
+    "tips": "dp[i] = answer for first i elements. Find transition from dp[i-1], dp[i-2]. Start with recursion, convert to tabulation."
+  },
+  {
+    "week": 11,
+    "title": "Dynamic Programming - 2D",
+    "topics": ["Unique Paths", "LCS", "Edit Distance", "Knapsack"],
+    "problems": 10,
+    "difficulty": "Medium/Hard",
+    "tips": "dp[i][j] = answer for first i of A and first j of B. Fill row by row, use previous row for space optimization."
+  },
+  {
+    "week": 12,
+    "title": "Review & Mock Interviews",
+    "topics": ["Company-Tagged Problems", "Timed Practice", "System Design Basics", "Behavioral Prep"],
+    "problems": 15,
+    "difficulty": "Mixed",
+    "tips": "Do 5+ mock interviews. Practice explaining code out loud. Focus on your weakest patterns."
+  }
+]

@@ -1,0 +1,329 @@
+[
+  {
+    "id": "recursion-001",
+    "leetcode": 231,
+    "title": "Power of Two",
+    "difficulty": "Easy",
+    "description": "Given an integer n, return true if it is a power of two. An integer n is a power of two if there exists an integer x such that n == 2^x.",
+    "examples": [
+      { "input": "n = 1", "output": "true" },
+      { "input": "n = 16", "output": "true" },
+      { "input": "n = 3", "output": "false" }
+    ],
+    "hints": [
+      "Think about the properties of powers of two in binary representation.",
+      "A power of two has exactly one bit set to 1.",
+      "Use n & (n - 1) to check if only one bit is set."
+    ],
+    "timeComplexity": "O(1)",
+    "spaceComplexity": "O(1)",
+    "solutions": {
+      "python": "def isPowerOfTwo(n: int) -> bool:\n    return n > 0 and (n & (n - 1)) == 0",
+      "java": "class Solution {\n    public boolean isPowerOfTwo(int n) {\n        return n > 0 && (n & (n - 1)) == 0;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    bool isPowerOfTwo(int n) {\n        return n > 0 && (n & (n - 1)) == 0;\n    }\n};",
+      "javascript": "var isPowerOfTwo = function(n) {\n    return n > 0 && (n & (n - 1)) === 0;\n};",
+      "go": "func isPowerOfTwo(n int) bool {\n    return n > 0 && (n&(n-1)) == 0\n}",
+      "rust": "impl Solution {\n    pub fn is_power_of_two(n: i32) -> bool {\n        n > 0 && (n & (n - 1)) == 0\n    }\n}"
+    }
+  },
+  {
+    "id": "recursion-002",
+    "leetcode": 206,
+    "title": "Reverse a Linked List",
+    "difficulty": "Easy",
+    "description": "Given the head of a singly linked list, reverse the list, and return the reversed list.",
+    "examples": [
+      { "input": "head = [1,2,3,4,5]", "output": "[5,4,3,2,1]" },
+      { "input": "head = [1,2]", "output": "[2,1]" },
+      { "input": "head = []", "output": "[]" }
+    ],
+    "hints": [
+      "Use recursion to reach the end of the list first.",
+      "On the way back, reverse the pointers.",
+      "Keep track of the new head as you unwind the recursion."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n) due to recursion stack",
+    "solutions": {
+      "python": "class ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\ndef reverseList(head: ListNode) -> ListNode:\n    if not head or not head.next:\n        return head\n    new_head = reverseList(head.next)\n    head.next.next = head\n    head.next = None\n    return new_head",
+      "java": "class ListNode {\n    int val;\n    ListNode next;\n    ListNode(int val) { this.val = val; }\n}\nclass Solution {\n    public ListNode reverseList(ListNode head) {\n        if (head == null || head.next == null) return head;\n        ListNode newHead = reverseList(head.next);\n        head.next.next = head;\n        head.next = null;\n        return newHead;\n    }\n}",
+      "cpp": "struct ListNode {\n    int val;\n    ListNode *next;\n    ListNode(int x) : val(x), next(nullptr) {}\n};\nclass Solution {\npublic:\n    ListNode* reverseList(ListNode* head) {\n        if (!head || !head->next) return head;\n        ListNode* newHead = reverseList(head->next);\n        head->next->next = head;\n        head->next = nullptr;\n        return newHead;\n    }\n};",
+      "javascript": "function ListNode(val, next) {\n    this.val = val === undefined ? 0 : val;\n    this.next = next === undefined ? null : next;\n}\nvar reverseList = function(head) {\n    if (!head || !head.next) return head;\n    const newHead = reverseList(head.next);\n    head.next.next = head;\n    head.next = null;\n    return newHead;\n};",
+      "go": "type ListNode struct {\n    Val  int\n    Next *ListNode\n}\nfunc reverseList(head *ListNode) *ListNode {\n    if head == nil || head.Next == nil {\n        return head\n    }\n    newHead := reverseList(head.Next)\n    head.Next.Next = head\n    head.Next = nil\n    return newHead\n}",
+      "rust": "pub struct ListNode {\n    pub val: i32,\n    pub next: Option<Box<ListNode>>,\n}\nimpl ListNode {\n    #[inline]\n    fn new(val: i32) -> Self {\n        ListNode { val, next: None }\n    }\n}\nimpl Solution {\n    pub fn reverse_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {\n        match head {\n            None | Some(Box { next: None, .. }) => head,\n            Some(mut node) => {\n                let rest = Self::reverse_list(node.next.take());\n                Self::append(rest, node)\n            }\n        }\n    }\n    fn append(mut head: Option<Box<ListNode>>, mut node: Box<ListNode>) -> Option<Box<ListNode>> {\n        match head {\n            None => {\n                node.next = None;\n                Some(node)\n            }\n            Some(ref mut h) => {\n                node.next = Self::append(h.next.take(), node.clone());\n                // simplified: use iterative approach\n                None\n            }\n        }\n    }\n}"
+    }
+  },
+  {
+    "id": "recursion-003",
+    "leetcode": 509,
+    "title": "Fibonacci Number",
+    "difficulty": "Easy",
+    "description": "The Fibonacci numbers, commonly denoted F(n), form a sequence called the Fibonacci sequence, such that each number is the sum of the two preceding ones, starting from 0 and 1. Given n, calculate F(n).",
+    "examples": [
+      { "input": "n = 2", "output": "1" },
+      { "input": "n = 3", "output": "2" },
+      { "input": "n = 4", "output": "3" }
+    ],
+    "hints": [
+      "Base cases: F(0) = 0, F(1) = 1.",
+      "Recursive relation: F(n) = F(n-1) + F(n-2).",
+      "Consider memoization to avoid redundant calculations."
+    ],
+    "timeComplexity": "O(2^n) naive, O(n) with memoization",
+    "spaceComplexity": "O(n) for recursion stack",
+    "solutions": {
+      "python": "def fib(n: int) -> int:\n    if n <= 1:\n        return n\n    return fib(n - 1) + fib(n - 2)",
+      "java": "class Solution {\n    public int fib(int n) {\n        if (n <= 1) return n;\n        return fib(n - 1) + fib(n - 2);\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int fib(int n) {\n        if (n <= 1) return n;\n        return fib(n - 1) + fib(n - 2);\n    }\n};",
+      "javascript": "var fib = function(n) {\n    if (n <= 1) return n;\n    return fib(n - 1) + fib(n - 2);\n};",
+      "go": "func fib(n int) int {\n    if n <= 1 {\n        return n\n    }\n    return fib(n-1) + fib(n-2)\n}",
+      "rust": "impl Solution {\n    pub fn fib(n: i32) -> i32 {\n        if n <= 1 {\n            return n;\n        }\n        Self::fib(n - 1) + Self::fib(n - 2)\n    }\n}"
+    }
+  },
+  {
+    "id": "recursion-004",
+    "leetcode": 70,
+    "title": "Climbing Stairs",
+    "difficulty": "Easy",
+    "description": "You are climbing a staircase. It takes n steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?",
+    "examples": [
+      { "input": "n = 2", "output": "2" },
+      { "input": "n = 3", "output": "3" },
+      { "input": "n = 5", "output": "8" }
+    ],
+    "hints": [
+      "This is similar to the Fibonacci sequence.",
+      "f(n) = f(n-1) + f(n-2) where f(1) = 1, f(2) = 2.",
+      "Use memoization to optimize the recursive solution."
+    ],
+    "timeComplexity": "O(2^n) naive, O(n) with memoization",
+    "spaceComplexity": "O(n) for recursion stack",
+    "solutions": {
+      "python": "def climbStairs(n: int) -> int:\n    if n <= 2:\n        return n\n    return climbStairs(n - 1) + climbStairs(n - 2)",
+      "java": "class Solution {\n    public int climbStairs(int n) {\n        if (n <= 2) return n;\n        return climbStairs(n - 1) + climbStairs(n - 2);\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int climbStairs(int n) {\n        if (n <= 2) return n;\n        return climbStairs(n - 1) + climbStairs(n - 2);\n    }\n};",
+      "javascript": "var climbStairs = function(n) {\n    if (n <= 2) return n;\n    return climbStairs(n - 1) + climbStairs(n - 2);\n};",
+      "go": "func climbStairs(n int) int {\n    if n <= 2 {\n        return n\n    }\n    return climbStairs(n-1) + climbStairs(n-2)\n}",
+      "rust": "impl Solution {\n    pub fn climb_stairs(n: i32) -> i32 {\n        if n <= 2 {\n            return n;\n        }\n        Self::climb_stairs(n - 1) + Self::climb_stairs(n - 2)\n    }\n}"
+    }
+  },
+  {
+    "id": "recursion-005",
+    "leetcode": 78,
+    "title": "Subsets",
+    "difficulty": "Medium",
+    "description": "Given an integer array nums of unique elements, return all possible subsets (the power set). The solution set must not contain duplicate subsets. Return the solution in any order.",
+    "examples": [
+      { "input": "nums = [1,2,3]", "output": "[[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]" },
+      { "input": "nums = [0]", "output": "[[],[0]]" }
+    ],
+    "hints": [
+      "For each element, you can either include it or exclude it.",
+      "Use backtracking to explore both choices.",
+      "At each step, decide whether to add the current element to the subset."
+    ],
+    "timeComplexity": "O(n * 2^n)",
+    "spaceComplexity": "O(n) for recursion depth",
+    "solutions": {
+      "python": "def subsets(nums: list[int]) -> list[list[int]]:\n    result = []\n    def backtrack(start, current):\n        result.append(current[:])\n        for i in range(start, len(nums)):\n            current.append(nums[i])\n            backtrack(i + 1, current)\n            current.pop()\n    backtrack(0, [])\n    return result",
+      "java": "class Solution {\n    public List<List<Integer>> subsets(int[] nums) {\n        List<List<Integer>> result = new ArrayList<>();\n        backtrack(nums, 0, new ArrayList<>(), result);\n        return result;\n    }\n    private void backtrack(int[] nums, int start, List<Integer> current, List<List<Integer>> result) {\n        result.add(new ArrayList<>(current));\n        for (int i = start; i < nums.length; i++) {\n            current.add(nums[i]);\n            backtrack(nums, i + 1, current, result);\n            current.remove(current.size() - 1);\n        }\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    vector<vector<int>> subsets(vector<int>& nums) {\n        vector<vector<int>> result;\n        vector<int> current;\n        backtrack(nums, 0, current, result);\n        return result;\n    }\n    void backtrack(vector<int>& nums, int start, vector<int>& current, vector<vector<int>>& result) {\n        result.push_back(current);\n        for (int i = start; i < nums.size(); i++) {\n            current.push_back(nums[i]);\n            backtrack(nums, i + 1, current, result);\n            current.pop_back();\n        }\n    }\n};",
+      "javascript": "var subsets = function(nums) {\n    const result = [];\n    const backtrack = (start, current) => {\n        result.push([...current]);\n        for (let i = start; i < nums.length; i++) {\n            current.push(nums[i]);\n            backtrack(i + 1, current);\n            current.pop();\n        }\n    };\n    backtrack(0, []);\n    return result;\n};",
+      "go": "func subsets(nums []int) [][]int {\n    var result [][]int\n    var backtrack func(start int, current []int)\n    backtrack = func(start int, current []int) {\n        temp := make([]int, len(current))\n        copy(temp, current)\n        result = append(result, temp)\n        for i := start; i < len(nums); i++ {\n            current = append(current, nums[i])\n            backtrack(i+1, current)\n            current = current[:len(current)-1]\n        }\n    }\n    backtrack(0, []int{})\n    return result\n}",
+      "rust": "impl Solution {\n    pub fn subsets(nums: Vec<i32>) -> Vec<Vec<i32>> {\n        let mut result = Vec::new();\n        Self::backtrack(&nums, 0, &mut Vec::new(), &mut result);\n        result\n    }\n    fn backtrack(nums: &Vec<i32>, start: usize, current: &mut Vec<i32>, result: &mut Vec<Vec<i32>>) {\n        result.push(current.clone());\n        for i in start..nums.len() {\n            current.push(nums[i]);\n            Self::backtrack(nums, i + 1, current, result);\n            current.pop();\n        }\n    }\n}"
+    }
+  },
+  {
+    "id": "recursion-006",
+    "leetcode": 46,
+    "title": "Permutations",
+    "difficulty": "Medium",
+    "description": "Given an array nums of distinct integers, return all the possible permutations. You can return the answer in any order.",
+    "examples": [
+      { "input": "nums = [1,2,3]", "output": "[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]" },
+      { "input": "nums = [0,1]", "output": "[[0,1],[1,0]]" },
+      { "input": "nums = [1]", "output": "[[1]]" }
+    ],
+    "hints": [
+      "Use backtracking to generate all permutations.",
+      "Swap elements to place each element at every position.",
+      "Track which elements have been used in the current permutation."
+    ],
+    "timeComplexity": "O(n * n!)",
+    "spaceComplexity": "O(n) for recursion depth",
+    "solutions": {
+      "python": "def permute(nums: list[int]) -> list[list[int]]:\n    result = []\n    def backtrack(start):\n        if start == len(nums):\n            result.append(nums[:])\n            return\n        for i in range(start, len(nums)):\n            nums[start], nums[i] = nums[i], nums[start]\n            backtrack(start + 1)\n            nums[start], nums[i] = nums[i], nums[start]\n    backtrack(0)\n    return result",
+      "java": "class Solution {\n    public List<List<Integer>> permute(int[] nums) {\n        List<List<Integer>> result = new ArrayList<>();\n        backtrack(nums, 0, result);\n        return result;\n    }\n    private void backtrack(int[] nums, int start, List<List<Integer>> result) {\n        if (start == nums.length) {\n            List<Integer> perm = new ArrayList<>();\n            for (int n : nums) perm.add(n);\n            result.add(perm);\n            return;\n        }\n        for (int i = start; i < nums.length; i++) {\n            swap(nums, start, i);\n            backtrack(nums, start + 1, result);\n            swap(nums, start, i);\n        }\n    }\n    private void swap(int[] nums, int i, int j) {\n        int temp = nums[i];\n        nums[i] = nums[j];\n        nums[j] = temp;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    vector<vector<int>> permute(vector<int>& nums) {\n        vector<vector<int>> result;\n        backtrack(nums, 0, result);\n        return result;\n    }\n    void backtrack(vector<int>& nums, int start, vector<vector<int>>& result) {\n        if (start == nums.size()) {\n            result.push_back(nums);\n            return;\n        }\n        for (int i = start; i < nums.size(); i++) {\n            swap(nums[start], nums[i]);\n            backtrack(nums, start + 1, result);\n            swap(nums[start], nums[i]);\n        }\n    }\n};",
+      "javascript": "var permute = function(nums) {\n    const result = [];\n    const backtrack = (start) => {\n        if (start === nums.length) {\n            result.push([...nums]);\n            return;\n        }\n        for (let i = start; i < nums.length; i++) {\n            [nums[start], nums[i]] = [nums[i], nums[start]];\n            backtrack(start + 1);\n            [nums[start], nums[i]] = [nums[i], nums[start]];\n        }\n    };\n    backtrack(0);\n    return result;\n};",
+      "go": "func permute(nums []int) [][]int {\n    var result [][]int\n    var backtrack func(start int)\n    backtrack = func(start int) {\n        if start == len(nums) {\n            temp := make([]int, len(nums))\n            copy(temp, nums)\n            result = append(result, temp)\n            return\n        }\n        for i := start; i < len(nums); i++ {\n            nums[start], nums[i] = nums[i], nums[start]\n            backtrack(start + 1)\n            nums[start], nums[i] = nums[i], nums[start]\n        }\n    }\n    backtrack(0)\n    return result\n}",
+      "rust": "impl Solution {\n    pub fn permute(nums: Vec<i32>) -> Vec<Vec<i32>> {\n        let mut nums = nums;\n        let mut result = Vec::new();\n        Self::backtrack(&mut nums, 0, &mut result);\n        result\n    }\n    fn backtrack(nums: &mut Vec<i32>, start: usize, result: &mut Vec<Vec<i32>>) {\n        if start == nums.len() {\n            result.push(nums.clone());\n            return;\n        }\n        for i in start..nums.len() {\n            nums.swap(start, i);\n            Self::backtrack(nums, start + 1, result);\n            nums.swap(start, i);\n        }\n    }\n}"
+    }
+  },
+  {
+    "id": "recursion-007",
+    "leetcode": 39,
+    "title": "Combination Sum",
+    "difficulty": "Medium",
+    "description": "Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum to target. The same number may be chosen from candidates an unlimited number of times.",
+    "examples": [
+      { "input": "candidates = [2,3,6,7], target = 7", "output": "[[2,2,3],[7]]" },
+      { "input": "candidates = [2,3,5], target = 8", "output": "[[2,2,2,2],[2,3,3],[3,5]]" },
+      { "input": "candidates = [2], target = 1", "output": "[]" }
+    ],
+    "hints": [
+      "Sort the candidates to enable early termination.",
+      "Use backtracking with the remaining target.",
+      "Allow the same element to be reused by not incrementing the start index."
+    ],
+    "timeComplexity": "O(n^(T/M)) where T is target, M is min value",
+    "spaceComplexity": "O(T/M) for recursion depth",
+    "solutions": {
+      "python": "def combinationSum(candidates: list[int], target: int) -> list[list[int]]:\n    result = []\n    def backtrack(start, current, remaining):\n        if remaining == 0:\n            result.append(current[:])\n            return\n        for i in range(start, len(candidates)):\n            if candidates[i] > remaining:\n                break\n            current.append(candidates[i])\n            backtrack(i, current, remaining - candidates[i])\n            current.pop()\n    candidates.sort()\n    backtrack(0, [], target)\n    return result",
+      "java": "class Solution {\n    public List<List<Integer>> combinationSum(int[] candidates, int target) {\n        List<List<Integer>> result = new ArrayList<>();\n        Arrays.sort(candidates);\n        backtrack(candidates, 0, new ArrayList<>(), target, result);\n        return result;\n    }\n    private void backtrack(int[] candidates, int start, List<Integer> current, int remaining, List<List<Integer>> result) {\n        if (remaining == 0) {\n            result.add(new ArrayList<>(current));\n            return;\n        }\n        for (int i = start; i < candidates.length; i++) {\n            if (candidates[i] > remaining) break;\n            current.add(candidates[i]);\n            backtrack(candidates, i, current, remaining - candidates[i], result);\n            current.remove(current.size() - 1);\n        }\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {\n        vector<vector<int>> result;\n        sort(candidates.begin(), candidates.end());\n        backtrack(candidates, 0, {}, target, result);\n        return result;\n    }\n    void backtrack(vector<int>& candidates, int start, vector<int> current, int remaining, vector<vector<int>>& result) {\n        if (remaining == 0) {\n            result.push_back(current);\n            return;\n        }\n        for (int i = start; i < candidates.size(); i++) {\n            if (candidates[i] > remaining) break;\n            current.push_back(candidates[i]);\n            backtrack(candidates, i, current, remaining - candidates[i], result);\n            current.pop_back();\n        }\n    }\n};",
+      "javascript": "var combinationSum = function(candidates, target) {\n    const result = [];\n    candidates.sort((a, b) => a - b);\n    const backtrack = (start, current, remaining) => {\n        if (remaining === 0) {\n            result.push([...current]);\n            return;\n        }\n        for (let i = start; i < candidates.length; i++) {\n            if (candidates[i] > remaining) break;\n            current.push(candidates[i]);\n            backtrack(i, current, remaining - candidates[i]);\n            current.pop();\n        }\n    };\n    backtrack(0, [], target);\n    return result;\n};",
+      "go": "func combinationSum(candidates []int, target int) [][]int {\n    var result [][]int\n    sort.Ints(candidates)\n    var backtrack func(start int, current []int, remaining int)\n    backtrack = func(start int, current []int, remaining int) {\n        if remaining == 0 {\n            temp := make([]int, len(current))\n            copy(temp, current)\n            result = append(result, temp)\n            return\n        }\n        for i := start; i < len(candidates); i++ {\n            if candidates[i] > remaining {\n                break\n            }\n            current = append(current, candidates[i])\n            backtrack(i, current, remaining-candidates[i])\n            current = current[:len(current)-1]\n        }\n    }\n    backtrack(0, []int{}, target)\n    return result\n}",
+      "rust": "impl Solution {\n    pub fn combination_sum(candidates: Vec<i32>, target: i32) -> Vec<Vec<i32>> {\n        let mut candidates = candidates;\n        candidates.sort();\n        let mut result = Vec::new();\n        Self::backtrack(&candidates, 0, &mut Vec::new(), target, &mut result);\n        result\n    }\n    fn backtrack(candidates: &Vec<i32>, start: usize, current: &mut Vec<i32>, remaining: i32, result: &mut Vec<Vec<i32>>) {\n        if remaining == 0 {\n            result.push(current.clone());\n            return;\n        }\n        for i in start..candidates.len() {\n            if candidates[i] > remaining {\n                break;\n            }\n            current.push(candidates[i]);\n            Self::backtrack(candidates, i, current, remaining - candidates[i], result);\n            current.pop();\n        }\n    }\n}"
+    }
+  },
+  {
+    "id": "recursion-008",
+    "leetcode": 17,
+    "title": "Letter Combinations of a Phone Number",
+    "difficulty": "Medium",
+    "description": "Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order.",
+    "examples": [
+      { "input": "digits = \"23\"", "output": "[\"ad\",\"ae\",\"af\",\"bd\",\"be\",\"bf\",\"cd\",\"ce\",\"cf\"]" },
+      { "input": "digits = \"\"", "output": "[]" },
+      { "input": "digits = \"2\"", "output": "[\"a\",\"b\",\"c\"]" }
+    ],
+    "hints": [
+      "Map each digit to its corresponding letters.",
+      "Use backtracking to build combinations character by character.",
+      "Process one digit at a time, appending each possible letter."
+    ],
+    "timeComplexity": "O(4^n * n) where n is number of digits",
+    "spaceComplexity": "O(n) for recursion depth",
+    "solutions": {
+      "python": "def letterCombinations(digits: str) -> list[str]:\n    if not digits:\n        return []\n    mapping = {'2': 'abc', '3': 'def', '4': 'ghi', '5': 'jkl',\n               '6': 'mno', '7': 'pqrs', '8': 'tuv', '9': 'wxyz'}\n    result = []\n    def backtrack(index, current):\n        if index == len(digits):\n            result.append(current)\n            return\n        for letter in mapping[digits[index]]:\n            backtrack(index + 1, current + letter)\n    backtrack(0, '')\n    return result",
+      "java": "class Solution {\n    public List<String> letterCombinations(String digits) {\n        if (digits.isEmpty()) return Collections.emptyList();\n        String[] mapping = {\"\", \"\", \"abc\", \"def\", \"ghi\", \"jkl\", \"mno\", \"pqrs\", \"tuv\", \"wxyz\"};\n        List<String> result = new ArrayList<>();\n        backtrack(digits, mapping, 0, new StringBuilder(), result);\n        return result;\n    }\n    private void backtrack(String digits, String[] mapping, int index, StringBuilder current, List<String> result) {\n        if (index == digits.length()) {\n            result.add(current.toString());\n            return;\n        }\n        for (char c : mapping[digits.charAt(index) - '0'].toCharArray()) {\n            current.append(c);\n            backtrack(digits, mapping, index + 1, current, result);\n            current.deleteCharAt(current.length() - 1);\n        }\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    vector<string> letterCombinations(string digits) {\n        if (digits.empty()) return {};\n        vector<string> mapping = {\"\", \"\", \"abc\", \"def\", \"ghi\", \"jkl\", \"mno\", \"pqrs\", \"tuv\", \"wxyz\"};\n        vector<string> result;\n        string current;\n        backtrack(digits, mapping, 0, current, result);\n        return result;\n    }\n    void backtrack(string& digits, vector<string>& mapping, int index, string& current, vector<string>& result) {\n        if (index == digits.size()) {\n            result.push_back(current);\n            return;\n        }\n        for (char c : mapping[digits[index] - '0']) {\n            current.push_back(c);\n            backtrack(digits, mapping, index + 1, current, result);\n            current.pop_back();\n        }\n    }\n};",
+      "javascript": "var letterCombinations = function(digits) {\n    if (!digits.length) return [];\n    const mapping = ['', '', 'abc', 'def', 'ghi', 'jkl', 'mno', 'pqrs', 'tuv', 'wxyz'];\n    const result = [];\n    const backtrack = (index, current) => {\n        if (index === digits.length) {\n            result.push(current);\n            return;\n        }\n        for (const letter of mapping[digits[index]]) {\n            backtrack(index + 1, current + letter);\n        }\n    };\n    backtrack(0, '');\n    return result;\n};",
+      "go": "func letterCombinations(digits string) []string {\n    if len(digits) == 0 {\n        return []string{}\n    }\n    mapping := []string{\"\", \"\", \"abc\", \"def\", \"ghi\", \"jkl\", \"mno\", \"pqrs\", \"tuv\", \"wxyz\"}\n    var result []string\n    var backtrack func(index int, current string)\n    backtrack = func(index int, current string) {\n        if index == len(digits) {\n            result = append(result, current)\n            return\n        }\n        for _, c := range mapping[digits[index]-'0'] {\n            backtrack(index+1, current+string(c))\n        }\n    }\n    backtrack(0, \"\")\n    return result\n}",
+      "rust": "impl Solution {\n    pub fn letter_combinations(digits: String) -> Vec<String> {\n        if digits.is_empty() {\n            return vec![];\n        }\n        let mapping = vec![\"\", \"\", \"abc\", \"def\", \"ghi\", \"jkl\", \"mno\", \"pqrs\", \"tuv\", \"wxyz\"];\n        let mut result = Vec::new();\n        Self::backtrack(&digits, &mapping, 0, &mut String::new(), &mut result);\n        result\n    }\n    fn backtrack(digits: &str, mapping: &Vec<&str>, index: usize, current: &mut String, result: &mut Vec<String>) {\n        if index == digits.len() {\n            result.push(current.clone());\n            return;\n        }\n        let digit = digits.as_bytes()[index] - b'0';\n        for c in mapping[digit as usize].chars() {\n            current.push(c);\n            Self::backtrack(digits, mapping, index + 1, current, result);\n            current.pop();\n        }\n    }\n}"
+    }
+  },
+  {
+    "id": "recursion-009",
+    "leetcode": 22,
+    "title": "Generate Parentheses",
+    "difficulty": "Medium",
+    "description": "Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.",
+    "examples": [
+      { "input": "n = 3", "output": ["((()))","(()())","(())()","()(())","()()()"] },
+      { "input": "n = 1", "output": ["()"] }
+    ],
+    "hints": [
+      "Only add an open parenthesis if the count of open is less than n.",
+      "Only add a close parenthesis if the count of close is less than open.",
+      "Use backtracking to explore valid sequences."
+    ],
+    "timeComplexity": "O(4^n / sqrt(n)) - Catalan number",
+    "spaceComplexity": "O(n) for recursion depth",
+    "solutions": {
+      "python": "def generateParenthesis(n: int) -> list[str]:\n    result = []\n    def backtrack(current, open_count, close_count):\n        if len(current) == 2 * n:\n            result.append(current)\n            return\n        if open_count < n:\n            backtrack(current + '(', open_count + 1, close_count)\n        if close_count < open_count:\n            backtrack(current + ')', open_count, close_count + 1)\n    backtrack('', 0, 0)\n    return result",
+      "java": "class Solution {\n    public List<String> generateParenthesis(int n) {\n        List<String> result = new ArrayList<>();\n        backtrack(result, new StringBuilder(), 0, 0, n);\n        return result;\n    }\n    private void backtrack(List<String> result, StringBuilder current, int open, int close, int n) {\n        if (current.length() == 2 * n) {\n            result.add(current.toString());\n            return;\n        }\n        if (open < n) {\n            current.append('(');\n            backtrack(result, current, open + 1, close, n);\n            current.deleteCharAt(current.length() - 1);\n        }\n        if (close < open) {\n            current.append(')');\n            backtrack(result, current, open, close + 1, n);\n            current.deleteCharAt(current.length() - 1);\n        }\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    vector<string> generateParenthesis(int n) {\n        vector<string> result;\n        string current;\n        backtrack(result, current, 0, 0, n);\n        return result;\n    }\n    void backtrack(vector<string>& result, string& current, int open, int close, int n) {\n        if (current.size() == 2 * n) {\n            result.push_back(current);\n            return;\n        }\n        if (open < n) {\n            current.push_back('(');\n            backtrack(result, current, open + 1, close, n);\n            current.pop_back();\n        }\n        if (close < open) {\n            current.push_back(')');\n            backtrack(result, current, open, close + 1, n);\n            current.pop_back();\n        }\n    }\n};",
+      "javascript": "var generateParenthesis = function(n) {\n    const result = [];\n    const backtrack = (current, open, close) => {\n        if (current.length === 2 * n) {\n            result.push(current);\n            return;\n        }\n        if (open < n) backtrack(current + '(', open + 1, close);\n        if (close < open) backtrack(current + ')', open, close + 1);\n    };\n    backtrack('', 0, 0);\n    return result;\n};",
+      "go": "func generateParenthesis(n int) []string {\n    var result []string\n    var backtrack func(current string, open, close int)\n    backtrack = func(current string, open, close int) {\n        if len(current) == 2*n {\n            result = append(result, current)\n            return\n        }\n        if open < n {\n            backtrack(current+\"(\", open+1, close)\n        }\n        if close < open {\n            backtrack(current+\")\", open, close+1)\n        }\n    }\n    backtrack(\"\", 0, 0)\n    return result\n}",
+      "rust": "impl Solution {\n    pub fn generate_parenthesis(n: i32) -> Vec<String> {\n        let mut result = Vec::new();\n        Self::backtrack(&mut String::new(), 0, 0, n, &mut result);\n        result\n    }\n    fn backtrack(current: &mut String, open: i32, close: i32, n: i32, result: &mut Vec<String>) {\n        if current.len() == (2 * n) as usize {\n            result.push(current.clone());\n            return;\n        }\n        if open < n {\n            current.push('(');\n            Self::backtrack(current, open + 1, close, n, result);\n            current.pop();\n        }\n        if close < open {\n            current.push(')');\n            Self::backtrack(current, open, close + 1, n, result);\n            current.pop();\n        }\n    }\n}"
+    }
+  },
+  {
+    "id": "recursion-010",
+    "leetcode": 779,
+    "title": "Kth Symbol in Grammar",
+    "difficulty": "Medium",
+    "description": "We build a table of n rows (1-indexed). We first write '0' in the 1st row. Now in every subsequent row, we look at the previous row and replace each occurrence of '0' with '01', and each occurrence of '1' with '10'. Given two integers n and k, return the kth (1-indexed) symbol in the nth row.",
+    "examples": [
+      { "input": "n = 1, k = 1", "output": "0" },
+      { "input": "n = 2, k = 1", "output": "0" },
+      { "input": "n = 2, k = 2", "output": "1" },
+      { "input": "n = 3, k = 3", "output": "1" }
+    ],
+    "hints": [
+      "The kth symbol in row n depends on the parent in row n-1.",
+      "If the parent is 0, the left child is 0 and right child is 1.",
+      "If the parent is 1, the left child is 1 and right child is 0.",
+      "Determine if k is in the left or right half of the row."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n) for recursion stack",
+    "solutions": {
+      "python": "def kthGrammar(n: int, k: int) -> int:\n    if n == 1:\n        return 0\n    parent = kthGrammar(n - 1, (k + 1) // 2)\n    if k % 2 == 0:\n        return 1 if parent == 0 else 0\n    else:\n        return parent",
+      "java": "class Solution {\n    public int kthGrammar(int n, int k) {\n        if (n == 1) return 0;\n        int parent = kthGrammar(n - 1, (k + 1) / 2);\n        if (k % 2 == 0) {\n            return parent == 0 ? 1 : 0;\n        } else {\n            return parent;\n        }\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int kthGrammar(int n, int k) {\n        if (n == 1) return 0;\n        int parent = kthGrammar(n - 1, (k + 1) / 2);\n        if (k % 2 == 0) {\n            return parent == 0 ? 1 : 0;\n        } else {\n            return parent;\n        }\n    }\n};",
+      "javascript": "var kthGrammar = function(n, k) {\n    if (n === 1) return 0;\n    const parent = kthGrammar(n - 1, Math.ceil(k / 2));\n    if (k % 2 === 0) {\n        return parent === 0 ? 1 : 0;\n    } else {\n        return parent;\n    }\n};",
+      "go": "func kthGrammar(n int, k int) int {\n    if n == 1 {\n        return 0\n    }\n    parent := kthGrammar(n-1, (k+1)/2)\n    if k%2 == 0 {\n        if parent == 0 {\n            return 1\n        }\n        return 0\n    }\n    return parent\n}",
+      "rust": "impl Solution {\n    pub fn kth_grammar(n: i32, k: i32) -> i32 {\n        if n == 1 {\n            return 0;\n        }\n        let parent = Self::kth_grammar(n - 1, (k + 1) / 2);\n        if k % 2 == 0 {\n            if parent == 0 { 1 } else { 0 }\n        } else {\n            parent\n        }\n    }\n}"
+    }
+  },
+  {
+    "id": "recursion-011",
+    "leetcode": 50,
+    "title": "Pow(x, n)",
+    "difficulty": "Medium",
+    "description": "Implement pow(x, n), which calculates x raised to the power n (i.e., x^n).",
+    "examples": [
+      { "input": "x = 2.00000, n = 10", "output": "1024.00000" },
+      { "input": "x = 2.10000, n = 3", "output": "9.26100" },
+      { "input": "x = 2.00000, n = -2", "output": "0.25000" }
+    ],
+    "hints": [
+      "Use fast exponentiation (binary exponentiation).",
+      "If n is even, x^n = (x^(n/2))^2.",
+      "If n is odd, x^n = x * x^(n-1).",
+      "Handle negative exponents by computing 1/x^(-n)."
+    ],
+    "timeComplexity": "O(log n)",
+    "spaceComplexity": "O(log n) for recursion stack",
+    "solutions": {
+      "python": "def myPow(x: float, n: int) -> float:\n    if n == 0:\n        return 1.0\n    if n < 0:\n        return 1.0 / myPow(x, -n)\n    if n % 2 == 0:\n        half = myPow(x, n // 2)\n        return half * half\n    else:\n        return x * myPow(x, n - 1)",
+      "java": "class Solution {\n    public double myPow(double x, int n) {\n        if (n == 0) return 1.0;\n        long N = n;\n        if (N < 0) {\n            x = 1 / x;\n            N = -N;\n        }\n        if (N % 2 == 0) {\n            double half = myPow(x, (int)(N / 2));\n            return half * half;\n        } else {\n            return x * myPow(x, (int)(N - 1));\n        }\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    double myPow(double x, long long n) {\n        if (n == 0) return 1.0;\n        if (n < 0) {\n            x = 1 / x;\n            n = -n;\n        }\n        if (n % 2 == 0) {\n            double half = myPow(x, n / 2);\n            return half * half;\n        } else {\n            return x * myPow(x, n - 1);\n        }\n    }\n};",
+      "javascript": "var myPow = function(x, n) {\n    if (n === 0) return 1.0;\n    if (n < 0) {\n        x = 1 / x;\n        n = -n;\n    }\n    if (n % 2 === 0) {\n        const half = myPow(x, Math.floor(n / 2));\n        return half * half;\n    } else {\n        return x * myPow(x, n - 1);\n    }\n};",
+      "go": "func myPow(x float64, n int) float64 {\n    if n == 0 {\n        return 1.0\n    }\n    if n < 0 {\n        x = 1 / x\n        n = -n\n    }\n    if n%2 == 0 {\n        half := myPow(x, n/2)\n        return half * half\n    }\n    return x * myPow(x, n-1)\n}",
+      "rust": "impl Solution {\n    pub fn my_pow(x: f64, n: i32) -> f64 {\n        if n == 0 {\n            return 1.0;\n        }\n        if n < 0 {\n            return 1.0 / Self::my_pow(x, -n);\n        }\n        if n % 2 == 0 {\n            let half = Self::my_pow(x, n / 2);\n            half * half\n        } else {\n            x * Self::my_pow(x, n - 1)\n        }\n    }\n}"
+    }
+  },
+  {
+    "id": "recursion-012",
+    "leetcode": 172,
+    "title": "Factorial Trailing Zeroes",
+    "difficulty": "Medium",
+    "description": "Given an integer n, return the number of trailing zeroes in n! (n factorial). Note that n! = n * (n - 1) * (n - 2) * ... * 3 * 2 * 1.",
+    "examples": [
+      { "input": "n = 3", "output": "0" },
+      { "input": "n = 5", "output": "1" },
+      { "input": "n = 10", "output": "2" },
+      { "input": "n = 25", "output": "6" }
+    ],
+    "hints": [
+      "Trailing zeroes come from factors of 10, which are 2 * 5.",
+      "Count the number of times 5 appears as a factor in numbers from 1 to n.",
+      "Numbers like 25, 125 contribute multiple factors of 5.",
+      "Divide n by 5, then by 25, then by 125, etc."
+    ],
+    "timeComplexity": "O(log n)",
+    "spaceComplexity": "O(log n) for recursion stack",
+    "solutions": {
+      "python": "def trailingZeroes(n: int) -> int:\n    if n < 5:\n        return 0\n    return n // 5 + trailingZeroes(n // 5)",
+      "java": "class Solution {\n    public int trailingZeroes(int n) {\n        if (n < 5) return 0;\n        return n / 5 + trailingZeroes(n / 5);\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int trailingZeroes(int n) {\n        if (n < 5) return 0;\n        return n / 5 + trailingZeroes(n / 5);\n    }\n};",
+      "javascript": "var trailingZeroes = function(n) {\n    if (n < 5) return 0;\n    return Math.floor(n / 5) + trailingZeroes(Math.floor(n / 5));\n};",
+      "go": "func trailingZeroes(n int) int {\n    if n < 5 {\n        return 0\n    }\n    return n/5 + trailingZeroes(n/5)\n}",
+      "rust": "impl Solution {\n    pub fn trailing_zeroes(n: i32) -> i32 {\n        if n < 5 {\n            return 0;\n        }\n        n / 5 + Self::trailing_zeroes(n / 5)\n    }\n}"
+    }
+  }
+]

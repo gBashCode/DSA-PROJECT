@@ -1,0 +1,92 @@
+[
+  {
+    "company": "Google",
+    "color": "#4285F4",
+    "totalAsked": 150,
+    "focus": "Graph algorithms, strings, DP, system design",
+    "topProblems": [
+      { "title": "Two Sum", "leetcode": 1, "difficulty": "Easy" },
+      { "title": "Longest Substring Without Repeating Characters", "leetcode": 3, "difficulty": "Medium" },
+      { "title": "Trapping Rain Water", "leetcode": 42, "difficulty": "Hard" },
+      { "title": "Minimum Window Substring", "leetcode": 76, "difficulty": "Hard" },
+      { "title": "Product of Array Except Self", "leetcode": 238, "difficulty": "Medium" },
+      { "title": "Search in Rotated Sorted Array", "leetcode": 33, "difficulty": "Medium" },
+      { "title": "Course Schedule", "leetcode": 207, "difficulty": "Medium" },
+      { "title": "Word Ladder", "leetcode": 127, "difficulty": "Hard" },
+      { "title": "Alien Dictionary", "leetcode": 269, "difficulty": "Hard" },
+      { "title": "Number of Islands", "leetcode": 200, "difficulty": "Medium" }
+    ]
+  },
+  {
+    "company": "Amazon",
+    "color": "#FF9900",
+    "totalAsked": 180,
+    "focus": "Arrays, trees, system design, leadership principles",
+    "topProblems": [
+      { "title": "Two Sum", "leetcode": 1, "difficulty": "Easy" },
+      { "title": "Add Two Numbers", "leetcode": 2, "difficulty": "Medium" },
+      { "title": "Longest Consecutive Sequence", "leetcode": 128, "difficulty": "Medium" },
+      { "title": "Maximum Subarray", "leetcode": 53, "difficulty": "Medium" },
+      { "title": "Product of Array Except Self", "leetcode": 238, "difficulty": "Medium" },
+      { "title": "Group Anagrams", "leetcode": 49, "difficulty": "Medium" },
+      { "title": "Top K Frequent Elements", "leetcode": 347, "difficulty": "Medium" },
+      { "title": "Binary Tree Right Side View", "leetcode": 199, "difficulty": "Medium" },
+      { "title": "LRU Cache", "leetcode": 146, "difficulty": "Medium" },
+      { "title": "Number of Islands", "leetcode": 200, "difficulty": "Medium" }
+    ]
+  },
+  {
+    "company": "Meta",
+    "color": "#0668E1",
+    "totalAsked": 140,
+    "focus": "Sliding window, trees, graphs, system design",
+    "topProblems": [
+      { "title": "Two Sum", "leetcode": 1, "difficulty": "Easy" },
+      { "title": "Merge Sorted Array", "leetcode": 88, "difficulty": "Easy" },
+      { "title": "Valid Parentheses", "leetcode": 20, "difficulty": "Easy" },
+      { "title": "Binary Tree Level Order Traversal", "leetcode": 102, "difficulty": "Medium" },
+      { "title": "Lowest Common Ancestor", "leetcode": 236, "difficulty": "Medium" },
+      { "title": "Product of Array Except Self", "leetcode": 238, "difficulty": "Medium" },
+      { "title": "Clone Graph", "leetcode": 133, "difficulty": "Medium" },
+      { "title": "Serialize and Deserialize Binary Tree", "leetcode": 297, "difficulty": "Hard" },
+      { "title": "Meeting Rooms II", "leetcode": 253, "difficulty": "Medium" },
+      { "title": "Minimum Remove for Valid Parentheses", "leetcode": 1249, "difficulty": "Medium" }
+    ]
+  },
+  {
+    "company": "Microsoft",
+    "color": "#00A4EF",
+    "totalAsked": 130,
+    "focus": "Trees, DP, system design, OOP design",
+    "topProblems": [
+      { "title": "Two Sum", "leetcode": 1, "difficulty": "Easy" },
+      { "title": "Merge Sorted Array", "leetcode": 88, "difficulty": "Easy" },
+      { "title": "Valid Parentheses", "leetcode": 20, "difficulty": "Easy" },
+      { "title": "Maximum Product Subarray", "leetcode": 152, "difficulty": "Medium" },
+      { "title": "Climbing Stairs", "leetcode": 70, "difficulty": "Easy" },
+      { "title": "Binary Tree Right Side View", "leetcode": 199, "difficulty": "Medium" },
+      { "title": "Course Schedule", "leetcode": 207, "difficulty": "Medium" },
+      { "title": "Find Median from Data Stream", "leetcode": 295, "difficulty": "Hard" },
+      { "title": "Serialize and Deserialize Binary Tree", "leetcode": 297, "difficulty": "Hard" },
+      { "title": "Design HashMap", "leetcode": 706, "difficulty": "Easy" }
+    ]
+  },
+  {
+    "company": "Apple",
+    "color": "#A2AAAD",
+    "totalAsked": 100,
+    "focus": "Arrays, strings, DP, embedded systems thinking",
+    "topProblems": [
+      { "title": "Two Sum", "leetcode": 1, "difficulty": "Easy" },
+      { "title": "Merge Sorted Array", "leetcode": 88, "difficulty": "Easy" },
+      { "title": "Remove Duplicates from Sorted Array", "leetcode": 26, "difficulty": "Easy" },
+      { "title": "Rotate Array", "leetcode": 189, "difficulty": "Medium" },
+      { "title": "Search in Rotated Sorted Array", "leetcode": 33, "difficulty": "Medium" },
+      { "title": "Validate Binary Search Tree", "leetcode": 98, "difficulty": "Medium" },
+      { "title": "Coin Change", "leetcode": 322, "difficulty": "Medium" },
+      { "title": "Maximum Subarray", "leetcode": 53, "difficulty": "Medium" },
+      { "title": "Climbing Stairs", "leetcode": 70, "difficulty": "Easy" },
+      { "title": "Best Time to Buy and Sell Stock", "leetcode": 121, "difficulty": "Easy" }
+    ]
+  }
+]

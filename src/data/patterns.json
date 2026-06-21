@@ -1,0 +1,184 @@
+[
+  {
+    "slug": "hashing",
+    "name": "Hashing (Maps & Sets)",
+    "tier": "beginner",
+    "description": "Use hash maps and sets for O(1) lookups, frequency counting, and duplicate detection.",
+    "keyIdea": "Hash maps provide constant-time lookups. Convert nested loops into single passes by storing complements or frequencies."
+  },
+  {
+    "slug": "two-pointers",
+    "name": "Two Pointers",
+    "tier": "beginner",
+    "description": "Use two indices to traverse sorted data from both ends, finding pairs or ranges efficiently.",
+    "keyIdea": "Instead of O(n²) nested loops, use two pointers that converge based on conditions to achieve O(n)."
+  },
+  {
+    "slug": "sliding-window",
+    "name": "Sliding Window",
+    "tier": "beginner",
+    "description": "Maintain a dynamic window over contiguous elements to find optimal subarrays or substrings.",
+    "keyIdea": "Expand the window to include elements and shrink it to exclude. Avoids recomputing from scratch."
+  },
+  {
+    "slug": "prefix-sum",
+    "name": "Prefix Sum",
+    "tier": "beginner",
+    "description": "Pre-compute cumulative sums to answer range queries in O(1) time.",
+    "keyIdea": "prefix[j] - prefix[i] gives the sum of subarray [i..j-1]. Combine with hash map for subarray sum equals k."
+  },
+  {
+    "slug": "binary-search",
+    "name": "Binary Search",
+    "tier": "beginner",
+    "description": "Divide search space in half repeatedly to find targets in sorted data or answer-based problems.",
+    "keyIdea": "Binary search works on monotonic conditions. Can search on answer space, not just arrays."
+  },
+  {
+    "slug": "sorting-comparators",
+    "name": "Sorting + Custom Comparators",
+    "tier": "beginner",
+    "description": "Sort data to unlock greedy, two-pointer, and interval techniques with custom ordering.",
+    "keyIdea": "Sorting brings structure. Custom comparators let you define what 'optimal' ordering means."
+  },
+  {
+    "slug": "stack",
+    "name": "Stack",
+    "tier": "beginner",
+    "description": "Use LIFO structure for parsing, matching, and finding next greater/smaller elements.",
+    "keyIdea": "Stacks maintain 'last seen' context. Monotonic stacks efficiently solve next-greater-element problems."
+  },
+  {
+    "slug": "recursion",
+    "name": "Recursion",
+    "tier": "beginner",
+    "description": "Solve problems by breaking them into smaller subproblems. Foundation for trees, DP, and backtracking.",
+    "keyIdea": "Every recursive solution has a base case and recursive case. Think: 'What's the smallest version of this problem?'"
+  },
+  {
+    "slug": "linked-list",
+    "name": "Linked List Techniques",
+    "tier": "beginner",
+    "description": "Manipulate pointers for reversal, merging, cycle detection, and finding intersections.",
+    "keyIdea": "Use dummy nodes to simplify edge cases. Fast-slow pointers detect cycles and find midpoints."
+  },
+  {
+    "slug": "fast-slow-pointers",
+    "name": "Fast & Slow Pointers",
+    "tier": "intermediate",
+    "description": "Detect cycles and find midpoints with two-speed traversal through linked lists or arrays.",
+    "keyIdea": "If fast meets slow, there's a cycle. Fast moves 2 steps, slow moves 1 step. Floyd's algorithm."
+  },
+  {
+    "slug": "monotonic-stack",
+    "name": "Monotonic Stack",
+    "tier": "intermediate",
+    "description": "Maintain a stack that's always sorted to efficiently find next greater/smaller elements.",
+    "keyIdea": "When you see a smaller element, pop all larger elements from the stack — they found their answer."
+  },
+  {
+    "slug": "queue-deque",
+    "name": "Queue / Deque",
+    "tier": "intermediate",
+    "description": "FIFO structure for BFS, sliding window max/min, and ordered processing.",
+    "keyIdea": "Deque supports O(1) operations at both ends. Sliding window max uses deque to maintain decreasing order."
+  },
+  {
+    "slug": "heap",
+    "name": "Heap / Priority Queue",
+    "tier": "intermediate",
+    "description": "Efficiently find min/max elements. Essential for top-K, merging sorted streams, and scheduling.",
+    "keyIdea": "Min-heap of size K tracks K largest elements. Two heaps (max+min) find medians in streams."
+  },
+  {
+    "slug": "merge-intervals",
+    "name": "Merge Intervals",
+    "tier": "intermediate",
+    "description": "Sort intervals by start time, then merge or find overlaps using sweep line technique.",
+    "keyIdea": "Sort by start time. If current interval overlaps with previous, merge them. Otherwise, add new interval."
+  },
+  {
+    "slug": "trie",
+    "name": "Trie (Prefix Tree)",
+    "tier": "intermediate",
+    "description": "Tree structure for efficient word lookups, prefix matching, and autocomplete systems.",
+    "keyIdea": "Each node represents a character. Path from root to node is a prefix. Words end at terminal nodes."
+  },
+  {
+    "slug": "binary-tree-dfs",
+    "name": "Binary Tree DFS",
+    "tier": "intermediate",
+    "description": "Traverse trees using preorder, inorder, or postorder for path finding and tree validation.",
+    "keyIdea": "Preorder: visit root first. Inorder: sorted order for BST. Postorder: process children before parent."
+  },
+  {
+    "slug": "binary-tree-bfs",
+    "name": "Binary Tree BFS",
+    "tier": "intermediate",
+    "description": "Level-order traversal using queue for finding shortest paths and level-wise operations.",
+    "keyIdea": "BFS naturally processes nodes level by level. Use it for shortest path in unweighted graphs/trees."
+  },
+  {
+    "slug": "graph-dfs",
+    "name": "Graph DFS",
+    "tier": "intermediate",
+    "description": "Explore graphs depth-first for path finding, cycle detection, and connected components.",
+    "keyIdea": "DFS explores as deep as possible before backtracking. Use visited set to avoid revisiting nodes."
+  },
+  {
+    "slug": "graph-bfs",
+    "name": "Graph BFS",
+    "tier": "intermediate",
+    "description": "Breadth-first traversal for shortest path in unweighted graphs and level-wise exploration.",
+    "keyIdea": "BFS guarantees shortest path in unweighted graphs. Process all neighbors before moving to next level."
+  },
+  {
+    "slug": "backtracking",
+    "name": "Backtracking",
+    "tier": "intermediate",
+    "description": "Generate all combinations/permutations by choosing, exploring, then unchoosing.",
+    "keyIdea": "Template: for each choice → make choice → recurse → undo choice. Prune branches that can't lead to solution."
+  },
+  {
+    "slug": "dp-1d",
+    "name": "Dynamic Programming (1D)",
+    "tier": "advanced",
+    "description": "Optimize problems with overlapping subproblems using memoization or tabulation on linear states.",
+    "keyIdea": "Define dp[i] = optimal answer for first i elements. Find transition from dp[i-1], dp[i-2], etc."
+  },
+  {
+    "slug": "dp-2d",
+    "name": "Dynamic Programming (2D)",
+    "tier": "advanced",
+    "description": "Solve grid, string matching, and knapsack problems with two-dimensional state spaces.",
+    "keyIdea": "Define dp[i][j] = answer for first i elements of A and first j of B. Fill table row by row."
+  },
+  {
+    "slug": "greedy",
+    "name": "Greedy Algorithms",
+    "tier": "advanced",
+    "description": "Make locally optimal choices at each step to find global optimum. Prove correctness.",
+    "keyIdea": "Greedy works when local optimum leads to global optimum. Sort by some criterion, then pick greedily."
+  },
+  {
+    "slug": "union-find",
+    "name": "Union Find",
+    "tier": "advanced",
+    "description": "Dynamic connectivity data structure for tracking and merging connected components.",
+    "keyIdea": "Union by rank + path compression gives near O(1) amortized operations. Great for connectivity queries."
+  },
+  {
+    "slug": "topological-sort",
+    "name": "Topological Sort",
+    "tier": "advanced",
+    "description": "Order vertices in a DAG respecting dependencies. Detect cycles and schedule tasks.",
+    "keyIdea": "Kahn's algorithm (BFS): repeatedly remove nodes with in-degree 0. DFS-based: reverse postorder."
+  },
+  {
+    "slug": "bit-manipulation",
+    "name": "Bit Manipulation",
+    "tier": "advanced",
+    "description": "Use XOR, AND, OR, and bit shifts for efficient number manipulation and encoding.",
+    "keyIdea": "XOR cancels duplicates: a^a=0, a^0=a. n & (n-1) clears lowest set bit. Use masks for subsets."
+  }
+]

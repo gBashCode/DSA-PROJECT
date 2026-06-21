@@ -1,65 +1,148 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import Link from "next/link";
+import { useCallback, useEffect, useRef, useState } from "react";
+import SortBarChart from "@/components/sort-bar-chart";
+
+const BUBBLE_SORT_SIZE = 30;
+const BUBBLE_SORT_SPEED = 30;
+
+function generateRandomArray(size: number): number[] {
+  const arr: number[] = [];
+  for (let i = 0; i < size; i++) {
+    arr.push(Math.floor(Math.random() * 95) + 5);
+  }
+  return arr;
+}
+
+function bubbleSortSteps(input: number[]) {
+  const arr = [...input];
+  const steps: {
+    array: number[];
+    comparing: [number, number] | null;
+    swapping: [number, number] | null;
+    sorted: number[];
+  }[] = [];
+  const sorted: number[] = [];
+
+  for (let i = arr.length - 1; i > 0; i--) {
+    for (let j = 0; j < i; j++) {
+      steps.push({
+        array: [...arr],
+        comparing: [j, j + 1],
+        swapping: null,
+        sorted: [...sorted],
+      });
+
+      if (arr[j] > arr[j + 1]) {
+        steps.push({
+          array: [...arr],
+          comparing: null,
+          swapping: [j, j + 1],
+          sorted: [...sorted],
+        });
+        [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+      }
+    }
+    sorted.push(i);
+  }
+
+  sorted.push(0);
+  steps.push({
+    array: [...arr],
+    comparing: null,
+    swapping: null,
+    sorted: [...sorted],
+  });
+
+  return steps;
+}
+
+const initialSteps = bubbleSortSteps(generateRandomArray(BUBBLE_SORT_SIZE));
+
+export default function HomePage() {
+  const [steps, setSteps] = useState(initialSteps);
+  const [stepIndex, setStepIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const restart = useCallback(() => {
+    const arr = generateRandomArray(BUBBLE_SORT_SIZE);
+    const s = bubbleSortSteps(arr);
+    setSteps(s);
+    setStepIndex(0);
+    setIsPaused(false);
+  }, []);
+
+  useEffect(() => {
+    if (isPaused || steps.length === 0) return;
+
+    timerRef.current = setInterval(() => {
+      setStepIndex((prev) => {
+        if (prev >= steps.length - 1) {
+          setTimeout(restart, 800);
+          return prev;
+        }
+        return prev + 1;
+      });
+    }, BUBBLE_SORT_SPEED);
+
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, [isPaused, steps.length, restart]);
+
+  const current = steps[stepIndex] ?? {
+    array: Array.from({ length: BUBBLE_SORT_SIZE }, (_, i) => i + 1),
+    comparing: null,
+    swapping: null,
+    sorted: [] as number[],
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="relative flex flex-col items-center justify-center min-h-[calc(100vh-3rem)] px-4">
+      <div className="absolute inset-0 flex items-end justify-center opacity-20 pointer-events-none overflow-hidden pb-20">
+        <div className="w-full max-w-4xl px-8">
+          <SortBarChart
+            array={current.array}
+            comparing={current.comparing}
+            swapping={current.swapping}
+            sorted={current.sorted}
+            height={400}
+          />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      </div>
+
+      <div className="relative z-10 text-center max-w-2xl">
+        <h1 className="text-5xl sm:text-7xl font-bold tracking-tight font-mono text-text">
+          DSA Practice
+        </h1>
+        <p className="mt-6 text-lg text-text-muted leading-relaxed">
+          Track your progress. Visualize algorithms. Ship with confidence.
+        </p>
+
+        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+          <Link
+            href="/tracker"
+            className="inline-flex h-12 items-center justify-center rounded-lg border border-border bg-surface px-8 font-mono text-sm font-semibold text-accent-amber transition-all hover:bg-accent-amber/10 hover:border-accent-amber/40"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            Tracker&nbsp;&rarr;
+          </Link>
+          <Link
+            href="/visualizer"
+            className="inline-flex h-12 items-center justify-center rounded-lg border border-border bg-surface px-8 font-mono text-sm font-semibold text-accent-teal transition-all hover:bg-accent-teal/10 hover:border-accent-teal/40"
           >
-            Documentation
-          </a>
+            Visualizer&nbsp;&rarr;
+          </Link>
         </div>
-      </main>
+
+        <button
+          onClick={() => setIsPaused((p) => !p)}
+          className="mt-6 font-mono text-xs text-text-muted hover:text-text transition-colors"
+        >
+          {isPaused ? "[ paused — click to resume ]" : "[ running — click to pause ]"}
+        </button>
+      </div>
     </div>
   );
 }
