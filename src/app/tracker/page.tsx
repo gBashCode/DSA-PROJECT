@@ -15,6 +15,7 @@ import { exportProgressAsJSON, exportProgressAsMarkdown } from "@/lib/export";
 import { getDailyChallenge, markDailyChallengeComplete } from "@/lib/daily-challenge";
 import { getProblemsForReview } from "@/lib/spaced-repetition";
 import { Download, FileText, Flame, Calendar, ChevronDown, ChevronUp } from "lucide-react";
+import { Recommendations } from "@/components/recommendations";
 
 interface TrackerState {
   solved: Record<string, boolean>;
@@ -339,6 +340,10 @@ export default function TrackerPage() {
               )}
             </div>
           )}
+
+          <div className="p-4">
+            <Recommendations solvedIds={solvedIds} bookmarkedIds={bookmarkedIds} />
+          </div>
 
           {filteredProblems.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-16 text-center">
