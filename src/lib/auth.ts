@@ -218,6 +218,23 @@ export function useAuth() {
     [supabase]
   );
 
+  const signInWithMagicLink = useCallback(
+    async (
+      email: string
+    ): Promise<{ error?: string }> => {
+      const { error } = await supabase.auth.signInWithOtp({
+        email,
+      });
+
+      if (error) {
+        return { error: error.message };
+      }
+
+      return {};
+    },
+    [supabase]
+  );
+
   return {
     user,
     profile,
@@ -227,6 +244,7 @@ export function useAuth() {
     logout,
     updateProfile,
     changePassword,
+    signInWithMagicLink,
     findUserByUsername,
     getUserById,
   };
