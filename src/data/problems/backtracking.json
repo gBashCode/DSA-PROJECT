@@ -1,264 +1,89 @@
 [
   {
-    "id": "backtracking-01",
-    "leetcode": 46,
-    "title": "Permutations",
-    "difficulty": "Medium",
-    "description": "Given an array nums of distinct integers, return all possible permutations. You can return the answer in any order.",
-    "examples": [
-      { "input": "nums = [1,2,3]", "output": "[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]" },
-      { "input": "nums = [0,1]", "output": "[[0,1],[1,0]]" },
-      { "input": "nums = [1]", "output": "[[1]]" }
-    ],
-    "hints": [
-      "Use a recursive backtracking approach.",
-      "Swap elements in-place to generate permutations.",
-      "Track which elements have been used with a boolean array."
-    ],
-    "timeComplexity": "O(n! * n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "class Solution:\n    def permute(self, nums: List[int]) -> List[List[int]]:\n        res = []\n        def backtrack(start):\n            if start == len(nums):\n                res.append(nums[:])\n                return\n            for i in range(start, len(nums)):\n                nums[start], nums[i] = nums[i], nums[start]\n                backtrack(start + 1)\n                nums[start], nums[i] = nums[i], nums[start]\n        backtrack(0)\n        return res",
-      "java": "class Solution {\n    public List<List<Integer>> permute(int[] nums) {\n        List<List<Integer>> res = new ArrayList<>();\n        backtrack(nums, res, 0);\n        return res;\n    }\n    private void backtrack(int[] nums, List<List<Integer>> res, int start) {\n        if (start == nums.length) {\n            List<Integer> perm = new ArrayList<>();\n            for (int n : nums) perm.add(n);\n            res.add(perm);\n            return;\n        }\n        for (int i = start; i < nums.length; i++) {\n            int tmp = nums[start]; nums[start] = nums[i]; nums[i] = tmp;\n            backtrack(nums, res, start + 1);\n            tmp = nums[start]; nums[start] = nums[i]; nums[i] = tmp;\n        }\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<vector<int>> permute(vector<int>& nums) {\n        vector<vector<int>> res;\n        backtrack(nums, res, 0);\n        return res;\n    }\n    void backtrack(vector<int>& nums, vector<vector<int>>& res, int start) {\n        if (start == nums.size()) {\n            res.push_back(nums);\n            return;\n        }\n        for (int i = start; i < nums.size(); i++) {\n            swap(nums[start], nums[i]);\n            backtrack(nums, res, start + 1);\n            swap(nums[start], nums[i]);\n        }\n    }\n};",
-      "javascript": "var permute = function(nums) {\n    const res = [];\n    const backtrack = (start) => {\n        if (start === nums.length) {\n            res.push([...nums]);\n            return;\n        }\n        for (let i = start; i < nums.length; i++) {\n            [nums[start], nums[i]] = [nums[i], nums[start]];\n            backtrack(start + 1);\n            [nums[start], nums[i]] = [nums[i], nums[start]];\n        }\n    };\n    backtrack(0);\n    return res;\n};",
-      "go": "func permute(nums []int) [][]int {\n    var res [][]int\n    var backtrack func(int)\n    backtrack = func(start int) {\n        if start == len(nums) {\n            tmp := make([]int, len(nums))\n            copy(tmp, nums)\n            res = append(res, tmp)\n            return\n        }\n        for i := start; i < len(nums); i++ {\n            nums[start], nums[i] = nums[i], nums[start]\n            backtrack(start + 1)\n            nums[start], nums[i] = nums[i], nums[start]\n        }\n    }\n    backtrack(0)\n    return res\n}",
-      "rust": "impl Solution {\n    pub fn permute(nums: Vec<i32>) -> Vec<Vec<i32>> {\n        let mut res = Vec::new();\n        let mut nums = nums;\n        Self::backtrack(&mut nums, &mut res, 0);\n        res\n    }\n    fn backtrack(nums: &mut Vec<i32>, res: &mut Vec<Vec<i32>>, start: usize) {\n        if start == nums.len() {\n            res.push(nums.clone());\n            return;\n        }\n        for i in start..nums.len() {\n            nums.swap(start, i);\n            Self::backtrack(nums, res, start + 1);\n            nums.swap(start, i);\n        }\n    }\n}"
-    }
+    "section": "Medium",
+    "problems": [
+      {
+        "id": "back-001",
+        "leetcode": 78,
+        "title": "Subsets",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/subsets/"
+      },
+      {
+        "id": "back-002",
+        "leetcode": 90,
+        "title": "Subsets II",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/subsets-ii/"
+      },
+      {
+        "id": "back-003",
+        "leetcode": 39,
+        "title": "Combination Sum",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/combination-sum/"
+      },
+      {
+        "id": "back-004",
+        "leetcode": 40,
+        "title": "Combination Sum II",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/combination-sum-ii/"
+      },
+      {
+        "id": "back-005",
+        "leetcode": 46,
+        "title": "Permutations",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/permutations/"
+      },
+      {
+        "id": "back-006",
+        "leetcode": 47,
+        "title": "Permutations II",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/permutations-ii/"
+      },
+      {
+        "id": "back-007",
+        "leetcode": 79,
+        "title": "Word Search",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/word-search/"
+      },
+      {
+        "id": "back-008",
+        "leetcode": 131,
+        "title": "Palindrome Partitioning",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/palindrome-partitioning/"
+      },
+      {
+        "id": "back-009",
+        "leetcode": 17,
+        "title": "Letter Combinations of a Phone Number",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/letter-combinations-of-a-phone-number/"
+      }
+    ]
   },
   {
-    "id": "backtracking-02",
-    "leetcode": 47,
-    "title": "Permutations II",
-    "difficulty": "Medium",
-    "description": "Given a collection of numbers nums that might contain duplicates, return all possible unique permutations in any order.",
-    "examples": [
-      { "input": "nums = [1,1,2]", "output": "[[1,1,2],[1,2,1],[2,1,1]]" },
-      { "input": "nums = [1,2,3]", "output": "[[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]]" }
-    ],
-    "hints": [
-      "Sort the array first to handle duplicates easily.",
-      "Skip duplicate elements in the same recursive level.",
-      "Use a boolean array to track used elements."
-    ],
-    "timeComplexity": "O(n! * n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "class Solution:\n    def permuteUnique(self, nums: List[int]) -> List[List[int]]:\n        res = []\n        nums.sort()\n        used = [False] * len(nums)\n        def backtrack(path):\n            if len(path) == len(nums):\n                res.append(path[:])\n                return\n            for i in range(len(nums)):\n                if used[i] or (i > 0 and nums[i] == nums[i-1] and not used[i-1]):\n                    continue\n                used[i] = True\n                path.append(nums[i])\n                backtrack(path)\n                path.pop()\n                used[i] = False\n        backtrack([])\n        return res",
-      "java": "class Solution {\n    public List<List<Integer>> permuteUnique(int[] nums) {\n        List<List<Integer>> res = new ArrayList<>();\n        Arrays.sort(nums);\n        boolean[] used = new boolean[nums.length];\n        backtrack(nums, res, used, new ArrayList<>());\n        return res;\n    }\n    private void backtrack(int[] nums, List<List<Integer>> res, boolean[] used, List<Integer> path) {\n        if (path.size() == nums.length) {\n            res.add(new ArrayList<>(path));\n            return;\n        }\n        for (int i = 0; i < nums.length; i++) {\n            if (used[i] || (i > 0 && nums[i] == nums[i-1] && !used[i-1])) continue;\n            used[i] = true;\n            path.add(nums[i]);\n            backtrack(nums, res, used, path);\n            path.remove(path.size() - 1);\n            used[i] = false;\n        }\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<vector<int>> permuteUnique(vector<int>& nums) {\n        vector<vector<int>> res;\n        sort(nums.begin(), nums.end());\n        vector<bool> used(nums.size(), false);\n        vector<int> path;\n        backtrack(nums, res, used, path);\n        return res;\n    }\n    void backtrack(vector<int>& nums, vector<vector<int>>& res, vector<bool>& used, vector<int>& path) {\n        if (path.size() == nums.size()) {\n            res.push_back(path);\n            return;\n        }\n        for (int i = 0; i < nums.size(); i++) {\n            if (used[i] || (i > 0 && nums[i] == nums[i-1] && !used[i-1])) continue;\n            used[i] = true;\n            path.push_back(nums[i]);\n            backtrack(nums, res, used, path);\n            path.pop_back();\n            used[i] = false;\n        }\n    }\n};",
-      "javascript": "var permuteUnique = function(nums) {\n    const res = [];\n    nums.sort((a, b) => a - b);\n    const used = new Array(nums.length).fill(false);\n    const backtrack = (path) => {\n        if (path.length === nums.length) {\n            res.push([...path]);\n            return;\n        }\n        for (let i = 0; i < nums.length; i++) {\n            if (used[i] || (i > 0 && nums[i] === nums[i-1] && !used[i-1])) continue;\n            used[i] = true;\n            path.push(nums[i]);\n            backtrack(path);\n            path.pop();\n            used[i] = false;\n        }\n    };\n    backtrack([]);\n    return res;\n};",
-      "go": "func permuteUnique(nums []int) [][]int {\n    var res [][]int\n    sort.Ints(nums)\n    used := make([]bool, len(nums))\n    var backtrack func([]int)\n    backtrack = func(path []int) {\n        if len(path) == len(nums) {\n            tmp := make([]int, len(path))\n            copy(tmp, path)\n            res = append(res, tmp)\n            return\n        }\n        for i := 0; i < len(nums); i++ {\n            if used[i] || (i > 0 && nums[i] == nums[i-1] && !used[i-1]) {\n                continue\n            }\n            used[i] = true\n            backtrack(append(path, nums[i]))\n            used[i] = false\n        }\n    }\n    backtrack([]int{})\n    return res\n}",
-      "rust": "impl Solution {\n    pub fn permute_unique(nums: Vec<i32>) -> Vec<Vec<i32>> {\n        let mut res = Vec::new();\n        let mut nums = nums;\n        nums.sort();\n        let mut used = vec![false; nums.len()];\n        Self::backtrack(&nums, &mut res, &mut used, &mut Vec::new());\n        res\n    }\n    fn backtrack(nums: &Vec<i32>, res: &mut Vec<Vec<i32>>, used: &mut Vec<bool>, path: &mut Vec<i32>) {\n        if path.len() == nums.len() {\n            res.push(path.clone());\n            return;\n        }\n        for i in 0..nums.len() {\n            if used[i] || (i > 0 && nums[i] == nums[i-1] && !used[i-1]) {\n                continue;\n            }\n            used[i] = true;\n            path.push(nums[i]);\n            Self::backtrack(nums, res, used, path);\n            path.pop();\n            used[i] = false;\n        }\n    }\n}"
-    }
-  },
-  {
-    "id": "backtracking-03",
-    "leetcode": 78,
-    "title": "Subsets",
-    "difficulty": "Medium",
-    "description": "Given an integer array nums of unique elements, return all possible subsets (the power set). The solution set must not contain duplicate subsets. Return the solution in any order.",
-    "examples": [
-      { "input": "nums = [1,2,3]", "output": "[[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]" },
-      { "input": "nums = [0]", "output": "[[],[0]]" }
-    ],
-    "hints": [
-      "Use backtracking to include or exclude each element.",
-      "At each step, you can choose to add the current element or skip it.",
-      "The recursion tree has 2^n leaves."
-    ],
-    "timeComplexity": "O(n * 2^n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "class Solution:\n    def subsets(self, nums: List[int]) -> List[List[int]]:\n        res = []\n        def backtrack(start, path):\n            res.append(path[:])\n            for i in range(start, len(nums)):\n                path.append(nums[i])\n                backtrack(i + 1, path)\n                path.pop()\n        backtrack(0, [])\n        return res",
-      "java": "class Solution {\n    public List<List<Integer>> subsets(int[] nums) {\n        List<List<Integer>> res = new ArrayList<>();\n        backtrack(nums, res, 0, new ArrayList<>());\n        return res;\n    }\n    private void backtrack(int[] nums, List<List<Integer>> res, int start, List<Integer> path) {\n        res.add(new ArrayList<>(path));\n        for (int i = start; i < nums.length; i++) {\n            path.add(nums[i]);\n            backtrack(nums, res, i + 1, path);\n            path.remove(path.size() - 1);\n        }\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<vector<int>> subsets(vector<int>& nums) {\n        vector<vector<int>> res;\n        vector<int> path;\n        backtrack(nums, res, path, 0);\n        return res;\n    }\n    void backtrack(vector<int>& nums, vector<vector<int>>& res, vector<int>& path, int start) {\n        res.push_back(path);\n        for (int i = start; i < nums.size(); i++) {\n            path.push_back(nums[i]);\n            backtrack(nums, res, path, i + 1);\n            path.pop_back();\n        }\n    }\n};",
-      "javascript": "var subsets = function(nums) {\n    const res = [];\n    const backtrack = (start, path) => {\n        res.push([...path]);\n        for (let i = start; i < nums.length; i++) {\n            path.push(nums[i]);\n            backtrack(i + 1, path);\n            path.pop();\n        }\n    };\n    backtrack(0, []);\n    return res;\n};",
-      "go": "func subsets(nums []int) [][]int {\n    var res [][]int\n    var backtrack func(int, []int)\n    backtrack = func(start int, path []int) {\n        tmp := make([]int, len(path))\n        copy(tmp, path)\n        res = append(res, tmp)\n        for i := start; i < len(nums); i++ {\n            backtrack(i+1, append(path, nums[i]))\n        }\n    }\n    backtrack(0, []int{})\n    return res\n}",
-      "rust": "impl Solution {\n    pub fn subsets(nums: Vec<i32>) -> Vec<Vec<i32>> {\n        let mut res = Vec::new();\n        Self::backtrack(&nums, &mut res, 0, &mut Vec::new());\n        res\n    }\n    fn backtrack(nums: &Vec<i32>, res: &mut Vec<Vec<i32>>, start: usize, path: &mut Vec<i32>) {\n        res.push(path.clone());\n        for i in start..nums.len() {\n            path.push(nums[i]);\n            Self::backtrack(nums, res, i + 1, path);\n            path.pop();\n        }\n    }\n}"
-    }
-  },
-  {
-    "id": "backtracking-04",
-    "leetcode": 90,
-    "title": "Subsets II",
-    "difficulty": "Medium",
-    "description": "Given an integer array nums that may contain duplicates, return all possible subsets (the power set). The solution set must not contain duplicate subsets.",
-    "examples": [
-      { "input": "nums = [1,2,2]", "output": "[[],[1],[1,2],[1,2,2],[2],[2,2]]" },
-      { "input": "nums = [0]", "output": "[[],[0]]" }
-    ],
-    "hints": [
-      "Sort the array first to group duplicates together.",
-      "Skip duplicates at the same recursive level.",
-      "Include the current element and skip the rest of the duplicates."
-    ],
-    "timeComplexity": "O(n * 2^n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "class Solution:\n    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:\n        res = []\n        nums.sort()\n        def backtrack(start, path):\n            res.append(path[:])\n            for i in range(start, len(nums)):\n                if i > start and nums[i] == nums[i-1]:\n                    continue\n                path.append(nums[i])\n                backtrack(i + 1, path)\n                path.pop()\n        backtrack(0, [])\n        return res",
-      "java": "class Solution {\n    public List<List<Integer>> subsetsWithDup(int[] nums) {\n        List<List<Integer>> res = new ArrayList<>();\n        Arrays.sort(nums);\n        backtrack(nums, res, 0, new ArrayList<>());\n        return res;\n    }\n    private void backtrack(int[] nums, List<List<Integer>> res, int start, List<Integer> path) {\n        res.add(new ArrayList<>(path));\n        for (int i = start; i < nums.length; i++) {\n            if (i > start && nums[i] == nums[i-1]) continue;\n            path.add(nums[i]);\n            backtrack(nums, res, i + 1, path);\n            path.remove(path.size() - 1);\n        }\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<vector<int>> subsetsWithDup(vector<int>& nums) {\n        vector<vector<int>> res;\n        sort(nums.begin(), nums.end());\n        vector<int> path;\n        backtrack(nums, res, path, 0);\n        return res;\n    }\n    void backtrack(vector<int>& nums, vector<vector<int>>& res, vector<int>& path, int start) {\n        res.push_back(path);\n        for (int i = start; i < nums.size(); i++) {\n            if (i > start && nums[i] == nums[i-1]) continue;\n            path.push_back(nums[i]);\n            backtrack(nums, res, path, i + 1);\n            path.pop_back();\n        }\n    }\n};",
-      "javascript": "var subsetsWithDup = function(nums) {\n    const res = [];\n    nums.sort((a, b) => a - b);\n    const backtrack = (start, path) => {\n        res.push([...path]);\n        for (let i = start; i < nums.length; i++) {\n            if (i > start && nums[i] === nums[i-1]) continue;\n            path.push(nums[i]);\n            backtrack(i + 1, path);\n            path.pop();\n        }\n    };\n    backtrack(0, []);\n    return res;\n};",
-      "go": "func subsetsWithDup(nums []int) [][]int {\n    var res [][]int\n    sort.Ints(nums)\n    var backtrack func(int, []int)\n    backtrack = func(start int, path []int) {\n        tmp := make([]int, len(path))\n        copy(tmp, path)\n        res = append(res, tmp)\n        for i := start; i < len(nums); i++ {\n            if i > start && nums[i] == nums[i-1] {\n                continue\n            }\n            backtrack(i+1, append(path, nums[i]))\n        }\n    }\n    backtrack(0, []int{})\n    return res\n}",
-      "rust": "impl Solution {\n    pub fn subsets_with_dup(nums: Vec<i32>) -> Vec<Vec<i32>> {\n        let mut res = Vec::new();\n        let mut nums = nums;\n        nums.sort();\n        Self::backtrack(&nums, &mut res, 0, &mut Vec::new());\n        res\n    }\n    fn backtrack(nums: &Vec<i32>, res: &mut Vec<Vec<i32>>, start: usize, path: &mut Vec<i32>) {\n        res.push(path.clone());\n        for i in start..nums.len() {\n            if i > start && nums[i] == nums[i-1] {\n                continue;\n            }\n            path.push(nums[i]);\n            Self::backtrack(nums, res, i + 1, path);\n            path.pop();\n        }\n    }\n}"
-    }
-  },
-  {
-    "id": "backtracking-05",
-    "leetcode": 39,
-    "title": "Combination Sum",
-    "difficulty": "Medium",
-    "description": "Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum to target. The same number may be chosen from candidates an unlimited number of times.",
-    "examples": [
-      { "input": "candidates = [2,3,6,7], target = 7", "output": "[[2,2,3],[7]]" },
-      { "input": "candidates = [2,3,5], target = 8", "output": "[[2,2,2,2],[2,3,3],[3,5]]" },
-      { "input": "candidates = [2], target = 1", "output": "[]" }
-    ],
-    "hints": [
-      "Sort candidates to enable early termination.",
-      "Use backtracking with a remaining target value.",
-      "Allow reuse of the same element by not advancing the index."
-    ],
-    "timeComplexity": "O(n^(target/min))",
-    "spaceComplexity": "O(target/min)",
-    "solutions": {
-      "python": "class Solution:\n    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:\n        res = []\n        def backtrack(start, path, remaining):\n            if remaining == 0:\n                res.append(path[:])\n                return\n            for i in range(start, len(candidates)):\n                if candidates[i] > remaining:\n                    break\n                path.append(candidates[i])\n                backtrack(i, path, remaining - candidates[i])\n                path.pop()\n        backtrack(0, [], target)\n        return res",
-      "java": "class Solution {\n    public List<List<Integer>> combinationSum(int[] candidates, int target) {\n        List<List<Integer>> res = new ArrayList<>();\n        Arrays.sort(candidates);\n        backtrack(candidates, res, target, 0, new ArrayList<>());\n        return res;\n    }\n    private void backtrack(int[] candidates, List<List<Integer>> res, int remaining, int start, List<Integer> path) {\n        if (remaining == 0) {\n            res.add(new ArrayList<>(path));\n            return;\n        }\n        for (int i = start; i < candidates.length; i++) {\n            if (candidates[i] > remaining) break;\n            path.add(candidates[i]);\n            backtrack(candidates, res, remaining - candidates[i], i, path);\n            path.remove(path.size() - 1);\n        }\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {\n        vector<vector<int>> res;\n        sort(candidates.begin(), candidates.end());\n        vector<int> path;\n        backtrack(candidates, res, target, 0, path);\n        return res;\n    }\n    void backtrack(vector<int>& candidates, vector<vector<int>>& res, int remaining, int start, vector<int>& path) {\n        if (remaining == 0) {\n            res.push_back(path);\n            return;\n        }\n        for (int i = start; i < candidates.size(); i++) {\n            if (candidates[i] > remaining) break;\n            path.push_back(candidates[i]);\n            backtrack(candidates, res, remaining - candidates[i], i, path);\n            path.pop_back();\n        }\n    }\n};",
-      "javascript": "var combinationSum = function(candidates, target) {\n    const res = [];\n    candidates.sort((a, b) => a - b);\n    const backtrack = (start, path, remaining) => {\n        if (remaining === 0) {\n            res.push([...path]);\n            return;\n        }\n        for (let i = start; i < candidates.length; i++) {\n            if (candidates[i] > remaining) break;\n            path.push(candidates[i]);\n            backtrack(i, path, remaining - candidates[i]);\n            path.pop();\n        }\n    };\n    backtrack(0, [], target);\n    return res;\n};",
-      "go": "func combinationSum(candidates []int, target int) [][]int {\n    var res [][]int\n    sort.Ints(candidates)\n    var backtrack func(int, []int, int)\n    backtrack = func(start int, path []int, remaining int) {\n        if remaining == 0 {\n            tmp := make([]int, len(path))\n            copy(tmp, path)\n            res = append(res, tmp)\n            return\n        }\n        for i := start; i < len(candidates); i++ {\n            if candidates[i] > remaining {\n                break\n            }\n            backtrack(i, append(path, candidates[i]), remaining-candidates[i])\n        }\n    }\n    backtrack(0, []int{}, target)\n    return res\n}",
-      "rust": "impl Solution {\n    pub fn combination_sum(candidates: Vec<i32>, target: i32) -> Vec<Vec<i32>> {\n        let mut res = Vec::new();\n        let mut candidates = candidates;\n        candidates.sort();\n        Self::backtrack(&candidates, &mut res, 0, target, &mut Vec::new());\n        res\n    }\n    fn backtrack(candidates: &Vec<i32>, res: &mut Vec<Vec<i32>>, start: usize, remaining: i32, path: &mut Vec<i32>) {\n        if remaining == 0 {\n            res.push(path.clone());\n            return;\n        }\n        for i in start..candidates.len() {\n            if candidates[i] > remaining {\n                break;\n            }\n            path.push(candidates[i]);\n            Self::backtrack(candidates, res, i, remaining - candidates[i], path);\n            path.pop();\n        }\n    }\n}"
-    }
-  },
-  {
-    "id": "backtracking-06",
-    "leetcode": 40,
-    "title": "Combination Sum II",
-    "difficulty": "Medium",
-    "description": "Given a collection of candidate numbers candidates (with duplicates) and a target number target, find all unique combinations in candidates where the candidate numbers sum to target. Each number in candidates may only be used once in the combination.",
-    "examples": [
-      { "input": "candidates = [10,1,2,7,6,1,5], target = 8", "output": "[[1,1,6],[1,2,5],[1,7],[2,6]]" },
-      { "input": "candidates = [2,5,2,1,2], target = 5", "output": "[[1,2,2],[5]]" }
-    ],
-    "hints": [
-      "Sort the array to handle duplicates.",
-      "Skip duplicate elements at the same recursive level.",
-      "Each element can only be used once, so advance the index."
-    ],
-    "timeComplexity": "O(2^n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "class Solution:\n    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:\n        res = []\n        candidates.sort()\n        def backtrack(start, path, remaining):\n            if remaining == 0:\n                res.append(path[:])\n                return\n            for i in range(start, len(candidates)):\n                if i > start and candidates[i] == candidates[i-1]:\n                    continue\n                if candidates[i] > remaining:\n                    break\n                path.append(candidates[i])\n                backtrack(i + 1, path, remaining - candidates[i])\n                path.pop()\n        backtrack(0, [], target)\n        return res",
-      "java": "class Solution {\n    public List<List<Integer>> combinationSum2(int[] candidates, int target) {\n        List<List<Integer>> res = new ArrayList<>();\n        Arrays.sort(candidates);\n        backtrack(candidates, res, target, 0, new ArrayList<>());\n        return res;\n    }\n    private void backtrack(int[] candidates, List<List<Integer>> res, int remaining, int start, List<Integer> path) {\n        if (remaining == 0) {\n            res.add(new ArrayList<>(path));\n            return;\n        }\n        for (int i = start; i < candidates.length; i++) {\n            if (i > start && candidates[i] == candidates[i-1]) continue;\n            if (candidates[i] > remaining) break;\n            path.add(candidates[i]);\n            backtrack(candidates, res, remaining - candidates[i], i + 1, path);\n            path.remove(path.size() - 1);\n        }\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {\n        vector<vector<int>> res;\n        sort(candidates.begin(), candidates.end());\n        vector<int> path;\n        backtrack(candidates, res, target, 0, path);\n        return res;\n    }\n    void backtrack(vector<int>& candidates, vector<vector<int>>& res, int remaining, int start, vector<int>& path) {\n        if (remaining == 0) {\n            res.push_back(path);\n            return;\n        }\n        for (int i = start; i < candidates.size(); i++) {\n            if (i > start && candidates[i] == candidates[i-1]) continue;\n            if (candidates[i] > remaining) break;\n            path.push_back(candidates[i]);\n            backtrack(candidates, res, remaining - candidates[i], i + 1, path);\n            path.pop_back();\n        }\n    }\n};",
-      "javascript": "var combinationSum2 = function(candidates, target) {\n    const res = [];\n    candidates.sort((a, b) => a - b);\n    const backtrack = (start, path, remaining) => {\n        if (remaining === 0) {\n            res.push([...path]);\n            return;\n        }\n        for (let i = start; i < candidates.length; i++) {\n            if (i > start && candidates[i] === candidates[i-1]) continue;\n            if (candidates[i] > remaining) break;\n            path.push(candidates[i]);\n            backtrack(i + 1, path, remaining - candidates[i]);\n            path.pop();\n        }\n    };\n    backtrack(0, [], target);\n    return res;\n};",
-      "go": "func combinationSum2(candidates []int, target int) [][]int {\n    var res [][]int\n    sort.Ints(candidates)\n    var backtrack func(int, []int, int)\n    backtrack = func(start int, path []int, remaining int) {\n        if remaining == 0 {\n            tmp := make([]int, len(path))\n            copy(tmp, path)\n            res = append(res, tmp)\n            return\n        }\n        for i := start; i < len(candidates); i++ {\n            if i > start && candidates[i] == candidates[i-1] {\n                continue\n            }\n            if candidates[i] > remaining {\n                break\n            }\n            backtrack(i+1, append(path, candidates[i]), remaining-candidates[i])\n        }\n    }\n    backtrack(0, []int{}, target)\n    return res\n}",
-      "rust": "impl Solution {\n    pub fn combination_sum2(candidates: Vec<i32>, target: i32) -> Vec<Vec<i32>> {\n        let mut res = Vec::new();\n        let mut candidates = candidates;\n        candidates.sort();\n        Self::backtrack(&candidates, &mut res, 0, target, &mut Vec::new());\n        res\n    }\n    fn backtrack(candidates: &Vec<i32>, res: &mut Vec<Vec<i32>>, start: usize, remaining: i32, path: &mut Vec<i32>) {\n        if remaining == 0 {\n            res.push(path.clone());\n            return;\n        }\n        for i in start..candidates.len() {\n            if i > start && candidates[i] == candidates[i-1] {\n                continue;\n            }\n            if candidates[i] > remaining {\n                break;\n            }\n            path.push(candidates[i]);\n            Self::backtrack(candidates, res, i + 1, remaining - candidates[i], path);\n            path.pop();\n        }\n    }\n}"
-    }
-  },
-  {
-    "id": "backtracking-07",
-    "leetcode": 51,
-    "title": "N-Queens",
-    "difficulty": "Hard",
-    "description": "The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens attack each other. Given an integer n, return the number of distinct solutions to the n-queens puzzle.",
-    "examples": [
-      { "input": "n = 4", "output": "[[\".Q..\",\"...Q\",\"Q...\",\"..Q.\"],[\"..Q.\",\"Q...\",\"...Q\",\".Q..\"]]" },
-      { "input": "n = 1", "output": "[[\"Q\"]]" }
-    ],
-    "hints": [
-      "Use backtracking to place queens row by row.",
-      "Track columns, diagonals, and anti-diagonals to check validity.",
-      "Use sets for O(1) conflict checking."
-    ],
-    "timeComplexity": "O(n!)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "class Solution:\n    def solveNQueens(self, n: int) -> List[List[str]]:\n        res = []\n        board = [['.'] * n for _ in range(n)]\n        cols = set()\n        diag1 = set()  # row - col\n        diag2 = set()  # row + col\n        def backtrack(row):\n            if row == n:\n                res.append([''.join(r) for r in board])\n                return\n            for col in range(n):\n                if col in cols or (row - col) in diag1 or (row + col) in diag2:\n                    continue\n                cols.add(col)\n                diag1.add(row - col)\n                diag2.add(row + col)\n                board[row][col] = 'Q'\n                backtrack(row + 1)\n                board[row][col] = '.'\n                cols.remove(col)\n                diag1.remove(row - col)\n                diag2.remove(row + col)\n        backtrack(0)\n        return res",
-      "java": "class Solution {\n    public List<List<String>> solveNQueens(int n) {\n        List<List<String>> res = new ArrayList<>();\n        char[][] board = new char[n][n];\n        for (char[] row : board) Arrays.fill(row, '.');\n        Set<Integer> cols = new HashSet<>();\n        Set<Integer> diag1 = new HashSet<>();\n        Set<Integer> diag2 = new HashSet<>();\n        backtrack(board, res, cols, diag1, diag2, 0, n);\n        return res;\n    }\n    private void backtrack(char[][] board, List<List<String>> res, Set<Integer> cols, Set<Integer> diag1, Set<Integer> diag2, int row, int n) {\n        if (row == n) {\n            List<String> snapshot = new ArrayList<>();\n            for (char[] r : board) snapshot.add(new String(r));\n            res.add(snapshot);\n            return;\n        }\n        for (int col = 0; col < n; col++) {\n            if (cols.contains(col) || diag1.contains(row - col) || diag2.contains(row + col)) continue;\n            cols.add(col); diag1.add(row - col); diag2.add(row + col);\n            board[row][col] = 'Q';\n            backtrack(board, res, cols, diag1, diag2, row + 1, n);\n            board[row][col] = '.';\n            cols.remove(col); diag1.remove(row - col); diag2.remove(row + col);\n        }\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<vector<string>> solveNQueens(int n) {\n        vector<vector<string>> res;\n        vector<string> board(n, string(n, '.'));\n        unordered_set<int> cols, diag1, diag2;\n        backtrack(board, res, cols, diag1, diag2, 0, n);\n        return res;\n    }\n    void backtrack(vector<string>& board, vector<vector<string>>& res, unordered_set<int>& cols, unordered_set<int>& diag1, unordered_set<int>& diag2, int row, int n) {\n        if (row == n) {\n            res.push_back(board);\n            return;\n        }\n        for (int col = 0; col < n; col++) {\n            if (cols.count(col) || diag1.count(row - col) || diag2.count(row + col)) continue;\n            cols.insert(col); diag1.insert(row - col); diag2.insert(row + col);\n            board[row][col] = 'Q';\n            backtrack(board, res, cols, diag1, diag2, row + 1, n);\n            board[row][col] = '.';\n            cols.erase(col); diag1.erase(row - col); diag2.erase(row + col);\n        }\n    }\n};",
-      "javascript": "var solveNQueens = function(n) {\n    const res = [];\n    const board = Array.from({length: n}, () => '.'.repeat(n).split(''));\n    const cols = new Set(), diag1 = new Set(), diag2 = new Set();\n    const backtrack = (row) => {\n        if (row === n) {\n            res.push(board.map(r => r.join('')));\n            return;\n        }\n        for (let col = 0; col < n; col++) {\n            if (cols.has(col) || diag1.has(row - col) || diag2.has(row + col)) continue;\n            cols.add(col); diag1.add(row - col); diag2.add(row + col);\n            board[row][col] = 'Q';\n            backtrack(row + 1);\n            board[row][col] = '.';\n            cols.delete(col); diag1.delete(row - col); diag2.delete(row + col);\n        }\n    };\n    backtrack(0);\n    return res;\n};",
-      "go": "func solveNQueens(n int) [][]string {\n    var res [][]string\n    board := make([][]byte, n)\n    for i := range board {\n        row := make([]byte, n)\n        for j := range row { row[j] = '.' }\n        board[i] = row\n    }\n    cols := make(map[int]bool)\n    diag1 := make(map[int]bool)\n    diag2 := make(map[int]bool)\n    var backtrack func(int)\n    backtrack = func(row int) {\n        if row == n {\n            snapshot := make([]string, n)\n            for i := range board { snapshot[i] = string(board[i]) }\n            res = append(res, snapshot)\n            return\n        }\n        for col := 0; col < n; col++ {\n            if cols[col] || diag1[row-col] || diag2[row+col] {\n                continue\n            }\n            cols[col] = true; diag1[row-col] = true; diag2[row+col] = true\n            board[row][col] = 'Q'\n            backtrack(row + 1)\n            board[row][col] = '.'\n            cols[col] = false; diag1[row-col] = false; diag2[row+col] = false\n        }\n    }\n    backtrack(0)\n    return res\n}",
-      "rust": "impl Solution {\n    pub fn solve_n_queens(n: i32) -> Vec<Vec<String>> {\n        let n = n as usize;\n        let mut res = Vec::new();\n        let mut board = vec![vec!['.'; n]; n];\n        let mut cols = std::collections::HashSet::new();\n        let mut diag1 = std::collections::HashSet::new();\n        let mut diag2 = std::collections::HashSet::new();\n        Self::backtrack(&mut board, &mut res, &mut cols, &mut diag1, &mut diag2, 0, n);\n        res\n    }\n    fn backtrack(board: &mut Vec<Vec<char>>, res: &mut Vec<Vec<String>>, cols: &mut std::collections::HashSet<usize>, diag1: &mut std::collections::HashSet<i32>, diag2: &mut std::collections::HashSet<i32>, row: usize, n: usize) {\n        if row == n {\n            res.push(board.iter().map(|r| r.iter().collect()).collect());\n            return;\n        }\n        for col in 0..n {\n            if cols.contains(&col) || diag1.contains(&(row as i32 - col as i32)) || diag2.contains(&(row as i32 + col as i32)) {\n                continue;\n            }\n            cols.insert(col);\n            diag1.insert(row as i32 - col as i32);\n            diag2.insert(row as i32 + col as i32);\n            board[row][col] = 'Q';\n            Self::backtrack(board, res, cols, diag1, diag2, row + 1, n);\n            board[row][col] = '.';\n            cols.remove(&col);\n            diag1.remove(&(row as i32 - col as i32));\n            diag2.remove(&(row as i32 + col as i32));\n        }\n    }\n}"
-    }
-  },
-  {
-    "id": "backtracking-08",
-    "leetcode": 79,
-    "title": "Word Search",
-    "difficulty": "Medium",
-    "description": "Given an m x n grid of characters board and a string word, return true if word exists in the grid. The word can be constructed from letters of sequentially adjacent cells (horizontally or vertically). The same cell may not be used more than once.",
-    "examples": [
-      { "input": "board = [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], word = \"ABCCED\"", "output": "true" },
-      { "input": "board = [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], word = \"SEE\"", "output": "true" },
-      { "input": "board = [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], word = \"ABCB\"", "output": "false" }
-    ],
-    "hints": [
-      "Try DFS from every cell that matches the first character.",
-      "Mark visited cells temporarily and restore them after recursion.",
-      "Early termination: if no matching cells remain, return false."
-    ],
-    "timeComplexity": "O(m * n * 3^L)",
-    "spaceComplexity": "O(L)",
-    "solutions": {
-      "python": "class Solution:\n    def exist(self, board: List[List[str]], word: str) -> bool:\n        if not board: return False\n        rows, cols = len(board), len(board[0])\n        def backtrack(r, c, k):\n            if k == len(word):\n                return True\n            if r < 0 or r >= rows or c < 0 or c >= cols or board[r][c] != word[k]:\n                return False\n            tmp = board[r][c]\n            board[r][c] = '#'\n            for dr, dc in [(0,1),(0,-1),(1,0),(-1,0)]:\n                if backtrack(r + dr, c + dc, k + 1):\n                    return True\n            board[r][c] = tmp\n            return False\n        for r in range(rows):\n            for c in range(cols):\n                if backtrack(r, c, 0):\n                    return True\n        return False",
-      "java": "class Solution {\n    public boolean exist(char[][] board, String word) {\n        int rows = board.length, cols = board[0].length;\n        for (int r = 0; r < rows; r++) {\n            for (int c = 0; c < cols; c++) {\n                if (backtrack(board, word, r, c, 0)) return true;\n            }\n        }\n        return false;\n    }\n    private boolean backtrack(char[][] board, String word, int r, int c, int k) {\n        if (k == word.length()) return true;\n        if (r < 0 || r >= board.length || c < 0 || c >= board[0].length || board[r][c] != word.charAt(k)) return false;\n        char tmp = board[r][c];\n        board[r][c] = '#';\n        int[][] dirs = {{0,1},{0,-1},{1,0},{-1,0}};\n        for (int[] d : dirs) {\n            if (backtrack(board, word, r + d[0], c + d[1], k + 1)) return true;\n        }\n        board[r][c] = tmp;\n        return false;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    bool exist(vector<vector<char>>& board, string word) {\n        int rows = board.size(), cols = board[0].size();\n        for (int r = 0; r < rows; r++) {\n            for (int c = 0; c < cols; c++) {\n                if (backtrack(board, word, r, c, 0)) return true;\n            }\n        }\n        return false;\n    }\n    bool backtrack(vector<vector<char>>& board, string& word, int r, int c, int k) {\n        if (k == word.size()) return true;\n        if (r < 0 || r >= board.size() || c < 0 || c >= board[0].size() || board[r][c] != word[k]) return false;\n        char tmp = board[r][c];\n        board[r][c] = '#';\n        vector<pair<int,int>> dirs = {{0,1},{0,-1},{1,0},{-1,0}};\n        for (auto [dr, dc] : dirs) {\n            if (backtrack(board, word, r + dr, c + dc, k + 1)) return true;\n        }\n        board[r][c] = tmp;\n        return false;\n    }\n};",
-      "javascript": "var exist = function(board, word) {\n    const rows = board.length, cols = board[0].length;\n    const dirs = [[0,1],[0,-1],[1,0],[-1,0]];\n    const backtrack = (r, c, k) => {\n        if (k === word.length) return true;\n        if (r < 0 || r >= rows || c < 0 || c >= cols || board[r][c] !== word[k]) return false;\n        const tmp = board[r][c];\n        board[r][c] = '#';\n        for (const [dr, dc] of dirs) {\n            if (backtrack(r + dr, c + dc, k + 1)) return true;\n        }\n        board[r][c] = tmp;\n        return false;\n    };\n    for (let r = 0; r < rows; r++) {\n        for (let c = 0; c < cols; c++) {\n            if (backtrack(r, c, 0)) return true;\n        }\n    }\n    return false;\n};",
-      "go": "func exist(board [][]byte, word string) bool {\n    rows, cols := len(board), len(board[0])\n    dirs := [][2]int{{0,1},{0,-1},{1,0},{-1,0}}\n    var backtrack func(int, int, int) bool\n    backtrack = func(r, c, k int) bool {\n        if k == len(word) { return true }\n        if r < 0 || r >= rows || c < 0 || c >= cols || board[r][c] != word[k] { return false }\n        tmp := board[r][c]\n        board[r][c] = '#'\n        for _, d := range dirs {\n            if backtrack(r+d[0], c+d[1], k+1) { return true }\n        }\n        board[r][c] = tmp\n        return false\n    }\n    for r := 0; r < rows; r++ {\n        for c := 0; c < cols; c++ {\n            if backtrack(r, c, 0) { return true }\n        }\n    }\n    return false\n}",
-      "rust": "impl Solution {\n    pub fn exist(board: Vec<Vec<char>>, word: String) -> bool {\n        let mut board = board;\n        let word: Vec<char> = word.chars().collect();\n        let rows = board.len();\n        let cols = board[0].len();\n        let dirs = [(0i32, 1i32), (0, -1), (1, 0), (-1, 0)];\n        fn backtrack(board: &mut Vec<Vec<char>>, word: &Vec<char>, r: i32, c: i32, k: usize, dirs: &[(i32, i32)]) -> bool {\n            if k == word.len() { return true }\n            if r < 0 || r >= board.len() as i32 || c < 0 || c >= board[0].len() as i32 || board[r as usize][c as usize] != word[k] {\n                return false;\n            }\n            let tmp = board[r as usize][c as usize];\n            board[r as usize][c as usize] = '#';\n            for &(dr, dc) in dirs {\n                if backtrack(board, word, r + dr, c + dc, k + 1, dirs) { return true }\n            }\n            board[r as usize][c as usize] = tmp;\n            false\n        }\n        for r in 0..rows {\n            for c in 0..cols {\n                if backtrack(&mut board, &word, r as i32, c as i32, 0, &dirs) { return true }\n            }\n        }\n        false\n    }\n}"
-    }
-  },
-  {
-    "id": "backtracking-09",
-    "leetcode": 22,
-    "title": "Generate Parentheses",
-    "difficulty": "Medium",
-    "description": "Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.",
-    "examples": [
-      { "input": "n = 3", "output": ["((()))","(()())","(())()","()(())","()()()"] },
-      { "input": "n = 1", "output": ["()"] }
-    ],
-    "hints": [
-      "Use backtracking with counts of open and close parentheses.",
-      "Only add '(' if open < n, and ')' if close < open.",
-      "A valid sequence has open == close == n at the end."
-    ],
-    "timeComplexity": "O(4^n / sqrt(n))",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "class Solution:\n    def generateParenthesis(self, n: int) -> List[str]:\n        res = []\n        def backtrack(path, open, close):\n            if len(path) == 2 * n:\n                res.append(path)\n                return\n            if open < n:\n                backtrack(path + '(', open + 1, close)\n            if close < open:\n                backtrack(path + ')', open, close + 1)\n        backtrack('', 0, 0)\n        return res",
-      "java": "class Solution {\n    public List<String> generateParenthesis(int n) {\n        List<String> res = new ArrayList<>();\n        backtrack(res, new StringBuilder(), 0, 0, n);\n        return res;\n    }\n    private void backtrack(List<String> res, StringBuilder path, int open, int close, int n) {\n        if (path.length() == 2 * n) {\n            res.add(path.toString());\n            return;\n        }\n        if (open < n) {\n            path.append('(');\n            backtrack(res, path, open + 1, close, n);\n            path.deleteCharAt(path.length() - 1);\n        }\n        if (close < open) {\n            path.append(')');\n            backtrack(res, path, open, close + 1, n);\n            path.deleteCharAt(path.length() - 1);\n        }\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<string> generateParenthesis(int n) {\n        vector<string> res;\n        string path;\n        backtrack(res, path, 0, 0, n);\n        return res;\n    }\n    void backtrack(vector<string>& res, string& path, int open, int close, int n) {\n        if (path.size() == 2 * n) {\n            res.push_back(path);\n            return;\n        }\n        if (open < n) {\n            path.push_back('(');\n            backtrack(res, path, open + 1, close, n);\n            path.pop_back();\n        }\n        if (close < open) {\n            path.push_back(')');\n            backtrack(res, path, open, close + 1, n);\n            path.pop_back();\n        }\n    }\n};",
-      "javascript": "var generateParenthesis = function(n) {\n    const res = [];\n    const backtrack = (path, open, close) => {\n        if (path.length === 2 * n) {\n            res.push(path);\n            return;\n        }\n        if (open < n) backtrack(path + '(', open + 1, close);\n        if (close < open) backtrack(path + ')', open, close + 1);\n    };\n    backtrack('', 0, 0);\n    return res;\n};",
-      "go": "func generateParenthesis(n int) []string {\n    var res []string\n    var backtrack func(string, int, int)\n    backtrack = func(path string, open, close int) {\n        if len(path) == 2*n {\n            res = append(res, path)\n            return\n        }\n        if open < n {\n            backtrack(path+\"(\", open+1, close)\n        }\n        if close < open {\n            backtrack(path+\")\", open, close+1)\n        }\n    }\n    backtrack(\"\", 0, 0)\n    return res\n}",
-      "rust": "impl Solution {\n    pub fn generate_parenthesis(n: i32) -> Vec<String> {\n        let mut res = Vec::new();\n        Self::backtrack(&mut res, String::new(), 0, 0, n);\n        res\n    }\n    fn backtrack(res: &mut Vec<String>, path: String, open: i32, close: i32, n: i32) {\n        if path.len() == 2 * n as usize {\n            res.push(path);\n            return;\n        }\n        if open < n {\n            Self::backtrack(res, path.clone() + \"(\", open + 1, close, n);\n        }\n        if close < open {\n            Self::backtrack(res, path + \")\", open, close + 1, n);\n        }\n    }\n}"
-    }
-  },
-  {
-    "id": "backtracking-10",
-    "leetcode": 37,
-    "title": "Sudoku Solver",
-    "difficulty": "Hard",
-    "description": "Write a program to solve a Sudoku puzzle by filling the empty cells. A sudoku solution must satisfy all of the following rules: Each of the digits 1-9 must occur exactly once in each row, each column, and each of the nine 3x3 sub-boxes. Empty cells are indicated by the '.' character.",
-    "examples": [
-      { "input": "board = [[\"5\",\"3\",\".\",\".\",\"7\",\".\",\".\",\".\",\".\"],[\"6\",\".\",\".\",\"1\",\"9\",\"5\",\".\",\".\",\".\"],[\".\",\"9\",\"8\",\".\",\".\",\".\",\".\",\"6\",\".\"],[\"8\",\".\",\".\",\".\",\"6\",\".\",\".\",\".\",\"3\"],[\"4\",\".\",\".\",\"8\",\".\",\"3\",\".\",\".\",\"1\"],[\"7\",\".\",\".\",\".\",\"2\",\".\",\".\",\".\",\"6\"],[\".\",\"6\",\".\",\".\",\".\",\".\",\"2\",\"8\",\".\"],[\".\",\".\",\".\",\"4\",\"1\",\"9\",\".\",\".\",\"5\"],[\".\",\".\",\".\",\".\",\"8\",\".\",\".\",\"7\",\"9\"]]", "output": "[[\"5\",\"3\",\"4\",\"6\",\"7\",\"8\",\"9\",\"1\",\"2\"],[\"6\",\"7\",\"2\",\"1\",\"9\",\"5\",\"3\",\"4\",\"8\"],[\"1\",\"9\",\"8\",\"3\",\"4\",\"2\",\"5\",\"6\",\"7\"],[\"8\",\"5\",\"9\",\"7\",\"6\",\"1\",\"4\",\"2\",\"3\"],[\"4\",\"2\",\"6\",\"8\",\"5\",\"3\",\"7\",\"9\",\"1\"],[\"7\",\"1\",\"3\",\"9\",\"2\",\"4\",\"8\",\"5\",\"6\"],[\"9\",\"6\",\"1\",\"5\",\"3\",\"7\",\"2\",\"8\",\"4\"],[\"2\",\"8\",\"7\",\"4\",\"1\",\"9\",\"6\",\"3\",\"5\"],[\"3\",\"4\",\"5\",\"2\",\"8\",\"6\",\"1\",\"7\",\"9\"]]" }
-    ],
-    "hints": [
-      "Use backtracking: try placing digits 1-9 in empty cells.",
-      "Use hash sets to track which digits are already used in rows, columns, and boxes.",
-      "Return immediately when a valid solution is found."
-    ],
-    "timeComplexity": "O(9^(empty))",
-    "spaceComplexity": "O(empty)",
-    "solutions": {
-      "python": "class Solution:\n    def solveSudoku(self, board: List[List[str]]) -> None:\n        rows = [set() for _ in range(9)]\n        cols = [set() for _ in range(9)]\n        boxes = [set() for _ in range(9)]\n        empty = []\n        for r in range(9):\n            for c in range(9):\n                if board[r][c] != '.':\n                    val = int(board[r][c])\n                    rows[r].add(val)\n                    cols[c].add(val)\n                    boxes[(r//3)*3 + c//3].add(val)\n                else:\n                    empty.append((r, c))\n        def backtrack(idx):\n            if idx == len(empty):\n                return True\n            r, c = empty[idx]\n            b = (r//3)*3 + c//3\n            for num in range(1, 10):\n                if num in rows[r] or num in cols[c] or num in boxes[b]:\n                    continue\n                board[r][c] = str(num)\n                rows[r].add(num)\n                cols[c].add(num)\n                boxes[b].add(num)\n                if backtrack(idx + 1):\n                    return True\n                board[r][c] = '.'\n                rows[r].remove(num)\n                cols[c].remove(num)\n                boxes[b].remove(num)\n            return False\n        backtrack(0)",
-      "java": "class Solution {\n    public void solveSudoku(char[][] board) {\n        boolean[][] row = new boolean[9][9], col = new boolean[9][9], box = new boolean[9][9];\n        List<int[]> empty = new ArrayList<>();\n        for (int r = 0; r < 9; r++) {\n            for (int c = 0; c < 9; c++) {\n                if (board[r][c] != '.') {\n                    int val = board[r][c] - '1';\n                    row[r][val] = col[c][val] = box[(r/3)*3 + c/3][val] = true;\n                } else {\n                    empty.add(new int[]{r, c});\n                }\n            }\n        }\n        backtrack(board, row, col, box, empty, 0);\n    }\n    private boolean backtrack(char[][] board, boolean[][] row, boolean[][] col, boolean[][] box, List<int[]> empty, int idx) {\n        if (idx == empty.size()) return true;\n        int r = empty.get(idx)[0], c = empty.get(idx)[1], b = (r/3)*3 + c/3;\n        for (int num = 0; num < 9; num++) {\n            if (row[r][num] || col[c][num] || box[b][num]) continue;\n            board[r][c] = (char)(num + '1');\n            row[r][num] = col[c][num] = box[b][num] = true;\n            if (backtrack(board, row, col, box, empty, idx + 1)) return true;\n            board[r][c] = '.';\n            row[r][num] = col[c][num] = box[b][num] = false;\n        }\n        return false;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    void solveSudoku(vector<vector<char>>& board) {\n        bool row[9][9] = {}, col[9][9] = {}, box[9][9] = {};\n        vector<pair<int,int>> empty;\n        for (int r = 0; r < 9; r++) {\n            for (int c = 0; c < 9; c++) {\n                if (board[r][c] != '.') {\n                    int val = board[r][c] - '1';\n                    row[r][val] = col[c][val] = box[(r/3)*3 + c/3][val] = true;\n                } else {\n                    empty.push_back({r, c});\n                }\n            }\n        }\n        backtrack(board, row, col, box, empty, 0);\n    }\n    bool backtrack(vector<vector<char>>& board, bool row[9][9], bool col[9][9], bool box[9][9], vector<pair<int,int>>& empty, int idx) {\n        if (idx == empty.size()) return true;\n        int r = empty[idx].first, c = empty[idx].second, b = (r/3)*3 + c/3;\n        for (int num = 0; num < 9; num++) {\n            if (row[r][num] || col[c][num] || box[b][num]) continue;\n            board[r][c] = char(num + '1');\n            row[r][num] = col[c][num] = box[b][num] = true;\n            if (backtrack(board, row, col, box, empty, idx + 1)) return true;\n            board[r][c] = '.';\n            row[r][num] = col[c][num] = box[b][num] = false;\n        }\n        return false;\n    }\n};",
-      "javascript": "var solveSudoku = function(board) {\n    const row = Array.from({length: 9}, () => new Array(9).fill(false));\n    const col = Array.from({length: 9}, () => new Array(9).fill(false));\n    const box = Array.from({length: 9}, () => new Array(9).fill(false));\n    const empty = [];\n    for (let r = 0; r < 9; r++) {\n        for (let c = 0; c < 9; c++) {\n            if (board[r][c] !== '.') {\n                const val = board[r][c].charCodeAt(0) - 49;\n                row[r][val] = col[c][val] = box[Math.floor(r/3)*3 + Math.floor(c/3)][val] = true;\n            } else {\n                empty.push([r, c]);\n            }\n        }\n    }\n    const backtrack = (idx) => {\n        if (idx === empty.length) return true;\n        const [r, c] = empty[idx];\n        const b = Math.floor(r/3)*3 + Math.floor(c/3);\n        for (let num = 0; num < 9; num++) {\n            if (row[r][num] || col[c][num] || box[b][num]) continue;\n            board[r][c] = String.fromCharCode(num + 49);\n            row[r][num] = col[c][num] = box[b][num] = true;\n            if (backtrack(idx + 1)) return true;\n            board[r][c] = '.';\n            row[r][num] = col[c][num] = box[b][num] = false;\n        }\n        return false;\n    };\n    backtrack(0);\n};",
-      "go": "func solveSudoku(board [][]byte) {\n    row := make([][9]bool, 9)\n    col := make([][9]bool, 9)\n    b := make([][9]bool, 9)\n    var empty [][2]int\n    for r := 0; r < 9; r++ {\n        for c := 0; c < 9; c++ {\n            if board[r][c] != '.' {\n                val := board[r][c] - '1'\n                row[r][val] = true\n                col[c][val] = true\n                b[(r/3)*3+c/3][val] = true\n            } else {\n                empty = append(empty, [2]int{r, c})\n            }\n        }\n    }\n    var backtrack func(int) bool\n    backtrack = func(idx int) bool {\n        if idx == len(empty) { return true }\n        r, c := empty[idx][0], empty[idx][1]\n        bx := (r/3)*3 + c/3\n        for num := 0; num < 9; num++ {\n            if row[r][num] || col[c][num] || b[bx][num] { continue }\n            board[r][c] = byte(num + '1')\n            row[r][num] = true; col[c][num] = true; b[bx][num] = true\n            if backtrack(idx + 1) { return true }\n            board[r][c] = '.'\n            row[r][num] = false; col[c][num] = false; b[bx][num] = false\n        }\n        return false\n    }\n    backtrack(0)\n}",
-      "rust": "impl Solution {\n    pub fn solve_sudoku(board: &mut Vec<Vec<char>>) {\n        let mut row = [[false; 9]; 9];\n        let mut col = [[false; 9]; 9];\n        let mut b = [[false; 9]; 9];\n        let mut empty = Vec::new();\n        for r in 0..9 {\n            for c in 0..9 {\n                if board[r][c] != '.' {\n                    let val = (board[r][c] as u8 - b'1') as usize;\n                    row[r][val] = true;\n                    col[c][val] = true;\n                    b[(r/3)*3 + c/3][val] = true;\n                } else {\n                    empty.push((r, c));\n                }\n            }\n        }\n        Self::backtrack(board, &mut row, &mut col, &mut b, &empty, 0);\n    }\n    fn backtrack(board: &mut Vec<Vec<char>>, row: &mut [[bool; 9]; 9], col: &mut [[bool; 9]; 9], b: &mut [[bool; 9]; 9], empty: &Vec<(usize, usize)>, idx: usize) -> bool {\n        if idx == empty.len() { return true }\n        let (r, c) = empty[idx];\n        let bx = (r/3)*3 + c/3;\n        for num in 0..9 {\n            if row[r][num] || col[c][num] || b[bx][num] { continue }\n            board[r][c] = (num as u8 + b'1') as char;\n            row[r][num] = true; col[c][num] = true; b[bx][num] = true;\n            if Self::backtrack(board, row, col, b, empty, idx + 1) { return true }\n            board[r][c] = '.';\n            row[r][num] = false; col[c][num] = false; b[bx][num] = false;\n        }\n        false\n    }\n}"
-    }
+    "section": "Hard",
+    "problems": [
+      {
+        "id": "back-010",
+        "leetcode": 51,
+        "title": "N-Queens",
+        "difficulty": "Hard",
+        "link": "https://leetcode.com/problems/n-queens/"
+      },
+      {
+        "id": "back-011",
+        "leetcode": 37,
+        "title": "Sudoku Solver",
+        "difficulty": "Hard",
+        "link": "https://leetcode.com/problems/sudoku-solver/"
+      }
+    ]
   }
 ]

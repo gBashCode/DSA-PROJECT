@@ -1,273 +1,96 @@
 [
   {
-    "id": "two-sum",
-    "leetcode": 1,
-    "title": "Two Sum",
-    "difficulty": "Easy",
-    "description": "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target. You may assume that each input would have exactly one solution, and you may not use the same element twice. You can return the answer in any order.",
-    "examples": [
-      { "input": "nums = [2,7,11,15], target = 9", "output": "[0,1]" },
-      { "input": "nums = [3,2,4], target = 6", "output": "[1,2]" },
-      { "input": "nums = [3,3], target = 6", "output": "[0,1]" }
-    ],
-    "hints": ["Use a hash map to store each number's index as you iterate.", "For each element, check if the complement (target - num) exists in the map."],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "class Solution:\n    def twoSum(self, nums: List[int], target: int) -> List[int]:\n        seen = {}\n        for i, num in enumerate(nums):\n            complement = target - num\n            if complement in seen:\n                return [seen[complement], i]\n            seen[num] = i\n        return []",
-      "java": "class Solution {\n    public int[] twoSum(int[] nums, int target) {\n        Map<Integer, Integer> seen = new HashMap<>();\n        for (int i = 0; i < nums.length; i++) {\n            int complement = target - nums[i];\n            if (seen.containsKey(complement)) {\n                return new int[]{seen.get(complement), i};\n            }\n            seen.put(nums[i], i);\n        }\n        return new int[]{};\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<int> twoSum(vector<int>& nums, int target) {\n        unordered_map<int, int> seen;\n        for (int i = 0; i < nums.size(); i++) {\n            int complement = target - nums[i];\n            if (seen.count(complement))\n                return {seen[complement], i};\n            seen[nums[i]] = i;\n        }\n        return {};\n    }\n};",
-      "javascript": "var twoSum = function(nums, target) {\n    const seen = {};\n    for (let i = 0; i < nums.length; i++) {\n        const complement = target - nums[i];\n        if (complement in seen) return [seen[complement], i];\n        seen[nums[i]] = i;\n    }\n    return [];\n};",
-      "go": "func twoSum(nums []int, target int) []int {\n    seen := make(map[int]int)\n    for i, num := range nums {\n        complement := target - num\n        if j, ok := seen[complement]; ok {\n            return []int{j, i}\n        }\n        seen[num] = i\n    }\n    return nil\n}",
-      "rust": "impl Solution {\n    pub fn two_sum(nums: Vec<i32>, target: i32) -> Vec<i32> {\n        use std::collections::HashMap;\n        let mut seen: HashMap<i32, usize> = HashMap::new();\n        for (i, &num) in nums.iter().enumerate() {\n            let complement = target - num;\n            if let Some(&j) = seen.get(&complement) {\n                return vec![j as i32, i as i32];\n            }\n            seen.insert(num, i);\n        }\n        vec![]\n    }\n}"
-    }
+    "section": "Easy",
+    "problems": [
+      {
+        "id": "hash-001",
+        "leetcode": 1,
+        "title": "Two Sum",
+        "difficulty": "Easy",
+        "link": "https://leetcode.com/problems/two-sum/"
+      },
+      {
+        "id": "hash-002",
+        "leetcode": 217,
+        "title": "Contains Duplicate",
+        "difficulty": "Easy",
+        "link": "https://leetcode.com/problems/contains-duplicate/"
+      },
+      {
+        "id": "hash-003",
+        "leetcode": 242,
+        "title": "Valid Anagram",
+        "difficulty": "Easy",
+        "link": "https://leetcode.com/problems/valid-anagram/"
+      },
+      {
+        "id": "hash-004",
+        "leetcode": 383,
+        "title": "Ransom Note",
+        "difficulty": "Easy",
+        "link": "https://leetcode.com/problems/ransom-note/"
+      },
+      {
+        "id": "hash-005",
+        "leetcode": 205,
+        "title": "Isomorphic Strings",
+        "difficulty": "Easy",
+        "link": "https://leetcode.com/problems/isomorphic-strings/"
+      },
+      {
+        "id": "hash-006",
+        "leetcode": 290,
+        "title": "Word Pattern",
+        "difficulty": "Easy",
+        "link": "https://leetcode.com/problems/word-pattern/"
+      },
+      {
+        "id": "hash-007",
+        "leetcode": 387,
+        "title": "First Unique Character in a String",
+        "difficulty": "Easy",
+        "link": "https://leetcode.com/problems/first-unique-character-in-a-string/"
+      },
+      {
+        "id": "hash-008",
+        "leetcode": 202,
+        "title": "Happy Number",
+        "difficulty": "Easy",
+        "link": "https://leetcode.com/problems/happy-number/"
+      }
+    ]
   },
   {
-    "id": "contains-duplicate",
-    "leetcode": 217,
-    "title": "Contains Duplicate",
-    "difficulty": "Easy",
-    "description": "Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.",
-    "examples": [
-      { "input": "nums = [1,2,3,1]", "output": "true" },
-      { "input": "nums = [1,2,3,4]", "output": "false" },
-      { "input": "nums = [1,1,1,3,3,4,3,2,4,2]", "output": "true" }
-    ],
-    "hints": ["Use a hash set to track elements you've seen.", "If an element already exists in the set, return true."],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "class Solution:\n    def containsDuplicate(self, nums: List[int]) -> bool:\n        seen = set()\n        for num in nums:\n            if num in seen:\n                return True\n            seen.add(num)\n        return False",
-      "java": "class Solution {\n    public boolean containsDuplicate(int[] nums) {\n        Set<Integer> seen = new HashSet<>();\n        for (int num : nums) {\n            if (seen.contains(num)) return true;\n            seen.add(num);\n        }\n        return false;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    bool containsDuplicate(vector<int>& nums) {\n        unordered_set<int> seen;\n        for (int num : nums) {\n            if (seen.count(num)) return true;\n            seen.insert(num);\n        }\n        return false;\n    }\n};",
-      "javascript": "var containsDuplicate = function(nums) {\n    const seen = new Set();\n    for (const num of nums) {\n        if (seen.has(num)) return true;\n        seen.add(num);\n    }\n    return false;\n};",
-      "go": "func containsDuplicate(nums []int) bool {\n    seen := make(map[int]bool)\n    for _, num := range nums {\n        if seen[num] {\n            return true\n        }\n        seen[num] = true\n    }\n    return false\n}",
-      "rust": "impl Solution {\n    pub fn contains_duplicate(nums: Vec<i32>) -> bool {\n        use std::collections::HashSet;\n        let mut seen = HashSet::new();\n        for num in nums {\n            if !seen.insert(num) {\n                return true;\n            }\n        }\n        false\n    }\n}"
-    }
-  },
-  {
-    "id": "valid-anagram",
-    "leetcode": 242,
-    "title": "Valid Anagram",
-    "difficulty": "Easy",
-    "description": "Given two strings s and t, return true if t is an anagram of s, and false otherwise. An anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.",
-    "examples": [
-      { "input": "s = \"anagram\", t = \"nagaram\"", "output": "true" },
-      { "input": "s = \"rat\", t = \"car\"", "output": "false" }
-    ],
-    "hints": ["Count the frequency of each character in both strings.", "Compare the frequency maps for equality."],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(1) (at most 26 lowercase letters)",
-    "solutions": {
-      "python": "class Solution:\n    def isAnagram(self, s: str, t: str) -> bool:\n        if len(s) != len(t):\n            return False\n        count = {}\n        for c in s:\n            count[c] = count.get(c, 0) + 1\n        for c in t:\n            if c not in count:\n                return False\n            count[c] -= 1\n            if count[c] == 0:\n                del count[c]\n        return len(count) == 0",
-      "java": "class Solution {\n    public boolean isAnagram(String s, String t) {\n        if (s.length() != t.length()) return false;\n        int[] count = new int[26];\n        for (char c : s.toCharArray()) count[c - 'a']++;\n        for (char c : t.toCharArray()) {\n            count[c - 'a']--;\n            if (count[c - 'a'] < 0) return false;\n        }\n        return true;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    bool isAnagram(string s, string t) {\n        if (s.size() != t.size()) return false;\n        int count[26] = {};\n        for (char c : s) count[c - 'a']++;\n        for (char c : t) {\n            count[c - 'a']--;\n            if (count[c - 'a'] < 0) return false;\n        }\n        return true;\n    }\n};",
-      "javascript": "var isAnagram = function(s, t) {\n    if (s.length !== t.length) return false;\n    const count = {};\n    for (const c of s) count[c] = (count[c] || 0) + 1;\n    for (const c of t) {\n        if (!count[c]) return false;\n        count[c]--;\n    }\n    return true;\n};",
-      "go": "func isAnagram(s string, t string) bool {\n    if len(s) != len(t) {\n        return false\n    }\n    count := [26]int{}\n    for i := 0; i < len(s); i++ {\n        count[s[i]-'a']++\n        count[t[i]-'a']--\n    }\n    for _, v := range count {\n        if v != 0 {\n            return false\n        }\n    }\n    return true\n}",
-      "rust": "impl Solution {\n    pub fn is_anagram(s: String, t: String) -> bool {\n        if s.len() != t.len() {\n            return false;\n        }\n        let mut count = [0; 26];\n        for (a, b) in s.bytes().zip(t.bytes()) {\n            count[(a - b'a') as usize] += 1;\n            count[(b - b'a') as usize] -= 1;\n        }\n        count.iter().all(|&c| c == 0)\n    }\n}"
-    }
-  },
-  {
-    "id": "ransom-note",
-    "leetcode": 383,
-    "title": "Ransom Note",
-    "difficulty": "Easy",
-    "description": "Given two strings ransomNote and magazine, return true if ransomNote can be constructed by using the letters from magazine and false otherwise. Each letter in magazine can only be used once in ransomNote.",
-    "examples": [
-      { "input": "ransomNote = \"a\", magazine = \"b\"", "output": "false" },
-      { "input": "ransomNote = \"aa\", magazine = \"ab\"", "output": "false" },
-      { "input": "ransomNote = \"aa\", magazine = \"aab\"", "output": "true" }
-    ],
-    "hints": ["Count character frequencies in magazine.", "Check that ransomNote doesn't need more of any character than magazine has."],
-    "timeComplexity": "O(n + m)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "class Solution:\n    def canConstruct(self, ransomNote: str, magazine: str) -> bool:\n        count = {}\n        for c in magazine:\n            count[c] = count.get(c, 0) + 1\n        for c in ransomNote:\n            if count.get(c, 0) == 0:\n                return False\n            count[c] -= 1\n        return True",
-      "java": "class Solution {\n    public boolean canConstruct(String ransomNote, String magazine) {\n        int[] count = new int[26];\n        for (char c : magazine.toCharArray()) count[c - 'a']++;\n        for (char c : ransomNote.toCharArray()) {\n            if (count[c - 'a'] == 0) return false;\n            count[c - 'a']--;\n        }\n        return true;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    bool canConstruct(string ransomNote, string magazine) {\n        int count[26] = {};\n        for (char c : magazine) count[c - 'a']++;\n        for (char c : ransomNote) {\n            if (count[c - 'a'] == 0) return false;\n            count[c - 'a']--;\n        }\n        return true;\n    }\n};",
-      "javascript": "var canConstruct = function(ransomNote, magazine) {\n    const count = {};\n    for (const c of magazine) count[c] = (count[c] || 0) + 1;\n    for (const c of ransomNote) {\n        if (!count[c]) return false;\n        count[c]--;\n    }\n    return true;\n};",
-      "go": "func canConstruct(ransomNote string, magazine string) bool {\n    count := [26]int{}\n    for i := 0; i < len(magazine); i++ {\n        count[magazine[i]-'a']++\n    }\n    for i := 0; i < len(ransomNote); i++ {\n        if count[ransomNote[i]-'a'] == 0 {\n            return false\n        }\n        count[ransomNote[i]-'a']--\n    }\n    return true\n}",
-      "rust": "impl Solution {\n    pub fn can_construct(ransom_note: String, magazine: String) -> bool {\n        let mut count = [0; 26];\n        for c in magazine.bytes() {\n            count[(c - b'a') as usize] += 1;\n        }\n        for c in ransom_note.bytes() {\n            let idx = (c - b'a') as usize;\n            if count[idx] == 0 {\n                return false;\n            }\n            count[idx] -= 1;\n        }\n        true\n    }\n}"
-    }
-  },
-  {
-    "id": "isomorphic-strings",
-    "leetcode": 205,
-    "title": "Isomorphic Strings",
-    "difficulty": "Easy",
-    "description": "Given two strings s and t, determine if they are isomorphic. Two strings s and t are isomorphic if the characters in s can be replaced to get t. All occurrences of a character must be replaced with another character while preserving the order of characters. No two characters may map to the same character, but a character may map to itself.",
-    "examples": [
-      { "input": "s = \"egg\", t = \"add\"", "output": "true" },
-      { "input": "s = \"foo\", t = \"bar\"", "output": "false" },
-      { "input": "s = \"paper\", t = \"title\"", "output": "true" }
-    ],
-    "hints": ["Use two hash maps to track the mapping in both directions.", "Ensure the mapping is consistent as you iterate through both strings."],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(1) (at most 256 characters)",
-    "solutions": {
-      "python": "class Solution:\n    def isIsomorphic(self, s: str, t: str) -> bool:\n        if len(s) != len(t):\n            return False\n        s_to_t, t_to_s = {}, {}\n        for sc, tc in zip(s, t):\n            if sc in s_to_t and s_to_t[sc] != tc:\n                return False\n            if tc in t_to_s and t_to_s[tc] != sc:\n                return False\n            s_to_t[sc] = tc\n            t_to_s[tc] = sc\n        return True",
-      "java": "class Solution {\n    public boolean isIsomorphic(String s, String t) {\n        if (s.length() != t.length()) return false;\n        Map<Character, Character> sToT = new HashMap<>();\n        Map<Character, Character> tToS = new HashMap<>();\n        for (int i = 0; i < s.length(); i++) {\n            char sc = s.charAt(i), tc = t.charAt(i);\n            if (sToT.containsKey(sc) && sToT.get(sc) != tc) return false;\n            if (tToS.containsKey(tc) && tToS.get(tc) != sc) return false;\n            sToT.put(sc, tc);\n            tToS.put(tc, sc);\n        }\n        return true;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    bool isIsomorphic(string s, string t) {\n        if (s.size() != t.size()) return false;\n        unordered_map<char, char> sToT, tToS;\n        for (int i = 0; i < s.size(); i++) {\n            if (sToT.count(s[i]) && sToT[s[i]] != t[i]) return false;\n            if (tToS.count(t[i]) && tToS[t[i]] != s[i]) return false;\n            sToT[s[i]] = t[i];\n            tToS[t[i]] = s[i];\n        }\n        return true;\n    }\n};",
-      "javascript": "var isIsomorphic = function(s, t) {\n    if (s.length !== t.length) return false;\n    const sToT = {}, tToS = {};\n    for (let i = 0; i < s.length; i++) {\n        const sc = s[i], tc = t[i];\n        if (sToT[sc] && sToT[sc] !== tc) return false;\n        if (tToS[tc] && tToS[tc] !== sc) return false;\n        sToT[sc] = tc;\n        tToS[tc] = sc;\n    }\n    return true;\n};",
-      "go": "func isIsomorphic(s string, t string) bool {\n    if len(s) != len(t) {\n        return false\n    }\n    sToT := map[byte]byte{}\n    tToS := map[byte]byte{}\n    for i := 0; i < len(s); i++ {\n        sc, tc := s[i], t[i]\n        if v, ok := sToT[sc]; ok && v != tc {\n            return false\n        }\n        if v, ok := tToS[tc]; ok && v != sc {\n            return false\n        }\n        sToT[sc] = tc\n        tToS[tc] = sc\n    }\n    return true\n}",
-      "rust": "impl Solution {\n    pub fn is_isomorphic(s: String, t: String) -> bool {\n        if s.len() != t.len() {\n            return false;\n        }\n        let mut s_to_t = std::collections::HashMap::new();\n        let mut t_to_s = std::collections::HashMap::new();\n        for (sc, tc) in s.bytes().zip(t.bytes()) {\n            if let Some(&mapped) = s_to_t.get(&sc) {\n                if mapped != tc { return false; }\n            }\n            if let Some(&mapped) = t_to_s.get(&tc) {\n                if mapped != sc { return false; }\n            }\n            s_to_t.insert(sc, tc);\n            t_to_s.insert(tc, sc);\n        }\n        true\n    }\n}"
-    }
-  },
-  {
-    "id": "word-pattern",
-    "leetcode": 290,
-    "title": "Word Pattern",
-    "difficulty": "Easy",
-    "description": "Given a pattern and a string s, find if s follows the same pattern. Here follow means a full match, such that there is a bijection between a letter in pattern and a non-empty word in s. Specifically, each letter maps to one unique word, and each word maps to one unique letter.",
-    "examples": [
-      { "input": "pattern = \"abba\", s = \"dog cat cat dog\"", "output": "true" },
-      { "input": "pattern = \"abba\", s = \"dog cat cat fish\"", "output": "false" },
-      { "input": "pattern = \"aaaa\", s = \"dog cat cat dog\"", "output": "false" }
-    ],
-    "hints": ["Split s into words and check the bijection between pattern characters and words.", "Use two hash maps, similar to Isomorphic Strings."],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "class Solution:\n    def wordPattern(self, pattern: str, s: str) -> bool:\n        words = s.split()\n        if len(pattern) != len(words):\n            return False\n        p_to_w, w_to_p = {}, {}\n        for p, w in zip(pattern, words):\n            if p in p_to_w and p_to_w[p] != w:\n                return False\n            if w in w_to_p and w_to_p[w] != p:\n                return False\n            p_to_w[p] = w\n            w_to_p[w] = p\n        return True",
-      "java": "class Solution {\n    public boolean wordPattern(String pattern, String s) {\n        String[] words = s.split(\" \");\n        if (pattern.length() != words.length) return false;\n        Map<Character, String> pToW = new HashMap<>();\n        Map<String, Character> wToP = new HashMap<>();\n        for (int i = 0; i < pattern.length(); i++) {\n            char p = pattern.charAt(i);\n            String w = words[i];\n            if (pToW.containsKey(p) && !pToW.get(p).equals(w)) return false;\n            if (wToP.containsKey(w) && wToP.get(w) != p) return false;\n            pToW.put(p, w);\n            wToP.put(w, p);\n        }\n        return true;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    bool wordPattern(string pattern, string s) {\n        vector<string> words;\n        istringstream iss(s);\n        string word;\n        while (iss >> word) words.push_back(word);\n        if (pattern.size() != words.size()) return false;\n        unordered_map<char, string> pToW;\n        unordered_map<string, char> wToP;\n        for (int i = 0; i < pattern.size(); i++) {\n            if (pToW.count(pattern[i]) && pToW[pattern[i]] != words[i]) return false;\n            if (wToP.count(words[i]) && wToP[words[i]] != pattern[i]) return false;\n            pToW[pattern[i]] = words[i];\n            wToP[words[i]] = pattern[i];\n        }\n        return true;\n    }\n};",
-      "javascript": "var wordPattern = function(pattern, s) {\n    const words = s.split(' ');\n    if (pattern.length !== words.length) return false;\n    const pToW = {}, wToP = {};\n    for (let i = 0; i < pattern.length; i++) {\n        const p = pattern[i], w = words[i];\n        if (pToW[p] && pToW[p] !== w) return false;\n        if (wToP[w] && wToP[w] !== p) return false;\n        pToW[p] = w;\n        wToP[w] = p;\n    }\n    return true;\n};",
-      "go": "func wordPattern(pattern string, s string) bool {\n    words := strings.Split(s, \" \")\n    if len(pattern) != len(words) {\n        return false\n    }\n    pToW := map[byte]string{}\n    wToP := map[string]byte{}\n    for i := 0; i < len(pattern); i++ {\n        p, w := pattern[i], words[i]\n        if v, ok := pToW[p]; ok && v != w {\n            return false\n        }\n        if v, ok := wToP[w]; ok && v != p {\n            return false\n        }\n        pToW[p] = w\n        wToP[w] = p\n    }\n    return true\n}",
-      "rust": "impl Solution {\n    pub fn word_pattern(pattern: String, s: String) -> bool {\n        let words: Vec<&str> = s.split_whitespace().collect();\n        if pattern.len() != words.len() {\n            return false;\n        }\n        let mut p_to_w = std::collections::HashMap::new();\n        let mut w_to_p = std::collections::HashMap::new();\n        for (pc, &w) in pattern.bytes().zip(words.iter()) {\n            if let Some(&mapped) = p_to_w.get(&pc) {\n                if mapped != w { return false; }\n            }\n            if let Some(&mapped) = w_to_p.get(w) {\n                if mapped != pc { return false; }\n            }\n            p_to_w.insert(pc, w);\n            w_to_p.insert(w, pc);\n        }\n        true\n    }\n}"
-    }
-  },
-  {
-    "id": "first-unique-character-in-a-string",
-    "leetcode": 387,
-    "title": "First Unique Character in a String",
-    "difficulty": "Easy",
-    "description": "Given a string s, find the first non-repeating character in it and return its index. If it does not exist, return -1.",
-    "examples": [
-      { "input": "s = \"leetcode\"", "output": "0" },
-      { "input": "s = \"loveleetcode\"", "output": "2" },
-      { "input": "s = \"aabb\"", "output": "-1" }
-    ],
-    "hints": ["Count the frequency of each character first.", "Then find the first character with a count of 1."],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "class Solution:\n    def firstUniqChar(self, s: str) -> int:\n        count = {}\n        for c in s:\n            count[c] = count.get(c, 0) + 1\n        for i, c in enumerate(s):\n            if count[c] == 1:\n                return i\n        return -1",
-      "java": "class Solution {\n    public int firstUniqChar(String s) {\n        int[] count = new int[26];\n        for (char c : s.toCharArray()) count[c - 'a']++;\n        for (int i = 0; i < s.length(); i++) {\n            if (count[s.charAt(i) - 'a'] == 1) return i;\n        }\n        return -1;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int firstUniqChar(string s) {\n        int count[26] = {};\n        for (char c : s) count[c - 'a']++;\n        for (int i = 0; i < s.size(); i++) {\n            if (count[s[i] - 'a'] == 1) return i;\n        }\n        return -1;\n    }\n};",
-      "javascript": "var firstUniqChar = function(s) {\n    const count = {};\n    for (const c of s) count[c] = (count[c] || 0) + 1;\n    for (let i = 0; i < s.length; i++) {\n        if (count[s[i]] === 1) return i;\n    }\n    return -1;\n};",
-      "go": "func firstUniqChar(s string) int {\n    count := [26]int{}\n    for i := 0; i < len(s); i++ {\n        count[s[i]-'a']++\n    }\n    for i := 0; i < len(s); i++ {\n        if count[s[i]-'a'] == 1 {\n            return i\n        }\n    }\n    return -1\n}",
-      "rust": "impl Solution {\n    pub fn first_uniq_char(s: String) -> i32 {\n        let mut count = [0; 26];\n        for c in s.bytes() {\n            count[(c - b'a') as usize] += 1;\n        }\n        for (i, c) in s.bytes().enumerate() {\n            if count[(c - b'a') as usize] == 1 {\n                return i as i32;\n            }\n        }\n        -1\n    }\n}"
-    }
-  },
-  {
-    "id": "happy-number",
-    "leetcode": 202,
-    "title": "Happy Number",
-    "difficulty": "Easy",
-    "description": "Write an algorithm to determine if a number n is happy. A happy number is a number defined by the following process: Starting with any positive integer, replace the number by the sum of the squares of its digits. Repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1. Those numbers for which this process ends in 1 are happy numbers. Return true if n is a happy number, and false if not.",
-    "examples": [
-      { "input": "n = 19", "output": "true" },
-      { "input": "n = 2", "output": "false" }
-    ],
-    "hints": ["Use a hash set to detect cycles.", "If you reach 1, return true. If you see a number you've seen before, return false."],
-    "timeComplexity": "O(log n)",
-    "spaceComplexity": "O(log n)",
-    "solutions": {
-      "python": "class Solution:\n    def isHappy(self, n: int) -> bool:\n        seen = set()\n        while n != 1 and n not in seen:\n            seen.add(n)\n            total = 0\n            while n > 0:\n                total += (n % 10) ** 2\n                n //= 10\n            n = total\n        return n == 1",
-      "java": "class Solution {\n    public boolean isHappy(int n) {\n        Set<Integer> seen = new HashSet<>();\n        while (n != 1 && !seen.contains(n)) {\n            seen.add(n);\n            int total = 0;\n            while (n > 0) {\n                total += (n % 10) * (n % 10);\n                n /= 10;\n            }\n            n = total;\n        }\n        return n == 1;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    bool isHappy(int n) {\n        unordered_set<int> seen;\n        while (n != 1 && !seen.count(n)) {\n            seen.insert(n);\n            int total = 0;\n            while (n > 0) {\n                total += (n % 10) * (n % 10);\n                n /= 10;\n            }\n            n = total;\n        }\n        return n == 1;\n    }\n};",
-      "javascript": "var isHappy = function(n) {\n    const seen = new Set();\n    while (n !== 1 && !seen.has(n)) {\n        seen.add(n);\n        let total = 0;\n        while (n > 0) {\n            total += (n % 10) ** 2;\n            n = Math.floor(n / 10);\n        }\n        n = total;\n    }\n    return n === 1;\n};",
-      "go": "func isHappy(n int) bool {\n    seen := map[int]bool{}\n    for n != 1 && !seen[n] {\n        seen[n] = true\n        total := 0\n        for temp := n; temp > 0; temp /= 10 {\n            total += (temp % 10) * (temp % 10)\n        }\n        n = total\n    }\n    return n == 1\n}",
-      "rust": "impl Solution {\n    pub fn is_happy(n: i32) -> bool {\n        use std::collections::HashSet;\n        let mut seen = HashSet::new();\n        let mut n = n;\n        while n != 1 && !seen.contains(&n) {\n            seen.insert(n);\n            let mut total = 0;\n            let mut temp = n;\n            while temp > 0 {\n                total += (temp % 10).pow(2);\n                temp /= 10;\n            }\n            n = total;\n        }\n        n == 1\n    }\n}"
-    }
-  },
-  {
-    "id": "longest-consecutive-sequence",
-    "leetcode": 128,
-    "title": "Longest Consecutive Sequence",
-    "difficulty": "Medium",
-    "description": "Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence. You must write an algorithm that runs in O(n) time.",
-    "examples": [
-      { "input": "nums = [100,4,200,1,3,2]", "output": "4" },
-      { "input": "nums = [0,3,7,2,5,8,4,6,0,1]", "output": "9" }
-    ],
-    "hints": ["Put all numbers in a hash set.", "For each number, check if it's the start of a sequence (num - 1 not in set).", "Count consecutive numbers from each starting point."],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "class Solution:\n    def longestConsecutive(self, nums: List[int]) -> int:\n        num_set = set(nums)\n        max_len = 0\n        for num in num_set:\n            if num - 1 not in num_set:\n                length = 1\n                while num + length in num_set:\n                    length += 1\n                max_len = max(max_len, length)\n        return max_len",
-      "java": "class Solution {\n    public int longestConsecutive(int[] nums) {\n        Set<Integer> numSet = new HashSet<>();\n        for (int num : nums) numSet.add(num);\n        int maxLen = 0;\n        for (int num : numSet) {\n            if (!numSet.contains(num - 1)) {\n                int length = 1;\n                while (numSet.contains(num + length)) length++;\n                maxLen = Math.max(maxLen, length);\n            }\n        }\n        return maxLen;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int longestConsecutive(vector<int>& nums) {\n        unordered_set<int> numSet(nums.begin(), nums.end());\n        int maxLen = 0;\n        for (int num : numSet) {\n            if (!numSet.count(num - 1)) {\n                int length = 1;\n                while (numSet.count(num + length)) length++;\n                maxLen = max(maxLen, length);\n            }\n        }\n        return maxLen;\n    }\n};",
-      "javascript": "var longestConsecutive = function(nums) {\n    const numSet = new Set(nums);\n    let maxLen = 0;\n    for (const num of numSet) {\n        if (!numSet.has(num - 1)) {\n            let length = 1;\n            while (numSet.has(num + length)) length++;\n            maxLen = Math.max(maxLen, length);\n        }\n    }\n    return maxLen;\n};",
-      "go": "func longestConsecutive(nums []int) int {\n    numSet := map[int]bool{}\n    for _, num := range nums {\n        numSet[num] = true\n    }\n    maxLen := 0\n    for num := range numSet {\n        if !numSet[num-1] {\n            length := 1\n            for numSet[num+length] {\n                length++\n            }\n            if length > maxLen {\n                maxLen = length\n            }\n        }\n    }\n    return maxLen\n}",
-      "rust": "impl Solution {\n    pub fn longest_consecutive(nums: Vec<i32>) -> i32 {\n        use std::collections::HashSet;\n        let num_set: HashSet<i32> = nums.into_iter().collect();\n        let mut max_len = 0;\n        for &num in &num_set {\n            if !num_set.contains(&(num - 1)) {\n                let mut length = 1;\n                while num_set.contains(&(num + length)) {\n                    length += 1;\n                }\n                max_len = max_len.max(length);\n            }\n        }\n        max_len\n    }\n}"
-    }
-  },
-  {
-    "id": "group-anagrams",
-    "leetcode": 49,
-    "title": "Group Anagrams",
-    "difficulty": "Medium",
-    "description": "Given an array of strings strs, group the anagrams together. You can return the answer in any order. An anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.",
-    "examples": [
-      { "input": "strs = [\"eat\",\"tea\",\"tan\",\"ate\",\"nat\",\"bat\"]", "output": "[[\"bat\"],[\"nat\",\"tan\"],[\"ate\",\"eat\",\"tea\"]]" },
-      { "input": "strs = [\"\"]", "output": "[[\"\"]]" },
-      { "input": "strs = [\"a\"]", "output": "[[\"a\"]]" }
-    ],
-    "hints": ["Sort each string to use as a key in a hash map.", "Group all strings that share the same sorted key."],
-    "timeComplexity": "O(n * k log k) where n is the number of strings and k is the max length",
-    "spaceComplexity": "O(n * k)",
-    "solutions": {
-      "python": "class Solution:\n    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:\n        groups = {}\n        for s in strs:\n            key = tuple(sorted(s))\n            if key not in groups:\n                groups[key] = []\n            groups[key].append(s)\n        return list(groups.values())",
-      "java": "class Solution {\n    public List<List<String>> groupAnagrams(String[] strs) {\n        Map<String, List<String>> groups = new HashMap<>();\n        for (String s : strs) {\n            char[] chars = s.toCharArray();\n            Arrays.sort(chars);\n            String key = new String(chars);\n            groups.computeIfAbsent(key, k -> new ArrayList<>()).add(s);\n        }\n        return new ArrayList<>(groups.values());\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<vector<string>> groupAnagrams(vector<string>& strs) {\n        unordered_map<string, vector<string>> groups;\n        for (string s : strs) {\n            string key = s;\n            sort(key.begin(), key.end());\n            groups[key].push_back(s);\n        }\n        vector<vector<string>> result;\n        for (auto& [k, v] : groups) {\n            result.push_back(v);\n        }\n        return result;\n    }\n};",
-      "javascript": "var groupAnagrams = function(strs) {\n    const groups = {};\n    for (const s of strs) {\n        const key = s.split('').sort().join('');\n        if (!groups[key]) groups[key] = [];\n        groups[key].push(s);\n    }\n    return Object.values(groups);\n};",
-      "go": "func groupAnagrams(strs []string) [][]string {\n    groups := map[string][]string{}\n    for _, s := range strs {\n        chars := []byte(s)\n        sort.Slice(chars, func(i, j int) bool { return chars[i] < chars[j] })\n        key := string(chars)\n        groups[key] = append(groups[key], s)\n    }\n    result := make([][]string, 0, len(groups))\n    for _, v := range groups {\n        result = append(result, v)\n    }\n    return result\n}",
-      "rust": "impl Solution {\n    pub fn group_anagrams(strs: Vec<String>) -> Vec<Vec<String>> {\n        use std::collections::HashMap;\n        let mut groups: HashMap<String, Vec<String>> = HashMap::new();\n        for s in strs {\n            let mut chars: Vec<char> = s.chars().collect();\n            chars.sort();\n            let key: String = chars.into_iter().collect();\n            groups.entry(key).or_default().push(s);\n        }\n        groups.into_values().collect()\n    }\n}"
-    }
-  },
-  {
-    "id": "top-k-frequent-elements",
-    "leetcode": 347,
-    "title": "Top K Frequent Elements",
-    "difficulty": "Medium",
-    "description": "Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order. The answer is guaranteed to be unique.",
-    "examples": [
-      { "input": "nums = [1,1,1,2,2,3], k = 2", "output": "[1,2]" },
-      { "input": "nums = [1], k = 1", "output": "[1]" }
-    ],
-    "hints": ["Count the frequency of each element using a hash map.", "Use a bucket sort approach: create buckets indexed by frequency.", "Collect the top k elements from the buckets."],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "class Solution:\n    def topKFrequent(self, nums: List[int], k: int) -> List[int]:\n        count = {}\n        for num in nums:\n            count[num] = count.get(num, 0) + 1\n        buckets = [[] for _ in range(len(nums) + 1)]\n        for num, freq in count.items():\n            buckets[freq].append(num)\n        result = []\n        for i in range(len(buckets) - 1, -1, -1):\n            for num in buckets[i]:\n                result.append(num)\n                if len(result) == k:\n                    return result\n        return result",
-      "java": "class Solution {\n    public int[] topKFrequent(int[] nums, int k) {\n        Map<Integer, Integer> count = new HashMap<>();\n        for (int num : nums) count.put(num, count.getOrDefault(num, 0) + 1);\n        List<Integer>[] buckets = new List[nums.length + 1];\n        for (int i = 0; i < buckets.length; i++) buckets[i] = new ArrayList<>();\n        for (Map.Entry<Integer, Integer> e : count.entrySet()) {\n            buckets[e.getValue()].add(e.getKey());\n        }\n        int[] result = new int[k];\n        int idx = 0;\n        for (int i = buckets.length - 1; i >= 0 && idx < k; i--) {\n            for (int num : buckets[i]) {\n                result[idx++] = num;\n                if (idx == k) break;\n            }\n        }\n        return result;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<int> topKFrequent(vector<int>& nums, int k) {\n        unordered_map<int, int> count;\n        for (int num : nums) count[num]++;\n        vector<vector<int>> buckets(nums.size() + 1);\n        for (auto& [num, freq] : count) {\n            buckets[freq].push_back(num);\n        }\n        vector<int> result;\n        for (int i = buckets.size() - 1; i >= 0 && result.size() < k; i--) {\n            for (int num : buckets[i]) {\n                result.push_back(num);\n                if (result.size() == k) break;\n            }\n        }\n        return result;\n    }\n};",
-      "javascript": "var topKFrequent = function(nums, k) {\n    const count = {};\n    for (const num of nums) count[num] = (count[num] || 0) + 1;\n    const buckets = Array.from({ length: nums.length + 1 }, () => []);\n    for (const [num, freq] of Object.entries(count)) {\n        buckets[freq].push(parseInt(num));\n    }\n    const result = [];\n    for (let i = buckets.length - 1; i >= 0 && result.length < k; i--) {\n        for (const num of buckets[i]) {\n            result.push(num);\n            if (result.length === k) break;\n        }\n    }\n    return result;\n};",
-      "go": "func topKFrequent(nums []int, k int) []int {\n    count := map[int]int{}\n    for _, num := range nums {\n        count[num]++\n    }\n    buckets := make([][]int, len(nums)+1)\n    for num, freq := range count {\n        buckets[freq] = append(buckets[freq], num)\n    }\n    result := make([]int, 0, k)\n    for i := len(buckets) - 1; i >= 0 && len(result) < k; i-- {\n        for _, num := range buckets[i] {\n            result = append(result, num)\n            if len(result) == k {\n                break\n            }\n        }\n    }\n    return result\n}",
-      "rust": "impl Solution {\n    pub fn top_frequent(nums: Vec<i32>, k: i32) -> Vec<i32> {\n        use std::collections::HashMap;\n        let mut count = HashMap::new();\n        for &num in &nums {\n            *count.entry(num).or_insert(0) += 1;\n        }\n        let mut buckets: Vec<Vec<i32>> = vec![vec![]; nums.len() + 1];\n        for (num, freq) in count {\n            buckets[freq as usize].push(num);\n        }\n        let mut result = Vec::new();\n        for i in (0..buckets.len()).rev() {\n            for num in &buckets[i] {\n                result.push(*num);\n                if result.len() == k as usize {\n                    return result;\n                }\n            }\n        }\n        result\n    }\n}"
-    }
-  },
-  {
-    "id": "subarray-sum-equals-k",
-    "leetcode": 560,
-    "title": "Subarray Sum Equals K",
-    "difficulty": "Medium",
-    "description": "Given an array of integers nums and an integer k, return the total number of subarrays whose sum equals to k. A subarray is a contiguous non-empty sequence of elements within an array.",
-    "examples": [
-      { "input": "nums = [1,1,1], k = 2", "output": "2" },
-      { "input": "nums = [1,2,3], k = 3", "output": "2" }
-    ],
-    "hints": ["Use prefix sums with a hash map.", "For each prefix sum, check if (prefix_sum - k) exists in the map.", "The count of that value tells you how many subarrays end at the current index with sum k."],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "class Solution:\n    def subarraySum(self, nums: List[int], k: int) -> int:\n        count = {0: 1}\n        prefix = 0\n        result = 0\n        for num in nums:\n            prefix += num\n            if prefix - k in count:\n                result += count[prefix - k]\n            count[prefix] = count.get(prefix, 0) + 1\n        return result",
-      "java": "class Solution {\n    public int subarraySum(int[] nums, int k) {\n        Map<Integer, Integer> count = new HashMap<>();\n        count.put(0, 1);\n        int prefix = 0, result = 0;\n        for (int num : nums) {\n            prefix += num;\n            result += count.getOrDefault(prefix - k, 0);\n            count.put(prefix, count.getOrDefault(prefix, 0) + 1);\n        }\n        return result;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int subarraySum(vector<int>& nums, int k) {\n        unordered_map<int, int> count;\n        count[0] = 1;\n        int prefix = 0, result = 0;\n        for (int num : nums) {\n            prefix += num;\n            result += count[prefix - k];\n            count[prefix]++;\n        }\n        return result;\n    }\n};",
-      "javascript": "var subarraySum = function(nums, k) {\n    const count = { 0: 1 };\n    let prefix = 0, result = 0;\n    for (const num of nums) {\n        prefix += num;\n        result += count[prefix - k] || 0;\n        count[prefix] = (count[prefix] || 0) + 1;\n    }\n    return result;\n};",
-      "go": "func subarraySum(nums []int, k int) int {\n    count := map[int]int{0: 1}\n    prefix, result := 0, 0\n    for _, num := range nums {\n        prefix += num\n        result += count[prefix-k]\n        count[prefix]++\n    }\n    return result\n}",
-      "rust": "impl Solution {\n    pub fn subarray_sum(nums: Vec<i32>, k: i32) -> i32 {\n        use std::collections::HashMap;\n        let mut count: HashMap<i32, i32> = HashMap::new();\n        count.insert(0, 1);\n        let mut prefix = 0;\n        let mut result = 0;\n        for num in nums {\n            prefix += num;\n            result += count.get(&(prefix - k)).unwrap_or(&0);\n            *count.entry(prefix).or_insert(0) += 1;\n        }\n        result\n    }\n}"
-    }
+    "section": "Medium",
+    "problems": [
+      {
+        "id": "hash-009",
+        "leetcode": 128,
+        "title": "Longest Consecutive Sequence",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/longest-consecutive-sequence/"
+      },
+      {
+        "id": "hash-010",
+        "leetcode": 49,
+        "title": "Group Anagrams",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/group-anagrams/"
+      },
+      {
+        "id": "hash-011",
+        "leetcode": 347,
+        "title": "Top K Frequent Elements",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/top-k-frequent-elements/"
+      },
+      {
+        "id": "hash-012",
+        "leetcode": 560,
+        "title": "Subarray Sum Equals K",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/subarray-sum-equals-k/"
+      }
+    ]
   }
 ]

@@ -1,374 +1,94 @@
 [
   {
-    "id": 1,
-    "leetcode": 121,
-    "title": "Best Time to Buy and Sell Stock",
-    "difficulty": "Easy",
-    "description": "You are given an array prices where prices[i] is the price of a given stock on the ith day. You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock. Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.",
-    "examples": [
+    "section": "Easy",
+    "problems": [
       {
-        "input": "prices = [7,1,5,3,6,4]",
-        "output": "5"
+        "id": "sw-001",
+        "leetcode": 121,
+        "title": "Best Time to Buy and Sell Stock",
+        "difficulty": "Easy",
+        "link": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock/"
       },
       {
-        "input": "prices = [7,6,4,3,1]",
-        "output": "0"
+        "id": "sw-002",
+        "leetcode": 643,
+        "title": "Maximum Average Subarray I",
+        "difficulty": "Easy",
+        "link": "https://leetcode.com/problems/maximum-average-subarray-i/"
       }
-    ],
-    "hints": [
-      "Keep track of the minimum price seen so far.",
-      "For each day, calculate the profit if you sold on that day.",
-      "Update the maximum profit if the current profit is greater."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "class Solution:\n    def maxProfit(self, prices: list[int]) -> int:\n        min_price = float('inf')\n        max_profit = 0\n        for price in prices:\n            min_price = min(min_price, price)\n            max_profit = max(max_profit, price - min_price)\n        return max_profit",
-      "java": "class Solution {\n    public int maxProfit(int[] prices) {\n        int minPrice = Integer.MAX_VALUE;\n        int maxProfit = 0;\n        for (int price : prices) {\n            minPrice = Math.min(minPrice, price);\n            maxProfit = Math.max(maxProfit, price - minPrice);\n        }\n        return maxProfit;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int maxProfit(vector<int>& prices) {\n        int minPrice = INT_MAX;\n        int maxProfit = 0;\n        for (int price : prices) {\n            minPrice = min(minPrice, price);\n            maxProfit = max(maxProfit, price - minPrice);\n        }\n        return maxProfit;\n    }\n};",
-      "javascript": "var maxProfit = function(prices) {\n    let minPrice = Infinity;\n    let maxProfit = 0;\n    for (const price of prices) {\n        minPrice = Math.min(minPrice, price);\n        maxProfit = Math.max(maxProfit, price - minPrice);\n    }\n    return maxProfit;\n};",
-      "go": "func maxProfit(prices []int) int {\n    minPrice := prices[0]\n    maxProfit := 0\n    for _, price := range prices {\n        if price < minPrice {\n            minPrice = price\n        }\n        if price - minPrice > maxProfit {\n            maxProfit = price - minPrice\n        }\n    }\n    return maxProfit\n}",
-      "rust": "impl Solution {\n    pub fn max_profit(prices: Vec<i32>) -> i32 {\n        let mut min_price = i32::MAX;\n        let mut max_profit = 0;\n        for &price in &prices {\n            if price < min_price {\n                min_price = price;\n            }\n            if price - min_price > max_profit {\n                max_profit = price - min_price;\n            }\n        }\n        max_profit\n    }\n}"
-    }
+    ]
   },
   {
-    "id": 2,
-    "leetcode": 643,
-    "title": "Maximum Average Subarray I",
-    "difficulty": "Easy",
-    "description": "You are given an integer array nums consisting of n elements, and an integer k. Find a contiguous subarray whose length is equal to k that has the maximum average value. Return the maximum average value. The answer will be computed with a floating-point number precision of 10^-5.",
-    "examples": [
+    "section": "Medium",
+    "problems": [
       {
-        "input": "nums = [1,12,-5,-6,50,3], k = 4",
-        "output": "12.75000"
+        "id": "sw-003",
+        "leetcode": 3,
+        "title": "Longest Substring Without Repeating Characters",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/longest-substring-without-repeating-characters/"
       },
       {
-        "input": "nums = [5], k = 1",
-        "output": "5.00000"
+        "id": "sw-004",
+        "leetcode": 424,
+        "title": "Longest Repeating Character Replacement",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/longest-repeating-character-replacement/"
+      },
+      {
+        "id": "sw-005",
+        "leetcode": 567,
+        "title": "Permutation in String",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/permutation-in-string/"
+      },
+      {
+        "id": "sw-006",
+        "leetcode": 438,
+        "title": "Find All Anagrams in a String",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/find-all-anagrams-in-a-string/"
+      },
+      {
+        "id": "sw-007",
+        "leetcode": 209,
+        "title": "Minimum Size Subarray Sum",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/minimum-size-subarray-sum/"
+      },
+      {
+        "id": "sw-008",
+        "leetcode": 904,
+        "title": "Fruits Into Baskets",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/fruits-into-baskets/"
       }
-    ],
-    "hints": [
-      "Compute the sum of the first window of size k.",
-      "Slide the window by adding the next element and removing the first element.",
-      "Track the maximum window sum and divide by k at the end."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "class Solution:\n    def findMaxAverage(self, nums: list[int], k: int) -> float:\n        window_sum = sum(nums[:k])\n        max_sum = window_sum\n        for i in range(k, len(nums)):\n            window_sum += nums[i] - nums[i - k]\n            max_sum = max(max_sum, window_sum)\n        return max_sum / k",
-      "java": "class Solution {\n    public double findMaxAverage(int[] nums, int k) {\n        double windowSum = 0;\n        for (int i = 0; i < k; i++) {\n            windowSum += nums[i];\n        }\n        double maxSum = windowSum;\n        for (int i = k; i < nums.length; i++) {\n            windowSum += nums[i] - nums[i - k];\n            maxSum = Math.max(maxSum, windowSum);\n        }\n        return maxSum / k;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    double findMaxAverage(vector<int>& nums, int k) {\n        double windowSum = 0;\n        for (int i = 0; i < k; i++) {\n            windowSum += nums[i];\n        }\n        double maxSum = windowSum;\n        for (int i = k; i < nums.size(); i++) {\n            windowSum += nums[i] - nums[i - k];\n            maxSum = max(maxSum, windowSum);\n        }\n        return maxSum / k;\n    }\n};",
-      "javascript": "var findMaxAverage = function(nums, k) {\n    let windowSum = 0;\n    for (let i = 0; i < k; i++) {\n        windowSum += nums[i];\n    }\n    let maxSum = windowSum;\n    for (let i = k; i < nums.length; i++) {\n        windowSum += nums[i] - nums[i - k];\n        maxSum = Math.max(maxSum, windowSum);\n    }\n    return maxSum / k;\n};",
-      "go": "func findMaxAverage(nums []int, k int) float64 {\n    windowSum := 0\n    for i := 0; i < k; i++ {\n        windowSum += nums[i]\n    }\n    maxSum := windowSum\n    for i := k; i < len(nums); i++ {\n        windowSum += nums[i] - nums[i-k]\n        if windowSum > maxSum {\n            maxSum = windowSum\n        }\n    }\n    return float64(maxSum) / float64(k)\n}",
-      "rust": "impl Solution {\n    pub fn find_max_average(nums: Vec<i32>, k: i32) -> f64 {\n        let k = k as usize;\n        let mut window_sum: i32 = nums[..k].iter().sum();\n        let mut max_sum = window_sum;\n        for i in k..nums.len() {\n            window_sum += nums[i] - nums[i - k];\n            if window_sum > max_sum {\n                max_sum = window_sum;\n            }\n        }\n        max_sum as f64 / k as f64\n    }\n}"
-    }
+    ]
   },
   {
-    "id": 3,
-    "leetcode": 3,
-    "title": "Longest Substring Without Repeating Characters",
-    "difficulty": "Medium",
-    "description": "Given a string s, find the length of the longest substring without repeating characters.",
-    "examples": [
+    "section": "Hard",
+    "problems": [
       {
-        "input": "s = \"abcabcbb\"",
-        "output": "3"
+        "id": "sw-009",
+        "leetcode": 239,
+        "title": "Sliding Window Maximum",
+        "difficulty": "Hard",
+        "link": "https://leetcode.com/problems/sliding-window-maximum/"
       },
       {
-        "input": "s = \"bbbbb\"",
-        "output": "1"
+        "id": "sw-010",
+        "leetcode": 30,
+        "title": "Substring with Concatenation of All Words",
+        "difficulty": "Hard",
+        "link": "https://leetcode.com/problems/substring-with-concatenation-of-all-words/"
       },
       {
-        "input": "s = \"pwwkew\"",
-        "output": "3"
+        "id": "sw-011",
+        "leetcode": 76,
+        "title": "Minimum Window Substring",
+        "difficulty": "Hard",
+        "link": "https://leetcode.com/problems/minimum-window-substring/"
       }
-    ],
-    "hints": [
-      "Use a sliding window with two pointers.",
-      "Use a hash set to track characters in the current window.",
-      "Shrink the window from the left when a duplicate is found."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(min(n, m)) where m is the character set size",
-    "solutions": {
-      "python": "class Solution:\n    def lengthOfLongestSubstring(self, s: str) -> int:\n        char_set = set()\n        left = 0\n        max_len = 0\n        for right in range(len(s)):\n            while s[right] in char_set:\n                char_set.remove(s[left])\n                left += 1\n            char_set.add(s[right])\n            max_len = max(max_len, right - left + 1)\n        return max_len",
-      "java": "class Solution {\n    public int lengthOfLongestSubstring(String s) {\n        Set<Character> charSet = new HashSet<>();\n        int left = 0, maxLen = 0;\n        for (int right = 0; right < s.length(); right++) {\n            while (charSet.contains(s.charAt(right))) {\n                charSet.remove(s.charAt(left));\n                left++;\n            }\n            charSet.add(s.charAt(right));\n            maxLen = Math.max(maxLen, right - left + 1);\n        }\n        return maxLen;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int lengthOfLongestSubstring(string s) {\n        unordered_set<char> charSet;\n        int left = 0, maxLen = 0;\n        for (int right = 0; right < s.size(); right++) {\n            while (charSet.count(s[right])) {\n                charSet.erase(s[left]);\n                left++;\n            }\n            charSet.insert(s[right]);\n            maxLen = max(maxLen, right - left + 1);\n        }\n        return maxLen;\n    }\n};",
-      "javascript": "var lengthOfLongestSubstring = function(s) {\n    const charSet = new Set();\n    let left = 0, maxLen = 0;\n    for (let right = 0; right < s.length; right++) {\n        while (charSet.has(s[right])) {\n            charSet.delete(s[left]);\n            left++;\n        }\n        charSet.add(s[right]);\n        maxLen = Math.max(maxLen, right - left + 1);\n    }\n    return maxLen;\n};",
-      "go": "func lengthOfLongestSubstring(s string) int {\n    charSet := make(map[byte]bool)\n    left, maxLen := 0, 0\n    for right := 0; right < len(s); right++ {\n        for charSet[s[right]] {\n            delete(charSet, s[left])\n            left++\n        }\n        charSet[s[right]] = true\n        if right-left+1 > maxLen {\n            maxLen = right - left + 1\n        }\n    }\n    return maxLen\n}",
-      "rust": "use std::collections::HashSet;\n\nimpl Solution {\n    pub fn length_of_longest_substring(s: String) -> i32 {\n        let s = s.as_bytes();\n        let mut char_set: HashSet<u8> = HashSet::new();\n        let mut left = 0;\n        let mut max_len = 0;\n        for right in 0..s.len() {\n            while char_set.contains(&s[right]) {\n                char_set.remove(&s[left]);\n                left += 1;\n            }\n            char_set.insert(s[right]);\n            max_len = max_len.max((right - left + 1) as i32);\n        }\n        max_len\n    }\n}"
-    }
-  },
-  {
-    "id": 4,
-    "leetcode": 424,
-    "title": "Longest Repeating Character Replacement",
-    "difficulty": "Medium",
-    "description": "You are given a string s consisting of uppercase English letters and an integer k. You can choose at most k characters from the string and replace them with any uppercase English letter. Return the length of the longest substring containing the same letter you can get after performing the replacement.",
-    "examples": [
-      {
-        "input": "s = \"AABABBA\", k = 1",
-        "output": "4"
-      },
-      {
-        "input": "s = \"ABAB\", k = 2",
-        "output": "4"
-      }
-    ],
-    "hints": [
-      "The number of characters to replace is window length minus the count of the most frequent character.",
-      "Keep a frequency map of characters in the current window.",
-      "Shrink the window when the number of replacements needed exceeds k."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(1) since there are 26 uppercase letters",
-    "solutions": {
-      "python": "class Solution:\n    def characterReplacement(self, s: str, k: int) -> int:\n        count = {}\n        left = 0\n        max_count = 0\n        max_len = 0\n        for right in range(len(s)):\n            count[s[right]] = count.get(s[right], 0) + 1\n            max_count = max(max_count, count[s[right]])\n            while (right - left + 1) - max_count > k:\n                count[s[left]] -= 1\n                left += 1\n            max_len = max(max_len, right - left + 1)\n        return max_len",
-      "java": "class Solution {\n    public int characterReplacement(String s, int k) {\n        int[] count = new int[26];\n        int left = 0, maxCount = 0, maxLen = 0;\n        for (int right = 0; right < s.length(); right++) {\n            count[s.charAt(right) - 'A']++;\n            maxCount = Math.max(maxCount, count[s.charAt(right) - 'A']);\n            while ((right - left + 1) - maxCount > k) {\n                count[s.charAt(left) - 'A']--;\n                left++;\n            }\n            maxLen = Math.max(maxLen, right - left + 1);\n        }\n        return maxLen;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int characterReplacement(string s, int k) {\n        vector<int> count(26, 0);\n        int left = 0, maxCount = 0, maxLen = 0;\n        for (int right = 0; right < s.size(); right++) {\n            count[s[right] - 'A']++;\n            maxCount = max(maxCount, count[s[right] - 'A']);\n            while ((right - left + 1) - maxCount > k) {\n                count[s[left] - 'A']--;\n                left++;\n            }\n            maxLen = max(maxLen, right - left + 1);\n        }\n        return maxLen;\n    }\n};",
-      "javascript": "var characterReplacement = function(s, k) {\n    const count = new Array(26).fill(0);\n    let left = 0, maxCount = 0, maxLen = 0;\n    for (let right = 0; right < s.length; right++) {\n        count[s.charCodeAt(right) - 65]++;\n        maxCount = Math.max(maxCount, count[s.charCodeAt(right) - 65]);\n        while ((right - left + 1) - maxCount > k) {\n            count[s.charCodeAt(left) - 65]--;\n            left++;\n        }\n        maxLen = Math.max(maxLen, right - left + 1);\n    }\n    return maxLen;\n};",
-      "go": "func characterReplacement(s string, k int) int {\n    count := [26]int{}\n    left, maxCount, maxLen := 0, 0, 0\n    for right := 0; right < len(s); right++ {\n        count[s[right]-'A']++\n        if count[s[right]-'A'] > maxCount {\n            maxCount = count[s[right]-'A']\n        }\n        for right-left+1-maxCount > k {\n            count[s[left]-'A']--\n            left++\n        }\n        if right-left+1 > maxLen {\n            maxLen = right - left + 1\n        }\n    }\n    return maxLen\n}",
-      "rust": "impl Solution {\n    pub fn character_replacement(s: String, k: i32) -> i32 {\n        let s = s.as_bytes();\n        let mut count = [0i32; 26];\n        let mut left = 0;\n        let mut max_count = 0;\n        let mut max_len = 0;\n        for right in 0..s.len() {\n            count[(s[right] - b'A') as usize] += 1;\n            max_count = max_count.max(count[(s[right] - b'A') as usize]);\n            while (right as i32 - left as i32 + 1) - max_count > k {\n                count[(s[left] - b'A') as usize] -= 1;\n                left += 1;\n            }\n            max_len = max_len.max((right - left + 1) as i32);\n        }\n        max_len\n    }\n}"
-    }
-  },
-  {
-    "id": 5,
-    "leetcode": 76,
-    "title": "Minimum Window Substring",
-    "difficulty": "Medium",
-    "description": "Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string. The testcases will be generated such that the answer is unique.",
-    "examples": [
-      {
-        "input": "s = \"ADOBECODEBANC\", t = \"ABC\"",
-        "output": "BANC"
-      },
-      {
-        "input": "s = \"a\", t = \"a\"",
-        "output": "a"
-      },
-      {
-        "input": "s = \"a\", t = \"aa\"",
-        "output": "\"\""
-      }
-    ],
-    "hints": [
-      "Count the frequency of each character in t.",
-      "Use two pointers to maintain a valid window.",
-      "A window is valid when it contains all characters of t with required frequencies."
-    ],
-    "timeComplexity": "O(m + n)",
-    "spaceComplexity": "O(1) since there are 128 ASCII characters",
-    "solutions": {
-      "python": "class Solution:\n    def minWindow(self, s: str, t: str) -> str:\n        if not t or not s:\n            return \"\"\n        from collections import Counter\n        t_count = Counter(t)\n        required = len(t_count)\n        left = 0\n        formed = 0\n        window_counts = {}\n        ans = (float('inf'), 0, 0)\n        for right in range(len(s)):\n            char = s[right]\n            window_counts[char] = window_counts.get(char, 0) + 1\n            if char in t_count and window_counts[char] == t_count[char]:\n                formed += 1\n            while formed == required:\n                if right - left + 1 < ans[0]:\n                    ans = (right - left + 1, left, right)\n                left_char = s[left]\n                window_counts[left_char] -= 1\n                if left_char in t_count and window_counts[left_char] < t_count[left_char]:\n                    formed -= 1\n                left += 1\n        return \"\" if ans[0] == float('inf') else s[ans[1]:ans[2] + 1]",
-      "java": "class Solution {\n    public String minWindow(String s, String t) {\n        if (s == null || t == null || s.length() < t.length()) return \"\";\n        int[] tCount = new int[128];\n        int required = 0;\n        for (char c : t.toCharArray()) {\n            if (tCount[c] == 0) required++;\n            tCount[c]++;\n        }\n        int[] windowCount = new int[128];\n        int left = 0, formed = 0, start = 0, minLen = Integer.MAX_VALUE;\n        for (int right = 0; right < s.length(); right++) {\n            char rc = s.charAt(right);\n            windowCount[rc]++;\n            if (windowCount[rc] == tCount[rc]) formed++;\n            while (formed == required) {\n                if (right - left + 1 < minLen) {\n                    minLen = right - left + 1;\n                    start = left;\n                }\n                char lc = s.charAt(left);\n                windowCount[lc]--;\n                if (windowCount[lc] < tCount[lc]) formed--;\n                left++;\n            }\n        }\n        return minLen == Integer.MAX_VALUE ? \"\" : s.substring(start, start + minLen);\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    string minWindow(string s, string t) {\n        if (s.empty() || t.empty() || s.size() < t.size()) return \"\";\n        vector<int> tCount(128, 0);\n        int required = 0;\n        for (char c : t) {\n            if (tCount[c] == 0) required++;\n            tCount[c]++;\n        }\n        vector<int> windowCount(128, 0);\n        int left = 0, formed = 0, start = 0, minLen = INT_MAX;\n        for (int right = 0; right < s.size(); right++) {\n            char rc = s[right];\n            windowCount[rc]++;\n            if (windowCount[rc] == tCount[rc]) formed++;\n            while (formed == required) {\n                if (right - left + 1 < minLen) {\n                    minLen = right - left + 1;\n                    start = left;\n                }\n                char lc = s[left];\n                windowCount[lc]--;\n                if (windowCount[lc] < tCount[lc]) formed--;\n                left++;\n            }\n        }\n        return minLen == INT_MAX ? \"\" : s.substr(start, minLen);\n    }\n};",
-      "javascript": "var minWindow = function(s, t) {\n    if (!s || !t || s.length < t.length) return \"\";\n    const tCount = new Array(128).fill(0);\n    let required = 0;\n    for (const c of t) {\n        if (tCount[c.charCodeAt(0)] === 0) required++;\n        tCount[c.charCodeAt(0)]++;\n    }\n    const windowCount = new Array(128).fill(0);\n    let left = 0, formed = 0, start = 0, minLen = Infinity;\n    for (let right = 0; right < s.length; right++) {\n        const rc = s.charCodeAt(right);\n        windowCount[rc]++;\n        if (windowCount[rc] === tCount[rc]) formed++;\n        while (formed === required) {\n            if (right - left + 1 < minLen) {\n                minLen = right - left + 1;\n                start = left;\n            }\n            const lc = s.charCodeAt(left);\n            windowCount[lc]--;\n            if (windowCount[lc] < tCount[lc]) formed--;\n            left++;\n        }\n    }\n    return minLen === Infinity ? \"\" : s.substring(start, start + minLen);\n};",
-      "go": "func minWindow(s string, t string) string {\n    if len(s) == 0 || len(t) == 0 || len(s) < len(t) {\n        return \"\"\n    }\n    tCount := [128]int{}\n    required := 0\n    for i := 0; i < len(t); i++ {\n        if tCount[t[i]] == 0 {\n            required++\n        }\n        tCount[t[i]]++\n    }\n    windowCount := [128]int{}\n    left, formed, start, minLen := 0, 0, 0, len(s)+1\n    for right := 0; right < len(s); right++ {\n        rc := s[right]\n        windowCount[rc]++\n        if windowCount[rc] == tCount[rc] {\n            formed++\n        }\n        for formed == required {\n            if right-left+1 < minLen {\n                minLen = right - left + 1\n                start = left\n            }\n            lc := s[left]\n            windowCount[lc]--\n            if windowCount[lc] < tCount[lc] {\n                formed--\n            }\n            left++\n        }\n    }\n    if minLen == len(s)+1 {\n        return \"\"\n    }\n    return s[start : start+minLen]\n}",
-      "rust": "impl Solution {\n    pub fn min_window(s: String, t: String) -> String {\n        if s.is_empty() || t.is_empty() || s.len() < t.len() {\n            return String::new();\n        }\n        let s = s.as_bytes();\n        let t = t.as_bytes();\n        let mut t_count = [0i32; 128];\n        let mut required = 0;\n        for &c in t {\n            if t_count[c as usize] == 0 {\n                required += 1;\n            }\n            t_count[c as usize] += 1;\n        }\n        let mut window_count = [0i32; 128];\n        let mut left = 0;\n        let mut formed = 0;\n        let mut start = 0;\n        let mut min_len = s.len() + 1;\n        for right in 0..s.len() {\n            let rc = s[right] as usize;\n            window_count[rc] += 1;\n            if window_count[rc] == t_count[rc] {\n                formed += 1;\n            }\n            while formed == required {\n                if right - left + 1 < min_len {\n                    min_len = right - left + 1;\n                    start = left;\n                }\n                let lc = s[left] as usize;\n                window_count[lc] -= 1;\n                if window_count[lc] < t_count[lc] {\n                    formed -= 1;\n                }\n                left += 1;\n            }\n        }\n        if min_len == s.len() + 1 {\n            String::new()\n        } else {\n            String::from_utf8(s[start..start + min_len].to_vec()).unwrap()\n        }\n    }\n}"
-    }
-  },
-  {
-    "id": 6,
-    "leetcode": 567,
-    "title": "Permutation in String",
-    "difficulty": "Medium",
-    "description": "Given two strings s1 and s2, return true if s2 contains a permutation of s1, or false otherwise. In other words, return true if one of s1's permutations is the substring of s2.",
-    "examples": [
-      {
-        "input": "s1 = \"ab\", s2 = \"eidbaooo\"",
-        "output": "true"
-      },
-      {
-        "input": "s1 = \"ab\", s2 = \"eidboaoo\"",
-        "output": "false"
-      }
-    ],
-    "hints": [
-      "A permutation of s1 has the same character frequency as s1.",
-      "Use a fixed-size sliding window of length equal to s1.",
-      "Compare character frequency arrays of the window and s1."
-    ],
-    "timeComplexity": "O(n) where n is the length of s2",
-    "spaceComplexity": "O(1) since there are 26 lowercase letters",
-    "solutions": {
-      "python": "class Solution:\n    def checkInclusion(self, s1: str, s2: str) -> bool:\n        if len(s1) > len(s2):\n            return False\n        from collections import Counter\n        s1_count = Counter(s1)\n        window_count = Counter(s2[:len(s1)])\n        if s1_count == window_count:\n            return True\n        for i in range(len(s1), len(s2)):\n            left_char = s2[i - len(s1)]\n            right_char = s2[i]\n            window_count[right_char] = window_count.get(right_char, 0) + 1\n            window_count[left_char] -= 1\n            if window_count[left_char] == 0:\n                del window_count[left_char]\n            if s1_count == window_count:\n                return True\n        return False",
-      "java": "class Solution {\n    public boolean checkInclusion(String s1, String s2) {\n        if (s1.length() > s2.length()) return false;\n        int[] s1Count = new int[26];\n        int[] windowCount = new int[26];\n        for (int i = 0; i < s1.length(); i++) {\n            s1Count[s1.charAt(i) - 'a']++;\n            windowCount[s2.charAt(i) - 'a']++;\n        }\n        if (matches(s1Count, windowCount)) return true;\n        for (int i = s1.length(); i < s2.length(); i++) {\n            windowCount[s2.charAt(i) - 'a']++;\n            windowCount[s2.charAt(i - s1.length()) - 'a']--;\n            if (matches(s1Count, windowCount)) return true;\n        }\n        return false;\n    }\n    private boolean matches(int[] a, int[] b) {\n        for (int i = 0; i < 26; i++) {\n            if (a[i] != b[i]) return false;\n        }\n        return true;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    bool checkInclusion(string s1, string s2) {\n        if (s1.size() > s2.size()) return false;\n        vector<int> s1Count(26, 0), windowCount(26, 0);\n        for (int i = 0; i < s1.size(); i++) {\n            s1Count[s1[i] - 'a']++;\n            windowCount[s2[i] - 'a']++;\n        }\n        if (s1Count == windowCount) return true;\n        for (int i = s1.size(); i < s2.size(); i++) {\n            windowCount[s2[i] - 'a']++;\n            windowCount[s2[i - s1.size()] - 'a']--;\n            if (s1Count == windowCount) return true;\n        }\n        return false;\n    }\n};",
-      "javascript": "var checkInclusion = function(s1, s2) {\n    if (s1.length > s2.length) return false;\n    const s1Count = new Array(26).fill(0);\n    const windowCount = new Array(26).fill(0);\n    for (let i = 0; i < s1.length; i++) {\n        s1Count[s1.charCodeAt(i) - 97]++;\n        windowCount[s2.charCodeAt(i) - 97]++;\n    }\n    const matches = (a, b) => a.every((v, i) => v === b[i]);\n    if (matches(s1Count, windowCount)) return true;\n    for (let i = s1.length; i < s2.length; i++) {\n        windowCount[s2.charCodeAt(i) - 97]++;\n        windowCount[s2.charCodeAt(i - s1.length) - 97]--;\n        if (matches(s1Count, windowCount)) return true;\n    }\n    return false;\n};",
-      "go": "func checkInclusion(s1 string, s2 string) bool {\n    if len(s1) > len(s2) {\n        return false\n    }\n    var s1Count, windowCount [26]int\n    for i := 0; i < len(s1); i++ {\n        s1Count[s1[i]-'a']++\n        windowCount[s2[i]-'a']++\n    }\n    matches := func(a, b [26]int) bool {\n        for i := 0; i < 26; i++ {\n            if a[i] != b[i] {\n                return false\n            }\n        }\n        return true\n    }\n    if matches(s1Count, windowCount) {\n        return true\n    }\n    for i := len(s1); i < len(s2); i++ {\n        windowCount[s2[i]-'a']++\n        windowCount[s2[i-len(s1)]-'a']--\n        if matches(s1Count, windowCount) {\n            return true\n        }\n    }\n    return false\n}",
-      "rust": "impl Solution {\n    pub fn check_inclusion(s1: String, s2: String) -> bool {\n        if s1.len() > s2.len() {\n            return false;\n        }\n        let s1 = s1.as_bytes();\n        let s2 = s2.as_bytes();\n        let mut s1_count = [0i32; 26];\n        let mut window_count = [0i32; 26];\n        for i in 0..s1.len() {\n            s1_count[(s1[i] - b'a') as usize] += 1;\n            window_count[(s2[i] - b'a') as usize] += 1;\n        }\n        if s1_count == window_count {\n            return true;\n        }\n        for i in s1.len()..s2.len() {\n            window_count[(s2[i] - b'a') as usize] += 1;\n            window_count[(s2[i - s1.len()] - b'a') as usize] -= 1;\n            if s1_count == window_count {\n                return true;\n            }\n        }\n        false\n    }\n}"
-    }
-  },
-  {
-    "id": 7,
-    "leetcode": 438,
-    "title": "Find All Anagrams in a String",
-    "difficulty": "Medium",
-    "description": "Given two strings s and p, return an array of all the start indices of p's anagrams in s. You may return the answer in any order. An Anagram is a word or phrase formed by rearranging the letters of a different word or phrase, typically using all the original letters exactly once.",
-    "examples": [
-      {
-        "input": "s = \"cbaebabacd\", p = \"abc\"",
-        "output": "[0,6]"
-      },
-      {
-        "input": "s = \"abab\", p = \"ab\"",
-        "output": "[0,1,2]"
-      }
-    ],
-    "hints": [
-      "Use a fixed-size sliding window of length equal to p.",
-      "Compare character frequency arrays of the window and p.",
-      "If they match, record the starting index."
-    ],
-    "timeComplexity": "O(n) where n is the length of s",
-    "spaceComplexity": "O(1) since there are 26 lowercase letters",
-    "solutions": {
-      "python": "class Solution:\n    def findAnagrams(self, s: str, p: str) -> list[int]:\n        if len(p) > len(s):\n            return []\n        from collections import Counter\n        p_count = Counter(p)\n        window_count = Counter(s[:len(p)])\n        result = []\n        if p_count == window_count:\n            result.append(0)\n        for i in range(len(p), len(s)):\n            left_char = s[i - len(p)]\n            right_char = s[i]\n            window_count[right_char] = window_count.get(right_char, 0) + 1\n            window_count[left_char] -= 1\n            if window_count[left_char] == 0:\n                del window_count[left_char]\n            if p_count == window_count:\n                result.append(i - len(p) + 1)\n        return result",
-      "java": "class Solution {\n    public List<Integer> findAnagrams(String s, String p) {\n        List<Integer> result = new ArrayList<>();\n        if (p.length() > s.length()) return result;\n        int[] pCount = new int[26];\n        int[] windowCount = new int[26];\n        for (int i = 0; i < p.length(); i++) {\n            pCount[p.charAt(i) - 'a']++;\n            windowCount[s.charAt(i) - 'a']++;\n        }\n        if (matches(pCount, windowCount)) result.add(0);\n        for (int i = p.length(); i < s.length(); i++) {\n            windowCount[s.charAt(i) - 'a']++;\n            windowCount[s.charAt(i - p.length()) - 'a']--;\n            if (matches(pCount, windowCount)) result.add(i - p.length() + 1);\n        }\n        return result;\n    }\n    private boolean matches(int[] a, int[] b) {\n        for (int i = 0; i < 26; i++) {\n            if (a[i] != b[i]) return false;\n        }\n        return true;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<int> findAnagrams(string s, string p) {\n        vector<int> result;\n        if (p.size() > s.size()) return result;\n        vector<int> pCount(26, 0), windowCount(26, 0);\n        for (int i = 0; i < p.size(); i++) {\n            pCount[p[i] - 'a']++;\n            windowCount[s[i] - 'a']++;\n        }\n        if (pCount == windowCount) result.push_back(0);\n        for (int i = p.size(); i < s.size(); i++) {\n            windowCount[s[i] - 'a']++;\n            windowCount[s[i - p.size()] - 'a']--;\n            if (pCount == windowCount) result.push_back(i - p.size() + 1);\n        }\n        return result;\n    }\n};",
-      "javascript": "var findAnagrams = function(s, p) {\n    const result = [];\n    if (p.length > s.length) return result;\n    const pCount = new Array(26).fill(0);\n    const windowCount = new Array(26).fill(0);\n    for (let i = 0; i < p.length; i++) {\n        pCount[p.charCodeAt(i) - 97]++;\n        windowCount[s.charCodeAt(i) - 97]++;\n    }\n    const matches = (a, b) => a.every((v, i) => v === b[i]);\n    if (matches(pCount, windowCount)) result.push(0);\n    for (let i = p.length; i < s.length; i++) {\n        windowCount[s.charCodeAt(i) - 97]++;\n        windowCount[s.charCodeAt(i - p.length) - 97]--;\n        if (matches(pCount, windowCount)) result.push(i - p.length + 1);\n    }\n    return result;\n};",
-      "go": "func findAnagrams(s string, p string) []int {\n    var result []int\n    if len(p) > len(s) {\n        return result\n    }\n    var pCount, windowCount [26]int\n    for i := 0; i < len(p); i++ {\n        pCount[p[i]-'a']++\n        windowCount[s[i]-'a']++\n    }\n    matches := func(a, b [26]int) bool {\n        for i := 0; i < 26; i++ {\n            if a[i] != b[i] {\n                return false\n            }\n        }\n        return true\n    }\n    if matches(pCount, windowCount) {\n        result = append(result, 0)\n    }\n    for i := len(p); i < len(s); i++ {\n        windowCount[s[i]-'a']++\n        windowCount[s[i-len(p)]-'a']--\n        if matches(pCount, windowCount) {\n            result = append(result, i-len(p)+1)\n        }\n    }\n    return result\n}",
-      "rust": "impl Solution {\n    pub fn find_anagrams(s: String, p: String) -> Vec<i32> {\n        let mut result = Vec::new();\n        if p.len() > s.len() {\n            return result;\n        }\n        let s = s.as_bytes();\n        let p = p.as_bytes();\n        let mut p_count = [0i32; 26];\n        let mut window_count = [0i32; 26];\n        for i in 0..p.len() {\n            p_count[(p[i] - b'a') as usize] += 1;\n            window_count[(s[i] - b'a') as usize] += 1;\n        }\n        if p_count == window_count {\n            result.push(0);\n        }\n        for i in p.len()..s.len() {\n            window_count[(s[i] - b'a') as usize] += 1;\n            window_count[(s[i - p.len()] - b'a') as usize] -= 1;\n            if p_count == window_count {\n                result.push((i - p.len() + 1) as i32);\n            }\n        }\n        result\n    }\n}"
-    }
-  },
-  {
-    "id": 8,
-    "leetcode": 209,
-    "title": "Minimum Size Subarray Sum",
-    "difficulty": "Medium",
-    "description": "Given an array of positive integers nums and a positive integer target, return the minimal length of a subarray whose sum is greater than or equal to target. If there is no such subarray, return 0 instead.",
-    "examples": [
-      {
-        "input": "target = 7, nums = [2,3,1,2,4,3]",
-        "output": "2"
-      },
-      {
-        "input": "target = 4, nums = [1,4,4]",
-        "output": "1"
-      },
-      {
-        "input": "target = 11, nums = [1,1,1,1,1,1,1,1]",
-        "output": "0"
-      }
-    ],
-    "hints": [
-      "Use a sliding window that expands to the right.",
-      "When the window sum >= target, try to shrink from the left.",
-      "Track the minimum window length that satisfies the condition."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "class Solution:\n    def minSubArrayLen(self, target: int, nums: list[int]) -> int:\n        left = 0\n        total = 0\n        min_len = float('inf')\n        for right in range(len(nums)):\n            total += nums[right]\n            while total >= target:\n                min_len = min(min_len, right - left + 1)\n                total -= nums[left]\n                left += 1\n        return 0 if min_len == float('inf') else min_len",
-      "java": "class Solution {\n    public int minSubArrayLen(int target, int[] nums) {\n        int left = 0, total = 0, minLen = Integer.MAX_VALUE;\n        for (int right = 0; right < nums.length; right++) {\n            total += nums[right];\n            while (total >= target) {\n                minLen = Math.min(minLen, right - left + 1);\n                total -= nums[left];\n                left++;\n            }\n        }\n        return minLen == Integer.MAX_VALUE ? 0 : minLen;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int minSubArrayLen(int target, vector<int>& nums) {\n        int left = 0, total = 0, minLen = INT_MAX;\n        for (int right = 0; right < nums.size(); right++) {\n            total += nums[right];\n            while (total >= target) {\n                minLen = min(minLen, right - left + 1);\n                total -= nums[left];\n                left++;\n            }\n        }\n        return minLen == INT_MAX ? 0 : minLen;\n    }\n};",
-      "javascript": "var minSubArrayLen = function(target, nums) {\n    let left = 0, total = 0, minLen = Infinity;\n    for (let right = 0; right < nums.length; right++) {\n        total += nums[right];\n        while (total >= target) {\n            minLen = Math.min(minLen, right - left + 1);\n            total -= nums[left];\n            left++;\n        }\n    }\n    return minLen === Infinity ? 0 : minLen;\n};",
-      "go": "func minSubArrayLen(target int, nums []int) int {\n    left, total, minLen := 0, 0, len(nums)+1\n    for right := 0; right < len(nums); right++ {\n        total += nums[right]\n        for total >= target {\n            if right-left+1 < minLen {\n                minLen = right - left + 1\n            }\n            total -= nums[left]\n            left++\n        }\n    }\n    if minLen == len(nums)+1 {\n        return 0\n    }\n    return minLen\n}",
-      "rust": "impl Solution {\n    pub fn min_sub_array_len(target: i32, nums: Vec<i32>) -> i32 {\n        let mut left = 0;\n        let mut total = 0;\n        let mut min_len = nums.len() + 1;\n        for right in 0..nums.len() {\n            total += nums[right];\n            while total >= target {\n                if right - left + 1 < min_len {\n                    min_len = right - left + 1;\n                }\n                total -= nums[left];\n                left += 1;\n            }\n        }\n        if min_len == nums.len() + 1 {\n            0\n        } else {\n            min_len as i32\n        }\n    }\n}"
-    }
-  },
-  {
-    "id": 9,
-    "leetcode": 904,
-    "title": "Fruits Into Baskets",
-    "difficulty": "Medium",
-    "description": "You are visiting a farm that has a single row of fruit trees arranged from left to right. The trees are represented by an integer array fruits where fruits[i] is the type of fruit the ith tree produces. You want to collect as much fruit as possible. You have two baskets, and each basket can only hold one type of fruit. Starting from any tree, collect fruit from each tree until you cannot. Return the maximum number of fruits you can collect.",
-    "examples": [
-      {
-        "input": "fruits = [1,2,1]",
-        "output": "3"
-      },
-      {
-        "input": "fruits = [0,1,2,2]",
-        "output": "3"
-      },
-      {
-        "input": "fruits = [1,2,3,2,2]",
-        "output": "4"
-      }
-    ],
-    "hints": [
-      "This is equivalent to finding the longest subarray with at most 2 distinct elements.",
-      "Use a hash map to count the frequency of fruits in the current window.",
-      "Shrink the window when there are more than 2 distinct fruit types."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(1) since there are at most 3 distinct fruit types in the map at any time",
-    "solutions": {
-      "python": "class Solution:\n    def totalFruit(self, fruits: list[int]) -> int:\n        from collections import defaultdict\n        count = defaultdict(int)\n        left = 0\n        max_len = 0\n        for right in range(len(fruits)):\n            count[fruits[right]] += 1\n            while len(count) > 2:\n                count[fruits[left]] -= 1\n                if count[fruits[left]] == 0:\n                    del count[fruits[left]]\n                left += 1\n            max_len = max(max_len, right - left + 1)\n        return max_len",
-      "java": "class Solution {\n    public int totalFruit(int[] fruits) {\n        Map<Integer, Integer> count = new HashMap<>();\n        int left = 0, maxLen = 0;\n        for (int right = 0; right < fruits.length; right++) {\n            count.merge(fruits[right], 1, Integer::sum);\n            while (count.size() > 2) {\n                int leftFruit = fruits[left];\n                count.put(leftFruit, count.get(leftFruit) - 1);\n                if (count.get(leftFruit) == 0) count.remove(leftFruit);\n                left++;\n            }\n            maxLen = Math.max(maxLen, right - left + 1);\n        }\n        return maxLen;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int totalFruit(vector<int>& fruits) {\n        unordered_map<int, int> count;\n        int left = 0, maxLen = 0;\n        for (int right = 0; right < fruits.size(); right++) {\n            count[fruits[right]]++;\n            while (count.size() > 2) {\n                count[fruits[left]]--;\n                if (count[fruits[left]] == 0) count.erase(fruits[left]);\n                left++;\n            }\n            maxLen = max(maxLen, right - left + 1);\n        }\n        return maxLen;\n    }\n};",
-      "javascript": "var totalFruit = function(fruits) {\n    const count = new Map();\n    let left = 0, maxLen = 0;\n    for (let right = 0; right < fruits.length; right++) {\n        count.set(fruits[right], (count.get(fruits[right]) || 0) + 1);\n        while (count.size > 2) {\n            count.set(fruits[left], count.get(fruits[left]) - 1);\n            if (count.get(fruits[left]) === 0) count.delete(fruits[left]);\n            left++;\n        }\n        maxLen = Math.max(maxLen, right - left + 1);\n    }\n    return maxLen;\n};",
-      "go": "func totalFruit(fruits []int) int {\n    count := make(map[int]int)\n    left, maxLen := 0, 0\n    for right := 0; right < len(fruits); right++ {\n        count[fruits[right]]++\n        for len(count) > 2 {\n            count[fruits[left]]--\n            if count[fruits[left]] == 0 {\n                delete(count, fruits[left])\n            }\n            left++\n        }\n        if right-left+1 > maxLen {\n            maxLen = right - left + 1\n        }\n    }\n    return maxLen\n}",
-      "rust": "use std::collections::HashMap;\n\nimpl Solution {\n    pub fn total_fruit(fruits: Vec<i32>) -> i32 {\n        let mut count: HashMap<i32, i32> = HashMap::new();\n        let mut left = 0;\n        let mut max_len = 0;\n        for right in 0..fruits.len() {\n            *count.entry(fruits[right]).or_insert(0) += 1;\n            while count.len() > 2 {\n                let entry = count.get_mut(&fruits[left]).unwrap();\n                *entry -= 1;\n                if *entry == 0 {\n                    count.remove(&fruits[left]);\n                }\n                left += 1;\n            }\n            max_len = max_len.max((right - left + 1) as i32);\n        }\n        max_len\n    }\n}"
-    }
-  },
-  {
-    "id": 10,
-    "leetcode": 239,
-    "title": "Sliding Window Maximum",
-    "difficulty": "Hard",
-    "description": "You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position. Return the max sliding window.",
-    "examples": [
-      {
-        "input": "nums = [1,3,-1,-3,5,3,6,7], k = 3",
-        "output": "[3,3,5,5,6,7]"
-      },
-      {
-        "input": "nums = [1], k = 1",
-        "output": "[1]"
-      }
-    ],
-    "hints": [
-      "Use a deque to maintain indices of elements in decreasing order.",
-      "Remove indices from the back of the deque if their values are smaller than the current element.",
-      "Remove indices from the front of the deque if they are outside the window."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(k)",
-    "solutions": {
-      "python": "from collections import deque\n\nclass Solution:\n    def maxSlidingWindow(self, nums: list[int], k: int) -> list[int]:\n        dq = deque()\n        result = []\n        for i in range(len(nums)):\n            while dq and dq[0] < i - k + 1:\n                dq.popleft()\n            while dq and nums[dq[-1]] < nums[i]:\n                dq.pop()\n            dq.append(i)\n            if i >= k - 1:\n                result.append(nums[dq[0]])\n        return result",
-      "java": "class Solution {\n    public int[] maxSlidingWindow(int[] nums, int k) {\n        Deque<Integer> dq = new ArrayDeque<>();\n        int[] result = new int[nums.length - k + 1];\n        for (int i = 0; i < nums.length; i++) {\n            while (!dq.isEmpty() && dq.peekFirst() < i - k + 1) {\n                dq.pollFirst();\n            }\n            while (!dq.isEmpty() && nums[dq.peekLast()] < nums[i]) {\n                dq.pollLast();\n            }\n            dq.offerLast(i);\n            if (i >= k - 1) {\n                result[i - k + 1] = nums[dq.peekFirst()];\n            }\n        }\n        return result;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<int> maxSlidingWindow(vector<int>& nums, int k) {\n        deque<int> dq;\n        vector<int> result;\n        for (int i = 0; i < nums.size(); i++) {\n            while (!dq.empty() && dq.front() < i - k + 1) {\n                dq.pop_front();\n            }\n            while (!dq.empty() && nums[dq.back()] < nums[i]) {\n                dq.pop_back();\n            }\n            dq.push_back(i);\n            if (i >= k - 1) {\n                result.push_back(nums[dq.front()]);\n            }\n        }\n        return result;\n    }\n};",
-      "javascript": "var maxSlidingWindow = function(nums, k) {\n    const dq = [];\n    const result = [];\n    for (let i = 0; i < nums.length; i++) {\n        while (dq.length && dq[0] < i - k + 1) {\n            dq.shift();\n        }\n        while (dq.length && nums[dq[dq.length - 1]] < nums[i]) {\n            dq.pop();\n        }\n        dq.push(i);\n        if (i >= k - 1) {\n            result.push(nums[dq[0]]);\n        }\n    }\n    return result;\n};",
-      "go": "func maxSlidingWindow(nums []int, k int) []int {\n    dq := make([]int, 0)\n    result := make([]int, 0)\n    for i := 0; i < len(nums); i++ {\n        for len(dq) > 0 && dq[0] < i-k+1 {\n            dq = dq[1:]\n        }\n        for len(dq) > 0 && nums[dq[len(dq)-1]] < nums[i] {\n            dq = dq[:len(dq)-1]\n        }\n        dq = append(dq, i)\n        if i >= k-1 {\n            result = append(result, nums[dq[0]])\n        }\n    }\n    return result\n}",
-      "rust": "impl Solution {\n    pub fn max_sliding_window(nums: Vec<i32>, k: i32) -> Vec<i32> {\n        let k = k as usize;\n        let mut dq: std::collections::VecDeque<usize> = std::collections::VecDeque::new();\n        let mut result = Vec::new();\n        for i in 0..nums.len() {\n            while !dq.is_empty() && dq.front().unwrap() + k <= i {\n                dq.pop_front();\n            }\n            while !dq.is_empty() && nums[*dq.back().unwrap()] < nums[i] {\n                dq.pop_back();\n            }\n            dq.push_back(i);\n            if i >= k - 1 {\n                result.push(nums[*dq.front().unwrap()]);\n            }\n        }\n        result\n    }\n}"
-    }
-  },
-  {
-    "id": 11,
-    "leetcode": 30,
-    "title": "Substring with Concatenation of All Words",
-    "difficulty": "Hard",
-    "description": "You are given a string s and an array of strings words of the same length. Return all starting indices of substrings in s that are a concatenation of each word in words exactly once and without any intervening characters. You can return the answer in any order.",
-    "examples": [
-      {
-        "input": "s = \"barfoothefoobarman\", words = [\"foo\",\"bar\"]",
-        "output": "[0,9]"
-      },
-      {
-        "input": "s = \"wordgoodgoodgoodbestword\", words = [\"word\",\"good\",\"best\",\"word\"]",
-        "output": "[]"
-      },
-      {
-        "input": "s = \"barfoofoobarthefoobarman\", words = [\"bar\",\"foo\",\"the\"]",
-        "output": "[6,9,12]"
-      }
-    ],
-    "hints": [
-      "The total length of each concatenated substring is words.length * words[0].length.",
-      "Use a frequency map for words.",
-      "For each starting position, check if you can form a concatenation of all words."
-    ],
-    "timeComplexity": "O(n * m) where n is the length of s and m is the number of words",
-    "spaceComplexity": "O(m * k) where k is the length of each word",
-    "solutions": {
-      "python": "from collections import Counter\n\nclass Solution:\n    def findSubstring(self, s: str, words: list[str]) -> list[int]:\n        if not words:\n            return []\n        word_len = len(words[0])\n        word_count = Counter(words)\n        total_len = word_len * len(words)\n        result = []\n        for i in range(word_len):\n            left = i\n            curr_count = {}\n            count = 0\n            for j in range(i, len(s) - word_len + 1, word_len):\n                word = s[j:j + word_len]\n                if word in word_count:\n                    curr_count[word] = curr_count.get(word, 0) + 1\n                    count += 1\n                    while curr_count[word] > word_count[word]:\n                        left_word = s[left:left + word_len]\n                        curr_count[left_word] -= 1\n                        left += word_len\n                        count -= 1\n                    if count == len(words):\n                        result.append(left)\n                else:\n                    curr_count.clear()\n                    count = 0\n                    left = j + word_len\n        return result",
-      "java": "class Solution {\n    public List<Integer> findSubstring(String s, String[] words) {\n        List<Integer> result = new ArrayList<>();\n        if (words.length == 0) return result;\n        int wordLen = words[0].length();\n        int wordCount = words.length;\n        Map<String, Integer> wordMap = new HashMap<>();\n        for (String word : words) {\n            wordMap.put(word, wordMap.getOrDefault(word, 0) + 1);\n        }\n        for (int i = 0; i < wordLen; i++) {\n            Map<String, Integer> currMap = new HashMap<>();\n            int left = i, count = 0;\n            for (int j = i; j <= s.length() - wordLen; j += wordLen) {\n                String word = s.substring(j, j + wordLen);\n                if (wordMap.containsKey(word)) {\n                    currMap.put(word, currMap.getOrDefault(word, 0) + 1);\n                    count++;\n                    while (currMap.get(word) > wordMap.get(word)) {\n                        String leftWord = s.substring(left, left + wordLen);\n                        currMap.put(leftWord, currMap.get(leftWord) - 1);\n                        left += wordLen;\n                        count--;\n                    }\n                    if (count == wordCount) {\n                        result.add(left);\n                    }\n                } else {\n                    currMap.clear();\n                    count = 0;\n                    left = j + wordLen;\n                }\n            }\n        }\n        return result;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<int> findSubstring(string s, vector<string>& words) {\n        vector<int> result;\n        if (words.empty()) return result;\n        int wordLen = words[0].size();\n        int wordCount = words.size();\n        unordered_map<string, int> wordMap;\n        for (const string& word : words) {\n            wordMap[word]++;\n        }\n        for (int i = 0; i < wordLen; i++) {\n            unordered_map<string, int> currMap;\n            int left = i, count = 0;\n            for (int j = i; j <= (int)s.size() - wordLen; j += wordLen) {\n                string word = s.substr(j, wordLen);\n                if (wordMap.count(word)) {\n                    currMap[word]++;\n                    count++;\n                    while (currMap[word] > wordMap[word]) {\n                        string leftWord = s.substr(left, wordLen);\n                        currMap[leftWord]--;\n                        left += wordLen;\n                        count--;\n                    }\n                    if (count == wordCount) {\n                        result.push_back(left);\n                    }\n                } else {\n                    currMap.clear();\n                    count = 0;\n                    left = j + wordLen;\n                }\n            }\n        }\n        return result;\n    }\n};",
-      "javascript": "var findSubstring = function(s, words) {\n    const result = [];\n    if (words.length === 0) return result;\n    const wordLen = words[0].length;\n    const wordCount = words.length;\n    const wordMap = new Map();\n    for (const word of words) {\n        wordMap.set(word, (wordMap.get(word) || 0) + 1);\n    }\n    for (let i = 0; i < wordLen; i++) {\n        const currMap = new Map();\n        let left = i, count = 0;\n        for (let j = i; j <= s.length - wordLen; j += wordLen) {\n            const word = s.substring(j, j + wordLen);\n            if (wordMap.has(word)) {\n                currMap.set(word, (currMap.get(word) || 0) + 1);\n                count++;\n                while (currMap.get(word) > wordMap.get(word)) {\n                    const leftWord = s.substring(left, left + wordLen);\n                    currMap.set(leftWord, currMap.get(leftWord) - 1);\n                    left += wordLen;\n                    count--;\n                }\n                if (count === wordCount) {\n                    result.push(left);\n                }\n            } else {\n                currMap.clear();\n                count = 0;\n                left = j + wordLen;\n            }\n        }\n    }\n    return result;\n};",
-      "go": "func findSubstring(s string, words []string) []int {\n    var result []int\n    if len(words) == 0 {\n        return result\n    }\n    wordLen := len(words[0])\n    wordCount := len(words)\n    wordMap := make(map[string]int)\n    for _, word := range words {\n        wordMap[word]++\n    }\n    for i := 0; i < wordLen; i++ {\n        currMap := make(map[string]int)\n        left, count := i, 0\n        for j := i; j <= len(s)-wordLen; j += wordLen {\n            word := s[j : j+wordLen]\n            if _, ok := wordMap[word]; ok {\n                currMap[word]++\n                count++\n                for currMap[word] > wordMap[word] {\n                    leftWord := s[left : left+wordLen]\n                    currMap[leftWord]--\n                    left += wordLen\n                    count--\n                }\n                if count == wordCount {\n                    result = append(result, left)\n                }\n            } else {\n                currMap = make(map[string]int)\n                count = 0\n                left = j + wordLen\n            }\n        }\n    }\n    return result\n}",
-      "rust": "use std::collections::HashMap;\n\nimpl Solution {\n    pub fn find_substring(s: String, words: Vec<String>) -> Vec<i32> {\n        let mut result = Vec::new();\n        if words.is_empty() {\n            return result;\n        }\n        let word_len = words[0].len();\n        let word_count = words.len();\n        let mut word_map: HashMap<String, i32> = HashMap::new();\n        for word in &words {\n            *word_map.entry(word.clone()).or_insert(0) += 1;\n        }\n        let s_bytes = s.as_bytes();\n        for i in 0..word_len {\n            let mut curr_map: HashMap<String, i32> = HashMap::new();\n            let mut left = i;\n            let mut count = 0;\n            let mut j = i;\n            while j <= s.len() - word_len {\n                let word = &s[j..j + word_len];\n                if word_map.contains_key(word) {\n                    *curr_map.entry(word.to_string()).or_insert(0) += 1;\n                    count += 1;\n                    while curr_map.get(word).unwrap() > word_map.get(word).unwrap() {\n                        let left_word = &s[left..left + word_len];\n                        *curr_map.get_mut(left_word).unwrap() -= 1;\n                        left += word_len;\n                        count -= 1;\n                    }\n                    if count == word_count {\n                        result.push(left as i32);\n                    }\n                } else {\n                    curr_map.clear();\n                    count = 0;\n                    left = j + word_len;\n                }\n                j += word_len;\n            }\n        }\n        result\n    }\n}"
-    }
+    ]
   }
 ]

@@ -1,346 +1,75 @@
 [
   {
-    "id": "bt-bfs-001",
-    "leetcode": 102,
-    "title": "Binary Tree Level Order Traversal",
-    "difficulty": "Medium",
-    "description": "Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).",
-    "examples": [
+    "section": "Easy",
+    "problems": [
       {
-        "input": "root = [3,9,20,null,null,15,7]",
-        "output": "[[3],[9,20],[15,7]]"
+        "id": "tree-001",
+        "leetcode": 104,
+        "title": "Maximum Depth of Binary Tree",
+        "difficulty": "Easy",
+        "link": "https://leetcode.com/problems/maximum-depth-of-binary-tree/"
       },
       {
-        "input": "root = [1]",
-        "output": "[[1]]"
+        "id": "tree-002",
+        "leetcode": 226,
+        "title": "Invert Binary Tree",
+        "difficulty": "Easy",
+        "link": "https://leetcode.com/problems/invert-binary-tree/"
       },
       {
-        "input": "root = []",
-        "output": "[]"
+        "id": "tree-003",
+        "leetcode": 100,
+        "title": "Same Tree",
+        "difficulty": "Easy",
+        "link": "https://leetcode.com/problems/same-tree/"
+      },
+      {
+        "id": "tree-004",
+        "leetcode": 101,
+        "title": "Symmetric Tree",
+        "difficulty": "Easy",
+        "link": "https://leetcode.com/problems/symmetric-tree/"
       }
-    ],
-    "hints": [
-      "Use a queue to perform BFS traversal.",
-      "Process nodes level by level by tracking the queue size at each level.",
-      "For each level, collect all node values and add them as a sublist to the result."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "from collections import deque\n\ndef levelOrder(root):\n    if not root:\n        return []\n    result = []\n    queue = deque([root])\n    while queue:\n        level_size = len(queue)\n        level = []\n        for _ in range(level_size):\n            node = queue.popleft()\n            level.append(node.val)\n            if node.left:\n                queue.append(node.left)\n            if node.right:\n                queue.append(node.right)\n        result.append(level)\n    return result",
-      "java": "import java.util.*;\n\nclass Solution {\n    public List<List<Integer>> levelOrder(TreeNode root) {\n        List<List<Integer>> result = new ArrayList<>();\n        if (root == null) return result;\n        Queue<TreeNode> queue = new LinkedList<>();\n        queue.offer(root);\n        while (!queue.isEmpty()) {\n            int levelSize = queue.size();\n            List<Integer> level = new ArrayList<>();\n            for (int i = 0; i < levelSize; i++) {\n                TreeNode node = queue.poll();\n                level.add(node.val);\n                if (node.left != null) queue.offer(node.left);\n                if (node.right != null) queue.offer(node.right);\n            }\n            result.add(level);\n        }\n        return result;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<vector<int>> levelOrder(TreeNode* root) {\n        vector<vector<int>> result;\n        if (!root) return result;\n        queue<TreeNode*> q;\n        q.push(root);\n        while (!q.empty()) {\n            int levelSize = q.size();\n            vector<int> level;\n            for (int i = 0; i < levelSize; i++) {\n                TreeNode* node = q.front();\n                q.pop();\n                level.push_back(node->val);\n                if (node->left) q.push(node->left);\n                if (node->right) q.push(node->right);\n            }\n            result.push_back(level);\n        }\n        return result;\n    }\n};",
-      "javascript": "var levelOrder = function(root) {\n    if (!root) return [];\n    const result = [];\n    const queue = [root];\n    while (queue.length) {\n        const levelSize = queue.length;\n        const level = [];\n        for (let i = 0; i < levelSize; i++) {\n            const node = queue.shift();\n            level.push(node.val);\n            if (node.left) queue.push(node.left);\n            if (node.right) queue.push(node.right);\n        }\n        result.push(level);\n    }\n    return result;\n};",
-      "go": "func levelOrder(root *TreeNode) [][]int {\n    if root == nil {\n        return nil\n    }\n    var result [][]int\n    queue := []*TreeNode{root}\n    for len(queue) > 0 {\n        levelSize := len(queue)\n        level := []int{}\n        for i := 0; i < levelSize; i++ {\n            node := queue[0]\n            queue = queue[1:]\n            level = append(level, node.Val)\n            if node.Left != nil {\n                queue = append(queue, node.Left)\n            }\n            if node.Right != nil {\n                queue = append(queue, node.Right)\n            }\n        }\n        result = append(result, level)\n    }\n    return result\n}",
-      "rust": "use std::cell::RefCell;\nuse std::rc::Rc;\nuse std::collections::VecDeque;\n\nimpl Solution {\n    pub fn level_order(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<Vec<i32>> {\n        let mut result = Vec::new();\n        if let Some(root) = root {\n            let mut queue = VecDeque::new();\n            queue.push_back(root);\n            while !queue.is_empty() {\n                let level_size = queue.len();\n                let mut level = Vec::new();\n                for _ in 0..level_size {\n                    let node = queue.pop_front().unwrap();\n                    let node_ref = node.borrow();\n                    level.push(node_ref.val);\n                    if let Some(left) = &node_ref.left {\n                        queue.push_back(left.clone());\n                    }\n                    if let Some(right) = &node_ref.right {\n                        queue.push_back(right.clone());\n                    }\n                }\n                result.push(level);\n            }\n        }\n        result\n    }\n}"
-    }
+    ]
   },
   {
-    "id": "bt-bfs-002",
-    "leetcode": 107,
-    "title": "Binary Tree Level Order Traversal II",
-    "difficulty": "Medium",
-    "description": "Given the root of a binary tree, return the bottom-up level order traversal of its nodes' values. (i.e., from left to right, level by level from leaf to root).",
-    "examples": [
+    "section": "Medium",
+    "problems": [
       {
-        "input": "root = [3,9,20,null,null,15,7]",
-        "output": "[[15,7],[9,20],[3]]"
+        "id": "tree-005",
+        "leetcode": 102,
+        "title": "Binary Tree Level Order Traversal",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/binary-tree-level-order-traversal/"
       },
       {
-        "input": "root = [1]",
-        "output": "[[1]]"
+        "id": "tree-006",
+        "leetcode": 107,
+        "title": "Binary Tree Level Order Traversal II",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/binary-tree-level-order-traversal-ii/"
       },
       {
-        "input": "root = []",
-        "output": "[]"
+        "id": "tree-007",
+        "leetcode": 199,
+        "title": "Binary Tree Right Side View",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/binary-tree-right-side-view/"
+      },
+      {
+        "id": "tree-008",
+        "leetcode": 543,
+        "title": "Diameter of Binary Tree",
+        "difficulty": "Easy",
+        "link": "https://leetcode.com/problems/diameter-of-binary-tree/"
+      },
+      {
+        "id": "tree-009",
+        "leetcode": 124,
+        "title": "Binary Tree Maximum Path Sum",
+        "difficulty": "Hard",
+        "link": "https://leetcode.com/problems/binary-tree-maximum-path-sum/"
       }
-    ],
-    "hints": [
-      "Perform a standard BFS level order traversal.",
-      "Insert each level's result at the beginning of the result list to achieve bottom-up order.",
-      "Alternatively, reverse the final result array after standard BFS."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "from collections import deque\n\ndef levelOrderBottom(root):\n    if not root:\n        return []\n    result = []\n    queue = deque([root])\n    while queue:\n        level_size = len(queue)\n        level = []\n        for _ in range(level_size):\n            node = queue.popleft()\n            level.append(node.val)\n            if node.left:\n                queue.append(node.left)\n            if node.right:\n                queue.append(node.right)\n        result.insert(0, level)\n    return result",
-      "java": "import java.util.*;\n\nclass Solution {\n    public List<List<Integer>> levelOrderBottom(TreeNode root) {\n        List<List<Integer>> result = new ArrayList<>();\n        if (root == null) return result;\n        Queue<TreeNode> queue = new LinkedList<>();\n        queue.offer(root);\n        while (!queue.isEmpty()) {\n            int levelSize = queue.size();\n            List<Integer> level = new ArrayList<>();\n            for (int i = 0; i < levelSize; i++) {\n                TreeNode node = queue.poll();\n                level.add(node.val);\n                if (node.left != null) queue.offer(node.left);\n                if (node.right != null) queue.offer(node.right);\n            }\n            result.add(0, level);\n        }\n        return result;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<vector<int>> levelOrderBottom(TreeNode* root) {\n        vector<vector<int>> result;\n        if (!root) return result;\n        queue<TreeNode*> q;\n        q.push(root);\n        while (!q.empty()) {\n            int levelSize = q.size();\n            vector<int> level;\n            for (int i = 0; i < levelSize; i++) {\n                TreeNode* node = q.front();\n                q.pop();\n                level.push_back(node->val);\n                if (node->left) q.push(node->left);\n                if (node->right) q.push(node->right);\n            }\n            result.insert(result.begin(), level);\n        }\n        return result;\n    }\n};",
-      "javascript": "var levelOrderBottom = function(root) {\n    if (!root) return [];\n    const result = [];\n    const queue = [root];\n    while (queue.length) {\n        const levelSize = queue.length;\n        const level = [];\n        for (let i = 0; i < levelSize; i++) {\n            const node = queue.shift();\n            level.push(node.val);\n            if (node.left) queue.push(node.left);\n            if (node.right) queue.push(node.right);\n        }\n        result.unshift(level);\n    }\n    return result;\n};",
-      "go": "func levelOrderBottom(root *TreeNode) [][]int {\n    if root == nil {\n        return nil\n    }\n    var result [][]int\n    queue := []*TreeNode{root}\n    for len(queue) > 0 {\n        levelSize := len(queue)\n        level := []int{}\n        for i := 0; i < levelSize; i++ {\n            node := queue[0]\n            queue = queue[1:]\n            level = append(level, node.Val)\n            if node.Left != nil {\n                queue = append(queue, node.Left)\n            }\n            if node.Right != nil {\n                queue = append(queue, node.Right)\n            }\n        }\n        result = append([][]int{level}, result...)\n    }\n    return result\n}",
-      "rust": "use std::cell::RefCell;\nuse std::rc::Rc;\nuse std::collections::VecDeque;\n\nimpl Solution {\n    pub fn level_order_bottom(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<Vec<i32>> {\n        let mut result = Vec::new();\n        if let Some(root) = root {\n            let mut queue = VecDeque::new();\n            queue.push_back(root);\n            while !queue.is_empty() {\n                let level_size = queue.len();\n                let mut level = Vec::new();\n                for _ in 0..level_size {\n                    let node = queue.pop_front().unwrap();\n                    let node_ref = node.borrow();\n                    level.push(node_ref.val);\n                    if let Some(left) = &node_ref.left {\n                        queue.push_back(left.clone());\n                    }\n                    if let Some(right) = &node_ref.right {\n                        queue.push_back(right.clone());\n                    }\n                }\n                result.insert(0, level);\n            }\n        }\n        result\n    }\n}"
-    }
-  },
-  {
-    "id": "bt-bfs-003",
-    "leetcode": 199,
-    "title": "Binary Tree Right Side View",
-    "difficulty": "Medium",
-    "description": "Given the root of a binary tree, imagine yourself standing on the right side of it, return the values of the nodes you can see ordered from top to bottom.",
-    "examples": [
-      {
-        "input": "root = [1,2,3,5,null,4]",
-        "output": "[1,3,4]"
-      },
-      {
-        "input": "root = [1,null,3]",
-        "output": "[1,3]"
-      },
-      {
-        "input": "root = []",
-        "output": "[]"
-      }
-    ],
-    "hints": [
-      "BFS level order traversal is natural for this problem.",
-      "For each level, the last node visited is the one visible from the right side.",
-      "Keep track of the level size and capture only the last node at each level."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "from collections import deque\n\ndef rightSideView(root):\n    if not root:\n        return []\n    result = []\n    queue = deque([root])\n    while queue:\n        level_size = len(queue)\n        for i in range(level_size):\n            node = queue.popleft()\n            if i == level_size - 1:\n                result.append(node.val)\n            if node.left:\n                queue.append(node.left)\n            if node.right:\n                queue.append(node.right)\n    return result",
-      "java": "import java.util.*;\n\nclass Solution {\n    public List<Integer> rightSideView(TreeNode root) {\n        List<Integer> result = new ArrayList<>();\n        if (root == null) return result;\n        Queue<TreeNode> queue = new LinkedList<>();\n        queue.offer(root);\n        while (!queue.isEmpty()) {\n            int levelSize = queue.size();\n            for (int i = 0; i < levelSize; i++) {\n                TreeNode node = queue.poll();\n                if (i == levelSize - 1) result.add(node.val);\n                if (node.left != null) queue.offer(node.left);\n                if (node.right != null) queue.offer(node.right);\n            }\n        }\n        return result;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<int> rightSideView(TreeNode* root) {\n        vector<int> result;\n        if (!root) return result;\n        queue<TreeNode*> q;\n        q.push(root);\n        while (!q.empty()) {\n            int levelSize = q.size();\n            for (int i = 0; i < levelSize; i++) {\n                TreeNode* node = q.front();\n                q.pop();\n                if (i == levelSize - 1) result.push_back(node->val);\n                if (node->left) q.push(node->left);\n                if (node->right) q.push(node->right);\n            }\n        }\n        return result;\n    }\n};",
-      "javascript": "var rightSideView = function(root) {\n    if (!root) return [];\n    const result = [];\n    const queue = [root];\n    while (queue.length) {\n        const levelSize = queue.length;\n        for (let i = 0; i < levelSize; i++) {\n            const node = queue.shift();\n            if (i === levelSize - 1) result.push(node.val);\n            if (node.left) queue.push(node.left);\n            if (node.right) queue.push(node.right);\n        }\n    }\n    return result;\n};",
-      "go": "func rightSideView(root *TreeNode) []int {\n    if root == nil {\n        return nil\n    }\n    var result []int\n    queue := []*TreeNode{root}\n    for len(queue) > 0 {\n        levelSize := len(queue)\n        for i := 0; i < levelSize; i++ {\n            node := queue[0]\n            queue = queue[1:]\n            if i == levelSize-1 {\n                result = append(result, node.Val)\n            }\n            if node.Left != nil {\n                queue = append(queue, node.Left)\n            }\n            if node.Right != nil {\n                queue = append(queue, node.Right)\n            }\n        }\n    }\n    return result\n}",
-      "rust": "use std::cell::RefCell;\nuse std::rc::Rc;\nuse std::collections::VecDeque;\n\nimpl Solution {\n    pub fn right_side_view(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {\n        let mut result = Vec::new();\n        if let Some(root) = root {\n            let mut queue = VecDeque::new();\n            queue.push_back(root);\n            while !queue.is_empty() {\n                let level_size = queue.len();\n                for i in 0..level_size {\n                    let node = queue.pop_front().unwrap();\n                    let node_ref = node.borrow();\n                    if i == level_size - 1 {\n                        result.push(node_ref.val);\n                    }\n                    if let Some(left) = &node_ref.left {\n                        queue.push_back(left.clone());\n                    }\n                    if let Some(right) = &node_ref.right {\n                        queue.push_back(right.clone());\n                    }\n                }\n            }\n        }\n        result\n    }\n}"
-    }
-  },
-  {
-    "id": "bt-bfs-004",
-    "leetcode": 103,
-    "title": "Binary Tree Zigzag Level Order Traversal",
-    "difficulty": "Medium",
-    "description": "Given the root of a binary tree, return the zigzag level order traversal of its nodes' values. (i.e., from left to right, then right to left for the next level and alternate between).",
-    "examples": [
-      {
-        "input": "root = [3,9,20,null,null,15,7]",
-        "output": "[[3],[20,9],[15,7]]"
-      },
-      {
-        "input": "root = [1]",
-        "output": "[[1]]"
-      },
-      {
-        "input": "root = []",
-        "output": "[]"
-      }
-    ],
-    "hints": [
-      "Use standard BFS level order traversal.",
-      "Track the current level number to decide the traversal direction.",
-      "Use a flag or level index to reverse every other level."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "from collections import deque\n\ndef zigzagLevelOrder(root):\n    if not root:\n        return []\n    result = []\n    queue = deque([root])\n    left_to_right = True\n    while queue:\n        level_size = len(queue)\n        level = deque()\n        for _ in range(level_size):\n            node = queue.popleft()\n            if left_to_right:\n                level.append(node.val)\n            else:\n                level.appendleft(node.val)\n            if node.left:\n                queue.append(node.left)\n            if node.right:\n                queue.append(node.right)\n        result.append(list(level))\n        left_to_right = not left_to_right\n    return result",
-      "java": "import java.util.*;\n\nclass Solution {\n    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {\n        List<List<Integer>> result = new ArrayList<>();\n        if (root == null) return result;\n        Queue<TreeNode> queue = new LinkedList<>();\n        queue.offer(root);\n        boolean leftToRight = true;\n        while (!queue.isEmpty()) {\n            int levelSize = queue.size();\n            LinkedList<Integer> level = new LinkedList<>();\n            for (int i = 0; i < levelSize; i++) {\n                TreeNode node = queue.poll();\n                if (leftToRight) {\n                    level.addLast(node.val);\n                } else {\n                    level.addFirst(node.val);\n                }\n                if (node.left != null) queue.offer(node.left);\n                if (node.right != null) queue.offer(node.right);\n            }\n            result.add(level);\n            leftToRight = !leftToRight;\n        }\n        return result;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {\n        vector<vector<int>> result;\n        if (!root) return result;\n        queue<TreeNode*> q;\n        q.push(root);\n        bool leftToRight = true;\n        while (!q.empty()) {\n            int levelSize = q.size();\n            vector<int> level(levelSize);\n            for (int i = 0; i < levelSize; i++) {\n                TreeNode* node = q.front();\n                q.pop();\n                int index = leftToRight ? i : levelSize - 1 - i;\n                level[index] = node->val;\n                if (node->left) q.push(node->left);\n                if (node->right) q.push(node->right);\n            }\n            result.push_back(level);\n            leftToRight = !leftToRight;\n        }\n        return result;\n    }\n};",
-      "javascript": "var zigzagLevelOrder = function(root) {\n    if (!root) return [];\n    const result = [];\n    const queue = [root];\n    let leftToRight = true;\n    while (queue.length) {\n        const levelSize = queue.length;\n        const level = [];\n        for (let i = 0; i < levelSize; i++) {\n            const node = queue.shift();\n            if (leftToRight) {\n                level.push(node.val);\n            } else {\n                level.unshift(node.val);\n            }\n            if (node.left) queue.push(node.left);\n            if (node.right) queue.push(node.right);\n        }\n        result.push(level);\n        leftToRight = !leftToRight;\n    }\n    return result;\n};",
-      "go": "func zigzagLevelOrder(root *TreeNode) [][]int {\n    if root == nil {\n        return nil\n    }\n    var result [][]int\n    queue := []*TreeNode{root}\n    leftToRight := true\n    for len(queue) > 0 {\n        levelSize := len(queue)\n        level := make([]int, levelSize)\n        for i := 0; i < levelSize; i++ {\n            node := queue[0]\n            queue = queue[1:]\n            index := i\n            if !leftToRight {\n                index = levelSize - 1 - i\n            }\n            level[index] = node.Val\n            if node.Left != nil {\n                queue = append(queue, node.Left)\n            }\n            if node.Right != nil {\n                queue = append(queue, node.Right)\n            }\n        }\n        result = append(result, level)\n        leftToRight = !leftToRight\n    }\n    return result\n}",
-      "rust": "use std::cell::RefCell;\nuse std::rc::Rc;\nuse std::collections::VecDeque;\n\nimpl Solution {\n    pub fn zigzag_level_order(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<Vec<i32>> {\n        let mut result = Vec::new();\n        if let Some(root) = root {\n            let mut queue = VecDeque::new();\n            queue.push_back(root);\n            let mut left_to_right = true;\n            while !queue.is_empty() {\n                let level_size = queue.len();\n                let mut level = vec![0; level_size];\n                for i in 0..level_size {\n                    let node = queue.pop_front().unwrap();\n                    let node_ref = node.borrow();\n                    let index = if left_to_right { i } else { level_size - 1 - i };\n                    level[index] = node_ref.val;\n                    if let Some(left) = &node_ref.left {\n                        queue.push_back(left.clone());\n                    }\n                    if let Some(right) = &node_ref.right {\n                        queue.push_back(right.clone());\n                    }\n                }\n                result.push(level);\n                left_to_right = !left_to_right;\n            }\n        }\n        result\n    }\n}"
-    }
-  },
-  {
-    "id": "bt-bfs-005",
-    "leetcode": 111,
-    "title": "Minimum Depth of Binary Tree",
-    "difficulty": "Easy",
-    "description": "Given a binary tree, find its minimum depth. The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.",
-    "examples": [
-      {
-        "input": "root = [3,9,20,null,null,15,7]",
-        "output": "2"
-      },
-      {
-        "input": "root = [2,null,3,null,4,null,5,null,6]",
-        "output": "5"
-      }
-    ],
-    "hints": [
-      "BFS naturally finds the shortest path in an unweighted tree.",
-      "The first leaf node encountered during BFS gives the minimum depth.",
-      "Return the depth as soon as a node with no children is found."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "from collections import deque\n\ndef minDepth(root):\n    if not root:\n        return 0\n    queue = deque([(root, 1)])\n    while queue:\n        node, depth = queue.popleft()\n        if not node.left and not node.right:\n            return depth\n        if node.left:\n            queue.append((node.left, depth + 1))\n        if node.right:\n            queue.append((node.right, depth + 1))\n    return 0",
-      "java": "import java.util.*;\n\nclass Solution {\n    public int minDepth(TreeNode root) {\n        if (root == null) return 0;\n        Queue<Pair<TreeNode, Integer>> queue = new LinkedList<>();\n        queue.offer(new Pair<>(root, 1));\n        while (!queue.isEmpty()) {\n            Pair<TreeNode, Integer> pair = queue.poll();\n            TreeNode node = pair.getKey();\n            int depth = pair.getValue();\n            if (node.left == null && node.right == null) return depth;\n            if (node.left != null) queue.offer(new Pair<>(node.left, depth + 1));\n            if (node.right != null) queue.offer(new Pair<>(node.right, depth + 1));\n        }\n        return 0;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int minDepth(TreeNode* root) {\n        if (!root) return 0;\n        queue<pair<TreeNode*, int>> q;\n        q.push({root, 1});\n        while (!q.empty()) {\n            auto [node, depth] = q.front();\n            q.pop();\n            if (!node->left && !node->right) return depth;\n            if (node->left) q.push({node->left, depth + 1});\n            if (node->right) q.push({node->right, depth + 1});\n        }\n        return 0;\n    }\n};",
-      "javascript": "var minDepth = function(root) {\n    if (!root) return 0;\n    const queue = [[root, 1]];\n    while (queue.length) {\n        const [node, depth] = queue.shift();\n        if (!node.left && !node.right) return depth;\n        if (node.left) queue.push([node.left, depth + 1]);\n        if (node.right) queue.push([node.right, depth + 1]);\n    }\n    return 0;\n};",
-      "go": "func minDepth(root *TreeNode) int {\n    if root == nil {\n        return 0\n    }\n    type item struct {\n        node  *TreeNode\n        depth int\n    }\n    queue := []item{{root, 1}}\n    for len(queue) > 0 {\n        curr := queue[0]\n        queue = queue[1:]\n        if curr.node.Left == nil && curr.node.Right == nil {\n            return curr.depth\n        }\n        if curr.node.Left != nil {\n            queue = append(queue, item{curr.node.Left, curr.depth + 1})\n        }\n        if curr.node.Right != nil {\n            queue = append(queue, item{curr.node.Right, curr.depth + 1})\n        }\n    }\n    return 0\n}",
-      "rust": "use std::cell::RefCell;\nuse std::rc::Rc;\nuse std::collections::VecDeque;\n\nimpl Solution {\n    pub fn min_depth(root: Option<Rc<RefCell<TreeNode>>>) -> i32 {\n        if let Some(root) = root {\n            let mut queue = VecDeque::new();\n            queue.push_back((root, 1));\n            while !queue.is_empty() {\n                let (node, depth) = queue.pop_front().unwrap();\n                let node_ref = node.borrow();\n                if node_ref.left.is_none() && node_ref.right.is_none() {\n                    return depth;\n                }\n                if let Some(left) = &node_ref.left {\n                    queue.push_back((left.clone(), depth + 1));\n                }\n                if let Some(right) = &node_ref.right {\n                    queue.push_back((right.clone(), depth + 1));\n                }\n            }\n        }\n        0\n    }\n}"
-    }
-  },
-  {
-    "id": "bt-bfs-006",
-    "leetcode": 637,
-    "title": "Average of Levels in Binary Tree",
-    "difficulty": "Easy",
-    "description": "Given the root of a binary tree, return the average value of the nodes on each level in the form of an array.",
-    "examples": [
-      {
-        "input": "root = [3,9,20,null,null,15,7]",
-        "output": "[3.00000,14.50000,11.00000]"
-      },
-      {
-        "input": "root = [3,9,20,15,7]",
-        "output": "[3.00000,14.50000,11.00000]"
-      }
-    ],
-    "hints": [
-      "Use BFS to traverse the tree level by level.",
-      "For each level, sum all node values and divide by the number of nodes.",
-      "Use floating point division for the average calculation."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "from collections import deque\n\ndef averageOfLevels(root):\n    if not root:\n        return []\n    result = []\n    queue = deque([root])\n    while queue:\n        level_size = len(queue)\n        level_sum = 0\n        for _ in range(level_size):\n            node = queue.popleft()\n            level_sum += node.val\n            if node.left:\n                queue.append(node.left)\n            if node.right:\n                queue.append(node.right)\n        result.append(level_sum / level_size)\n    return result",
-      "java": "import java.util.*;\n\nclass Solution {\n    public List<Double> averageOfLevels(TreeNode root) {\n        List<Double> result = new ArrayList<>();\n        if (root == null) return result;\n        Queue<TreeNode> queue = new LinkedList<>();\n        queue.offer(root);\n        while (!queue.isEmpty()) {\n            int levelSize = queue.size();\n            double levelSum = 0;\n            for (int i = 0; i < levelSize; i++) {\n                TreeNode node = queue.poll();\n                levelSum += node.val;\n                if (node.left != null) queue.offer(node.left);\n                if (node.right != null) queue.offer(node.right);\n            }\n            result.add(levelSum / levelSize);\n        }\n        return result;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<double> averageOfLevels(TreeNode* root) {\n        vector<double> result;\n        if (!root) return result;\n        queue<TreeNode*> q;\n        q.push(root);\n        while (!q.empty()) {\n            int levelSize = q.size();\n            double levelSum = 0;\n            for (int i = 0; i < levelSize; i++) {\n                TreeNode* node = q.front();\n                q.pop();\n                levelSum += node->val;\n                if (node->left) q.push(node->left);\n                if (node->right) q.push(node->right);\n            }\n            result.push_back(levelSum / levelSize);\n        }\n        return result;\n    }\n};",
-      "javascript": "var averageOfLevels = function(root) {\n    if (!root) return [];\n    const result = [];\n    const queue = [root];\n    while (queue.length) {\n        const levelSize = queue.length;\n        let levelSum = 0;\n        for (let i = 0; i < levelSize; i++) {\n            const node = queue.shift();\n            levelSum += node.val;\n            if (node.left) queue.push(node.left);\n            if (node.right) queue.push(node.right);\n        }\n        result.push(levelSum / levelSize);\n    }\n    return result;\n};",
-      "go": "func averageOfLevels(root *TreeNode) []float64 {\n    if root == nil {\n        return nil\n    }\n    var result []float64\n    queue := []*TreeNode{root}\n    for len(queue) > 0 {\n        levelSize := len(queue)\n        var levelSum float64\n        for i := 0; i < levelSize; i++ {\n            node := queue[0]\n            queue = queue[1:]\n            levelSum += float64(node.Val)\n            if node.Left != nil {\n                queue = append(queue, node.Left)\n            }\n            if node.Right != nil {\n                queue = append(queue, node.Right)\n            }\n        }\n        result = append(result, levelSum/float64(levelSize))\n    }\n    return result\n}",
-      "rust": "use std::cell::RefCell;\nuse std::rc::Rc;\nuse std::collections::VecDeque;\n\nimpl Solution {\n    pub fn average_of_levels(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<f64> {\n        let mut result = Vec::new();\n        if let Some(root) = root {\n            let mut queue = VecDeque::new();\n            queue.push_back(root);\n            while !queue.is_empty() {\n                let level_size = queue.len();\n                let mut level_sum: f64 = 0.0;\n                for _ in 0..level_size {\n                    let node = queue.pop_front().unwrap();\n                    let node_ref = node.borrow();\n                    level_sum += node_ref.val as f64;\n                    if let Some(left) = &node_ref.left {\n                        queue.push_back(left.clone());\n                    }\n                    if let Some(right) = &node_ref.right {\n                        queue.push_back(right.clone());\n                    }\n                }\n                result.push(level_sum / level_size as f64);\n            }\n        }\n        result\n    }\n}"
-    }
-  },
-  {
-    "id": "bt-bfs-007",
-    "leetcode": 515,
-    "title": "Find Largest Value in Each Tree Row",
-    "difficulty": "Medium",
-    "description": "Given the root of a binary tree, return an array of the largest value in each row of the tree (0-indexed).",
-    "examples": [
-      {
-        "input": "root = [1,3,2,5,3,null,9]",
-        "output": "[1,3,9]"
-      },
-      {
-        "input": "root = [1,2,3]",
-        "output": "[1,3]"
-      },
-      {
-        "input": "root = [1]",
-        "output": "[1]"
-      }
-    ],
-    "hints": [
-      "Use BFS to traverse the tree level by level.",
-      "For each level, track the maximum value seen.",
-      "Initialize the maximum to the minimum integer value before processing each level."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "from collections import deque\nimport sys\n\ndef largestValues(root):\n    if not root:\n        return []\n    result = []\n    queue = deque([root])\n    while queue:\n        level_size = len(queue)\n        max_val = -sys.maxsize\n        for _ in range(level_size):\n            node = queue.popleft()\n            max_val = max(max_val, node.val)\n            if node.left:\n                queue.append(node.left)\n            if node.right:\n                queue.append(node.right)\n        result.append(max_val)\n    return result",
-      "java": "import java.util.*;\n\nclass Solution {\n    public List<Integer> largestValues(TreeNode root) {\n        List<Integer> result = new ArrayList<>();\n        if (root == null) return result;\n        Queue<TreeNode> queue = new LinkedList<>();\n        queue.offer(root);\n        while (!queue.isEmpty()) {\n            int levelSize = queue.size();\n            int maxVal = Integer.MIN_VALUE;\n            for (int i = 0; i < levelSize; i++) {\n                TreeNode node = queue.poll();\n                maxVal = Math.max(maxVal, node.val);\n                if (node.left != null) queue.offer(node.left);\n                if (node.right != null) queue.offer(node.right);\n            }\n            result.add(maxVal);\n        }\n        return result;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<int> largestValues(TreeNode* root) {\n        vector<int> result;\n        if (!root) return result;\n        queue<TreeNode*> q;\n        q.push(root);\n        while (!q.empty()) {\n            int levelSize = q.size();\n            int maxVal = INT_MIN;\n            for (int i = 0; i < levelSize; i++) {\n                TreeNode* node = q.front();\n                q.pop();\n                maxVal = max(maxVal, node->val);\n                if (node->left) q.push(node->left);\n                if (node->right) q.push(node->right);\n            }\n            result.push_back(maxVal);\n        }\n        return result;\n    }\n};",
-      "javascript": "var largestValues = function(root) {\n    if (!root) return [];\n    const result = [];\n    const queue = [root];\n    while (queue.length) {\n        const levelSize = queue.length;\n        let maxVal = -Infinity;\n        for (let i = 0; i < levelSize; i++) {\n            const node = queue.shift();\n            maxVal = Math.max(maxVal, node.val);\n            if (node.left) queue.push(node.left);\n            if (node.right) queue.push(node.right);\n        }\n        result.push(maxVal);\n    }\n    return result;\n};",
-      "go": "func largestValues(root *TreeNode) []int {\n    if root == nil {\n        return nil\n    }\n    var result []int\n    queue := []*TreeNode{root}\n    for len(queue) > 0 {\n        levelSize := len(queue)\n        maxVal := math.MinInt32\n        for i := 0; i < levelSize; i++ {\n            node := queue[0]\n            queue = queue[1:]\n            if node.Val > maxVal {\n                maxVal = node.Val\n            }\n            if node.Left != nil {\n                queue = append(queue, node.Left)\n            }\n            if node.Right != nil {\n                queue = append(queue, node.Right)\n            }\n        }\n        result = append(result, maxVal)\n    }\n    return result\n}",
-      "rust": "use std::cell::RefCell;\nuse std::rc::Rc;\nuse std::collections::VecDeque;\n\nimpl Solution {\n    pub fn largest_values(root: Option<Rc<RefCell<TreeNode>>>) -> Vec<i32> {\n        let mut result = Vec::new();\n        if let Some(root) = root {\n            let mut queue = VecDeque::new();\n            queue.push_back(root);\n            while !queue.is_empty() {\n                let level_size = queue.len();\n                let mut max_val = i32::MIN;\n                for _ in 0..level_size {\n                    let node = queue.pop_front().unwrap();\n                    let node_ref = node.borrow();\n                    if node_ref.val > max_val {\n                        max_val = node_ref.val;\n                    }\n                    if let Some(left) = &node_ref.left {\n                        queue.push_back(left.clone());\n                    }\n                    if let Some(right) = &node_ref.right {\n                        queue.push_back(right.clone());\n                    }\n                }\n                result.push(max_val);\n            }\n        }\n        result\n    }\n}"
-    }
-  },
-  {
-    "id": "bt-bfs-008",
-    "leetcode": 116,
-    "title": "Populating Next Right Pointers in Each Node",
-    "difficulty": "Medium",
-    "description": "You are given a perfect binary tree where all leaves are on the same level, and every parent has two children. The binary tree has the following definition: struct Node { int val; Node *left; Node *right; Node *next; } Populate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL.",
-    "examples": [
-      {
-        "input": "root = [1,2,3,4,5,6,7]",
-        "output": "[1,#,2,3,#,4,5,6,7,#]"
-      },
-      {
-        "input": "root = []",
-        "output": "[]"
-      }
-    ],
-    "hints": [
-      "BFS level order traversal naturally processes nodes left to right at each level.",
-      "While processing a level, connect each node to the next node in the queue.",
-      "Make sure to set the last node's next pointer to NULL."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "class Solution:\n    def connect(self, root):\n        if not root:\n            return None\n        from collections import deque\n        queue = deque([root])\n        while queue:\n            level_size = len(queue)\n            for i in range(level_size):\n                node = queue.popleft()\n                if i < level_size - 1:\n                    node.next = queue[0]\n                if node.left:\n                    queue.append(node.left)\n                if node.right:\n                    queue.append(node.right)\n        return root",
-      "java": "class Solution {\n    public Node connect(Node root) {\n        if (root == null) return null;\n        Queue<Node> queue = new LinkedList<>();\n        queue.offer(root);\n        while (!queue.isEmpty()) {\n            int levelSize = queue.size();\n            for (int i = 0; i < levelSize; i++) {\n                Node node = queue.poll();\n                if (i < levelSize - 1) {\n                    node.next = queue.peek();\n                }\n                if (node.left != null) queue.offer(node.left);\n                if (node.right != null) queue.offer(node.right);\n            }\n        }\n        return root;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    Node* connect(Node* root) {\n        if (!root) return nullptr;\n        queue<Node*> q;\n        q.push(root);\n        while (!q.empty()) {\n            int levelSize = q.size();\n            for (int i = 0; i < levelSize; i++) {\n                Node* node = q.front();\n                q.pop();\n                if (i < levelSize - 1) {\n                    node->next = q.front();\n                }\n                if (node->left) q.push(node->left);\n                if (node->right) q.push(node->right);\n            }\n        }\n        return root;\n    }\n};",
-      "javascript": "var connect = function(root) {\n    if (!root) return null;\n    const queue = [root];\n    while (queue.length) {\n        const levelSize = queue.length;\n        for (let i = 0; i < levelSize; i++) {\n            const node = queue.shift();\n            if (i < levelSize - 1) {\n                node.next = queue[0];\n            }\n            if (node.left) queue.push(node.left);\n            if (node.right) queue.push(node.right);\n        }\n    }\n    return root;\n};",
-      "go": "func connect(root *Node) *Node {\n    if root == nil {\n        return nil\n    }\n    queue := []*Node{root}\n    for len(queue) > 0 {\n        levelSize := len(queue)\n        for i := 0; i < levelSize; i++ {\n            node := queue[0]\n            queue = queue[1:]\n            if i < levelSize-1 {\n                node.Next = queue[0]\n            }\n            if node.Left != nil {\n                queue = append(queue, node.Left)\n            }\n            if node.Right != nil {\n                queue = append(queue, node.Right)\n            }\n        }\n    }\n    return root\n}",
-      "rust": "use std::cell::RefCell;\nuse std::rc::Rc;\nuse std::collections::VecDeque;\n\nimpl Solution {\n    pub fn connect(root: Option<Rc<RefCell<Node>>>) -> Option<Rc<RefCell<Node>>> {\n        if let Some(root) = root.clone() {\n            let mut queue = VecDeque::new();\n            queue.push_back(root.clone());\n            while !queue.is_empty() {\n                let level_size = queue.len();\n                for i in 0..level_size {\n                    let node = queue.pop_front().unwrap();\n                    let mut node_ref = node.borrow_mut();\n                    if i < level_size - 1 {\n                        let next = queue.front().unwrap().clone();\n                        node_ref.next = Some(next);\n                    }\n                    if let Some(left) = &node_ref.left {\n                        queue.push_back(left.clone());\n                    }\n                    if let Some(right) = &node_ref.right {\n                        queue.push_back(right.clone());\n                    }\n                }\n            }\n        }\n        root\n    }\n}"
-    }
-  },
-  {
-    "id": "bt-bfs-009",
-    "leetcode": 542,
-    "title": "01 Matrix",
-    "difficulty": "Medium",
-    "description": "Given an m x n binary matrix mat, return the distance of the nearest 0 for each cell. The distance between two adjacent cells is 1.",
-    "examples": [
-      {
-        "input": "mat = [[0,0,0],[0,1,0],[0,0,0]]",
-        "output": "[[0,0,0],[0,1,0],[0,0,0]]"
-      },
-      {
-        "input": "mat = [[0,0,0],[0,1,0],[1,1,1]]",
-        "output": "[[0,0,0],[0,1,0],[1,2,1]]"
-      }
-    ],
-    "hints": [
-      "Start BFS from all 0 cells simultaneously (multi-source BFS).",
-      "Initialize the distance for all 0 cells to 0 and enqueue them first.",
-      "For each cell popped from the queue, update its unvisited neighbors with distance + 1."
-    ],
-    "timeComplexity": "O(m*n)",
-    "spaceComplexity": "O(m*n)",
-    "solutions": {
-      "python": "from collections import deque\n\ndef updateMatrix(mat):\n    m, n = len(mat), len(mat[0])\n    queue = deque()\n    for i in range(m):\n        for j in range(n):\n            if mat[i][j] == 0:\n                queue.append((i, j))\n            else:\n                mat[i][j] = -1\n    directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]\n    while queue:\n        x, y = queue.popleft()\n        for dx, dy in directions:\n            nx, ny = x + dx, y + dy\n            if 0 <= nx < m and 0 <= ny < n and mat[nx][ny] == -1:\n                mat[nx][ny] = mat[x][y] + 1\n                queue.append((nx, ny))\n    return mat",
-      "java": "import java.util.*;\n\nclass Solution {\n    public int[][] updateMatrix(int[][] mat) {\n        int m = mat.length, n = mat[0].length;\n        Queue<int[]> queue = new LinkedList<>();\n        for (int i = 0; i < m; i++) {\n            for (int j = 0; j < n; j++) {\n                if (mat[i][j] == 0) {\n                    queue.offer(new int[]{i, j});\n                } else {\n                    mat[i][j] = -1;\n                }\n            }\n        }\n        int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};\n        while (!queue.isEmpty()) {\n            int[] cell = queue.poll();\n            for (int[] dir : dirs) {\n                int nx = cell[0] + dir[0];\n                int ny = cell[1] + dir[1];\n                if (nx >= 0 && nx < m && ny >= 0 && ny < n && mat[nx][ny] == -1) {\n                    mat[nx][ny] = mat[cell[0]][cell[1]] + 1;\n                    queue.offer(new int[]{nx, ny});\n                }\n            }\n        }\n        return mat;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {\n        int m = mat.size(), n = mat[0].size();\n        queue<pair<int, int>> q;\n        for (int i = 0; i < m; i++) {\n            for (int j = 0; j < n; j++) {\n                if (mat[i][j] == 0) {\n                    q.push({i, j});\n                } else {\n                    mat[i][j] = -1;\n                }\n            }\n        }\n        vector<pair<int, int>> dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};\n        while (!q.empty()) {\n            auto [x, y] = q.front();\n            q.pop();\n            for (auto [dx, dy] : dirs) {\n                int nx = x + dx, ny = y + dy;\n                if (nx >= 0 && nx < m && ny >= 0 && ny < n && mat[nx][ny] == -1) {\n                    mat[nx][ny] = mat[x][y] + 1;\n                    q.push({nx, ny});\n                }\n            }\n        }\n        return mat;\n    }\n};",
-      "javascript": "var updateMatrix = function(mat) {\n    const m = mat.length, n = mat[0].length;\n    const queue = [];\n    for (let i = 0; i < m; i++) {\n        for (let j = 0; j < n; j++) {\n            if (mat[i][j] === 0) {\n                queue.push([i, j]);\n            } else {\n                mat[i][j] = -1;\n            }\n        }\n    }\n    const dirs = [[0, 1], [0, -1], [1, 0], [-1, 0]];\n    while (queue.length) {\n        const [x, y] = queue.shift();\n        for (const [dx, dy] of dirs) {\n            const nx = x + dx, ny = y + dy;\n            if (nx >= 0 && nx < m && ny >= 0 && ny < n && mat[nx][ny] === -1) {\n                mat[nx][ny] = mat[x][y] + 1;\n                queue.push([nx, ny]);\n            }\n        }\n    }\n    return mat;\n};",
-      "go": "func updateMatrix(mat [][]int) [][]int {\n    m, n := len(mat), len(mat[0])\n    type cell struct{ x, y int }\n    queue := []cell{}\n    for i := 0; i < m; i++ {\n        for j := 0; j < n; j++ {\n            if mat[i][j] == 0 {\n                queue = append(queue, cell{i, j})\n            } else {\n                mat[i][j] = -1\n            }\n        }\n    }\n    dirs := [][2]int{{0, 1}, {0, -1}, {1, 0}, {-1, 0}}\n    for len(queue) > 0 {\n        curr := queue[0]\n        queue = queue[1:]\n        for _, dir := range dirs {\n            nx, ny := curr.x+dir[0], curr.y+dir[1]\n            if nx >= 0 && nx < m && ny >= 0 && ny < n && mat[nx][ny] == -1 {\n                mat[nx][ny] = mat[curr.x][curr.y] + 1\n                queue = append(queue, cell{nx, ny})\n            }\n        }\n    }\n    return mat\n}",
-      "rust": "use std::collections::VecDeque;\n\nimpl Solution {\n    pub fn update_matrix(mat: Vec<Vec<i32>>) -> Vec<Vec<i32>> {\n        let m = mat.len();\n        let n = mat[0].len();\n        let mut mat = mat;\n        let mut queue = VecDeque::new();\n        for i in 0..m {\n            for j in 0..n {\n                if mat[i][j] == 0 {\n                    queue.push_back((i, j));\n                } else {\n                    mat[i][j] = -1;\n                }\n            }\n        }\n        let dirs = [(0, 1), (0, -1), (1, 0), (-1, 0)];\n        while let Some((x, y)) = queue.pop_front() {\n            for (dx, dy) in dirs.iter() {\n                let nx = x as i32 + dx;\n                let ny = y as i32 + dy;\n                if nx >= 0 && nx < m as i32 && ny >= 0 && ny < n as i32 {\n                    let ux = nx as usize;\n                    let uy = ny as usize;\n                    if mat[ux][uy] == -1 {\n                        mat[ux][uy] = mat[x][y] + 1;\n                        queue.push_back((ux, uy));\n                    }\n                }\n            }\n        }\n        mat\n    }\n}"
-    }
-  },
-  {
-    "id": "bt-bfs-010",
-    "leetcode": 994,
-    "title": "Rotting Oranges",
-    "difficulty": "Medium",
-    "description": "You are given an m x n grid where each cell can have one of three values: 0 representing an empty cell, 1 representing a fresh orange, or 2 representing a rotten orange. Every minute, any fresh orange that is 4-directionally adjacent to a rotten orange becomes rotten. Return the minimum number of minutes that must elapse until no cell has a fresh orange. If this is impossible, return -1.",
-    "examples": [
-      {
-        "input": "grid = [[2,1,1],[1,1,0],[0,1,1]]",
-        "output": "4"
-      },
-      {
-        "input": "grid = [[2,1,1],[0,1,1],[1,0,1]]",
-        "output": "-1"
-      },
-      {
-        "input": "grid = [[0,2]]",
-        "output": "0"
-      }
-    ],
-    "hints": [
-      "Start BFS from all initially rotten oranges simultaneously (multi-source BFS).",
-      "Track the number of fresh oranges remaining. If it reaches 0, return the minutes elapsed.",
-      "If after BFS there are still fresh oranges remaining, return -1."
-    ],
-    "timeComplexity": "O(m*n)",
-    "spaceComplexity": "O(m*n)",
-    "solutions": {
-      "python": "from collections import deque\n\ndef orangesRotting(grid):\n    m, n = len(grid), len(grid[0])\n    queue = deque()\n    fresh = 0\n    for i in range(m):\n        for j in range(n):\n            if grid[i][j] == 2:\n                queue.append((i, j))\n            elif grid[i][j] == 1:\n                fresh += 1\n    if fresh == 0:\n        return 0\n    minutes = 0\n    directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]\n    while queue:\n        minutes += 1\n        for _ in range(len(queue)):\n            x, y = queue.popleft()\n            for dx, dy in directions:\n                nx, ny = x + dx, y + dy\n                if 0 <= nx < m and 0 <= ny < n and grid[nx][ny] == 1:\n                    grid[nx][ny] = 2\n                    fresh -= 1\n                    queue.append((nx, ny))\n    return minutes - 1 if fresh == 0 else -1",
-      "java": "import java.util.*;\n\nclass Solution {\n    public int orangesRotting(int[][] grid) {\n        int m = grid.length, n = grid[0].length;\n        Queue<int[]> queue = new LinkedList<>();\n        int fresh = 0;\n        for (int i = 0; i < m; i++) {\n            for (int j = 0; j < n; j++) {\n                if (grid[i][j] == 2) {\n                    queue.offer(new int[]{i, j});\n                } else if (grid[i][j] == 1) {\n                    fresh++;\n                }\n            }\n        }\n        if (fresh == 0) return 0;\n        int minutes = 0;\n        int[][] dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};\n        while (!queue.isEmpty()) {\n            minutes++;\n            int size = queue.size();\n            for (int i = 0; i < size; i++) {\n                int[] cell = queue.poll();\n                for (int[] dir : dirs) {\n                    int nx = cell[0] + dir[0];\n                    int ny = cell[1] + dir[1];\n                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] == 1) {\n                        grid[nx][ny] = 2;\n                        fresh--;\n                        queue.offer(new int[]{nx, ny});\n                    }\n                }\n            }\n        }\n        return fresh == 0 ? minutes - 1 : -1;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int orangesRotting(vector<vector<int>>& grid) {\n        int m = grid.size(), n = grid[0].size();\n        queue<pair<int, int>> q;\n        int fresh = 0;\n        for (int i = 0; i < m; i++) {\n            for (int j = 0; j < n; j++) {\n                if (grid[i][j] == 2) {\n                    q.push({i, j});\n                } else if (grid[i][j] == 1) {\n                    fresh++;\n                }\n            }\n        }\n        if (fresh == 0) return 0;\n        int minutes = 0;\n        vector<pair<int, int>> dirs = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};\n        while (!q.empty()) {\n            minutes++;\n            int size = q.size();\n            for (int i = 0; i < size; i++) {\n                auto [x, y] = q.front();\n                q.pop();\n                for (auto [dx, dy] : dirs) {\n                    int nx = x + dx, ny = y + dy;\n                    if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] == 1) {\n                        grid[nx][ny] = 2;\n                        fresh--;\n                        q.push({nx, ny});\n                    }\n                }\n            }\n        }\n        return fresh == 0 ? minutes - 1 : -1;\n    }\n};",
-      "javascript": "var orangesRotting = function(grid) {\n    const m = grid.length, n = grid[0].length;\n    const queue = [];\n    let fresh = 0;\n    for (let i = 0; i < m; i++) {\n        for (let j = 0; j < n; j++) {\n            if (grid[i][j] === 2) {\n                queue.push([i, j]);\n            } else if (grid[i][j] === 1) {\n                fresh++;\n            }\n        }\n    }\n    if (fresh === 0) return 0;\n    let minutes = 0;\n    const dirs = [[0, 1], [0, -1], [1, 0], [-1, 0]];\n    while (queue.length) {\n        minutes++;\n        const size = queue.length;\n        for (let i = 0; i < size; i++) {\n            const [x, y] = queue.shift();\n            for (const [dx, dy] of dirs) {\n                const nx = x + dx, ny = y + dy;\n                if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] === 1) {\n                    grid[nx][ny] = 2;\n                    fresh--;\n                    queue.push([nx, ny]);\n                }\n            }\n        }\n    }\n    return fresh === 0 ? minutes - 1 : -1;\n};",
-      "go": "func orangesRotting(grid [][]int) int {\n    m, n := len(grid), len(grid[0])\n    type cell struct{ x, y int }\n    queue := []cell{}\n    fresh := 0\n    for i := 0; i < m; i++ {\n        for j := 0; j < n; j++ {\n            if grid[i][j] == 2 {\n                queue = append(queue, cell{i, j})\n            } else if grid[i][j] == 1 {\n                fresh++\n            }\n        }\n    }\n    if fresh == 0 {\n        return 0\n    }\n    minutes := 0\n    dirs := [][2]int{{0, 1}, {0, -1}, {1, 0}, {-1, 0}}\n    for len(queue) > 0 {\n        minutes++\n        size := len(queue)\n        for i := 0; i < size; i++ {\n            curr := queue[0]\n            queue = queue[1:]\n            for _, dir := range dirs {\n                nx, ny := curr.x+dir[0], curr.y+dir[1]\n                if nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] == 1 {\n                    grid[nx][ny] = 2\n                    fresh--\n                    queue = append(queue, cell{nx, ny})\n                }\n            }\n        }\n    }\n    if fresh == 0 {\n        return minutes - 1\n    }\n    return -1\n}",
-      "rust": "use std::collections::VecDeque;\n\nimpl Solution {\n    pub fn oranges_rotting(mut grid: Vec<Vec<i32>>) -> i32 {\n        let m = grid.len();\n        let n = grid[0].len();\n        let mut queue = VecDeque::new();\n        let mut fresh = 0;\n        for i in 0..m {\n            for j in 0..n {\n                if grid[i][j] == 2 {\n                    queue.push_back((i, j));\n                } else if grid[i][j] == 1 {\n                    fresh += 1;\n                }\n            }\n        }\n        if fresh == 0 {\n            return 0;\n        }\n        let mut minutes = 0;\n        let dirs = [(0, 1), (0, -1), (1, 0), (-1, 0)];\n        while !queue.is_empty() {\n            minutes += 1;\n            let size = queue.len();\n            for _ in 0..size {\n                let (x, y) = queue.pop_front().unwrap();\n                for (dx, dy) in dirs.iter() {\n                    let nx = x as i32 + dx;\n                    let ny = y as i32 + dy;\n                    if nx >= 0 && nx < m as i32 && ny >= 0 && ny < n as i32 {\n                        let ux = nx as usize;\n                        let uy = ny as usize;\n                        if grid[ux][uy] == 1 {\n                            grid[ux][uy] = 2;\n                            fresh -= 1;\n                            queue.push_back((ux, uy));\n                        }\n                    }\n                }\n            }\n        }\n        if fresh == 0 {\n            minutes - 1\n        } else {\n            -1\n        }\n    }\n}"
-    }
+    ]
   }
 ]
