@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { createContext, useContext, useEffect, useState, useCallback, useRef, ReactNode } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
 
@@ -19,7 +19,29 @@ export const AVATARS = [
   "🔥", "💎", "🎯", "🧠",
 ];
 
-export function useAuth() {
+interface AuthContextType {
+  user: User | null;
+  profile: Profile | null;
+  loading: boolean;
+  signup: (email: string, password: string, username: string, displayName: string, avatar: string, bio: string) => Promise<{ ok: boolean; error?: string }>;
+  login: (email: string, password: string) => Promise<{ ok: boolean; error?: string }>;
+  logout: () => Promise<void>;
+  updateProfile: (updates: Partial<Pick<Profile, "display_name" | "avatar" | "bio">>) => Promise<void>;
+  changePassword: (currentPassword: string, newPassword: string) => Promise<{ ok: boolean; error?: string }>;
+}
+
+const AuthContext = createContext<AuthContextType>({
+  user: null,
+  profile: null,
+  loading: true,
+  signup: async () => ({ ok: false }),
+  login: async () => ({ ok: false }),
+  logout: async () => {},
+  updateProfile: async () => {},
+  changePassword: async () => ({ ok: false }),
+});
+
+export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
@@ -110,20 +132,13 @@ export function useAuth() {
       }
 
       if (data.user) {
-        // Profile row is created by a database trigger (handle_new_user)
-        // using the metadata passed in options.data above.
-        // Wait briefly for the trigger, then fetch the profile.
         await new Promise((r) => setTimeout(r, 500));
-
         const { data: profileData } = await getSupabase()
           .from("profiles")
           .select("*")
           .eq("id", data.user.id)
           .single();
-
-        if (profileData) {
-          setProfile(profileData);
-        }
+        if (profileData) setProfile(profileData);
       }
 
       return { ok: true };
@@ -132,19 +147,9 @@ export function useAuth() {
   );
 
   const login = useCallback(
-    async (
-      email: string,
-      password: string
-    ): Promise<{ ok: boolean; error?: string }> => {
-      const { error } = await getSupabase().auth.signInWithPassword({
-        email,
-        password,
-      });
-
-      if (error) {
-        return { ok: false, error: error.message };
-      }
-
+    async (email: string, password: string): Promise<{ ok: boolean; error?: string }> => {
+      const { error } = await getSupabase().auth.signInWithPassword({ email, password });
+      if (error) return { ok: false, error: error.message };
       return { ok: true };
     },
     [getSupabase]
@@ -157,105 +162,32 @@ export function useAuth() {
   const updateProfile = useCallback(
     async (updates: Partial<Pick<Profile, "display_name" | "avatar" | "bio">>) => {
       if (!user) return;
-
-      const { error } = await getSupabase()
-        .from("profiles")
-        .update(updates)
-        .eq("id", user.id);
-
-      if (!error && profile) {
-        setProfile({ ...profile, ...updates });
-      }
+      const { error } = await getSupabase().from("profiles").update(updates).eq("id", user.id);
+      if (!error && profile) setProfile({ ...profile, ...updates });
     },
     [user, profile, getSupabase]
   );
 
   const changePassword = useCallback(
-    async (
-      currentPassword: string,
-      newPassword: string
-    ): Promise<{ ok: boolean; error?: string }> => {
+    async (currentPassword: string, newPassword: string): Promise<{ ok: boolean; error?: string }> => {
       if (!user?.email) return { ok: false, error: "Not logged in." };
-
       const { error: signInError } = await getSupabase().auth.signInWithPassword({
         email: user.email,
         password: currentPassword,
       });
-
-      if (signInError) {
-        return { ok: false, error: "Current password is incorrect." };
-      }
-
-      const { error } = await getSupabase().auth.updateUser({
-        password: newPassword,
-      });
-
-      if (error) {
-        return { ok: false, error: error.message };
-      }
-
+      if (signInError) return { ok: false, error: "Current password is incorrect." };
+      const { error } = await getSupabase().auth.updateUser({ password: newPassword });
+      if (error) return { ok: false, error: error.message };
       return { ok: true };
     },
     [user, getSupabase]
   );
 
-  const findUserByUsername = useCallback(
-    async (username: string): Promise<Profile | null> => {
-      const { data } = await getSupabase()
-        .from("profiles")
-        .select("*")
-        .eq("username", username.toLowerCase())
-        .single();
-
-      return data;
-    },
-    [getSupabase]
+  return (
+    <AuthContext.Provider value={{ user, profile, loading, signup, login, logout, updateProfile, changePassword }}>
+      {children}
+    </AuthContext.Provider>
   );
-
-  const getUserById = useCallback(
-    async (id: string): Promise<Profile | null> => {
-      const { data } = await getSupabase()
-        .from("profiles")
-        .select("*")
-        .eq("id", id)
-        .single();
-
-      return data;
-    },
-    [getSupabase]
-  );
-
-  const signInWithMagicLink = useCallback(
-    async (
-      email: string
-    ): Promise<{ error?: string }> => {
-      const { error } = await getSupabase().auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: `${window.location.origin}/auth/callback`,
-        },
-      });
-
-      if (error) {
-        return { error: error.message };
-      }
-
-      return {};
-    },
-    [getSupabase]
-  );
-
-  return {
-    user,
-    profile,
-    loading,
-    signup,
-    login,
-    logout,
-    updateProfile,
-    changePassword,
-    signInWithMagicLink,
-    findUserByUsername,
-    getUserById,
-  };
 }
+
+export const useAuth = () => useContext(AuthContext);
