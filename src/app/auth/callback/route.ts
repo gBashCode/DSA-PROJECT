@@ -7,30 +7,37 @@ export async function GET(request: Request) {
   const type = searchParams.get("type") ?? "magiclink";
   const next = searchParams.get("next") ?? "/profile";
 
-  if (token_hash) {
+  if (token_hash && token_hash.length > 0) {
+    const supabaseResponse = NextResponse.next({ request });
+
     const supabase = createServerClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       {
         cookies: {
           getAll() {
-            return request.headers.get("cookie")?.split(";").map(c => {
-              const [name, ...value] = c.split("=");
-              return { name: name.trim(), value: value.join("=") };
-            }) ?? [];
+            return request.cookies.getAll();
           },
           setAll(cookiesToSet) {
-            cookiesToSet.forEach(({ name, value }) => {
-              request.headers.set("cookie", `${name}=${value}`);
-            });
+            cookiesToSet.forEach(({ name, value }) =>
+              request.cookies.set(name, value)
+            );
+            supabaseResponse.headers.set(
+              "set-cookie",
+              request.cookies.toString()
+            );
           },
         },
       }
     );
 
-    const { error } = await supabase.auth.verifyOtp({ token_hash, type });
+    const { error } = await supabase.auth.verifyOtp({
+      type,
+      token_hash,
+    });
+
     if (!error) {
-      return NextResponse.redirect(`${origin}${next}`);
+      return supabaseResponse;
     }
   }
 
