@@ -232,7 +232,7 @@ export function useAuth() {
       const { error } = await getSupabase().auth.signInWithOtp({
         email,
         options: {
-          emailRedirectTo: "https://dsa-practice-sigma.vercel.app/tracker",
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
         },
       });
 
