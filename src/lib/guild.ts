@@ -3,6 +3,15 @@
 import { createClient } from "@/lib/supabase/client";
 import { problems } from "@/data/problems";
 
+let supabase: ReturnType<typeof createClient> | null = null;
+
+function getSupabase() {
+  if (!supabase) {
+    supabase = createClient();
+  }
+  return supabase;
+}
+
 export interface Guild {
   id: string;
   name: string;
@@ -130,8 +139,6 @@ function buildLeaderboard(members: GuildMember[], solvesByUser: Record<string, s
   return entries;
 }
 
-const supabase = createClient();
-
 // ── Guild CRUD ─────────────────────────────────────────
 
 function generateGuildCode(): string {
@@ -142,7 +149,7 @@ function generateGuildCode(): string {
 export async function createGuild(name: string, creatorId: string): Promise<Guild> {
   const guild_code = generateGuildCode();
 
-  const { data, error } = await supabase
+  const { data, error } = await getSupabase()
     .from("guilds")
     .insert({ name, creator_id: creatorId, guild_code })
     .select()
@@ -150,7 +157,7 @@ export async function createGuild(name: string, creatorId: string): Promise<Guil
 
   if (error) throw error;
 
-  await supabase.from("guild_members").insert({
+  await getSupabase().from("guild_members").insert({
     guild_id: data.id,
     user_id: creatorId,
     role: "creator",
@@ -160,7 +167,7 @@ export async function createGuild(name: string, creatorId: string): Promise<Guil
 }
 
 export async function getGuildByCode(code: string): Promise<Guild | null> {
-  const { data } = await supabase
+  const { data } = await getSupabase()
     .from("guilds")
     .select("*")
     .eq("guild_code", code.trim())
@@ -173,7 +180,7 @@ export async function joinGuildByCode(code: string, userId: string): Promise<{ o
   const guild = await getGuildByCode(code);
   if (!guild) return { ok: false, error: "Guild not found." };
 
-  const { data: existingMember } = await supabase
+  const { data: existingMember } = await getSupabase()
     .from("guild_members")
     .select("id")
     .eq("guild_id", guild.id)
@@ -183,7 +190,7 @@ export async function joinGuildByCode(code: string, userId: string): Promise<{ o
 
   if (existingMember) return { ok: false, error: "Already a member." };
 
-  const { data: existingInvite } = await supabase
+  const { data: existingInvite } = await getSupabase()
     .from("guild_invites")
     .select("id, status")
     .eq("guild_id", guild.id)
@@ -194,19 +201,19 @@ export async function joinGuildByCode(code: string, userId: string): Promise<{ o
   if (existingInvite?.status === "pending") return { ok: false, error: "Request already pending." };
   if (existingInvite?.status === "accepted") return { ok: false, error: "Already a member." };
 
-  const { data: userProfile } = await supabase
+  const { data: userProfile } = await getSupabase()
     .from("profiles")
     .select("display_name")
     .eq("id", userId)
     .single();
 
-  await supabase.from("guild_invites").insert({
+  await getSupabase().from("guild_invites").insert({
     guild_id: guild.id,
     user_id: userId,
     status: "pending",
   });
 
-  await supabase.from("notifications").insert({
+  await getSupabase().from("notifications").insert({
     user_id: guild.creator_id,
     type: "guild_join_request",
     title: "Join Request",
@@ -219,7 +226,7 @@ export async function joinGuildByCode(code: string, userId: string): Promise<{ o
 }
 
 export async function getGuildByUser(userId: string): Promise<Guild | null> {
-  const { data: member } = await supabase
+  const { data: member } = await getSupabase()
     .from("guild_members")
     .select("guild_id")
     .eq("user_id", userId)
@@ -228,7 +235,7 @@ export async function getGuildByUser(userId: string): Promise<Guild | null> {
 
   if (!member) return null;
 
-  const { data } = await supabase
+  const { data } = await getSupabase()
     .from("guilds")
     .select("*")
     .eq("id", member.guild_id)
@@ -241,15 +248,15 @@ export async function getGuildByUser(userId: string): Promise<Guild | null> {
 
 export async function loadGuildData(guildId: string): Promise<GuildData> {
   const [membersResult, solvesResult, invitesResult] = await Promise.all([
-    supabase
+    getSupabase()
       .from("guild_members")
       .select("*, profiles(id, username, display_name, avatar)")
       .eq("guild_id", guildId),
-    supabase
+    getSupabase()
       .from("guild_solves")
       .select("user_id, problem_id, solved")
       .eq("guild_id", guildId),
-    supabase
+    getSupabase()
       .from("guild_invites")
       .select("*, profiles(id, username, display_name, avatar)")
       .eq("guild_id", guildId),
@@ -283,7 +290,7 @@ export async function toggleSolve(
   userId: string,
   problemId: string
 ): Promise<boolean> {
-  const { data: existing } = await supabase
+  const { data: existing } = await getSupabase()
     .from("guild_solves")
     .select("id, solved")
     .eq("guild_id", guildId)
@@ -294,9 +301,9 @@ export async function toggleSolve(
   const newSolved = !existing?.solved;
 
   if (existing) {
-    await supabase.from("guild_solves").update({ solved: newSolved }).eq("id", existing.id);
+    await getSupabase().from("guild_solves").update({ solved: newSolved }).eq("id", existing.id);
   } else {
-    await supabase.from("guild_solves").insert({
+    await getSupabase().from("guild_solves").insert({
       guild_id: guildId,
       user_id: userId,
       problem_id: problemId,
@@ -304,7 +311,7 @@ export async function toggleSolve(
     });
   }
 
-  await supabase.from("guild_activity").insert({
+  await getSupabase().from("guild_activity").insert({
     guild_id: guildId,
     user_id: userId,
     problem_id: problemId,
@@ -317,22 +324,22 @@ export async function toggleSolve(
 }
 
 export async function sendInvite(guildId: string, userId: string): Promise<void> {
-  await supabase.from("guild_invites").insert({
+  await getSupabase().from("guild_invites").insert({
     guild_id: guildId,
     user_id: userId,
     status: "pending",
   });
 
-  const { data: guild } = await supabase.from("guilds").select("name").eq("id", guildId).single();
-  const { data: adminProfile } = await supabase.from("profiles").select("display_name").eq("id", (await supabase.auth.getUser()).data.user?.id).single();
+  const { data: guild } = await getSupabase().from("guilds").select("name").eq("id", guildId).single();
+  const { data: adminProfile } = await getSupabase().from("profiles").select("display_name").eq("id", (await getSupabase().auth.getUser()).data.user?.id).single();
 
-  await supabase.from("notifications").insert({
+  await getSupabase().from("notifications").insert({
     user_id: userId,
     type: "guild_invite",
     title: "Guild Invitation",
     body: `${adminProfile?.display_name ?? "Admin"} invited you to join ${guild?.name ?? "a guild"}`,
     guild_id: guildId,
-    from_user_id: (await supabase.auth.getUser()).data.user?.id,
+    from_user_id: (await getSupabase().auth.getUser()).data.user?.id,
   });
 }
 
@@ -342,16 +349,16 @@ export async function respondToInvite(
   guildId: string,
   userId: string
 ): Promise<void> {
-  await supabase.from("guild_invites").update({ status }).eq("id", inviteId);
+  await getSupabase().from("guild_invites").update({ status }).eq("id", inviteId);
 
-  await supabase.from("notifications")
+  await getSupabase().from("notifications")
     .delete()
     .eq("guild_id", guildId)
     .eq("from_user_id", userId)
     .in("type", ["guild_join_request", "guild_invite"]);
 
   if (status === "accepted") {
-    await supabase.from("guild_members").insert({
+    await getSupabase().from("guild_members").insert({
       guild_id: guildId,
       user_id: userId,
       role: "member",
@@ -360,11 +367,11 @@ export async function respondToInvite(
 }
 
 export async function removeMember(guildId: string, userId: string): Promise<void> {
-  await supabase.from("guild_members").delete().eq("guild_id", guildId).eq("user_id", userId);
+  await getSupabase().from("guild_members").delete().eq("guild_id", guildId).eq("user_id", userId);
 }
 
 export async function disbandGuild(guildId: string): Promise<void> {
-  await supabase.from("guilds").delete().eq("id", guildId);
+  await getSupabase().from("guilds").delete().eq("id", guildId);
 }
 
 // ── Tracker sync ───────────────────────────────────────
@@ -388,7 +395,7 @@ function syncGuildSolveToTracker(problemId: string, solved: boolean): void {
 // ── Notifications ──────────────────────────────────────
 
 export async function getNotifications(userId: string): Promise<Notification[]> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabase()
     .from("notifications")
     .select("*")
     .eq("user_id", userId)
@@ -400,7 +407,7 @@ export async function getNotifications(userId: string): Promise<Notification[]> 
 }
 
 export async function getUnreadCount(userId: string): Promise<number> {
-  const { count } = await supabase
+  const { count } = await getSupabase()
     .from("notifications")
     .select("id", { count: "exact", head: true })
     .eq("user_id", userId)
@@ -410,15 +417,15 @@ export async function getUnreadCount(userId: string): Promise<number> {
 }
 
 export async function markNotificationRead(notificationId: string): Promise<void> {
-  await supabase.from("notifications").update({ read: true }).eq("id", notificationId);
+  await getSupabase().from("notifications").update({ read: true }).eq("id", notificationId);
 }
 
 export async function markAllNotificationsRead(userId: string): Promise<void> {
-  await supabase.from("notifications").update({ read: true }).eq("user_id", userId).eq("read", false);
+  await getSupabase().from("notifications").update({ read: true }).eq("user_id", userId).eq("read", false);
 }
 
 export async function deleteNotification(notificationId: string): Promise<void> {
-  await supabase.from("notifications").delete().eq("id", notificationId);
+  await getSupabase().from("notifications").delete().eq("id", notificationId);
 }
 
 export async function approveJoinRequest(
@@ -428,7 +435,7 @@ export async function approveJoinRequest(
   userId: string
 ): Promise<void> {
   await respondToInvite(inviteId, "accepted", guildId, userId);
-  await supabase.from("notifications").delete().eq("id", notificationId);
+  await getSupabase().from("notifications").delete().eq("id", notificationId);
 }
 
 export async function rejectJoinRequest(
@@ -438,7 +445,7 @@ export async function rejectJoinRequest(
   userId: string
 ): Promise<void> {
   await respondToInvite(inviteId, "declined", guildId, userId);
-  await supabase.from("notifications").delete().eq("id", notificationId);
+  await getSupabase().from("notifications").delete().eq("id", notificationId);
 }
 
 export async function acceptInviteFromNotification(
@@ -446,7 +453,7 @@ export async function acceptInviteFromNotification(
   guildId: string,
   userId: string
 ): Promise<void> {
-  const { data: invite } = await supabase
+  const { data: invite } = await getSupabase()
     .from("guild_invites")
     .select("id")
     .eq("guild_id", guildId)
@@ -458,7 +465,7 @@ export async function acceptInviteFromNotification(
   if (invite) {
     await respondToInvite(invite.id, "accepted", guildId, userId);
   }
-  await supabase.from("notifications").delete().eq("id", notificationId);
+  await getSupabase().from("notifications").delete().eq("id", notificationId);
 }
 
 export async function declineInviteFromNotification(
@@ -466,7 +473,7 @@ export async function declineInviteFromNotification(
   guildId: string,
   userId: string
 ): Promise<void> {
-  const { data: invite } = await supabase
+  const { data: invite } = await getSupabase()
     .from("guild_invites")
     .select("id")
     .eq("guild_id", guildId)
@@ -478,13 +485,13 @@ export async function declineInviteFromNotification(
   if (invite) {
     await respondToInvite(invite.id, "declined", guildId, userId);
   }
-  await supabase.from("notifications").delete().eq("id", notificationId);
+  await getSupabase().from("notifications").delete().eq("id", notificationId);
 }
 
 // ── Activity (lazy) ────────────────────────────────────
 
 export async function getGuildActivity(guildId: string): Promise<GuildActivity[]> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabase()
     .from("guild_activity")
     .select("*, profiles(id, display_name, avatar)")
     .eq("guild_id", guildId)

@@ -1,6 +1,13 @@
 import { createClient } from "./supabase/client";
 
-const supabase = createClient();
+let supabase: ReturnType<typeof createClient> | null = null;
+
+function getSupabase() {
+  if (!supabase) {
+    supabase = createClient();
+  }
+  return supabase;
+}
 
 const TRACKER_KEY = "dsa-tracker:v1";
 const STATS_KEY = "dsa-daily-stats";
@@ -52,7 +59,7 @@ export async function syncProgress(userId: string): Promise<void> {
   }));
 
   if (rows.length > 0) {
-    await supabase.from("user_progress").upsert(rows, { onConflict: "user_id,problem_id" });
+    await getSupabase().from("user_progress").upsert(rows, { onConflict: "user_id,problem_id" });
   }
 }
 
@@ -68,7 +75,7 @@ export async function syncSessionHistory(userId: string): Promise<void> {
       streak: s.streak,
     }));
 
-    await supabase.from("session_history").upsert(rows, { onConflict: "user_id,date" });
+    await getSupabase().from("session_history").upsert(rows, { onConflict: "user_id,date" });
   }
 }
 
@@ -86,12 +93,12 @@ export async function syncSRS(userId: string): Promise<void> {
   }));
 
   if (rows.length > 0) {
-    await supabase.from("srs_data").upsert(rows, { onConflict: "user_id,problem_id" });
+    await getSupabase().from("srs_data").upsert(rows, { onConflict: "user_id,problem_id" });
   }
 }
 
 export async function loadProgressFromCloud(userId: string): Promise<void> {
-  const { data: progress } = await supabase
+  const { data: progress } = await getSupabase()
     .from("user_progress")
     .select("problem_id, solved, bookmarked, notes")
     .eq("user_id", userId);
@@ -106,7 +113,7 @@ export async function loadProgressFromCloud(userId: string): Promise<void> {
     localStorage.setItem(TRACKER_KEY, JSON.stringify(tracker));
   }
 
-  const { data: stats } = await supabase
+  const { data: stats } = await getSupabase()
     .from("session_history")
     .select("date, problems_solved, time_spent_seconds, streak")
     .eq("user_id", userId);
@@ -121,7 +128,7 @@ export async function loadProgressFromCloud(userId: string): Promise<void> {
     localStorage.setItem(STATS_KEY, JSON.stringify(localStats));
   }
 
-  const { data: srs } = await supabase
+  const { data: srs } = await getSupabase()
     .from("srs_data")
     .select("problem_id, interval, ease_factor, repetitions, next_review, last_review")
     .eq("user_id", userId);
