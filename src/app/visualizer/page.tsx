@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { ArrowRight, BarChart3, GitBranch, Network } from "lucide-react";
+import { ArrowRight, BarChart3, GitBranch, Network, Search, Link2 } from "lucide-react";
 
 const cards = [
   {
@@ -9,18 +9,11 @@ const cards = [
     title: "Sorting",
     desc: "Watch Bubble, Merge, Quick, and more sort an array step-by-step.",
     icon: BarChart3,
+    color: "accent-amber",
     preview: (
       <svg viewBox="0 0 200 60" className="w-full h-full">
         {[35, 22, 48, 15, 40, 28, 52, 18, 42, 30, 55, 25, 38, 12, 45].map((h, i) => (
-          <rect
-            key={i}
-            x={i * 13 + 2}
-            y={60 - h}
-            width={10}
-            height={h}
-            rx={1}
-            fill={i < 5 ? "var(--accent-teal)" : i === 6 ? "var(--accent-amber)" : "var(--border-color)"}
-          />
+          <rect key={i} x={i * 13 + 2} y={60 - h} width={10} height={h} rx={1} fill={i < 5 ? "var(--accent-teal)" : i === 6 ? "var(--accent-amber)" : "var(--border-color)"} />
         ))}
       </svg>
     ),
@@ -28,8 +21,9 @@ const cards = [
   {
     href: "/visualizer/trees",
     title: "Trees",
-    desc: "Build a BST and traverse it with Inorder, Preorder, Postorder, and Level-order.",
+    desc: "Build a BST and traverse with Inorder, Preorder, Postorder, and Level-order.",
     icon: GitBranch,
+    color: "accent-teal",
     preview: (
       <svg viewBox="0 0 200 80" className="w-full h-full">
         <line x1="100" y1="15" x2="55" y2="40" stroke="var(--border-color)" strokeWidth="2" />
@@ -51,8 +45,9 @@ const cards = [
   {
     href: "/visualizer/graphs",
     title: "Graphs",
-    desc: "Visualize BFS and DFS traversals on a preset graph with animated frontier.",
+    desc: "Visualize BFS and DFS traversals on a graph with animated nodes.",
     icon: Network,
+    color: "accent-rose",
     preview: (
       <svg viewBox="0 0 200 80" className="w-full h-full">
         <line x1="40" y1="20" x2="100" y2="20" stroke="var(--border-color)" strokeWidth="2" />
@@ -67,6 +62,45 @@ const cards = [
         <circle cx="70" cy="60" r="8" fill="var(--border-color)" />
         <circle cx="100" cy="60" r="8" fill="var(--border-color)" />
         <circle cx="130" cy="60" r="8" fill="var(--border-color)" />
+      </svg>
+    ),
+  },
+  {
+    href: "/visualizer/binary-search",
+    title: "Binary Search",
+    desc: "Watch binary search find a target in a sorted array step-by-step.",
+    icon: Search,
+    color: "accent-violet",
+    preview: (
+      <svg viewBox="0 0 200 60" className="w-full h-full">
+        {[10, 20, 30, 40, 50, 60, 70, 80, 90].map((v, i) => (
+          <g key={i}>
+            <rect x={i * 22 + 2} y={10} width={18} height={40} rx={3} fill={i === 4 ? "var(--accent-amber)" : i >= 2 && i <= 6 ? "var(--accent-violet)" : "var(--border-color)"} />
+            <text x={i * 22 + 11} y={35} textAnchor="middle" fill="var(--text-color)" fontSize="10" fontFamily="monospace">{v}</text>
+          </g>
+        ))}
+      </svg>
+    ),
+  },
+  {
+    href: "/visualizer/linked-list",
+    title: "Linked List",
+    desc: "Visualize insert, delete, search, reverse, and traverse operations.",
+    icon: Link2,
+    color: "accent-amber",
+    preview: (
+      <svg viewBox="0 0 200 60" className="w-full h-full">
+        {[25, 50, 75, 100, 125, 150, 175].map((x, i) => (
+          <g key={i}>
+            <rect x={x - 12} y={20} width={24} height={24} rx={4} fill={i === 2 ? "var(--accent-amber)" : "var(--border-color)"} />
+            {i < 6 && <line x1={x + 12} y1={32} x2={x + 38} y2={32} stroke="var(--text-muted)" strokeWidth="2" markerEnd="url(#arrow)" />}
+          </g>
+        ))}
+        <defs>
+          <marker id="arrow" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto">
+            <path d="M0,0 L6,3 L0,6" fill="var(--text-muted)" />
+          </marker>
+        </defs>
       </svg>
     ),
   },
@@ -93,7 +127,7 @@ export default function VisualizerPage() {
               </div>
               <div className="p-5">
                 <div className="flex items-center gap-2 mb-2">
-                  <card.icon className="h-4 w-4 text-accent-amber" />
+                  <card.icon className={`h-4 w-4 text-${card.color}`} />
                   <h2 className="font-bold text-lg">{card.title}</h2>
                 </div>
                 <p className="text-sm text-text-muted leading-relaxed">{card.desc}</p>
