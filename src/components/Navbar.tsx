@@ -2,17 +2,23 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Code2, Layers, Menu, X, BookOpen, Clock, Building2, FileText, BarChart3 } from "lucide-react";
+import { Code2, Layers, Menu, X, BookOpen, Clock, Building2, FileText, BarChart3, Brain, Trophy, Terminal, Settings, Info, Timer } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 
 const navLinks = [
+  { href: "/tracker", label: "Tracker", icon: Code2 },
+  { href: "/interview", label: "Interview", icon: Timer },
   { href: "/patterns", label: "Patterns", icon: Layers },
-  { href: "/problems", label: "Problems", icon: Code2 },
-  { href: "/system-design", label: "System Design", icon: BookOpen },
+  { href: "/problems", label: "Problems", icon: Terminal },
+  { href: "/visualizer", label: "Visualizer", icon: Brain },
+  { href: "/quiz", label: "Quiz", icon: Trophy },
   { href: "/roadmap", label: "Roadmap", icon: Clock },
   { href: "/companies", label: "Companies", icon: Building2 },
+  { href: "/system-design", label: "System Design", icon: BookOpen },
   { href: "/cheat-sheet", label: "Cheat Sheet", icon: FileText },
   { href: "/progress", label: "Progress", icon: BarChart3 },
+  { href: "/settings", label: "Settings", icon: Settings },
+  { href: "/about", label: "About", icon: Info },
 ];
 
 export default function Navbar() {

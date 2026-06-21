@@ -1,5 +1,32 @@
 [
   {
+    "id": "queue-deque-002",
+    "leetcode": 225,
+    "title": "Implement Stack using Queues",
+    "difficulty": "Easy",
+    "description": "Implement a last in first out (LIFO) stack using only two queues. The implemented stack should support all the functions of a normal stack (push, top, pop, and empty). Implement the MyStack class: void push(int x) Pushes element x to the top of the stack. int pop() Removes the element on the top of the stack and returns it. int top() Returns the element on the top of the stack. boolean empty() Returns true if the stack is empty, false otherwise.",
+    "examples": [
+      {
+        "input": "MyStack myStack = new MyStack(); myStack.push(1); myStack.push(2); myStack.top(); myStack.pop(); myStack.empty();",
+        "output": "[2, 2, false]"
+      }
+    ],
+    "hints": [
+      "On each push, enqueue the element then rotate the queue to move it to the front.",
+      "Alternatively, use one queue and always enqueue the new element then dequeue and re-enqueue size-1 elements."
+    ],
+    "timeComplexity": "O(n) push, O(1) pop/top",
+    "spaceComplexity": "O(n)",
+    "solutions": {
+      "python": "from collections import deque\n\nclass MyStack:\n    def __init__(self):\n        self.q = deque()\n\n    def push(self, x: int) -> None:\n        self.q.append(x)\n        for _ in range(len(self.q) - 1):\n            self.q.append(self.q.popleft())\n\n    def pop(self) -> int:\n        return self.q.popleft()\n\n    def top(self) -> int:\n        return self.q[0]\n\n    def empty(self) -> bool:\n        return len(self.q) == 0",
+      "java": "class MyStack {\n    private Queue<Integer> q = new LinkedList<>();\n\n    public void push(int x) {\n        q.offer(x);\n        int size = q.size();\n        for (int i = 1; i < size; i++) q.offer(q.poll());\n    }\n\n    public int pop() { return q.poll(); }\n    public int top() { return q.peek(); }\n    public boolean empty() { return q.isEmpty(); }\n}",
+      "cpp": "class MyStack {\n    queue<int> q;\npublic:\n    void push(int x) {\n        q.push(x);\n        int sz = q.size();\n        for (int i = 1; i < sz; i++) { q.push(q.front()); q.pop(); }\n    }\n    int pop() { int v = q.front(); q.pop(); return v; }\n    int top() { return q.front(); }\n    bool empty() { return q.empty(); }\n};",
+      "javascript": "class MyStack {\n    constructor() { this.q = []; }\n    push(x) {\n        this.q.push(x);\n        for (let i = 1; i < this.q.length; i++) this.q.push(this.q.shift());\n    }\n    pop() { return this.q.shift(); }\n    top() { return this.q[0]; }\n    empty() { return this.q.length === 0; }\n}",
+      "go": "type MyStack struct { q []int }\n\nfunc Constructor() MyStack { return MyStack{} }\n\nfunc (s *MyStack) Push(x int) {\n    s.q = append(s.q, x)\n    for i := 1; i < len(s.q); i++ {\n        s.q = append(s.q, s.q[0])\n        s.q = s.q[1:]\n    }\n}\n\nfunc (s *MyStack) Pop() int {\n    v := s.q[0]\n    s.q = s.q[1:]\n    return v\n}\n\nfunc (s *MyStack) Top() int { return s.q[0] }\n\nfunc (s *MyStack) Empty() bool { return len(s.q) == 0 }",
+      "rust": "struct MyStack { q: Vec<i32> }\n\nimpl MyStack {\n    fn new() -> Self { MyStack { q: Vec::new() } }\n    fn push(&mut self, x: i32) {\n        self.q.push(x);\n        for _ in 1..self.q.len() {\n            let v = self.q.remove(0);\n            self.q.push(v);\n        }\n    }\n    fn pop(&mut self) -> i32 { self.q.remove(0) }\n    fn top(&self) -> i32 { self.q[0] }\n    fn empty(&self) -> bool { self.q.is_empty() }\n}"
+    }
+  },
+  {
     "id": "queue-deque-001",
     "leetcode": 232,
     "title": "Implement Queue using Stacks",
@@ -31,30 +58,66 @@
     }
   },
   {
-    "id": "queue-deque-002",
-    "leetcode": 225,
-    "title": "Implement Stack using Queues",
+    "id": "queue-deque-010",
+    "leetcode": 1700,
+    "title": "Number of Students Unable to Eat Lunch",
     "difficulty": "Easy",
-    "description": "Implement a last in first out (LIFO) stack using only two queues. The implemented stack should support all the functions of a normal stack (push, top, pop, and empty). Implement the MyStack class: void push(int x) Pushes element x to the top of the stack. int pop() Removes the element on the top of the stack and returns it. int top() Returns the element on the top of the stack. boolean empty() Returns true if the stack is empty, false otherwise.",
+    "description": "The school cafeteria offers circular and triangular sandwiches at lunch break, referred to by numbers 0 and 1 respectively. All students stand in a queue. Each student either prefers circular or triangular sandwiches. The number of sandwiches in the cafeteria is equal to the number of students. The sandwiches are placed in a stack. At each step: If the student at the front of the queue prefers the sandwich on the top of the stack, they will take it and leave the queue. Otherwise, they will leave it and go to the end of the queue. This process continues until none of the queue students want to take the top sandwich, i.e., they all refuse it. Return the number of students that are unable to eat.",
     "examples": [
       {
-        "input": "MyStack myStack = new MyStack(); myStack.push(1); myStack.push(2); myStack.top(); myStack.pop(); myStack.empty();",
-        "output": "[2, 2, false]"
+        "input": "students = [1,1,0,0], sandwiches = [0,1,0,1]",
+        "output": 0
+      },
+      {
+        "input": "students = [1,1,1,0,0,1], sandwiches = [1,0,0,0,1,1]",
+        "output": 3
       }
     ],
     "hints": [
-      "On each push, enqueue the element then rotate the queue to move it to the front.",
-      "Alternatively, use one queue and always enqueue the new element then dequeue and re-enqueue size-1 elements."
+      "Count the number of students preferring 0 and 1. Iterate through sandwiches and decrement the corresponding count.",
+      "When no student wants the current sandwich, the remaining students count is the answer."
     ],
-    "timeComplexity": "O(n) push, O(1) pop/top",
-    "spaceComplexity": "O(n)",
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
     "solutions": {
-      "python": "from collections import deque\n\nclass MyStack:\n    def __init__(self):\n        self.q = deque()\n\n    def push(self, x: int) -> None:\n        self.q.append(x)\n        for _ in range(len(self.q) - 1):\n            self.q.append(self.q.popleft())\n\n    def pop(self) -> int:\n        return self.q.popleft()\n\n    def top(self) -> int:\n        return self.q[0]\n\n    def empty(self) -> bool:\n        return len(self.q) == 0",
-      "java": "class MyStack {\n    private Queue<Integer> q = new LinkedList<>();\n\n    public void push(int x) {\n        q.offer(x);\n        int size = q.size();\n        for (int i = 1; i < size; i++) q.offer(q.poll());\n    }\n\n    public int pop() { return q.poll(); }\n    public int top() { return q.peek(); }\n    public boolean empty() { return q.isEmpty(); }\n}",
-      "cpp": "class MyStack {\n    queue<int> q;\npublic:\n    void push(int x) {\n        q.push(x);\n        int sz = q.size();\n        for (int i = 1; i < sz; i++) { q.push(q.front()); q.pop(); }\n    }\n    int pop() { int v = q.front(); q.pop(); return v; }\n    int top() { return q.front(); }\n    bool empty() { return q.empty(); }\n};",
-      "javascript": "class MyStack {\n    constructor() { this.q = []; }\n    push(x) {\n        this.q.push(x);\n        for (let i = 1; i < this.q.length; i++) this.q.push(this.q.shift());\n    }\n    pop() { return this.q.shift(); }\n    top() { return this.q[0]; }\n    empty() { return this.q.length === 0; }\n}",
-      "go": "type MyStack struct { q []int }\n\nfunc Constructor() MyStack { return MyStack{} }\n\nfunc (s *MyStack) Push(x int) {\n    s.q = append(s.q, x)\n    for i := 1; i < len(s.q); i++ {\n        s.q = append(s.q, s.q[0])\n        s.q = s.q[1:]\n    }\n}\n\nfunc (s *MyStack) Pop() int {\n    v := s.q[0]\n    s.q = s.q[1:]\n    return v\n}\n\nfunc (s *MyStack) Top() int { return s.q[0] }\n\nfunc (s *MyStack) Empty() bool { return len(s.q) == 0 }",
-      "rust": "struct MyStack { q: Vec<i32> }\n\nimpl MyStack {\n    fn new() -> Self { MyStack { q: Vec::new() } }\n    fn push(&mut self, x: i32) {\n        self.q.push(x);\n        for _ in 1..self.q.len() {\n            let v = self.q.remove(0);\n            self.q.push(v);\n        }\n    }\n    fn pop(&mut self) -> i32 { self.q.remove(0) }\n    fn top(&self) -> i32 { self.q[0] }\n    fn empty(&self) -> bool { self.q.is_empty() }\n}"
+      "python": "def countStudents(students, sandwiches):\n    counts = [0, 0]\n    for s in students:\n        counts[s] += 1\n    for sand in sandwiches:\n        if counts[sand] == 0:\n            return counts[0] + counts[1]\n        counts[sand] -= 1\n    return 0",
+      "java": "class Solution {\n    public int countStudents(int[] students, int[] sandwiches) {\n        int[] counts = new int[2];\n        for (int s : students) counts[s]++;\n        for (int sand : sandwiches) {\n            if (counts[sand] == 0) return counts[0] + counts[1];\n            counts[sand]--;\n        }\n        return 0;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int countStudents(vector<int>& students, vector<int>& sandwiches) {\n        int counts[2] = {0, 0};\n        for (int s : students) counts[s]++;\n        for (int sand : sandwiches) {\n            if (counts[sand] == 0) return counts[0] + counts[1];\n            counts[sand]--;\n        }\n        return 0;\n    }\n};",
+      "javascript": "var countStudents = function(students, sandwiches) {\n    const counts = [0, 0];\n    for (const s of students) counts[s]++;\n    for (const sand of sandwiches) {\n        if (counts[sand] === 0) return counts[0] + counts[1];\n        counts[sand]--;\n    }\n    return 0;\n};",
+      "go": "func countStudents(students []int, sandwiches []int) int {\n    counts := [2]int{}\n    for _, s := range students { counts[s]++ }\n    for _, sand := range sandwiches {\n        if counts[sand] == 0 { return counts[0] + counts[1] }\n        counts[sand]--\n    }\n    return 0\n}",
+      "rust": "impl Solution {\n    pub fn count_students(students: Vec<i32>, sandwiches: Vec<i32>) -> i32 {\n        let mut counts = [0; 2];\n        for &s in &students { counts[s as usize] += 1; }\n        for &sand in &sandwiches {\n            if counts[sand as usize] == 0 { return counts[0] + counts[1]; }\n            counts[sand as usize] -= 1;\n        }\n        0\n    }\n}"
+    }
+  },
+  {
+    "id": "queue-deque-009",
+    "leetcode": 2073,
+    "title": "Time Needed to Buy Tickets",
+    "difficulty": "Easy",
+    "description": "There are n people in a line queuing to buy tickets, where the 0th person is at the front of the line and the (n - 1)th person is at the back of the line. You are given a 0-indexed integer array tickets of length n where the number of tickets that the ith person wishes to buy is tickets[i]. Each person takes exactly 1 second to buy a ticket. A person can only buy 1 ticket at a time and has to go back to the end of the line (which happens instantaneously) if they wish to buy more tickets. Return the time taken for the person at position k (0-indexed) to finish buying all their tickets.",
+    "examples": [
+      {
+        "input": "tickets = [2,3,2], k = 2",
+        "output": 6
+      },
+      {
+        "input": "tickets = [5,1,1,1], k = 0",
+        "output": 8
+      }
+    ],
+    "hints": [
+      "For everyone before index k, they can buy up to min(tickets[i], tickets[k]) tickets.",
+      "For everyone after index k, they can buy up to min(tickets[i], tickets[k] - 1) tickets.",
+      "Person k buys exactly tickets[k] tickets."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "solutions": {
+      "python": "def timeRequiredToBuy(tickets, k):\n    total = 0\n    for i in range(len(tickets)):\n        if i <= k:\n            total += min(tickets[i], tickets[k])\n        else:\n            total += min(tickets[i], tickets[k] - 1)\n    return total",
+      "java": "class Solution {\n    public int timeRequiredToBuy(int[] tickets, int k) {\n        int total = 0;\n        for (int i = 0; i < tickets.length; i++) {\n            if (i <= k) total += Math.min(tickets[i], tickets[k]);\n            else total += Math.min(tickets[i], tickets[k] - 1);\n        }\n        return total;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int timeRequiredToBuy(vector<int>& tickets, int k) {\n        int total = 0;\n        for (int i = 0; i < tickets.size(); i++)\n            total += (i <= k) ? min(tickets[i], tickets[k]) : min(tickets[i], tickets[k] - 1);\n        return total;\n    }\n};",
+      "javascript": "var timeRequiredToBuy = function(tickets, k) {\n    let total = 0;\n    for (let i = 0; i < tickets.length; i++)\n        total += i <= k ? Math.min(tickets[i], tickets[k]) : Math.min(tickets[i], tickets[k] - 1);\n    return total;\n};",
+      "go": "func timeRequiredToBuy(tickets []int, k int) int {\n    total := 0\n    for i := 0; i < len(tickets); i++ {\n        if i <= k {\n            if tickets[i] < tickets[k] { total += tickets[i] } else { total += tickets[k] }\n        } else {\n            if tickets[i] < tickets[k]-1 { total += tickets[i] } else { total += tickets[k] - 1 }\n        }\n    }\n    return total\n}",
+      "rust": "impl Solution {\n    pub fn time_required_to_buy(tickets: Vec<i32>, k: i32) -> i32 {\n        let k = k as usize;\n        let mut total = 0;\n        for i in 0..tickets.len() {\n            if i <= k {\n                total += tickets[i].min(tickets[k]);\n            } else {\n                total += tickets[i].min(tickets[k] - 1);\n            }\n        }\n        total\n    }\n}"
     }
   },
   {
@@ -144,70 +207,6 @@
     }
   },
   {
-    "id": "queue-deque-006",
-    "leetcode": 1425,
-    "title": "Constrained Subsequence Sum",
-    "difficulty": "Hard",
-    "description": "Given an integer array nums and an integer k, return the maximum sum of a non-empty subsequence of that array such that for every two consecutive integers in the subsequence, nums[i] and nums[j], where i < j, the difference between their indices is at most k. A subsequence of an array is obtained by deleting some (or no) elements from the array, leaving the remaining elements in their original order.",
-    "examples": [
-      {
-        "input": "nums = [10,2,-10,5,20], k = 2",
-        "output": 37
-      },
-      {
-        "input": "nums = [-1,-2,-3], k = 1",
-        "output": -1
-      },
-      {
-        "input": "nums = [10,-2,-10,-5,20], k = 2",
-        "output": 23
-      }
-    ],
-    "hints": [
-      "Use a deque to maintain indices of the dp array in decreasing order of dp values.",
-      "dp[i] = max(nums[i], nums[i] + dp[j]) for all j in [i-k, i-1].",
-      "The deque stores indices j where dp[j] is in decreasing order, so the front is always the best previous choice."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "from collections import deque\n\ndef constrainedSubsetSum(nums, k):\n    dq = deque()\n    dp = [0] * len(nums)\n    for i in range(len(nums)):\n        if dq:\n            dp[i] = nums[i] + dp[dq[0]]\n        else:\n            dp[i] = nums[i]\n        while dq and dp[i] >= dp[dq[-1]]:\n            dq.pop()\n        if dp[i] > 0:\n            dq.append(i)\n        if dq and dq[0] == i - k:\n            dq.popleft()\n    return max(dp)",
-      "java": "class Solution {\n    public int constrainedSubsetSum(int[] nums, int k) {\n        Deque<Integer> dq = new ArrayDeque<>();\n        int[] dp = new int[nums.length];\n        for (int i = 0; i < nums.length; i++) {\n            dp[i] = nums[i] + (dq.isEmpty() ? 0 : dp[dq.peekFirst()]);\n            while (!dq.isEmpty() && dp[i] >= dp[dq.peekLast()]) dq.pollLast();\n            if (dp[i] > 0) dq.offerLast(i);\n            if (!dq.isEmpty() && dq.peekFirst() == i - k) dq.pollFirst();\n        }\n        int res = Integer.MIN_VALUE;\n        for (int v : dp) res = Math.max(res, v);\n        return res;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int constrainedSubsetSum(vector<int>& nums, int k) {\n        deque<int> dq;\n        vector<int> dp(nums.size());\n        for (int i = 0; i < nums.size(); i++) {\n            dp[i] = nums[i] + (dq.empty() ? 0 : dp[dq.front()]);\n            while (!dq.empty() && dp[i] >= dp[dq.back()]) dq.pop_back();\n            if (dp[i] > 0) dq.push_back(i);\n            if (!dq.empty() && dq.front() == i - k) dq.pop_front();\n        }\n        return *max_element(dp.begin(), dp.end());\n    }\n};",
-      "javascript": "var constrainedSubsetSum = function(nums, k) {\n    const dq = [], dp = [];\n    for (let i = 0; i < nums.length; i++) {\n        dp[i] = nums[i] + (dq.length ? dp[dq[0]] : 0);\n        while (dq.length && dp[i] >= dp[dq[dq.length - 1]]) dq.pop();\n        if (dp[i] > 0) dq.push(i);\n        if (dq[0] === i - k) dq.shift();\n    }\n    return Math.max(...dp);\n};",
-      "go": "func constrainedSubsetSum(nums []int, k int) int {\n    dp := make([]int, len(nums))\n    var dq []int\n    res := math.MinInt32\n    for i := 0; i < len(nums); i++ {\n        if len(dq) > 0 { dp[i] = nums[i] + dp[dq[0]] } else { dp[i] = nums[i] }\n        for len(dq) > 0 && dp[i] >= dp[dq[len(dq)-1]] { dq = dq[:len(dq)-1] }\n        if dp[i] > 0 { dq = append(dq, i) }\n        if len(dq) > 0 && dq[0] == i-k { dq = dq[1:] }\n        if dp[i] > res { res = dp[i] }\n    }\n    return res\n}",
-      "rust": "impl Solution {\n    pub fn constrained_subset_sum(nums: Vec<i32>, k: i32) -> i32 {\n        let n = nums.len();\n        let k = k as usize;\n        let mut dp = vec![0; n];\n        let mut dq: Vec<usize> = Vec::new();\n        let mut res = i32::MIN;\n        for i in 0..n {\n            dp[i] = nums[i] + if dq.is_empty() { 0 } else { dp[dq[0]] };\n            while !dq.is_empty() && dp[i] >= dp[*dq.last().unwrap()] { dq.pop(); }\n            if dp[i] > 0 { dq.push(i); }\n            if !dq.is_empty() && dq[0] + k <= i { dq.remove(0); }\n            if dp[i] > res { res = dp[i]; }\n        }\n        res\n    }\n}"
-    }
-  },
-  {
-    "id": "queue-deque-007",
-    "leetcode": 1188,
-    "title": "Design Bounded Blocking Queue",
-    "difficulty": "Hard",
-    "description": "Implement a thread-safe bounded blocking queue. A bounded blocking queue is designed to be used in multithreaded programming and should support blocking when the queue is either empty (for dequeuing) or full (for enqueuing). Implement the BoundedBlockingQueue class: BoundedBlockingQueue(int capacity) Initializes the object with the maximum capacity of the queue. void enqueue(int element) Adds an element to the front of the queue. If the queue is full, the calling thread is blocked until the queue is no longer full. int dequeue() Returns the last element in the queue and removes it. If the queue is empty, the calling thread is blocked until the queue is no longer empty. int size() Returns the number of elements currently in the queue.",
-    "examples": [
-      {
-        "input": "BoundedBlockingQueue q = new BoundedBlockingQueue(3); Thread t1 = new Thread(() -> { q.enqueue(1); }); Thread t2 = new Thread(() -> { q.enqueue(2); }); Thread t3 = new Thread(() -> { q.enqueue(3); }); Thread t4 = new Thread(() -> { q.enqueue(4); }); Thread t5 = new Thread(() -> { q.dequeue(); });",
-        "output": "[1, 2, 3, 4]"
-      }
-    ],
-    "hints": [
-      "Use a lock (mutex) with condition variables to handle blocking.",
-      "Use two condition variables: one for when the queue is full (to block enqueue) and one for when it is empty (to block dequeue).",
-      "When an element is dequeued, signal the 'not full' condition. When an element is enqueued, signal the 'not empty' condition."
-    ],
-    "timeComplexity": "O(1) per operation",
-    "spaceComplexity": "O(capacity)",
-    "solutions": {
-      "python": "import threading\n\nclass BoundedBlockingQueue:\n    def __init__(self, capacity: int):\n        self.capacity = capacity\n        self.queue = []\n        self.lock = threading.Lock()\n        self.not_full = threading.Condition(self.lock)\n        self.not_empty = threading.Condition(self.lock)\n\n    def enqueue(self, element: int) -> None:\n        with self.not_full:\n            while len(self.queue) >= self.capacity:\n                self.not_full.wait()\n            self.queue.append(element)\n            self.not_empty.notify()\n\n    def dequeue(self) -> int:\n        with self.not_empty:\n            while not self.queue:\n                self.not_empty.wait()\n            val = self.queue.pop(0)\n            self.not_full.notify()\n            return val\n\n    def size(self) -> int:\n        with self.lock:\n            return len(self.queue)",
-      "java": "class BoundedBlockingQueue {\n    private Queue<Integer> queue = new LinkedList<>();\n    private int capacity;\n    private ReentrantLock lock = new ReentrantLock();\n    private Condition notFull = lock.newCondition();\n    private Condition notEmpty = lock.newCondition();\n\n    public BoundedBlockingQueue(int capacity) { this.capacity = capacity; }\n\n    public void enqueue(int element) throws InterruptedException {\n        lock.lock();\n        try {\n            while (queue.size() == capacity) notFull.await();\n            queue.offer(element);\n            notEmpty.signal();\n        } finally { lock.unlock(); }\n    }\n\n    public int dequeue() throws InterruptedException {\n        lock.lock();\n        try {\n            while (queue.isEmpty()) notEmpty.await();\n            int val = queue.poll();\n            notFull.signal();\n            return val;\n        } finally { lock.unlock(); }\n    }\n\n    public int size() { lock.lock(); try { return queue.size(); } finally { lock.unlock(); } }\n}",
-      "cpp": "class BoundedBlockingQueue {\n    queue<int> q;\n    int cap;\n    mutex mtx;\n    condition_variable cv_full, cv_empty;\npublic:\n    BoundedBlockingQueue(int capacity) : cap(capacity) {}\n    void enqueue(int element) {\n        unique_lock<mutex> lock(mtx);\n        cv_full.wait(lock, [&]{ return q.size() < cap; });\n        q.push(element);\n        cv_empty.notify_one();\n    }\n    int dequeue() {\n        unique_lock<mutex> lock(mtx);\n        cv_empty.wait(lock, [&]{ return !q.empty(); });\n        int v = q.front(); q.pop();\n        cv_full.notify_one();\n        return v;\n    }\n    int size() { lock_guard<mutex> lock(mtx); return q.size(); }\n};",
-      "javascript": "class BoundedBlockingQueue {\n    constructor(capacity) {\n        this.queue = [];\n        this.capacity = capacity;\n        this.lock = false;\n    }\n    enqueue(element) {\n        while (this.queue.length >= this.capacity) { /* spin */ }\n        this.queue.push(element);\n    }\n    dequeue() {\n        while (!this.queue.length) { /* spin */ }\n        return this.queue.shift();\n    }\n    size() { return this.queue.length; }\n}",
-      "go": "type BoundedBlockingQueue struct {\n    queue []int\n    cap   int\n    mu    sync.Mutex\n    notFull  *sync.Cond\n    notEmpty *sync.Cond\n}\n\nfunc NewBoundedBlockingQueue(capacity int) *BoundedBlockingQueue {\n    q := &BoundedBlockingQueue{queue: make([]int, 0, capacity), cap: capacity}\n    q.notFull = sync.NewCond(&q.mu)\n    q.notEmpty = sync.NewCond(&q.mu)\n    return q\n}\n\nfunc (q *BoundedBlockingQueue) Enqueue(element int) {\n    q.mu.Lock()\n    defer q.mu.Unlock()\n    for len(q.queue) >= q.cap { q.notFull.Wait() }\n    q.queue = append(q.queue, element)\n    q.notEmpty.Signal()\n}\n\nfunc (q *BoundedBlockingQueue) Dequeue() int {\n    q.mu.Lock()\n    defer q.mu.Unlock()\n    for len(q.queue) == 0 { q.notEmpty.Wait() }\n    v := q.queue[0]\n    q.queue = q.queue[1:]\n    q.notFull.Signal()\n    return v\n}\n\nfunc (q *BoundedBlockingQueue) Size() int {\n    q.mu.Lock()\n    defer q.mu.Unlock()\n    return len(q.queue)\n}",
-      "rust": "use std::sync::{Arc, Mutex, Condvar};\nuse std::collections::VecDeque;\n\nstruct BoundedBlockingQueue {\n    queue: Arc<Mutex<VecDeque<i32>>>,\n    cap: usize,\n    not_full: Arc<Condvar>,\n    not_empty: Arc<Condvar>,\n}\n\nimpl BoundedBlockingQueue {\n    fn new(capacity: i32) -> Self {\n        BoundedBlockingQueue {\n            queue: Arc::new(Mutex::new(VecDeque::new())),\n            cap: capacity as usize,\n            not_full: Arc::new(Condvar::new()),\n            not_empty: Arc::new(Condvar::new()),\n        }\n    }\n\n    fn enqueue(&self, element: i32) {\n        let mut q = self.queue.lock().unwrap();\n        while q.len() >= self.cap { q = self.not_full.wait(q).unwrap(); }\n        q.push_back(element);\n        self.not_empty.notify_one();\n    }\n\n    fn dequeue(&self) -> i32 {\n        let mut q = self.queue.lock().unwrap();\n        while q.is_empty() { q = self.not_empty.wait(q).unwrap(); }\n        let v = q.pop_front().unwrap();\n        self.not_full.notify_one();\n        v\n    }\n\n    fn size(&self) -> usize { self.queue.lock().unwrap().len() }\n}"
-    }
-  },
-  {
     "id": "queue-deque-008",
     "leetcode": 862,
     "title": "Shortest Subarray with Sum at Least K",
@@ -244,66 +243,67 @@
     }
   },
   {
-    "id": "queue-deque-009",
-    "leetcode": 2073,
-    "title": "Time Needed to Buy Tickets",
-    "difficulty": "Easy",
-    "description": "There are n people in a line queuing to buy tickets, where the 0th person is at the front of the line and the (n - 1)th person is at the back of the line. You are given a 0-indexed integer array tickets of length n where the number of tickets that the ith person wishes to buy is tickets[i]. Each person takes exactly 1 second to buy a ticket. A person can only buy 1 ticket at a time and has to go back to the end of the line (which happens instantaneously) if they wish to buy more tickets. Return the time taken for the person at position k (0-indexed) to finish buying all their tickets.",
+    "id": "queue-deque-007",
+    "leetcode": 1188,
+    "title": "Design Bounded Blocking Queue",
+    "difficulty": "Hard",
+    "description": "Implement a thread-safe bounded blocking queue. A bounded blocking queue is designed to be used in multithreaded programming and should support blocking when the queue is either empty (for dequeuing) or full (for enqueuing). Implement the BoundedBlockingQueue class: BoundedBlockingQueue(int capacity) Initializes the object with the maximum capacity of the queue. void enqueue(int element) Adds an element to the front of the queue. If the queue is full, the calling thread is blocked until the queue is no longer full. int dequeue() Returns the last element in the queue and removes it. If the queue is empty, the calling thread is blocked until the queue is no longer empty. int size() Returns the number of elements currently in the queue.",
     "examples": [
       {
-        "input": "tickets = [2,3,2], k = 2",
-        "output": 6
-      },
-      {
-        "input": "tickets = [5,1,1,1], k = 0",
-        "output": 8
+        "input": "BoundedBlockingQueue q = new BoundedBlockingQueue(3); Thread t1 = new Thread(() -> { q.enqueue(1); }); Thread t2 = new Thread(() -> { q.enqueue(2); }); Thread t3 = new Thread(() -> { q.enqueue(3); }); Thread t4 = new Thread(() -> { q.enqueue(4); }); Thread t5 = new Thread(() -> { q.dequeue(); });",
+        "output": "[1, 2, 3, 4]"
       }
     ],
     "hints": [
-      "For everyone before index k, they can buy up to min(tickets[i], tickets[k]) tickets.",
-      "For everyone after index k, they can buy up to min(tickets[i], tickets[k] - 1) tickets.",
-      "Person k buys exactly tickets[k] tickets."
+      "Use a lock (mutex) with condition variables to handle blocking.",
+      "Use two condition variables: one for when the queue is full (to block enqueue) and one for when it is empty (to block dequeue).",
+      "When an element is dequeued, signal the 'not full' condition. When an element is enqueued, signal the 'not empty' condition."
     ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(1)",
+    "timeComplexity": "O(1) per operation",
+    "spaceComplexity": "O(capacity)",
     "solutions": {
-      "python": "def timeRequiredToBuy(tickets, k):\n    total = 0\n    for i in range(len(tickets)):\n        if i <= k:\n            total += min(tickets[i], tickets[k])\n        else:\n            total += min(tickets[i], tickets[k] - 1)\n    return total",
-      "java": "class Solution {\n    public int timeRequiredToBuy(int[] tickets, int k) {\n        int total = 0;\n        for (int i = 0; i < tickets.length; i++) {\n            if (i <= k) total += Math.min(tickets[i], tickets[k]);\n            else total += Math.min(tickets[i], tickets[k] - 1);\n        }\n        return total;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int timeRequiredToBuy(vector<int>& tickets, int k) {\n        int total = 0;\n        for (int i = 0; i < tickets.size(); i++)\n            total += (i <= k) ? min(tickets[i], tickets[k]) : min(tickets[i], tickets[k] - 1);\n        return total;\n    }\n};",
-      "javascript": "var timeRequiredToBuy = function(tickets, k) {\n    let total = 0;\n    for (let i = 0; i < tickets.length; i++)\n        total += i <= k ? Math.min(tickets[i], tickets[k]) : Math.min(tickets[i], tickets[k] - 1);\n    return total;\n};",
-      "go": "func timeRequiredToBuy(tickets []int, k int) int {\n    total := 0\n    for i := 0; i < len(tickets); i++ {\n        if i <= k {\n            if tickets[i] < tickets[k] { total += tickets[i] } else { total += tickets[k] }\n        } else {\n            if tickets[i] < tickets[k]-1 { total += tickets[i] } else { total += tickets[k] - 1 }\n        }\n    }\n    return total\n}",
-      "rust": "impl Solution {\n    pub fn time_required_to_buy(tickets: Vec<i32>, k: i32) -> i32 {\n        let k = k as usize;\n        let mut total = 0;\n        for i in 0..tickets.len() {\n            if i <= k {\n                total += tickets[i].min(tickets[k]);\n            } else {\n                total += tickets[i].min(tickets[k] - 1);\n            }\n        }\n        total\n    }\n}"
+      "python": "import threading\n\nclass BoundedBlockingQueue:\n    def __init__(self, capacity: int):\n        self.capacity = capacity\n        self.queue = []\n        self.lock = threading.Lock()\n        self.not_full = threading.Condition(self.lock)\n        self.not_empty = threading.Condition(self.lock)\n\n    def enqueue(self, element: int) -> None:\n        with self.not_full:\n            while len(self.queue) >= self.capacity:\n                self.not_full.wait()\n            self.queue.append(element)\n            self.not_empty.notify()\n\n    def dequeue(self) -> int:\n        with self.not_empty:\n            while not self.queue:\n                self.not_empty.wait()\n            val = self.queue.pop(0)\n            self.not_full.notify()\n            return val\n\n    def size(self) -> int:\n        with self.lock:\n            return len(self.queue)",
+      "java": "class BoundedBlockingQueue {\n    private Queue<Integer> queue = new LinkedList<>();\n    private int capacity;\n    private ReentrantLock lock = new ReentrantLock();\n    private Condition notFull = lock.newCondition();\n    private Condition notEmpty = lock.newCondition();\n\n    public BoundedBlockingQueue(int capacity) { this.capacity = capacity; }\n\n    public void enqueue(int element) throws InterruptedException {\n        lock.lock();\n        try {\n            while (queue.size() == capacity) notFull.await();\n            queue.offer(element);\n            notEmpty.signal();\n        } finally { lock.unlock(); }\n    }\n\n    public int dequeue() throws InterruptedException {\n        lock.lock();\n        try {\n            while (queue.isEmpty()) notEmpty.await();\n            int val = queue.poll();\n            notFull.signal();\n            return val;\n        } finally { lock.unlock(); }\n    }\n\n    public int size() { lock.lock(); try { return queue.size(); } finally { lock.unlock(); } }\n}",
+      "cpp": "class BoundedBlockingQueue {\n    queue<int> q;\n    int cap;\n    mutex mtx;\n    condition_variable cv_full, cv_empty;\npublic:\n    BoundedBlockingQueue(int capacity) : cap(capacity) {}\n    void enqueue(int element) {\n        unique_lock<mutex> lock(mtx);\n        cv_full.wait(lock, [&]{ return q.size() < cap; });\n        q.push(element);\n        cv_empty.notify_one();\n    }\n    int dequeue() {\n        unique_lock<mutex> lock(mtx);\n        cv_empty.wait(lock, [&]{ return !q.empty(); });\n        int v = q.front(); q.pop();\n        cv_full.notify_one();\n        return v;\n    }\n    int size() { lock_guard<mutex> lock(mtx); return q.size(); }\n};",
+      "javascript": "class BoundedBlockingQueue {\n    constructor(capacity) {\n        this.queue = [];\n        this.capacity = capacity;\n        this.lock = false;\n    }\n    enqueue(element) {\n        while (this.queue.length >= this.capacity) { /* spin */ }\n        this.queue.push(element);\n    }\n    dequeue() {\n        while (!this.queue.length) { /* spin */ }\n        return this.queue.shift();\n    }\n    size() { return this.queue.length; }\n}",
+      "go": "type BoundedBlockingQueue struct {\n    queue []int\n    cap   int\n    mu    sync.Mutex\n    notFull  *sync.Cond\n    notEmpty *sync.Cond\n}\n\nfunc NewBoundedBlockingQueue(capacity int) *BoundedBlockingQueue {\n    q := &BoundedBlockingQueue{queue: make([]int, 0, capacity), cap: capacity}\n    q.notFull = sync.NewCond(&q.mu)\n    q.notEmpty = sync.NewCond(&q.mu)\n    return q\n}\n\nfunc (q *BoundedBlockingQueue) Enqueue(element int) {\n    q.mu.Lock()\n    defer q.mu.Unlock()\n    for len(q.queue) >= q.cap { q.notFull.Wait() }\n    q.queue = append(q.queue, element)\n    q.notEmpty.Signal()\n}\n\nfunc (q *BoundedBlockingQueue) Dequeue() int {\n    q.mu.Lock()\n    defer q.mu.Unlock()\n    for len(q.queue) == 0 { q.notEmpty.Wait() }\n    v := q.queue[0]\n    q.queue = q.queue[1:]\n    q.notFull.Signal()\n    return v\n}\n\nfunc (q *BoundedBlockingQueue) Size() int {\n    q.mu.Lock()\n    defer q.mu.Unlock()\n    return len(q.queue)\n}",
+      "rust": "use std::sync::{Arc, Mutex, Condvar};\nuse std::collections::VecDeque;\n\nstruct BoundedBlockingQueue {\n    queue: Arc<Mutex<VecDeque<i32>>>,\n    cap: usize,\n    not_full: Arc<Condvar>,\n    not_empty: Arc<Condvar>,\n}\n\nimpl BoundedBlockingQueue {\n    fn new(capacity: i32) -> Self {\n        BoundedBlockingQueue {\n            queue: Arc::new(Mutex::new(VecDeque::new())),\n            cap: capacity as usize,\n            not_full: Arc::new(Condvar::new()),\n            not_empty: Arc::new(Condvar::new()),\n        }\n    }\n\n    fn enqueue(&self, element: i32) {\n        let mut q = self.queue.lock().unwrap();\n        while q.len() >= self.cap { q = self.not_full.wait(q).unwrap(); }\n        q.push_back(element);\n        self.not_empty.notify_one();\n    }\n\n    fn dequeue(&self) -> i32 {\n        let mut q = self.queue.lock().unwrap();\n        while q.is_empty() { q = self.not_empty.wait(q).unwrap(); }\n        let v = q.pop_front().unwrap();\n        self.not_full.notify_one();\n        v\n    }\n\n    fn size(&self) -> usize { self.queue.lock().unwrap().len() }\n}"
     }
   },
   {
-    "id": "queue-deque-010",
-    "leetcode": 1700,
-    "title": "Number of Students Unable to Eat Lunch",
-    "difficulty": "Easy",
-    "description": "The school cafeteria offers circular and triangular sandwiches at lunch break, referred to by numbers 0 and 1 respectively. All students stand in a queue. Each student either prefers circular or triangular sandwiches. The number of sandwiches in the cafeteria is equal to the number of students. The sandwiches are placed in a stack. At each step: If the student at the front of the queue prefers the sandwich on the top of the stack, they will take it and leave the queue. Otherwise, they will leave it and go to the end of the queue. This process continues until none of the queue students want to take the top sandwich, i.e., they all refuse it. Return the number of students that are unable to eat.",
+    "id": "queue-deque-006",
+    "leetcode": 1425,
+    "title": "Constrained Subsequence Sum",
+    "difficulty": "Hard",
+    "description": "Given an integer array nums and an integer k, return the maximum sum of a non-empty subsequence of that array such that for every two consecutive integers in the subsequence, nums[i] and nums[j], where i < j, the difference between their indices is at most k. A subsequence of an array is obtained by deleting some (or no) elements from the array, leaving the remaining elements in their original order.",
     "examples": [
       {
-        "input": "students = [1,1,0,0], sandwiches = [0,1,0,1]",
-        "output": 0
+        "input": "nums = [10,2,-10,5,20], k = 2",
+        "output": 37
       },
       {
-        "input": "students = [1,1,1,0,0,1], sandwiches = [1,0,0,0,1,1]",
-        "output": 3
+        "input": "nums = [-1,-2,-3], k = 1",
+        "output": -1
+      },
+      {
+        "input": "nums = [10,-2,-10,-5,20], k = 2",
+        "output": 23
       }
     ],
     "hints": [
-      "Count the number of students preferring 0 and 1. Iterate through sandwiches and decrement the corresponding count.",
-      "When no student wants the current sandwich, the remaining students count is the answer."
+      "Use a deque to maintain indices of the dp array in decreasing order of dp values.",
+      "dp[i] = max(nums[i], nums[i] + dp[j]) for all j in [i-k, i-1].",
+      "The deque stores indices j where dp[j] is in decreasing order, so the front is always the best previous choice."
     ],
     "timeComplexity": "O(n)",
-    "spaceComplexity": "O(1)",
+    "spaceComplexity": "O(n)",
     "solutions": {
-      "python": "def countStudents(students, sandwiches):\n    counts = [0, 0]\n    for s in students:\n        counts[s] += 1\n    for sand in sandwiches:\n        if counts[sand] == 0:\n            return counts[0] + counts[1]\n        counts[sand] -= 1\n    return 0",
-      "java": "class Solution {\n    public int countStudents(int[] students, int[] sandwiches) {\n        int[] counts = new int[2];\n        for (int s : students) counts[s]++;\n        for (int sand : sandwiches) {\n            if (counts[sand] == 0) return counts[0] + counts[1];\n            counts[sand]--;\n        }\n        return 0;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int countStudents(vector<int>& students, vector<int>& sandwiches) {\n        int counts[2] = {0, 0};\n        for (int s : students) counts[s]++;\n        for (int sand : sandwiches) {\n            if (counts[sand] == 0) return counts[0] + counts[1];\n            counts[sand]--;\n        }\n        return 0;\n    }\n};",
-      "javascript": "var countStudents = function(students, sandwiches) {\n    const counts = [0, 0];\n    for (const s of students) counts[s]++;\n    for (const sand of sandwiches) {\n        if (counts[sand] === 0) return counts[0] + counts[1];\n        counts[sand]--;\n    }\n    return 0;\n};",
-      "go": "func countStudents(students []int, sandwiches []int) int {\n    counts := [2]int{}\n    for _, s := range students { counts[s]++ }\n    for _, sand := range sandwiches {\n        if counts[sand] == 0 { return counts[0] + counts[1] }\n        counts[sand]--\n    }\n    return 0\n}",
-      "rust": "impl Solution {\n    pub fn count_students(students: Vec<i32>, sandwiches: Vec<i32>) -> i32 {\n        let mut counts = [0; 2];\n        for &s in &students { counts[s as usize] += 1; }\n        for &sand in &sandwiches {\n            if counts[sand as usize] == 0 { return counts[0] + counts[1]; }\n            counts[sand as usize] -= 1;\n        }\n        0\n    }\n}"
+      "python": "from collections import deque\n\ndef constrainedSubsetSum(nums, k):\n    dq = deque()\n    dp = [0] * len(nums)\n    for i in range(len(nums)):\n        if dq:\n            dp[i] = nums[i] + dp[dq[0]]\n        else:\n            dp[i] = nums[i]\n        while dq and dp[i] >= dp[dq[-1]]:\n            dq.pop()\n        if dp[i] > 0:\n            dq.append(i)\n        if dq and dq[0] == i - k:\n            dq.popleft()\n    return max(dp)",
+      "java": "class Solution {\n    public int constrainedSubsetSum(int[] nums, int k) {\n        Deque<Integer> dq = new ArrayDeque<>();\n        int[] dp = new int[nums.length];\n        for (int i = 0; i < nums.length; i++) {\n            dp[i] = nums[i] + (dq.isEmpty() ? 0 : dp[dq.peekFirst()]);\n            while (!dq.isEmpty() && dp[i] >= dp[dq.peekLast()]) dq.pollLast();\n            if (dp[i] > 0) dq.offerLast(i);\n            if (!dq.isEmpty() && dq.peekFirst() == i - k) dq.pollFirst();\n        }\n        int res = Integer.MIN_VALUE;\n        for (int v : dp) res = Math.max(res, v);\n        return res;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int constrainedSubsetSum(vector<int>& nums, int k) {\n        deque<int> dq;\n        vector<int> dp(nums.size());\n        for (int i = 0; i < nums.size(); i++) {\n            dp[i] = nums[i] + (dq.empty() ? 0 : dp[dq.front()]);\n            while (!dq.empty() && dp[i] >= dp[dq.back()]) dq.pop_back();\n            if (dp[i] > 0) dq.push_back(i);\n            if (!dq.empty() && dq.front() == i - k) dq.pop_front();\n        }\n        return *max_element(dp.begin(), dp.end());\n    }\n};",
+      "javascript": "var constrainedSubsetSum = function(nums, k) {\n    const dq = [], dp = [];\n    for (let i = 0; i < nums.length; i++) {\n        dp[i] = nums[i] + (dq.length ? dp[dq[0]] : 0);\n        while (dq.length && dp[i] >= dp[dq[dq.length - 1]]) dq.pop();\n        if (dp[i] > 0) dq.push(i);\n        if (dq[0] === i - k) dq.shift();\n    }\n    return Math.max(...dp);\n};",
+      "go": "func constrainedSubsetSum(nums []int, k int) int {\n    dp := make([]int, len(nums))\n    var dq []int\n    res := math.MinInt32\n    for i := 0; i < len(nums); i++ {\n        if len(dq) > 0 { dp[i] = nums[i] + dp[dq[0]] } else { dp[i] = nums[i] }\n        for len(dq) > 0 && dp[i] >= dp[dq[len(dq)-1]] { dq = dq[:len(dq)-1] }\n        if dp[i] > 0 { dq = append(dq, i) }\n        if len(dq) > 0 && dq[0] == i-k { dq = dq[1:] }\n        if dp[i] > res { res = dp[i] }\n    }\n    return res\n}",
+      "rust": "impl Solution {\n    pub fn constrained_subset_sum(nums: Vec<i32>, k: i32) -> i32 {\n        let n = nums.len();\n        let k = k as usize;\n        let mut dp = vec![0; n];\n        let mut dq: Vec<usize> = Vec::new();\n        let mut res = i32::MIN;\n        for i in 0..n {\n            dp[i] = nums[i] + if dq.is_empty() { 0 } else { dp[dq[0]] };\n            while !dq.is_empty() && dp[i] >= dp[*dq.last().unwrap()] { dq.pop(); }\n            if dp[i] > 0 { dq.push(i); }\n            if !dq.is_empty() && dq[0] + k <= i { dq.remove(0); }\n            if dp[i] > res { res = dp[i]; }\n        }\n        res\n    }\n}"
     }
   }
 ]

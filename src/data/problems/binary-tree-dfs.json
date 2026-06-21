@@ -1,5 +1,37 @@
 [
   {
+    "id": "btdfs-003",
+    "leetcode": 100,
+    "title": "Same Tree",
+    "difficulty": "Easy",
+    "description": "Given the roots of two binary trees p and q, write a function to check if they are the same or not. Two binary trees are considered the same if they are structurally identical and the nodes have the same value.",
+    "examples": [
+      {
+        "input": "p = [1,2,3], q = [1,2,3]",
+        "output": "true"
+      },
+      {
+        "input": "p = [1,2], q = [1,null,2]",
+        "output": "false"
+      }
+    ],
+    "hints": [
+      "Use recursion to compare both trees simultaneously.",
+      "Both trees are the same if their roots have the same value and their left and right subtrees are the same.",
+      "Base cases: if both nodes are null, return true; if one is null and the other is not, return false."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(h) where h is the height of the tree",
+    "solutions": {
+      "python": "class TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\ndef isSameTree(p, q):\n    if not p and not q:\n        return True\n    if not p or not q:\n        return False\n    return p.val == q.val and isSameTree(p.left, q.left) and isSameTree(p.right, q.right)",
+      "java": "class Solution {\n    public boolean isSameTree(TreeNode p, TreeNode q) {\n        if (p == null && q == null) {\n            return true;\n        }\n        if (p == null || q == null) {\n            return false;\n        }\n        return p.val == q.val && isSameTree(p.left, q.left) && isSameTree(p.right, q.right);\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    bool isSameTree(TreeNode* p, TreeNode* q) {\n        if (!p && !q) return true;\n        if (!p || !q) return false;\n        return p->val == q->val && isSameTree(p->left, q->left) && isSameTree(p->right, q->right);\n    }\n};",
+      "javascript": "var isSameTree = function(p, q) {\n    if (!p && !q) return true;\n    if (!p || !q) return false;\n    return p.val === q.val && isSameTree(p.left, q.left) && isSameTree(p.right, q.right);\n};",
+      "go": "func isSameTree(p *TreeNode, q *TreeNode) bool {\n    if p == nil && q == nil {\n        return true\n    }\n    if p == nil || q == nil {\n        return false\n    }\n    return p.Val == q.Val && isSameTree(p.Left, q.Left) && isSameTree(p.Right, q.Right)\n}",
+      "rust": "impl Solution {\n    pub fn is_same_tree(p: Option<Box<TreeNode>>, q: Option<Box<TreeNode>>) -> bool {\n        match (p, q) {\n            (None, None) => true,\n            (None, Some(_)) | (Some(_), None) => false,\n            (Some(p), Some(q)) => {\n                p.val == q.val\n                    && Self::is_same_tree(p.left, q.left)\n                    && Self::is_same_tree(p.right, q.right)\n            }\n        }\n    }\n}"
+    }
+  },
+  {
     "id": "btdfs-001",
     "leetcode": 104,
     "title": "Maximum Depth of Binary Tree",
@@ -29,6 +61,70 @@
       "javascript": "var maxDepth = function(root) {\n    if (!root) return 0;\n    return 1 + Math.max(maxDepth(root.left), maxDepth(root.right));\n};",
       "go": "func maxDepth(root *TreeNode) int {\n    if root == nil {\n        return 0\n    }\n    left := maxDepth(root.Left)\n    right := maxDepth(root.Right)\n    if left > right {\n        return left + 1\n    }\n    return right + 1\n}",
       "rust": "impl Solution {\n    pub fn max_depth(root: Option<Box<TreeNode>>) -> i32 {\n        match root {\n            None => 0,\n            Some(node) => {\n                let left = Self::max_depth(node.left);\n                let right = Self::max_depth(node.right);\n                left.max(right) + 1\n            }\n        }\n    }\n}"
+    }
+  },
+  {
+    "id": "btdfs-004",
+    "leetcode": 110,
+    "title": "Balanced Binary Tree",
+    "difficulty": "Easy",
+    "description": "Given a binary tree, determine if it is height-balanced. A height-balanced binary tree is a binary tree in which the depth of the two subtrees of every node never differs by more than one.",
+    "examples": [
+      {
+        "input": "root = [3,9,20,null,null,15,7]",
+        "output": "true"
+      },
+      {
+        "input": "root = [1,2,2,3,3,null,null,4,4]",
+        "output": "false"
+      }
+    ],
+    "hints": [
+      "Use postorder DFS to compute the height of each subtree.",
+      "At each node, check if the left and right subtree heights differ by more than 1.",
+      "Use a helper function that returns -1 if a subtree is unbalanced, otherwise returns its height."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(h) where h is the height of the tree",
+    "solutions": {
+      "python": "class TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\ndef isBalanced(root):\n    def height(node):\n        if not node:\n            return 0\n        left = height(node.left)\n        if left == -1:\n            return -1\n        right = height(node.right)\n        if right == -1:\n            return -1\n        if abs(left - right) > 1:\n            return -1\n        return 1 + max(left, right)\n    return height(root) != -1",
+      "java": "class Solution {\n    public boolean isBalanced(TreeNode root) {\n        return height(root) != -1;\n    }\n    private int height(TreeNode node) {\n        if (node == null) return 0;\n        int left = height(node.left);\n        if (left == -1) return -1;\n        int right = height(node.right);\n        if (right == -1) return -1;\n        if (Math.abs(left - right) > 1) return -1;\n        return 1 + Math.max(left, right);\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    bool isBalanced(TreeNode* root) {\n        return height(root) != -1;\n    }\n    int height(TreeNode* node) {\n        if (!node) return 0;\n        int left = height(node->left);\n        if (left == -1) return -1;\n        int right = height(node->right);\n        if (right == -1) return -1;\n        if (abs(left - right) > 1) return -1;\n        return 1 + max(left, right);\n    }\n};",
+      "javascript": "var isBalanced = function(root) {\n    function height(node) {\n        if (!node) return 0;\n        let left = height(node.left);\n        if (left === -1) return -1;\n        let right = height(node.right);\n        if (right === -1) return -1;\n        if (Math.abs(left - right) > 1) return -1;\n        return 1 + Math.max(left, right);\n    }\n    return height(root) !== -1;\n};",
+      "go": "func isBalanced(root *TreeNode) bool {\n    return height(root) != -1\n}\n\nfunc height(node *TreeNode) int {\n    if node == nil {\n        return 0\n    }\n    left := height(node.Left)\n    if left == -1 {\n        return -1\n    }\n    right := height(node.Right)\n    if right == -1 {\n        return -1\n    }\n    if left-right > 1 || right-left > 1 {\n        return -1\n    }\n    if left > right {\n        return left + 1\n    }\n    return right + 1\n}",
+      "rust": "impl Solution {\n    pub fn is_balanced(root: Option<Box<TreeNode>>) -> bool {\n        Self::height(&root) != -1\n    }\n\n    fn height(node: &Option<Box<TreeNode>>) -> i32 {\n        match node {\n            None => 0,\n            Some(n) => {\n                let left = Self::height(&n.left);\n                if left == -1 {\n                    return -1;\n                }\n                let right = Self::height(&n.right);\n                if right == -1 {\n                    return -1;\n                }\n                if (left - right).abs() > 1 {\n                    return -1;\n                }\n                left.max(right) + 1\n            }\n        }\n    }\n}"
+    }
+  },
+  {
+    "id": "btdfs-007",
+    "leetcode": 112,
+    "title": "Path Sum",
+    "difficulty": "Easy",
+    "description": "Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that adding up all the values along the path equals targetSum. A leaf is a node with no children.",
+    "examples": [
+      {
+        "input": "root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22",
+        "output": "true"
+      },
+      {
+        "input": "root = [1,2,3], targetSum = 5",
+        "output": "false"
+      }
+    ],
+    "hints": [
+      "Use DFS to traverse from root to leaf.",
+      "Subtract the current node's value from the target sum as you traverse.",
+      "When you reach a leaf node, check if the remaining sum equals the leaf's value."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(h) where h is the height of the tree",
+    "solutions": {
+      "python": "class TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\ndef hasPathSum(root, targetSum):\n    if not root:\n        return False\n    if not root.left and not root.right:\n        return root.val == targetSum\n    remaining = targetSum - root.val\n    return hasPathSum(root.left, remaining) or hasPathSum(root.right, remaining)",
+      "java": "class Solution {\n    public boolean hasPathSum(TreeNode root, int targetSum) {\n        if (root == null) return false;\n        if (root.left == null && root.right == null) {\n            return root.val == targetSum;\n        }\n        int remaining = targetSum - root.val;\n        return hasPathSum(root.left, remaining) || hasPathSum(root.right, remaining);\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    bool hasPathSum(TreeNode* root, int targetSum) {\n        if (!root) return false;\n        if (!root->left && !root->right) {\n            return root->val == targetSum;\n        }\n        int remaining = targetSum - root->val;\n        return hasPathSum(root->left, remaining) || hasPathSum(root->right, remaining);\n    }\n};",
+      "javascript": "var hasPathSum = function(root, targetSum) {\n    if (!root) return false;\n    if (!root.left && !root.right) {\n        return root.val === targetSum;\n    }\n    let remaining = targetSum - root.val;\n    return hasPathSum(root.left, remaining) || hasPathSum(root.right, remaining);\n};",
+      "go": "func hasPathSum(root *TreeNode, targetSum int) bool {\n    if root == nil {\n        return false\n    }\n    if root.Left == nil && root.Right == nil {\n        return root.Val == targetSum\n    }\n    remaining := targetSum - root.Val\n    return hasPathSum(root.Left, remaining) || hasPathSum(root.Right, remaining)\n}",
+      "rust": "impl Solution {\n    pub fn has_path_sum(root: Option<Box<TreeNode>>, target_sum: i32) -> bool {\n        match root {\n            None => false,\n            Some(node) => {\n                if node.left.is_none() && node.right.is_none() {\n                    return node.val == target_sum;\n                }\n                let remaining = target_sum - node.val;\n                Self::has_path_sum(node.left, remaining)\n                    || Self::has_path_sum(node.right, remaining)\n            }\n        }\n    }\n}"
     }
   },
   {
@@ -64,67 +160,35 @@
     }
   },
   {
-    "id": "btdfs-003",
-    "leetcode": 100,
-    "title": "Same Tree",
+    "id": "btdfs-009",
+    "leetcode": 543,
+    "title": "Diameter of Binary Tree",
     "difficulty": "Easy",
-    "description": "Given the roots of two binary trees p and q, write a function to check if they are the same or not. Two binary trees are considered the same if they are structurally identical and the nodes have the same value.",
+    "description": "Given the root of a binary tree, return the length of the diameter of the tree. The diameter of a binary tree is the length of the longest path between any two nodes in a tree. This path may or may not pass through the root. The length of a path between two nodes is represented by the number of edges between them.",
     "examples": [
       {
-        "input": "p = [1,2,3], q = [1,2,3]",
-        "output": "true"
+        "input": "root = [1,2,3,4,5]",
+        "output": "3"
       },
       {
-        "input": "p = [1,2], q = [1,null,2]",
-        "output": "false"
+        "input": "root = [1,2]",
+        "output": "1"
       }
     ],
     "hints": [
-      "Use recursion to compare both trees simultaneously.",
-      "Both trees are the same if their roots have the same value and their left and right subtrees are the same.",
-      "Base cases: if both nodes are null, return true; if one is null and the other is not, return false."
+      "The diameter through any node is the sum of the heights of its left and right subtrees.",
+      "Use DFS to compute the height of each node while updating the diameter.",
+      "The maximum diameter found during traversal is the answer."
     ],
     "timeComplexity": "O(n)",
     "spaceComplexity": "O(h) where h is the height of the tree",
     "solutions": {
-      "python": "class TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\ndef isSameTree(p, q):\n    if not p and not q:\n        return True\n    if not p or not q:\n        return False\n    return p.val == q.val and isSameTree(p.left, q.left) and isSameTree(p.right, q.right)",
-      "java": "class Solution {\n    public boolean isSameTree(TreeNode p, TreeNode q) {\n        if (p == null && q == null) {\n            return true;\n        }\n        if (p == null || q == null) {\n            return false;\n        }\n        return p.val == q.val && isSameTree(p.left, q.left) && isSameTree(p.right, q.right);\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    bool isSameTree(TreeNode* p, TreeNode* q) {\n        if (!p && !q) return true;\n        if (!p || !q) return false;\n        return p->val == q->val && isSameTree(p->left, q->left) && isSameTree(p->right, q->right);\n    }\n};",
-      "javascript": "var isSameTree = function(p, q) {\n    if (!p && !q) return true;\n    if (!p || !q) return false;\n    return p.val === q.val && isSameTree(p.left, q.left) && isSameTree(p.right, q.right);\n};",
-      "go": "func isSameTree(p *TreeNode, q *TreeNode) bool {\n    if p == nil && q == nil {\n        return true\n    }\n    if p == nil || q == nil {\n        return false\n    }\n    return p.Val == q.Val && isSameTree(p.Left, q.Left) && isSameTree(p.Right, q.Right)\n}",
-      "rust": "impl Solution {\n    pub fn is_same_tree(p: Option<Box<TreeNode>>, q: Option<Box<TreeNode>>) -> bool {\n        match (p, q) {\n            (None, None) => true,\n            (None, Some(_)) | (Some(_), None) => false,\n            (Some(p), Some(q)) => {\n                p.val == q.val\n                    && Self::is_same_tree(p.left, q.left)\n                    && Self::is_same_tree(p.right, q.right)\n            }\n        }\n    }\n}"
-    }
-  },
-  {
-    "id": "btdfs-004",
-    "leetcode": 110,
-    "title": "Balanced Binary Tree",
-    "difficulty": "Easy",
-    "description": "Given a binary tree, determine if it is height-balanced. A height-balanced binary tree is a binary tree in which the depth of the two subtrees of every node never differs by more than one.",
-    "examples": [
-      {
-        "input": "root = [3,9,20,null,null,15,7]",
-        "output": "true"
-      },
-      {
-        "input": "root = [1,2,2,3,3,null,null,4,4]",
-        "output": "false"
-      }
-    ],
-    "hints": [
-      "Use postorder DFS to compute the height of each subtree.",
-      "At each node, check if the left and right subtree heights differ by more than 1.",
-      "Use a helper function that returns -1 if a subtree is unbalanced, otherwise returns its height."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(h) where h is the height of the tree",
-    "solutions": {
-      "python": "class TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\ndef isBalanced(root):\n    def height(node):\n        if not node:\n            return 0\n        left = height(node.left)\n        if left == -1:\n            return -1\n        right = height(node.right)\n        if right == -1:\n            return -1\n        if abs(left - right) > 1:\n            return -1\n        return 1 + max(left, right)\n    return height(root) != -1",
-      "java": "class Solution {\n    public boolean isBalanced(TreeNode root) {\n        return height(root) != -1;\n    }\n    private int height(TreeNode node) {\n        if (node == null) return 0;\n        int left = height(node.left);\n        if (left == -1) return -1;\n        int right = height(node.right);\n        if (right == -1) return -1;\n        if (Math.abs(left - right) > 1) return -1;\n        return 1 + Math.max(left, right);\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    bool isBalanced(TreeNode* root) {\n        return height(root) != -1;\n    }\n    int height(TreeNode* node) {\n        if (!node) return 0;\n        int left = height(node->left);\n        if (left == -1) return -1;\n        int right = height(node->right);\n        if (right == -1) return -1;\n        if (abs(left - right) > 1) return -1;\n        return 1 + max(left, right);\n    }\n};",
-      "javascript": "var isBalanced = function(root) {\n    function height(node) {\n        if (!node) return 0;\n        let left = height(node.left);\n        if (left === -1) return -1;\n        let right = height(node.right);\n        if (right === -1) return -1;\n        if (Math.abs(left - right) > 1) return -1;\n        return 1 + Math.max(left, right);\n    }\n    return height(root) !== -1;\n};",
-      "go": "func isBalanced(root *TreeNode) bool {\n    return height(root) != -1\n}\n\nfunc height(node *TreeNode) int {\n    if node == nil {\n        return 0\n    }\n    left := height(node.Left)\n    if left == -1 {\n        return -1\n    }\n    right := height(node.Right)\n    if right == -1 {\n        return -1\n    }\n    if left-right > 1 || right-left > 1 {\n        return -1\n    }\n    if left > right {\n        return left + 1\n    }\n    return right + 1\n}",
-      "rust": "impl Solution {\n    pub fn is_balanced(root: Option<Box<TreeNode>>) -> bool {\n        Self::height(&root) != -1\n    }\n\n    fn height(node: &Option<Box<TreeNode>>) -> i32 {\n        match node {\n            None => 0,\n            Some(n) => {\n                let left = Self::height(&n.left);\n                if left == -1 {\n                    return -1;\n                }\n                let right = Self::height(&n.right);\n                if right == -1 {\n                    return -1;\n                }\n                if (left - right).abs() > 1 {\n                    return -1;\n                }\n                left.max(right) + 1\n            }\n        }\n    }\n}"
+      "python": "class TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\ndef diameterOfBinaryTree(root):\n    diameter = 0\n    def depth(node):\n        nonlocal diameter\n        if not node:\n            return 0\n        left = depth(node.left)\n        right = depth(node.right)\n        diameter = max(diameter, left + right)\n        return 1 + max(left, right)\n    depth(root)\n    return diameter",
+      "java": "class Solution {\n    private int diameter = 0;\n    public int diameterOfBinaryTree(TreeNode root) {\n        depth(root);\n        return diameter;\n    }\n    private int depth(TreeNode node) {\n        if (node == null) return 0;\n        int left = depth(node.left);\n        int right = depth(node.right);\n        diameter = Math.max(diameter, left + right);\n        return 1 + Math.max(left, right);\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int diameter = 0;\n    int diameterOfBinaryTree(TreeNode* root) {\n        depth(root);\n        return diameter;\n    }\n    int depth(TreeNode* node) {\n        if (!node) return 0;\n        int left = depth(node->left);\n        int right = depth(node->right);\n        diameter = max(diameter, left + right);\n        return 1 + max(left, right);\n    }\n};",
+      "javascript": "var diameterOfBinaryTree = function(root) {\n    let diameter = 0;\n    function depth(node) {\n        if (!node) return 0;\n        let left = depth(node.left);\n        let right = depth(node.right);\n        diameter = Math.max(diameter, left + right);\n        return 1 + Math.max(left, right);\n    }\n    depth(root);\n    return diameter;\n};",
+      "go": "func diameterOfBinaryTree(root *TreeNode) int {\n    diameter := 0\n    var depth func(node *TreeNode) int\n    depth = func(node *TreeNode) int {\n        if node == nil {\n            return 0\n        }\n        left := depth(node.Left)\n        right := depth(node.Right)\n        if left+right > diameter {\n            diameter = left + right\n        }\n        if left > right {\n            return left + 1\n        }\n        return right + 1\n    }\n    depth(root)\n    return diameter\n}",
+      "rust": "impl Solution {\n    pub fn diameter_of_binary_tree(root: Option<Box<TreeNode>>) -> i32 {\n        let mut diameter = 0;\n        Self::depth(&root, &mut diameter);\n        diameter\n    }\n\n    fn depth(node: &Option<Box<TreeNode>>, diameter: &mut i32) -> i32 {\n        match node {\n            None => 0,\n            Some(n) => {\n                let left = Self::depth(&n.left, diameter);\n                let right = Self::depth(&n.right, diameter);\n                *diameter = (*diameter).max(left + right);\n                left.max(right) + 1\n            }\n        }\n    }\n}"
     }
   },
   {
@@ -161,72 +225,6 @@
     }
   },
   {
-    "id": "btdfs-006",
-    "leetcode": 236,
-    "title": "Lowest Common Ancestor of a Binary Tree",
-    "difficulty": "Medium",
-    "description": "Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree. According to the definition of LCA on Wikipedia: the lowest common ancestor is defined between two nodes p and q as the lowest node in T that has both p and q as descendants (where we allow a node to be a descendant of itself).",
-    "examples": [
-      {
-        "input": "root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1",
-        "output": "3"
-      },
-      {
-        "input": "root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4",
-        "output": "5"
-      }
-    ],
-    "hints": [
-      "Use postorder DFS traversal.",
-      "If the current node is null or equal to p or q, return the current node.",
-      "Recursively search left and right subtrees.",
-      "If both left and right return non-null, the current node is the LCA.",
-      "If only one side returns non-null, propagate that result up."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(h) where h is the height of the tree",
-    "solutions": {
-      "python": "class TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\ndef lowestCommonAncestor(root, p, q):\n    if not root or root == p or root == q:\n        return root\n    left = lowestCommonAncestor(root.left, p, q)\n    right = lowestCommonAncestor(root.right, p, q)\n    if left and right:\n        return root\n    return left if left else right",
-      "java": "class Solution {\n    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n        if (root == null || root == p || root == q) {\n            return root;\n        }\n        TreeNode left = lowestCommonAncestor(root.left, p, q);\n        TreeNode right = lowestCommonAncestor(root.right, p, q);\n        if (left != null && right != null) {\n            return root;\n        }\n        return left != null ? left : right;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {\n        if (!root || root == p || root == q) return root;\n        TreeNode* left = lowestCommonAncestor(root->left, p, q);\n        TreeNode* right = lowestCommonAncestor(root->right, p, q);\n        if (left && right) return root;\n        return left ? left : right;\n    }\n};",
-      "javascript": "var lowestCommonAncestor = function(root, p, q) {\n    if (!root || root === p || root === q) return root;\n    let left = lowestCommonAncestor(root.left, p, q);\n    let right = lowestCommonAncestor(root.right, p, q);\n    if (left && right) return root;\n    return left || right;\n};",
-      "go": "func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {\n    if root == nil || root == p || root == q {\n        return root\n    }\n    left := lowestCommonAncestor(root.Left, p, q)\n    right := lowestCommonAncestor(root.Right, p, q)\n    if left != nil && right != nil {\n        return root\n    }\n    if left != nil {\n        return left\n    }\n    return right\n}",
-      "rust": "impl Solution {\n    pub fn lowest_common_ancestor(\n        root: Option<Box<TreeNode>>,\n        p: Option<Box<TreeNode>>,\n        q: Option<Box<TreeNode>>,\n    ) -> Option<Box<TreeNode>> {\n        Self::lca(&root, &p, &q)\n    }\n\n    fn lca(\n        node: &Option<Box<TreeNode>>,\n        p: &Option<Box<TreeNode>>,\n        q: &Option<Box<TreeNode>>,\n    ) -> Option<Box<TreeNode>> {\n        match node {\n            None => None,\n            Some(n) => {\n                if p.as_ref().map_or(false, |x| x.val == n.val)\n                    || q.as_ref().map_or(false, |x| x.val == n.val)\n                {\n                    return Some(Box::new(TreeNode {\n                        val: n.val,\n                        left: None,\n                        right: None,\n                    }));\n                }\n                let left = Self::lca(&n.left, p, q);\n                let right = Self::lca(&n.right, p, q);\n                match (&left, &right) {\n                    (Some(_), Some(_)) => Some(Box::new(TreeNode {\n                        val: n.val,\n                        left: None,\n                        right: None,\n                    })),\n                    (Some(_), None) => left,\n                    (None, Some(_)) => right,\n                    (None, None) => None,\n                }\n            }\n        }\n    }\n}"
-    }
-  },
-  {
-    "id": "btdfs-007",
-    "leetcode": 112,
-    "title": "Path Sum",
-    "difficulty": "Easy",
-    "description": "Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that adding up all the values along the path equals targetSum. A leaf is a node with no children.",
-    "examples": [
-      {
-        "input": "root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22",
-        "output": "true"
-      },
-      {
-        "input": "root = [1,2,3], targetSum = 5",
-        "output": "false"
-      }
-    ],
-    "hints": [
-      "Use DFS to traverse from root to leaf.",
-      "Subtract the current node's value from the target sum as you traverse.",
-      "When you reach a leaf node, check if the remaining sum equals the leaf's value."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(h) where h is the height of the tree",
-    "solutions": {
-      "python": "class TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\ndef hasPathSum(root, targetSum):\n    if not root:\n        return False\n    if not root.left and not root.right:\n        return root.val == targetSum\n    remaining = targetSum - root.val\n    return hasPathSum(root.left, remaining) or hasPathSum(root.right, remaining)",
-      "java": "class Solution {\n    public boolean hasPathSum(TreeNode root, int targetSum) {\n        if (root == null) return false;\n        if (root.left == null && root.right == null) {\n            return root.val == targetSum;\n        }\n        int remaining = targetSum - root.val;\n        return hasPathSum(root.left, remaining) || hasPathSum(root.right, remaining);\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    bool hasPathSum(TreeNode* root, int targetSum) {\n        if (!root) return false;\n        if (!root->left && !root->right) {\n            return root->val == targetSum;\n        }\n        int remaining = targetSum - root->val;\n        return hasPathSum(root->left, remaining) || hasPathSum(root->right, remaining);\n    }\n};",
-      "javascript": "var hasPathSum = function(root, targetSum) {\n    if (!root) return false;\n    if (!root.left && !root.right) {\n        return root.val === targetSum;\n    }\n    let remaining = targetSum - root.val;\n    return hasPathSum(root.left, remaining) || hasPathSum(root.right, remaining);\n};",
-      "go": "func hasPathSum(root *TreeNode, targetSum int) bool {\n    if root == nil {\n        return false\n    }\n    if root.Left == nil && root.Right == nil {\n        return root.Val == targetSum\n    }\n    remaining := targetSum - root.Val\n    return hasPathSum(root.Left, remaining) || hasPathSum(root.Right, remaining)\n}",
-      "rust": "impl Solution {\n    pub fn has_path_sum(root: Option<Box<TreeNode>>, target_sum: i32) -> bool {\n        match root {\n            None => false,\n            Some(node) => {\n                if node.left.is_none() && node.right.is_none() {\n                    return node.val == target_sum;\n                }\n                let remaining = target_sum - node.val;\n                Self::has_path_sum(node.left, remaining)\n                    || Self::has_path_sum(node.right, remaining)\n            }\n        }\n    }\n}"
-    }
-  },
-  {
     "id": "btdfs-008",
     "leetcode": 113,
     "title": "Path Sum II",
@@ -259,35 +257,37 @@
     }
   },
   {
-    "id": "btdfs-009",
-    "leetcode": 543,
-    "title": "Diameter of Binary Tree",
-    "difficulty": "Easy",
-    "description": "Given the root of a binary tree, return the length of the diameter of the tree. The diameter of a binary tree is the length of the longest path between any two nodes in a tree. This path may or may not pass through the root. The length of a path between two nodes is represented by the number of edges between them.",
+    "id": "btdfs-006",
+    "leetcode": 236,
+    "title": "Lowest Common Ancestor of a Binary Tree",
+    "difficulty": "Medium",
+    "description": "Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree. According to the definition of LCA on Wikipedia: the lowest common ancestor is defined between two nodes p and q as the lowest node in T that has both p and q as descendants (where we allow a node to be a descendant of itself).",
     "examples": [
       {
-        "input": "root = [1,2,3,4,5]",
+        "input": "root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1",
         "output": "3"
       },
       {
-        "input": "root = [1,2]",
-        "output": "1"
+        "input": "root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4",
+        "output": "5"
       }
     ],
     "hints": [
-      "The diameter through any node is the sum of the heights of its left and right subtrees.",
-      "Use DFS to compute the height of each node while updating the diameter.",
-      "The maximum diameter found during traversal is the answer."
+      "Use postorder DFS traversal.",
+      "If the current node is null or equal to p or q, return the current node.",
+      "Recursively search left and right subtrees.",
+      "If both left and right return non-null, the current node is the LCA.",
+      "If only one side returns non-null, propagate that result up."
     ],
     "timeComplexity": "O(n)",
     "spaceComplexity": "O(h) where h is the height of the tree",
     "solutions": {
-      "python": "class TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\ndef diameterOfBinaryTree(root):\n    diameter = 0\n    def depth(node):\n        nonlocal diameter\n        if not node:\n            return 0\n        left = depth(node.left)\n        right = depth(node.right)\n        diameter = max(diameter, left + right)\n        return 1 + max(left, right)\n    depth(root)\n    return diameter",
-      "java": "class Solution {\n    private int diameter = 0;\n    public int diameterOfBinaryTree(TreeNode root) {\n        depth(root);\n        return diameter;\n    }\n    private int depth(TreeNode node) {\n        if (node == null) return 0;\n        int left = depth(node.left);\n        int right = depth(node.right);\n        diameter = Math.max(diameter, left + right);\n        return 1 + Math.max(left, right);\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int diameter = 0;\n    int diameterOfBinaryTree(TreeNode* root) {\n        depth(root);\n        return diameter;\n    }\n    int depth(TreeNode* node) {\n        if (!node) return 0;\n        int left = depth(node->left);\n        int right = depth(node->right);\n        diameter = max(diameter, left + right);\n        return 1 + max(left, right);\n    }\n};",
-      "javascript": "var diameterOfBinaryTree = function(root) {\n    let diameter = 0;\n    function depth(node) {\n        if (!node) return 0;\n        let left = depth(node.left);\n        let right = depth(node.right);\n        diameter = Math.max(diameter, left + right);\n        return 1 + Math.max(left, right);\n    }\n    depth(root);\n    return diameter;\n};",
-      "go": "func diameterOfBinaryTree(root *TreeNode) int {\n    diameter := 0\n    var depth func(node *TreeNode) int\n    depth = func(node *TreeNode) int {\n        if node == nil {\n            return 0\n        }\n        left := depth(node.Left)\n        right := depth(node.Right)\n        if left+right > diameter {\n            diameter = left + right\n        }\n        if left > right {\n            return left + 1\n        }\n        return right + 1\n    }\n    depth(root)\n    return diameter\n}",
-      "rust": "impl Solution {\n    pub fn diameter_of_binary_tree(root: Option<Box<TreeNode>>) -> i32 {\n        let mut diameter = 0;\n        Self::depth(&root, &mut diameter);\n        diameter\n    }\n\n    fn depth(node: &Option<Box<TreeNode>>, diameter: &mut i32) -> i32 {\n        match node {\n            None => 0,\n            Some(n) => {\n                let left = Self::depth(&n.left, diameter);\n                let right = Self::depth(&n.right, diameter);\n                *diameter = (*diameter).max(left + right);\n                left.max(right) + 1\n            }\n        }\n    }\n}"
+      "python": "class TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\ndef lowestCommonAncestor(root, p, q):\n    if not root or root == p or root == q:\n        return root\n    left = lowestCommonAncestor(root.left, p, q)\n    right = lowestCommonAncestor(root.right, p, q)\n    if left and right:\n        return root\n    return left if left else right",
+      "java": "class Solution {\n    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {\n        if (root == null || root == p || root == q) {\n            return root;\n        }\n        TreeNode left = lowestCommonAncestor(root.left, p, q);\n        TreeNode right = lowestCommonAncestor(root.right, p, q);\n        if (left != null && right != null) {\n            return root;\n        }\n        return left != null ? left : right;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {\n        if (!root || root == p || root == q) return root;\n        TreeNode* left = lowestCommonAncestor(root->left, p, q);\n        TreeNode* right = lowestCommonAncestor(root->right, p, q);\n        if (left && right) return root;\n        return left ? left : right;\n    }\n};",
+      "javascript": "var lowestCommonAncestor = function(root, p, q) {\n    if (!root || root === p || root === q) return root;\n    let left = lowestCommonAncestor(root.left, p, q);\n    let right = lowestCommonAncestor(root.right, p, q);\n    if (left && right) return root;\n    return left || right;\n};",
+      "go": "func lowestCommonAncestor(root, p, q *TreeNode) *TreeNode {\n    if root == nil || root == p || root == q {\n        return root\n    }\n    left := lowestCommonAncestor(root.Left, p, q)\n    right := lowestCommonAncestor(root.Right, p, q)\n    if left != nil && right != nil {\n        return root\n    }\n    if left != nil {\n        return left\n    }\n    return right\n}",
+      "rust": "impl Solution {\n    pub fn lowest_common_ancestor(\n        root: Option<Box<TreeNode>>,\n        p: Option<Box<TreeNode>>,\n        q: Option<Box<TreeNode>>,\n    ) -> Option<Box<TreeNode>> {\n        Self::lca(&root, &p, &q)\n    }\n\n    fn lca(\n        node: &Option<Box<TreeNode>>,\n        p: &Option<Box<TreeNode>>,\n        q: &Option<Box<TreeNode>>,\n    ) -> Option<Box<TreeNode>> {\n        match node {\n            None => None,\n            Some(n) => {\n                if p.as_ref().map_or(false, |x| x.val == n.val)\n                    || q.as_ref().map_or(false, |x| x.val == n.val)\n                {\n                    return Some(Box::new(TreeNode {\n                        val: n.val,\n                        left: None,\n                        right: None,\n                    }));\n                }\n                let left = Self::lca(&n.left, p, q);\n                let right = Self::lca(&n.right, p, q);\n                match (&left, &right) {\n                    (Some(_), Some(_)) => Some(Box::new(TreeNode {\n                        val: n.val,\n                        left: None,\n                        right: None,\n                    })),\n                    (Some(_), None) => left,\n                    (None, Some(_)) => right,\n                    (None, None) => None,\n                }\n            }\n        }\n    }\n}"
     }
   },
   {

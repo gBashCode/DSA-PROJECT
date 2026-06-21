@@ -1,72 +1,187 @@
 "use client";
-import Link from "next/link";
-import { Network, Layers, Box, ChevronRight } from "lucide-react";
+
+import { useState } from "react";
+import { Network, Layers, Box, ChevronDown, ChevronUp, BookOpen, Zap } from "lucide-react";
 import fundamentals from "@/data/system-design/fundamentals.json";
 import components from "@/data/system-design/components.json";
 import caseStudies from "@/data/system-design/case-studies.json";
-import { AnimateIn } from "@/components/animations/AnimateIn";
-import { BackgroundPaths } from "@/components/ui/background-paths";
 import type { SystemDesignTopic } from "@/lib/types";
 
-const sections = [
-  { key: "fundamentals", title: "Fundamentals", desc: "Core concepts every engineer must know for system design interviews.", icon: Network, count: (fundamentals as SystemDesignTopic[]).length },
-  { key: "components", title: "Components", desc: "Building blocks of distributed systems — databases, caches, queues, and more.", icon: Layers, count: (components as SystemDesignTopic[]).length },
-  { key: "case-studies", title: "Case Studies", desc: "Real-world system design walkthroughs for popular applications.", icon: Box, count: (caseStudies as SystemDesignTopic[]).length },
+interface TierSection {
+  tier: string;
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  color: string;
+  bgColor: string;
+  topics: SystemDesignTopic[];
+}
+
+const tierSections: TierSection[] = [
+  {
+    tier: "fundamentals",
+    title: "Fundamentals",
+    description: "Core concepts every engineer must know for system design interviews.",
+    icon: <BookOpen className="w-5 h-5" />,
+    color: "text-accent-teal",
+    bgColor: "bg-accent-teal/10",
+    topics: fundamentals as SystemDesignTopic[],
+  },
+  {
+    tier: "components",
+    title: "Components",
+    description: "Building blocks of distributed systems — databases, caches, queues, and more.",
+    icon: <Layers className="w-5 h-5" />,
+    color: "text-accent-amber",
+    bgColor: "bg-accent-amber/10",
+    topics: components as SystemDesignTopic[],
+  },
+  {
+    tier: "case-studies",
+    title: "Case Studies",
+    description: "Real-world system design walkthroughs for popular applications.",
+    icon: <Box className="w-5 h-5" />,
+    color: "text-accent-rose",
+    bgColor: "bg-accent-rose/10",
+    topics: caseStudies as SystemDesignTopic[],
+  },
 ];
 
 export default function SystemDesignPage() {
+  const [expandedTier, setExpandedTier] = useState<string | null>("fundamentals");
+  const [expandedTopic, setExpandedTopic] = useState<string | null>(null);
+
+  const totalTopics = tierSections.reduce((sum, s) => sum + s.topics.length, 0);
+
   return (
-    <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 py-10 relative">
-      <BackgroundPaths className="opacity-10" />
-      <div className="relative z-10">
-        <AnimateIn>
-          <div className="mb-10">
-            <div className="flex items-center gap-3 mb-2">
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                <Network className="h-5 w-5" />
-              </div>
-              <h1 className="text-3xl font-bold tracking-tight">System Design</h1>
-            </div>
-            <p className="mt-2 text-muted-foreground text-lg">
-              Master the architecture behind scalable, reliable distributed systems
-            </p>
+    <div className="max-w-5xl mx-auto px-4 py-8">
+      <div className="mb-8">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="p-2.5 rounded-xl bg-accent-amber/10">
+            <Network className="w-6 h-6 text-accent-amber" />
           </div>
-        </AnimateIn>
-
-        <div className="space-y-3 mb-12">
-          {sections.map((section, i) => {
-            const Icon = section.icon;
-            return (
-              <AnimateIn key={section.key} delay={i * 100}>
-                <Link
-                  href={`/system-design/${section.key}`}
-                  className="group flex items-center gap-5 rounded-xl border border-border bg-card p-6 hover:bg-accent/50 hover:border-primary/20 transition-all duration-200 card-interactive"
-                >
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary shrink-0 transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-110 group-hover:rotate-[-3deg]">
-                    <Icon className="h-6 w-6" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <h2 className="font-bold text-lg group-hover:text-primary transition-colors">{section.title}</h2>
-                    <p className="text-sm text-muted-foreground mt-0.5">{section.desc}</p>
-                  </div>
-                  <div className="flex items-center gap-2 shrink-0">
-                    <span className="text-xs font-bold text-muted-foreground bg-muted px-2.5 py-1 rounded-full">{section.count} topics</span>
-                    <ChevronRight className="h-5 w-5 text-muted-foreground/20 group-hover:text-primary group-hover:translate-x-1 transition-all duration-200" />
-                  </div>
-                </Link>
-              </AnimateIn>
-            );
-          })}
+          <div>
+            <h1 className="text-3xl font-mono font-bold text-text">System Design</h1>
+            <p className="text-sm font-mono text-text-muted">{totalTopics} topics across 3 levels</p>
+          </div>
         </div>
+        <p className="text-base font-mono text-text-muted max-w-2xl">
+          Master the architecture behind scalable, reliable distributed systems. Start with fundamentals, build components knowledge, then apply to real-world case studies.
+        </p>
+      </div>
 
-        <AnimateIn delay={300}>
-          <div className="rounded-xl border border-border bg-card p-8 text-center">
-            <h3 className="text-lg font-bold mb-2">Suggested Learning Path</h3>
-            <p className="text-sm text-muted-foreground">
-              Start with <span className="font-bold text-foreground">Fundamentals</span> → move to <span className="font-bold text-foreground">Components</span> → practice <span className="font-bold text-foreground">Case Studies</span>
-            </p>
-          </div>
-        </AnimateIn>
+      <div className="flex items-center gap-3 mb-6 p-4 rounded-xl border border-border bg-surface">
+        <Zap className="w-5 h-5 text-accent-amber" />
+        <p className="text-sm font-mono text-text-muted">
+          <span className="text-text font-semibold">Suggested path:</span> Fundamentals → Components → Case Studies
+        </p>
+      </div>
+
+      <div className="space-y-4">
+        {tierSections.map((section) => {
+          const isExpanded = expandedTier === section.tier;
+          return (
+            <div key={section.tier} className="rounded-xl border border-border bg-surface overflow-hidden">
+              <button
+                onClick={() => setExpandedTier(isExpanded ? null : section.tier)}
+                className="w-full flex items-center justify-between p-5 hover:bg-bg/50 transition-colors"
+              >
+                <div className="flex items-center gap-4">
+                  <div className={`p-2.5 rounded-xl ${section.bgColor} ${section.color}`}>
+                    {section.icon}
+                  </div>
+                  <div className="text-left">
+                    <h2 className="text-lg font-mono font-bold text-text">{section.title}</h2>
+                    <p className="text-xs font-mono text-text-muted">{section.topics.length} topics</p>
+                  </div>
+                </div>
+                {isExpanded ? (
+                  <ChevronUp className="w-5 h-5 text-text-muted" />
+                ) : (
+                  <ChevronDown className="w-5 h-5 text-text-muted" />
+                )}
+              </button>
+
+              {isExpanded && (
+                <div className="border-t border-border p-4 space-y-3">
+                  <p className="text-sm font-mono text-text-muted mb-4">{section.description}</p>
+                  {section.topics.map((topic) => {
+                    const isTopicExpanded = expandedTopic === topic.slug;
+                    return (
+                      <div key={topic.slug} className="rounded-lg border border-border bg-bg overflow-hidden">
+                        <button
+                          onClick={() => setExpandedTopic(isTopicExpanded ? null : topic.slug)}
+                          className="w-full flex items-center justify-between p-4 hover:bg-surface transition-colors"
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className={`w-2 h-2 rounded-full ${section.color.replace("text-", "bg-")}`} />
+                            <span className="text-sm font-mono font-semibold text-text">{topic.name}</span>
+                          </div>
+                          {isTopicExpanded ? (
+                            <ChevronUp className="w-4 h-4 text-text-muted" />
+                          ) : (
+                            <ChevronDown className="w-4 h-4 text-text-muted" />
+                          )}
+                        </button>
+
+                        {isTopicExpanded && (
+                          <div className="px-4 pb-4 space-y-4">
+                            <p className="text-sm font-mono text-text-muted">{topic.description}</p>
+
+                            {topic.keyPoints && (
+                              <div>
+                                <h4 className="text-xs font-mono font-semibold text-text-muted mb-2 uppercase tracking-wider">Key Points</h4>
+                                <ul className="space-y-1.5">
+                                  {topic.keyPoints.map((point, i) => (
+                                    <li key={i} className="flex items-start gap-2 text-xs font-mono text-text">
+                                      <span className={`mt-1 w-1.5 h-1.5 rounded-full shrink-0 ${section.color.replace("text-", "bg-")}`} />
+                                      {point}
+                                    </li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+
+                            {topic.whenToUse && (
+                              <div className="p-3 rounded-lg bg-accent-teal/5 border border-accent-teal/20">
+                                <h4 className="text-xs font-mono font-semibold text-accent-teal mb-1">When to Use</h4>
+                                <p className="text-xs font-mono text-text-muted">{topic.whenToUse}</p>
+                              </div>
+                            )}
+
+                            {topic.interviewQuestions && (
+                              <div>
+                                <h4 className="text-xs font-mono font-semibold text-text-muted mb-2 uppercase tracking-wider">Interview Questions</h4>
+                                <div className="space-y-1.5">
+                                  {topic.interviewQuestions.map((q, i) => (
+                                    <div key={i} className="flex items-start gap-2 text-xs font-mono text-text-muted">
+                                      <span className="text-accent-amber">Q{i + 1}.</span>
+                                      {q}
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+
+                            {topic.companies && (
+                              <div className="flex flex-wrap gap-1.5">
+                                {topic.companies.map((company) => (
+                                  <span key={company} className="px-2 py-0.5 rounded text-[10px] font-mono bg-accent-amber/10 text-accent-amber">
+                                    {company}
+                                  </span>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          );
+        })}
       </div>
     </div>
   );

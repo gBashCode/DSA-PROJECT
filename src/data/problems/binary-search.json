@@ -1,311 +1,121 @@
 [
   {
-    "id": "bs-001",
-    "leetcode": 704,
-    "title": "Binary Search",
-    "difficulty": "Easy",
-    "description": "Given an array of integers nums which is sorted in ascending order, and an integer target, write a function to search target in nums. If target exists, then return its index. Otherwise, return -1. You must write an algorithm with O(log n) runtime complexity.",
-    "examples": [
-      { "input": "nums = [-1,0,3,5,9,12], target = 9", "output": "4" },
-      { "input": "nums = [-1,0,3,5,9,12], target = 2", "output": "-1" }
-    ],
-    "hints": [
-      "The array is sorted, so you can use binary search.",
-      "Maintain left and right pointers and narrow the search space by half each iteration."
-    ],
-    "timeComplexity": "O(log n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "class Solution:\n    def search(self, nums: list[int], target: int) -> int:\n        left, right = 0, len(nums) - 1\n        while left <= right:\n            mid = left + (right - left) // 2\n            if nums[mid] == target:\n                return mid\n            elif nums[mid] < target:\n                left = mid + 1\n            else:\n                right = mid - 1\n        return -1",
-      "java": "class Solution {\n    public int search(int[] nums, int target) {\n        int left = 0, right = nums.length - 1;\n        while (left <= right) {\n            int mid = left + (right - left) / 2;\n            if (nums[mid] == target) return mid;\n            else if (nums[mid] < target) left = mid + 1;\n            else right = mid - 1;\n        }\n        return -1;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int search(vector<int>& nums, int target) {\n        int left = 0, right = nums.size() - 1;\n        while (left <= right) {\n            int mid = left + (right - left) / 2;\n            if (nums[mid] == target) return mid;\n            else if (nums[mid] < target) left = mid + 1;\n            else right = mid - 1;\n        }\n        return -1;\n    }\n};",
-      "javascript": "var search = function(nums, target) {\n    let left = 0, right = nums.length - 1;\n    while (left <= right) {\n        const mid = left + Math.floor((right - left) / 2);\n        if (nums[mid] === target) return mid;\n        else if (nums[mid] < target) left = mid + 1;\n        else right = mid - 1;\n    }\n    return -1;\n};",
-      "go": "func search(nums []int, target int) int {\n    left, right := 0, len(nums)-1\n    for left <= right {\n        mid := left + (right-left)/2\n        if nums[mid] == target {\n            return mid\n        } else if nums[mid] < target {\n            left = mid + 1\n        } else {\n            right = mid - 1\n        }\n    }\n    return -1\n}",
-      "rust": "impl Solution {\n    pub fn search(nums: Vec<i32>, target: i32) -> i32 {\n        let mut left = 0i32;\n        let mut right = nums.len() as i32 - 1;\n        while left <= right {\n            let mid = left + (right - left) / 2;\n            if nums[mid as usize] == target {\n                return mid;\n            } else if nums[mid as usize] < target {\n                left = mid + 1;\n            } else {\n                right = mid - 1;\n            }\n        }\n        -1\n    }\n}"
-    }
+    "section": "Easy",
+    "problems": [
+      {
+        "id": "bs-002",
+        "leetcode": 35,
+        "title": "Search Insert Position",
+        "difficulty": "Easy",
+        "description": "Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.",
+        "link": "https://leetcode.com/problems/search-insert-position/"
+      },
+      {
+        "id": "bs-005",
+        "leetcode": 69,
+        "title": "Sqrt(x)",
+        "difficulty": "Easy",
+        "description": "Given a non-negative integer x, return the square root of x rounded down to the nearest integer. You must not use any built-in exponent function or operator.",
+        "link": "https://leetcode.com/problems/sqrtx/"
+      },
+      {
+        "id": "bs-004",
+        "leetcode": 278,
+        "title": "First Bad Version",
+        "difficulty": "Easy",
+        "description": "You are a product manager and currently leading a team to develop a new product. Unfortunately, the latest version of your product fails the quality check. Find the first bad version.",
+        "link": "https://leetcode.com/problems/first-bad-version/"
+      },
+      {
+        "id": "bs-006",
+        "leetcode": 367,
+        "title": "Valid Perfect Square",
+        "difficulty": "Easy",
+        "description": "Given a positive integer num, return true if num is a perfect square or false otherwise. You must not use any built-in library function such as sqrt.",
+        "link": "https://leetcode.com/problems/valid-perfect-square/"
+      },
+      {
+        "id": "bs-003",
+        "leetcode": 374,
+        "title": "Guess Number Higher or Lower",
+        "difficulty": "Easy",
+        "description": "We are playing the Guess Game. You have to guess which number I picked using binary search.",
+        "link": "https://leetcode.com/problems/guess-number-higher-or-lower/"
+      },
+      {
+        "id": "bs-001",
+        "leetcode": 704,
+        "title": "Binary Search",
+        "difficulty": "Easy",
+        "description": "Given an array of integers nums which is sorted in ascending order, and an integer target, write a function to search target in nums. If target exists, then return its index. Otherwise, return -1. You must write an algorithm with O(log n) runtime complexity.",
+        "link": "https://leetcode.com/problems/binary-search/"
+      },
+      {
+        "id": "bs-007",
+        "leetcode": 852,
+        "title": "Peak Index in a Mountain Array",
+        "difficulty": "Easy",
+        "description": "Given a mountain array arr, return the index i such that arr[0] < arr[1] < ... < arr[i-1] < arr[i] > arr[i+1] > ... > arr[arr.length-1].",
+        "link": "https://leetcode.com/problems/peak-index-in-a-mountain-array/"
+      }
+    ]
   },
   {
-    "id": "bs-002",
-    "leetcode": 35,
-    "title": "Search Insert Position",
-    "difficulty": "Easy",
-    "description": "Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order. You must write an algorithm with O(log n) runtime complexity.",
-    "examples": [
-      { "input": "nums = [1,3,5,6], target = 5", "output": "2" },
-      { "input": "nums = [1,3,5,6], target = 2", "output": "1" },
-      { "input": "nums = [1,3,5,6], target = 7", "output": "4" }
-    ],
-    "hints": [
-      "Use binary search to find the position.",
-      "If the target is not found, left will be the insertion position."
-    ],
-    "timeComplexity": "O(log n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "class Solution:\n    def searchInsert(self, nums: list[int], target: int) -> int:\n        left, right = 0, len(nums) - 1\n        while left <= right:\n            mid = left + (right - left) // 2\n            if nums[mid] == target:\n                return mid\n            elif nums[mid] < target:\n                left = mid + 1\n            else:\n                right = mid - 1\n        return left",
-      "java": "class Solution {\n    public int searchInsert(int[] nums, int target) {\n        int left = 0, right = nums.length - 1;\n        while (left <= right) {\n            int mid = left + (right - left) / 2;\n            if (nums[mid] == target) return mid;\n            else if (nums[mid] < target) left = mid + 1;\n            else right = mid - 1;\n        }\n        return left;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int searchInsert(vector<int>& nums, int target) {\n        int left = 0, right = nums.size() - 1;\n        while (left <= right) {\n            int mid = left + (right - left) / 2;\n            if (nums[mid] == target) return mid;\n            else if (nums[mid] < target) left = mid + 1;\n            else right = mid - 1;\n        }\n        return left;\n    }\n};",
-      "javascript": "var searchInsert = function(nums, target) {\n    let left = 0, right = nums.length - 1;\n    while (left <= right) {\n        const mid = left + Math.floor((right - left) / 2);\n        if (nums[mid] === target) return mid;\n        else if (nums[mid] < target) left = mid + 1;\n        else right = mid - 1;\n    }\n    return left;\n};",
-      "go": "func searchInsert(nums []int, target int) int {\n    left, right := 0, len(nums)-1\n    for left <= right {\n        mid := left + (right-left)/2\n        if nums[mid] == target {\n            return mid\n        } else if nums[mid] < target {\n            left = mid + 1\n        } else {\n            right = mid - 1\n        }\n    }\n    return left\n}",
-      "rust": "impl Solution {\n    pub fn search_insert(nums: Vec<i32>, target: i32) -> i32 {\n        let mut left = 0i32;\n        let mut right = nums.len() as i32 - 1;\n        while left <= right {\n            let mid = left + (right - left) / 2;\n            if nums[mid as usize] == target {\n                return mid;\n            } else if nums[mid as usize] < target {\n                left = mid + 1;\n            } else {\n                right = mid - 1;\n            }\n        }\n        left\n    }\n}"
-    }
+    "section": "Medium",
+    "problems": [
+      {
+        "id": "bs-009",
+        "leetcode": 33,
+        "title": "Search in Rotated Sorted Array",
+        "difficulty": "Medium",
+        "description": "There is an integer array nums sorted in ascending order (with distinct values). Prior to being passed to your function, nums is possibly rotated. Given the array nums after the possible rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums.",
+        "link": "https://leetcode.com/problems/search-in-rotated-sorted-array/"
+      },
+      {
+        "id": "bs-011",
+        "leetcode": 74,
+        "title": "Search a 2D Matrix",
+        "difficulty": "Medium",
+        "description": "You are given an m x n integer matrix matrix with the following two properties: each row is sorted in non-decreasing order, the first integer of each row is greater than the last integer of the previous row. Given an integer target, return true if target is in matrix.",
+        "link": "https://leetcode.com/problems/search-a-2d-matrix/"
+      },
+      {
+        "id": "bs-010",
+        "leetcode": 153,
+        "title": "Find Minimum in Rotated Sorted Array",
+        "difficulty": "Medium",
+        "description": "Suppose an array of length n sorted in ascending order is rotated between 1 and n times. Given the sorted rotated array nums of unique elements, return the minimum element of this array.",
+        "link": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/"
+      },
+      {
+        "id": "bs-008",
+        "leetcode": 875,
+        "title": "Koko Eating Bananas",
+        "difficulty": "Medium",
+        "description": "Koko loves to eat bananas. There are n piles of bananas. The guards have gone and will come back in h hours. Return the minimum integer k such that she can eat all the bananas within h hours.",
+        "link": "https://leetcode.com/problems/koko-eating-bananas/"
+      },
+      {
+        "id": "bs-012",
+        "leetcode": 1011,
+        "title": "Capacity To Ship Packages Within D Days",
+        "difficulty": "Medium",
+        "description": "A conveyor belt has packages that must be shipped from one port to another within d days. Return the least weight capacity of the ship that will result in all the packages on the conveyor belt being shipped within d days.",
+        "link": "https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/"
+      }
+    ]
   },
   {
-    "id": "bs-003",
-    "leetcode": 374,
-    "title": "Guess Number Higher or Lower",
-    "difficulty": "Easy",
-    "description": "We are playing the Guess Game. The game is as follows: I pick a number from 1 to n. You have to guess which number I picked. Every time you guess wrong, I will tell you whether the number I picked is higher or lower. You call a predefined API guess(int num) which returns three possible results: -1 (my number is lower), 1 (my number is higher), or 0 (congratulations! You got it). Implement a solution that uses binary search.",
-    "examples": [
-      { "input": "n = 10, pick = 6", "output": "6" },
-      { "input": "n = 1, pick = 1", "output": "1" },
-      { "input": "n = 2, pick = 1", "output": "1" }
-    ],
-    "hints": [
-      "Use binary search with left = 1 and right = n.",
-      "Use the guess API result to narrow the search range."
-    ],
-    "timeComplexity": "O(log n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "# The guess API is already defined for you.\n# @param num, your guess\n# @return -1 if num is higher than the picked number\n#          1 if num is lower than the picked number\n#          otherwise return 0\n# def guess(num: int) -> int:\n\nclass Solution:\n    def guessNumber(self, n: int) -> int:\n        left, right = 1, n\n        while left <= right:\n            mid = left + (right - left) // 2\n            result = guess(mid)\n            if result == 0:\n                return mid\n            elif result == -1:\n                right = mid - 1\n            else:\n                left = mid + 1\n        return -1",
-      "java": "/**\n * Forward declaration of guess API.\n * @param  num   your guess\n * @return       -1 if num is higher than the picked number\n *               1 if num is lower than the picked number\n *               otherwise return 0\n * int guess(int num);\n */\n\npublic class Solution extends GuessGame {\n    public int guessNumber(int n) {\n        int left = 1, right = n;\n        while (left <= right) {\n            int mid = left + (right - left) / 2;\n            int result = guess(mid);\n            if (result == 0) return mid;\n            else if (result == -1) right = mid - 1;\n            else left = mid + 1;\n        }\n        return -1;\n    }\n}",
-      "cpp": "/**\n * Forward declaration of guess API.\n * @param  num   your guess\n * @return       -1 if num is higher than the picked number\n *               1 if num is lower than the picked number\n *               otherwise return 0\n * int guess(int num);\n */\n\nclass Solution {\npublic:\n    int guessNumber(int n) {\n        int left = 1, right = n;\n        while (left <= right) {\n            int mid = left + (right - left) / 2;\n            int result = guess(mid);\n            if (result == 0) return mid;\n            else if (result == -1) right = mid - 1;\n            else left = mid + 1;\n        }\n        return -1;\n    }\n};",
-      "javascript": "/**\n * Forward declaration of guess API.\n * @param  num   your guess\n * @return       -1 if num is higher than the picked number\n *               1 if num is lower than the picked number\n *               otherwise return 0\n * @param {number} num\n * @return {-1|1|0}\n * function guess(num) {}\n */\n\nvar guessNumber = function(n) {\n    let left = 1, right = n;\n    while (left <= right) {\n        const mid = left + Math.floor((right - left) / 2);\n        const result = guess(mid);\n        if (result === 0) return mid;\n        else if (result === -1) right = mid - 1;\n        else left = mid + 1;\n    }\n    return -1;\n};",
-      "go": "/**\n * Forward declaration of guess API.\n * @param  num   your guess\n * @return       -1 if num is higher than the picked number\n *               1 if num is lower than the picked number\n *               otherwise return 0\n * func guess(num int) int;\n */\n\nfunc guessNumber(n int) int {\n    left, right := 1, n\n    for left <= right {\n        mid := left + (right-left)/2\n        result := guess(mid)\n        if result == 0 {\n            return mid\n        } else if result == -1 {\n            right = mid - 1\n        } else {\n            left = mid + 1\n        }\n    }\n    return -1\n}",
-      "rust": "/**\n * Forward declaration of guess API.\n * @param  num   your guess\n * @return       -1 if num is higher than the picked number\n *               1 if num is lower than the picked number\n *               otherwise return 0\n * unsafe fn guess(num: i32) -> i32;\n */\n\nimpl Solution {\n    unsafe fn guessNumber(n: i32) -> i32 {\n        let mut left = 1i32;\n        let mut right = n;\n        while left <= right {\n            let mid = left + (right - left) / 2;\n            let result = guess(mid);\n            if result == 0 {\n                return mid;\n            } else if result == -1 {\n                right = mid - 1;\n            } else {\n                left = mid + 1;\n            }\n        }\n        -1\n    }\n}"
-    }
-  },
-  {
-    "id": "bs-004",
-    "leetcode": 278,
-    "title": "First Bad Version",
-    "difficulty": "Easy",
-    "description": "You are a product manager and currently leading a team to develop a new product. Unfortunately, the latest version of your product fails the quality check. Since each version is developed based on the previous version, all the versions after a bad version are also bad. Suppose you have n versions [1, 2, ..., n] and you want to find out the first bad one, which causes all the following ones to be bad. You are given an API bool isBadVersion(version) which will return whether version is bad. Implement a function to find the first bad version. You should minimize the number of calls to the API.",
-    "examples": [
-      { "input": "n = 5, bad = 4", "output": "4", "explanation": "5 versions [1,2,3,4,5], third call isBadVersion(3) returns false while fourth call isBadVersion(4) returns true, so 4 is the first bad version." },
-      { "input": "n = 1, bad = 1", "output": "1" }
-    ],
-    "hints": [
-      "Use binary search to minimize API calls.",
-      "If the current version is bad, the first bad version could be at this position or before it."
-    ],
-    "timeComplexity": "O(log n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "# The isBadVersion API is already defined for you.\n# @param version, an integer\n# @return an integer\n# def isBadVersion(version: int) -> bool:\n\nclass Solution:\n    def firstBadVersion(self, n: int) -> int:\n        left, right = 1, n\n        while left < right:\n            mid = left + (right - left) // 2\n            if isBadVersion(mid):\n                right = mid\n            else:\n                left = mid + 1\n        return left",
-      "java": "/**\n * The isBadVersion API is already defined for you.\n * @param   version   an integer\n * @return   true if version is bad\n *           false if version is good\n * boolean isBadVersion(int version);\n */\n\npublic class Solution extends VersionControl {\n    public int firstBadVersion(int n) {\n        int left = 1, right = n;\n        while (left < right) {\n            int mid = left + (right - left) / 2;\n            if (isBadVersion(mid)) {\n                right = mid;\n            } else {\n                left = mid + 1;\n            }\n        }\n        return left;\n    }\n}",
-      "cpp": "/**\n * The isBadVersion API is already defined for you.\n * @param   version   an integer\n * @return   true if version is bad\n *           false if version is good\n * bool isBadVersion(int version);\n */\n\nclass Solution {\npublic:\n    int firstBadVersion(int n) {\n        int left = 1, right = n;\n        while (left < right) {\n            int mid = left + (right - left) / 2;\n            if (isBadVersion(mid)) {\n                right = mid;\n            } else {\n                left = mid + 1;\n            }\n        }\n        return left;\n    }\n};",
-      "javascript": "/**\n * The isBadVersion API is already defined for you.\n * @param {integer} version number\n * @return {boolean} whether the version is bad\n * function isBadVersion(version) {}\n */\n\nvar solution = function(isBadVersion) {\n    return function(n) {\n        let left = 1, right = n;\n        while (left < right) {\n            const mid = left + Math.floor((right - left) / 2);\n            if (isBadVersion(mid)) {\n                right = mid;\n            } else {\n                left = mid + 1;\n            }\n        }\n        return left;\n    };\n};",
-      "go": "/**\n * The isBadVersion API is already defined for you.\n * @param   version   an integer\n * @return   true if version is bad\n *           false if version is good\n * func isBadVersion(version int) bool;\n */\n\nfunc firstBadVersion(n int) int {\n    left, right := 1, n\n    for left < right {\n        mid := left + (right-left)/2\n        if isBadVersion(mid) {\n            right = mid\n        } else {\n            left = mid + 1\n        }\n    }\n    return left\n}",
-      "rust": "/**\n * The isBadVersion API is already defined for you.\n * @param   version   an integer\n * @return   true if version is bad\n *           false if version is good\n * fn is_bad_version(version: i32) -> bool;\n */\n\nimpl Solution {\n    pub fn first_bad_version(n: i32) -> i32 {\n        let mut left = 1i32;\n        let mut right = n;\n        while left < right {\n            let mid = left + (right - left) / 2;\n            if is_bad_version(mid) {\n                right = mid;\n            } else {\n                left = mid + 1;\n            }\n        }\n        left\n    }\n}"
-    }
-  },
-  {
-    "id": "bs-005",
-    "leetcode": 69,
-    "title": "Sqrt(x)",
-    "difficulty": "Easy",
-    "description": "Given a non-negative integer x, return the square root of x rounded down to the nearest integer. The returned integer should be the floor value of the actual square root. You must not use any built-in exponent function or operator.",
-    "examples": [
-      { "input": "x = 4", "output": "2", "explanation": "The square root of 4 is 2." },
-      { "input": "x = 8", "output": "2", "explanation": "The square root of 8 is 2.82842..., and since we return the floor, we return 2." }
-    ],
-    "hints": [
-      "Use binary search on the range [0, x].",
-      "Check if mid * mid <= x to narrow the search."
-    ],
-    "timeComplexity": "O(log x)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "class Solution:\n    def mySqrt(self, x: int) -> int:\n        if x < 2:\n            return x\n        left, right = 1, x // 2\n        while left <= right:\n            mid = left + (right - left) // 2\n            if mid * mid == x:\n                return mid\n            elif mid * mid < x:\n                left = mid + 1\n            else:\n                right = mid - 1\n        return right",
-      "java": "class Solution {\n    public int mySqrt(int x) {\n        if (x < 2) return x;\n        int left = 1, right = x / 2;\n        while (left <= right) {\n            long mid = left + (right - left) / 2;\n            if (mid * mid == x) return (int) mid;\n            else if (mid * mid < x) left = (int) mid + 1;\n            else right = (int) mid - 1;\n        }\n        return right;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int mySqrt(int x) {\n        if (x < 2) return x;\n        int left = 1, right = x / 2;\n        while (left <= right) {\n            long mid = left + (right - left) / 2;\n            if (mid * mid == x) return mid;\n            else if (mid * mid < x) left = mid + 1;\n            else right = mid - 1;\n        }\n        return right;\n    }\n};",
-      "javascript": "var mySqrt = function(x) {\n    if (x < 2) return x;\n    let left = 1, right = Math.floor(x / 2);\n    while (left <= right) {\n        const mid = left + Math.floor((right - left) / 2);\n        if (mid * mid === x) return mid;\n        else if (mid * mid < x) left = mid + 1;\n        else right = mid - 1;\n    }\n    return right;\n};",
-      "go": "func mySqrt(x int) int {\n    if x < 2 {\n        return x\n    }\n    left, right := 1, x/2\n    for left <= right {\n        mid := left + (right-left)/2\n        if mid*mid == x {\n            return mid\n        } else if mid*mid < x {\n            left = mid + 1\n        } else {\n            right = mid - 1\n        }\n    }\n    return right\n}",
-      "rust": "impl Solution {\n    pub fn my_sqrt(x: i32) -> i32 {\n        if x < 2 {\n            return x;\n        }\n        let mut left = 1i32;\n        let mut right = x / 2;\n        while left <= right {\n            let mid = left + (right - left) / 2;\n            let sq = mid as i64 * mid as i64;\n            if sq == x as i64 {\n                return mid;\n            } else if sq < x as i64 {\n                left = mid + 1;\n            } else {\n                right = mid - 1;\n            }\n        }\n        right\n    }\n}"
-    }
-  },
-  {
-    "id": "bs-006",
-    "leetcode": 367,
-    "title": "Valid Perfect Square",
-    "difficulty": "Easy",
-    "description": "Given a positive integer num, return true if num is a perfect square or false otherwise. You must not use any built-in library function such as sqrt.",
-    "examples": [
-      { "input": "num = 14", "output": "false" },
-      { "input": "num = 16", "output": "true" },
-      { "input": "num = 1", "output": "true" }
-    ],
-    "hints": [
-      "Use binary search on the range [1, num].",
-      "Check if mid * mid == num."
-    ],
-    "timeComplexity": "O(log num)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "class Solution:\n    def isPerfectSquare(self, num: int) -> bool:\n        if num < 2:\n            return True\n        left, right = 2, num // 2\n        while left <= right:\n            mid = left + (right - left) // 2\n            if mid * mid == num:\n                return True\n            elif mid * mid < num:\n                left = mid + 1\n            else:\n                right = mid - 1\n        return False",
-      "java": "class Solution {\n    public boolean isPerfectSquare(int num) {\n        if (num < 2) return true;\n        int left = 2, right = num / 2;\n        while (left <= right) {\n            long mid = left + (right - left) / 2;\n            if (mid * mid == num) return true;\n            else if (mid * mid < num) left = (int) mid + 1;\n            else right = (int) mid - 1;\n        }\n        return false;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    bool isPerfectSquare(int num) {\n        if (num < 2) return true;\n        int left = 2, right = num / 2;\n        while (left <= right) {\n            long mid = left + (right - left) / 2;\n            if (mid * mid == num) return true;\n            else if (mid * mid < num) left = mid + 1;\n            else right = mid - 1;\n        }\n        return false;\n    }\n};",
-      "javascript": "var isPerfectSquare = function(num) {\n    if (num < 2) return true;\n    let left = 2, right = Math.floor(num / 2);\n    while (left <= right) {\n        const mid = left + Math.floor((right - left) / 2);\n        if (mid * mid === num) return true;\n        else if (mid * mid < num) left = mid + 1;\n        else right = mid - 1;\n    }\n    return false;\n};",
-      "go": "func isPerfectSquare(num int) bool {\n    if num < 2 {\n        return true\n    }\n    left, right := 2, num/2\n    for left <= right {\n        mid := left + (right-left)/2\n        if mid*mid == num {\n            return true\n        } else if mid*mid < num {\n            left = mid + 1\n        } else {\n            right = mid - 1\n        }\n    }\n    return false\n}",
-      "rust": "impl Solution {\n    pub fn is_perfect_square(num: i32) -> bool {\n        if num < 2 {\n            return true;\n        }\n        let mut left = 2i32;\n        let mut right = num / 2;\n        while left <= right {\n            let mid = left + (right - left) / 2;\n            let sq = mid as i64 * mid as i64;\n            if sq == num as i64 {\n                return true;\n            } else if sq < num as i64 {\n                left = mid + 1;\n            } else {\n                right = mid - 1;\n            }\n        }\n        false\n    }\n}"
-    }
-  },
-  {
-    "id": "bs-007",
-    "leetcode": 852,
-    "title": "Peak Index in a Mountain Array",
-    "difficulty": "Easy",
-    "description": "An array arr is a mountain if the following properties hold: arr.length >= 3, there exists some index i with 0 < i < arr.length - 1 such that arr[0] < arr[1] < ... < arr[i - 1] < arr[i] > arr[i + 1] > ... > arr[arr.length - 1]. Given a mountain array arr, return the index i such that arr[0] < arr[1] < ... < arr[i - 1] < arr[i] > arr[i + 1] > ... > arr[arr.length - 1]. You must solve it in O(log n) time.",
-    "examples": [
-      { "input": "arr = [0,1,0]", "output": "1" },
-      { "input": "arr = [0,2,1,0]", "output": "1" },
-      { "input": "arr = [0,10,5,2]", "output": "1" }
-    ],
-    "hints": [
-      "The peak is the element where arr[i] > arr[i+1].",
-      "Use binary search: if arr[mid] < arr[mid+1], the peak is on the right; otherwise on the left."
-    ],
-    "timeComplexity": "O(log n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "class Solution:\n    def peakIndexInMountainArray(self, arr: list[int]) -> int:\n        left, right = 0, len(arr) - 1\n        while left < right:\n            mid = left + (right - left) // 2\n            if arr[mid] < arr[mid + 1]:\n                left = mid + 1\n            else:\n                right = mid\n        return left",
-      "java": "class Solution {\n    public int peakIndexInMountainArray(int[] arr) {\n        int left = 0, right = arr.length - 1;\n        while (left < right) {\n            int mid = left + (right - left) / 2;\n            if (arr[mid] < arr[mid + 1]) {\n                left = mid + 1;\n            } else {\n                right = mid;\n            }\n        }\n        return left;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int peakIndexInMountainArray(vector<int>& arr) {\n        int left = 0, right = arr.size() - 1;\n        while (left < right) {\n            int mid = left + (right - left) / 2;\n            if (arr[mid] < arr[mid + 1]) {\n                left = mid + 1;\n            } else {\n                right = mid;\n            }\n        }\n        return left;\n    }\n};",
-      "javascript": "var peakIndexInMountainArray = function(arr) {\n    let left = 0, right = arr.length - 1;\n    while (left < right) {\n        const mid = left + Math.floor((right - left) / 2);\n        if (arr[mid] < arr[mid + 1]) {\n            left = mid + 1;\n        } else {\n            right = mid;\n        }\n    }\n    return left;\n};",
-      "go": "func peakIndexInMountainArray(arr []int) int {\n    left, right := 0, len(arr)-1\n    for left < right {\n        mid := left + (right-left)/2\n        if arr[mid] < arr[mid+1] {\n            left = mid + 1\n        } else {\n            right = mid\n        }\n    }\n    return left\n}",
-      "rust": "impl Solution {\n    pub fn peak_index_in_mountain_array(arr: Vec<i32>) -> i32 {\n        let mut left = 0i32;\n        let mut right = arr.len() as i32 - 1;\n        while left < right {\n            let mid = left + (right - left) / 2;\n            if arr[mid as usize] < arr[mid as usize + 1] {\n                left = mid + 1;\n            } else {\n                right = mid;\n            }\n        }\n        left\n    }\n}"
-    }
-  },
-  {
-    "id": "bs-008",
-    "leetcode": 875,
-    "title": "Koko Eating Bananas",
-    "difficulty": "Medium",
-    "description": "Koko loves to eat bananas. There are n piles of bananas, the ith pile has piles[i] bananas. The guards have gone and will come back in h hours. Koko can decide her bananas-per-hour eating speed of k. Each hour, she chooses some pile of bananas and eats k bananas from that pile. If the pile has less than k bananas, she eats all of them instead and will not eat any more bananas during that hour. Koko likes to eat slowly but still wants to finish eating all the bananas before the guards return. Return the minimum integer k such that she can eat all the bananas within h hours.",
-    "examples": [
-      { "input": "piles = [3,6,7,11], h = 8", "output": "4" },
-      { "input": "piles = [30,11,23,4,20], h = 5", "output": "30" },
-      { "input": "piles = [30,11,23,4,20], h = 6", "output": "23" }
-    ],
-    "hints": [
-      "The minimum possible speed is 1 and the maximum is the largest pile.",
-      "For a given speed k, check if Koko can finish all bananas within h hours."
-    ],
-    "timeComplexity": "O(n * log(max(piles)))",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "import math\n\nclass Solution:\n    def minEatingSpeed(self, piles: list[int], h: int) -> int:\n        left, right = 1, max(piles)\n        while left < right:\n            mid = left + (right - left) // 2\n            hours = sum(math.ceil(p / mid) for p in piles)\n            if hours <= h:\n                right = mid\n            else:\n                left = mid + 1\n        return left",
-      "java": "class Solution {\n    public int minEatingSpeed(int[] piles, int h) {\n        int left = 1, right = 0;\n        for (int p : piles) right = Math.max(right, p);\n        while (left < right) {\n            int mid = left + (right - left) / 2;\n            long hours = 0;\n            for (int p : piles) hours += (p + mid - 1) / mid;\n            if (hours <= h) right = mid;\n            else left = mid + 1;\n        }\n        return left;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int minEatingSpeed(vector<int>& piles, int h) {\n        int left = 1, right = *max_element(piles.begin(), piles.end());\n        while (left < right) {\n            int mid = left + (right - left) / 2;\n            long hours = 0;\n            for (int p : piles) hours += (p + mid - 1) / mid;\n            if (hours <= h) right = mid;\n            else left = mid + 1;\n        }\n        return left;\n    }\n};",
-      "javascript": "var minEatingSpeed = function(piles, h) {\n    let left = 1, right = Math.max(...piles);\n    while (left < right) {\n        const mid = left + Math.floor((right - left) / 2);\n        const hours = piles.reduce((sum, p) => sum + Math.ceil(p / mid), 0);\n        if (hours <= h) right = mid;\n        else left = mid + 1;\n    }\n    return left;\n};",
-      "go": "func minEatingSpeed(piles []int, h int) int {\n    left, right := 1, 0\n    for _, p := range piles {\n        if p > right {\n            right = p\n        }\n    }\n    for left < right {\n        mid := left + (right-left)/2\n        hours := 0\n        for _, p := range piles {\n            hours += (p + mid - 1) / mid\n        }\n        if hours <= h {\n            right = mid\n        } else {\n            left = mid + 1\n        }\n    }\n    return left\n}",
-      "rust": "impl Solution {\n    pub fn min_eating_speed(piles: Vec<i32>, h: i32) -> i32 {\n        let mut left = 1i32;\n        let mut right = *piles.iter().max().unwrap();\n        while left < right {\n            let mid = left + (right - left) / 2;\n            let hours: i64 = piles.iter()\n                .map(|&p| ((p as i64 + mid as i64 - 1) / mid as i64))\n                .sum();\n            if hours <= h as i64 {\n                right = mid;\n            } else {\n                left = mid + 1;\n            }\n        }\n        left\n    }\n}"
-    }
-  },
-  {
-    "id": "bs-009",
-    "leetcode": 33,
-    "title": "Search in Rotated Sorted Array",
-    "difficulty": "Medium",
-    "description": "There is an integer array nums sorted in ascending order (with distinct values). Prior to being passed to your function, nums is possibly rotated at an unknown pivot index k (1 <= k < nums.length) such that the resulting array is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]] (0-indexed). Given the array nums after the possible rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums. You must write an algorithm with O(log n) runtime complexity.",
-    "examples": [
-      { "input": "nums = [4,5,6,7,0,1,2], target = 0", "output": "4" },
-      { "input": "nums = [4,5,6,7,0,1,2], target = 3", "output": "-1" },
-      { "input": "nums = [1], target = 0", "output": "-1" }
-    ],
-    "hints": [
-      "One side of mid is always sorted in a rotated sorted array.",
-      "Determine which half is sorted and check if target lies in that range."
-    ],
-    "timeComplexity": "O(log n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "class Solution:\n    def search(self, nums: list[int], target: int) -> int:\n        left, right = 0, len(nums) - 1\n        while left <= right:\n            mid = left + (right - left) // 2\n            if nums[mid] == target:\n                return mid\n            if nums[left] <= nums[mid]:\n                if nums[left] <= target < nums[mid]:\n                    right = mid - 1\n                else:\n                    left = mid + 1\n            else:\n                if nums[mid] < target <= nums[right]:\n                    left = mid + 1\n                else:\n                    right = mid - 1\n        return -1",
-      "java": "class Solution {\n    public int search(int[] nums, int target) {\n        int left = 0, right = nums.length - 1;\n        while (left <= right) {\n            int mid = left + (right - left) / 2;\n            if (nums[mid] == target) return mid;\n            if (nums[left] <= nums[mid]) {\n                if (nums[left] <= target && target < nums[mid]) right = mid - 1;\n                else left = mid + 1;\n            } else {\n                if (nums[mid] < target && target <= nums[right]) left = mid + 1;\n                else right = mid - 1;\n            }\n        }\n        return -1;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int search(vector<int>& nums, int target) {\n        int left = 0, right = nums.size() - 1;\n        while (left <= right) {\n            int mid = left + (right - left) / 2;\n            if (nums[mid] == target) return mid;\n            if (nums[left] <= nums[mid]) {\n                if (nums[left] <= target && target < nums[mid]) right = mid - 1;\n                else left = mid + 1;\n            } else {\n                if (nums[mid] < target && target <= nums[right]) left = mid + 1;\n                else right = mid - 1;\n            }\n        }\n        return -1;\n    }\n};",
-      "javascript": "var search = function(nums, target) {\n    let left = 0, right = nums.length - 1;\n    while (left <= right) {\n        const mid = left + Math.floor((right - left) / 2);\n        if (nums[mid] === target) return mid;\n        if (nums[left] <= nums[mid]) {\n            if (nums[left] <= target && target < nums[mid]) right = mid - 1;\n            else left = mid + 1;\n        } else {\n            if (nums[mid] < target && target <= nums[right]) left = mid + 1;\n            else right = mid - 1;\n        }\n    }\n    return -1;\n};",
-      "go": "func search(nums []int, target int) int {\n    left, right := 0, len(nums)-1\n    for left <= right {\n        mid := left + (right-left)/2\n        if nums[mid] == target {\n            return mid\n        }\n        if nums[left] <= nums[mid] {\n            if nums[left] <= target && target < nums[mid] {\n                right = mid - 1\n            } else {\n                left = mid + 1\n            }\n        } else {\n            if nums[mid] < target && target <= nums[right] {\n                left = mid + 1\n            } else {\n                right = mid - 1\n            }\n        }\n    }\n    return -1\n}",
-      "rust": "impl Solution {\n    pub fn search(nums: Vec<i32>, target: i32) -> i32 {\n        let mut left = 0i32;\n        let mut right = nums.len() as i32 - 1;\n        while left <= right {\n            let mid = left + (right - left) / 2;\n            if nums[mid as usize] == target {\n                return mid;\n            }\n            if nums[left as usize] <= nums[mid as usize] {\n                if nums[left as usize] <= target && target < nums[mid as usize] {\n                    right = mid - 1;\n                } else {\n                    left = mid + 1;\n                }\n            } else {\n                if nums[mid as usize] < target && target <= nums[right as usize] {\n                    left = mid + 1;\n                } else {\n                    right = mid - 1;\n                }\n            }\n        }\n        -1\n    }\n}"
-    }
-  },
-  {
-    "id": "bs-010",
-    "leetcode": 153,
-    "title": "Find Minimum in Rotated Sorted Array",
-    "difficulty": "Medium",
-    "description": "Suppose an array of length n sorted in ascending order is rotated between 1 and n times. Given the sorted rotated array nums of unique elements, return the minimum element of this array. You must write an algorithm that runs in O(log n) time.",
-    "examples": [
-      { "input": "nums = [3,4,5,1,2]", "output": "1", "explanation": "The original array was [1,2,3,4,5] rotated 3 times." },
-      { "input": "nums = [4,5,6,7,0,1,2]", "output": "0" },
-      { "input": "nums = [11,13,15,17]", "output": "11" }
-    ],
-    "hints": [
-      "The minimum element is the only element where nums[i] < nums[i-1].",
-      "Use binary search: if nums[mid] > nums[right], the minimum is in the right half; otherwise in the left half."
-    ],
-    "timeComplexity": "O(log n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "class Solution:\n    def findMin(self, nums: list[int]) -> int:\n        left, right = 0, len(nums) - 1\n        while left < right:\n            mid = left + (right - left) // 2\n            if nums[mid] > nums[right]:\n                left = mid + 1\n            else:\n                right = mid\n        return nums[left]",
-      "java": "class Solution {\n    public int findMin(int[] nums) {\n        int left = 0, right = nums.length - 1;\n        while (left < right) {\n            int mid = left + (right - left) / 2;\n            if (nums[mid] > nums[right]) left = mid + 1;\n            else right = mid;\n        }\n        return nums[left];\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int findMin(vector<int>& nums) {\n        int left = 0, right = nums.size() - 1;\n        while (left < right) {\n            int mid = left + (right - left) / 2;\n            if (nums[mid] > nums[right]) left = mid + 1;\n            else right = mid;\n        }\n        return nums[left];\n    }\n};",
-      "javascript": "var findMin = function(nums) {\n    let left = 0, right = nums.length - 1;\n    while (left < right) {\n        const mid = left + Math.floor((right - left) / 2);\n        if (nums[mid] > nums[right]) left = mid + 1;\n        else right = mid;\n    }\n    return nums[left];\n};",
-      "go": "func findMin(nums []int) int {\n    left, right := 0, len(nums)-1\n    for left < right {\n        mid := left + (right-left)/2\n        if nums[mid] > nums[right] {\n            left = mid + 1\n        } else {\n            right = mid\n        }\n    }\n    return nums[left]\n}",
-      "rust": "impl Solution {\n    pub fn find_min(nums: Vec<i32>) -> i32 {\n        let mut left = 0i32;\n        let mut right = nums.len() as i32 - 1;\n        while left < right {\n            let mid = left + (right - left) / 2;\n            if nums[mid as usize] > nums[right as usize] {\n                left = mid + 1;\n            } else {\n                right = mid;\n            }\n        }\n        nums[left as usize]\n    }\n}"
-    }
-  },
-  {
-    "id": "bs-011",
-    "leetcode": 74,
-    "title": "Search a 2D Matrix",
-    "difficulty": "Medium",
-    "description": "You are given an m x n integer matrix matrix with the following two properties: each row is sorted in non-decreasing order, the first integer of each row is greater than the last integer of the previous row. Given an integer target, return true if target is in matrix or false otherwise. You must write a solution that runs in O(log(m * n)) time.",
-    "examples": [
-      { "input": "matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3", "output": "true" },
-      { "input": "matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 13", "output": "false" }
-    ],
-    "hints": [
-      "Treat the matrix as a single sorted array using index mapping.",
-      "Map 1D index to 2D: row = index / n, col = index % n."
-    ],
-    "timeComplexity": "O(log(m * n))",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "class Solution:\n    def searchMatrix(self, matrix: list[list[int]], target: int) -> bool:\n        m, n = len(matrix), len(matrix[0])\n        left, right = 0, m * n - 1\n        while left <= right:\n            mid = left + (right - left) // 2\n            val = matrix[mid // n][mid % n]\n            if val == target:\n                return True\n            elif val < target:\n                left = mid + 1\n            else:\n                right = mid - 1\n        return False",
-      "java": "class Solution {\n    public boolean searchMatrix(int[][] matrix, int target) {\n        int m = matrix.length, n = matrix[0].length;\n        int left = 0, right = m * n - 1;\n        while (left <= right) {\n            int mid = left + (right - left) / 2;\n            int val = matrix[mid / n][mid % n];\n            if (val == target) return true;\n            else if (val < target) left = mid + 1;\n            else right = mid - 1;\n        }\n        return false;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    bool searchMatrix(vector<vector<int>>& matrix, int target) {\n        int m = matrix.size(), n = matrix[0].size();\n        int left = 0, right = m * n - 1;\n        while (left <= right) {\n            int mid = left + (right - left) / 2;\n            int val = matrix[mid / n][mid % n];\n            if (val == target) return true;\n            else if (val < target) left = mid + 1;\n            else right = mid - 1;\n        }\n        return false;\n    }\n};",
-      "javascript": "var searchMatrix = function(matrix, target) {\n    const m = matrix.length, n = matrix[0].length;\n    let left = 0, right = m * n - 1;\n    while (left <= right) {\n        const mid = left + Math.floor((right - left) / 2);\n        const val = matrix[Math.floor(mid / n)][mid % n];\n        if (val === target) return true;\n        else if (val < target) left = mid + 1;\n        else right = mid - 1;\n    }\n    return false;\n};",
-      "go": "func searchMatrix(matrix [][]int, target int) bool {\n    m, n := len(matrix), len(matrix[0])\n    left, right := 0, m*n-1\n    for left <= right {\n        mid := left + (right-left)/2\n        val := matrix[mid/n][mid%n]\n        if val == target {\n            return true\n        } else if val < target {\n            left = mid + 1\n        } else {\n            right = mid - 1\n        }\n    }\n    return false\n}",
-      "rust": "impl Solution {\n    pub fn search_matrix(matrix: Vec<Vec<i32>>, target: i32) -> bool {\n        let m = matrix.len();\n        let n = matrix[0].len();\n        let mut left = 0i32;\n        let mut right = (m * n) as i32 - 1;\n        while left <= right {\n            let mid = left + (right - left) / 2;\n            let val = matrix[mid as usize / n][mid as usize % n];\n            if val == target {\n                return true;\n            } else if val < target {\n                left = mid + 1;\n            } else {\n                right = mid - 1;\n            }\n        }\n        false\n    }\n}"
-    }
-  },
-  {
-    "id": "bs-012",
-    "leetcode": 1011,
-    "title": "Capacity To Ship Packages Within D Days",
-    "difficulty": "Medium",
-    "description": "A conveyor belt has packages that must be shipped from one port to another within d days. The i-th package on the conveyor belt has a weight of weights[i]. Each day, we load the ship with packages on the conveyor belt (in the order given by weights). We may not load more weight capacity than the maximum weight capacity of the ship. Return the least weight capacity of the ship that will result in all the packages on the conveyor belt being shipped within d days.",
-    "examples": [
-      { "input": "weights = [1,2,3,4,5,6,7,8,9,10], days = 5", "output": "15", "explanation": "A ship capacity of 15 is the minimum to ship all packages within 5 days." },
-      { "input": "weights = [3,2,2,4,1,4], days = 3", "output": "6" },
-      { "input": "weights = [1,2,3,1,1], days = 4", "output": "3" }
-    ],
-    "hints": [
-      "The minimum capacity is the maximum single package weight.",
-      "The maximum capacity is the sum of all weights.",
-      "For each candidate capacity, check if all packages can be shipped within d days."
-    ],
-    "timeComplexity": "O(n * log(sum(weights)))",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "class Solution:\n    def shipWithinDays(self, weights: list[int], days: int) -> int:\n        left, right = max(weights), sum(weights)\n        while left < right:\n            mid = left + (right - left) // 2\n            day_count = 1\n            current = 0\n            for w in weights:\n                if current + w > mid:\n                    day_count += 1\n                    current = 0\n                current += w\n            if day_count <= days:\n                right = mid\n            else:\n                left = mid + 1\n        return left",
-      "java": "class Solution {\n    public int shipWithinDays(int[] weights, int days) {\n        int left = 0, right = 0;\n        for (int w : weights) {\n            left = Math.max(left, w);\n            right += w;\n        }\n        while (left < right) {\n            int mid = left + (right - left) / 2;\n            int dayCount = 1, current = 0;\n            for (int w : weights) {\n                if (current + w > mid) {\n                    dayCount++;\n                    current = 0;\n                }\n                current += w;\n            }\n            if (dayCount <= days) right = mid;\n            else left = mid + 1;\n        }\n        return left;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int shipWithinDays(vector<int>& weights, int days) {\n        int left = 0, right = 0;\n        for (int w : weights) {\n            left = max(left, w);\n            right += w;\n        }\n        while (left < right) {\n            int mid = left + (right - left) / 2;\n            int dayCount = 1, current = 0;\n            for (int w : weights) {\n                if (current + w > mid) {\n                    dayCount++;\n                    current = 0;\n                }\n                current += w;\n            }\n            if (dayCount <= days) right = mid;\n            else left = mid + 1;\n        }\n        return left;\n    }\n};",
-      "javascript": "var shipWithinDays = function(weights, days) {\n    let left = 0, right = 0;\n    for (const w of weights) {\n        left = Math.max(left, w);\n        right += w;\n    }\n    while (left < right) {\n        const mid = left + Math.floor((right - left) / 2);\n        let dayCount = 1, current = 0;\n        for (const w of weights) {\n            if (current + w > mid) {\n                dayCount++;\n                current = 0;\n            }\n            current += w;\n        }\n        if (dayCount <= days) right = mid;\n        else left = mid + 1;\n    }\n    return left;\n};",
-      "go": "func shipWithinDays(weights []int, days int) int {\n    left, right := 0, 0\n    for _, w := range weights {\n        if w > left {\n            left = w\n        }\n        right += w\n    }\n    for left < right {\n        mid := left + (right-left)/2\n        dayCount, current := 1, 0\n        for _, w := range weights {\n            if current+w > mid {\n                dayCount++\n                current = 0\n            }\n            current += w\n        }\n        if dayCount <= days {\n            right = mid\n        } else {\n            left = mid + 1\n        }\n    }\n    return left\n}",
-      "rust": "impl Solution {\n    pub fn ship_within_days(weights: Vec<i32>, days: i32) -> i32 {\n        let mut left = 0i32;\n        let mut right = 0i32;\n        for &w in &weights {\n            if w > left {\n                left = w;\n            }\n            right += w;\n        }\n        while left < right {\n            let mid = left + (right - left) / 2;\n            let mut day_count = 1i32;\n            let mut current = 0i32;\n            for &w in &weights {\n                if current + w > mid {\n                    day_count += 1;\n                    current = 0;\n                }\n                current += w;\n            }\n            if day_count <= days {\n                right = mid;\n            } else {\n                left = mid + 1;\n            }\n        }\n        left\n    }\n}"
-    }
+    "section": "Hard",
+    "problems": [
+      {
+        "id": "bs-013",
+        "leetcode": 4,
+        "title": "Median of Two Sorted Arrays",
+        "difficulty": "Hard",
+        "description": "Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.",
+        "link": "https://leetcode.com/problems/median-of-two-sorted-arrays/"
+      }
+    ]
   }
 ]

@@ -7,6 +7,7 @@ export interface Problem {
   title: string;
   difficulty: Difficulty;
   description: string;
+  link?: string;
   examples: { input: string; output: string }[];
   hints: string[];
   timeComplexity: string;
@@ -37,6 +38,8 @@ export interface SystemDesignTopic {
   difficulty?: Difficulty;
   description: string;
   keyPoints: string[];
+  whenToUse?: string;
+  mainChallenges?: string[];
   challenges?: string[];
   interviewQuestions: string[];
   companies?: string[];

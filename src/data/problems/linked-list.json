@@ -1,310 +1,101 @@
 [
   {
-    "id": "reverse-linked-list",
-    "leetcode": 206,
-    "title": "Reverse Linked List",
-    "difficulty": "Easy",
-    "description": "Given the head of a singly linked list, reverse the list, and return the reversed list.",
-    "examples": [
-      { "input": "head = [1,2,3,4,5]", "output": "[5,4,3,2,1]" },
-      { "input": "head = [1,2]", "output": "[2,1]" },
-      { "input": "head = []", "output": "[]" }
-    ],
-    "hints": [
-      "Use three pointers to reverse the direction of each node's next pointer.",
-      "Iterate through the list, reversing the next pointer of each node to point to the previous node."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "class Solution:\n    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        prev = None\n        curr = head\n        while curr:\n            nxt = curr.next\n            curr.next = prev\n            prev = curr\n            curr = nxt\n        return prev",
-      "java": "class Solution {\n    public ListNode reverseList(ListNode head) {\n        ListNode prev = null;\n        ListNode curr = head;\n        while (curr != null) {\n            ListNode nxt = curr.next;\n            curr.next = prev;\n            prev = curr;\n            curr = nxt;\n        }\n        return prev;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    ListNode* reverseList(ListNode* head) {\n        ListNode* prev = nullptr;\n        ListNode* curr = head;\n        while (curr) {\n            ListNode* nxt = curr->next;\n            curr->next = prev;\n            prev = curr;\n            curr = nxt;\n        }\n        return prev;\n    }\n};",
-      "javascript": "var reverseList = function(head) {\n    let prev = null;\n    let curr = head;\n    while (curr) {\n        const nxt = curr.next;\n        curr.next = prev;\n        prev = curr;\n        curr = nxt;\n    }\n    return prev;\n};",
-      "go": "func reverseList(head *ListNode) *ListNode {\n    var prev *ListNode\n    curr := head\n    for curr != nil {\n        nxt := curr.Next\n        curr.Next = prev\n        prev = curr\n        curr = nxt\n    }\n    return prev\n}",
-      "rust": "impl Solution {\n    pub fn reverse_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {\n        let mut prev = None;\n        let mut curr = head;\n        while let Some(mut node) = curr {\n            curr = node.next.take();\n            node.next = prev;\n            prev = Some(node);\n        }\n        prev\n    }\n}"
-    }
+    "section": "Easy",
+    "problems": [
+      {
+        "id": "ll-002",
+        "leetcode": 141,
+        "title": "Linked List Cycle",
+        "difficulty": "Easy",
+        "link": "https://leetcode.com/problems/linked-list-cycle/"
+      },
+      {
+        "id": "ll-001",
+        "leetcode": 206,
+        "title": "Reverse Linked List",
+        "difficulty": "Easy",
+        "link": "https://leetcode.com/problems/reverse-linked-list/"
+      }
+    ]
   },
   {
-    "id": "linked-list-cycle",
-    "leetcode": 141,
-    "title": "Linked List Cycle",
-    "difficulty": "Easy",
-    "description": "Given head, the head of a linked list, determine if the linked list has a cycle in it. There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer.",
-    "examples": [
-      { "input": "head = [3,2,0,-4], pos = 1", "output": "true" },
-      { "input": "head = [1,2], pos = 0", "output": "true" },
-      { "input": "head = [1], pos = -1", "output": "false" }
-    ],
-    "hints": [
-      "Use two pointers, one moving one step at a time and the other moving two steps at a time.",
-      "If there is a cycle, the fast pointer will eventually meet the slow pointer."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "class Solution:\n    def hasCycle(self, head: Optional[ListNode]) -> bool:\n        slow = fast = head\n        while fast and fast.next:\n            slow = slow.next\n            fast = fast.next.next\n            if slow is fast:\n                return True\n        return False",
-      "java": "class Solution {\n    public boolean hasCycle(ListNode head) {\n        ListNode slow = head, fast = head;\n        while (fast != null && fast.next != null) {\n            slow = slow.next;\n            fast = fast.next.next;\n            if (slow == fast) return true;\n        }\n        return false;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    bool hasCycle(ListNode* head) {\n        ListNode* slow = head;\n        ListNode* fast = head;\n        while (fast && fast->next) {\n            slow = slow->next;\n            fast = fast->next->next;\n            if (slow == fast) return true;\n        }\n        return false;\n    }\n};",
-      "javascript": "var hasCycle = function(head) {\n    let slow = head, fast = head;\n    while (fast && fast.next) {\n        slow = slow.next;\n        fast = fast.next.next;\n        if (slow === fast) return true;\n    }\n    return false;\n};",
-      "go": "func hasCycle(head *ListNode) bool {\n    slow, fast := head, head\n    for fast != nil && fast.Next != nil {\n        slow = slow.Next\n        fast = fast.Next.Next\n        if slow == fast {\n            return true\n        }\n    }\n    return false\n}",
-      "rust": "impl Solution {\n    pub fn has_cycle(head: Option<Box<ListNode>>) -> bool {\n        let mut slow = &head;\n        let mut fast = &head;\n        while let (Some(s), Some(f)) = (slow, fast) {\n            slow = &s.next;\n            fast = f.next.as_ref().and_then(|n| n.next.as_ref());\n            if let (Some(s), Some(f)) = (slow, fast) {\n                if std::ptr::eq(s.as_ref(), f.as_ref()) {\n                    return true;\n                }\n            }\n        }\n        false\n    }\n}"
-    }
+    "section": "Medium",
+    "problems": [
+      {
+        "id": "ll-007",
+        "leetcode": 2,
+        "title": "Add Two Numbers",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/add-two-numbers/"
+      },
+      {
+        "id": "ll-005",
+        "leetcode": 19,
+        "title": "Remove Nth Node From End of List",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/remove-nth-node-from-end-of-list/"
+      },
+      {
+        "id": "ll-006",
+        "leetcode": 21,
+        "title": "Merge Two Sorted Lists",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/merge-two-sorted-lists/"
+      },
+      {
+        "id": "ll-009",
+        "leetcode": 24,
+        "title": "Swap Nodes in Pairs",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/swap-nodes-in-pairs/"
+      },
+      {
+        "id": "ll-008",
+        "leetcode": 138,
+        "title": "Copy List with Random Pointer",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/copy-list-with-random-pointer/"
+      },
+      {
+        "id": "ll-004",
+        "leetcode": 143,
+        "title": "Reorder List",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/reorder-list/"
+      },
+      {
+        "id": "ll-010",
+        "leetcode": 146,
+        "title": "LRU Cache",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/lru-cache/"
+      },
+      {
+        "id": "ll-003",
+        "leetcode": 160,
+        "title": "Linked List Cycle II",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/linked-list-cycle-ii/"
+      }
+    ]
   },
   {
-    "id": "merge-two-sorted-lists",
-    "leetcode": 21,
-    "title": "Merge Two Sorted Lists",
-    "difficulty": "Easy",
-    "description": "You are given the heads of two sorted linked lists list1 and list2. Merge the two lists into one sorted list. The list should be made by splicing together the nodes of the first two lists.",
-    "examples": [
-      { "input": "list1 = [1,2,4], list2 = [1,3,4]", "output": "[1,1,2,3,4,4]" },
-      { "input": "list1 = [], list2 = []", "output": "[]" },
-      { "input": "list1 = [], list2 = [0]", "output": "[0]" }
-    ],
-    "hints": [
-      "Use a dummy head to simplify edge cases.",
-      "Compare nodes from both lists and attach the smaller one to the result."
-    ],
-    "timeComplexity": "O(m + n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "class Solution:\n    def mergeTwoLists(self, list1: Optional[ListNode], list2: Optional[ListNode]) -> Optional[ListNode]:\n        dummy = ListNode(0)\n        curr = dummy\n        while list1 and list2:\n            if list1.val <= list2.val:\n                curr.next = list1\n                list1 = list1.next\n            else:\n                curr.next = list2\n                list2 = list2.next\n            curr = curr.next\n        curr.next = list1 or list2\n        return dummy.next",
-      "java": "class Solution {\n    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {\n        ListNode dummy = new ListNode(0);\n        ListNode curr = dummy;\n        while (list1 != null && list2 != null) {\n            if (list1.val <= list2.val) {\n                curr.next = list1;\n                list1 = list1.next;\n            } else {\n                curr.next = list2;\n                list2 = list2.next;\n            }\n            curr = curr.next;\n        }\n        curr.next = list1 != null ? list1 : list2;\n        return dummy.next;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {\n        ListNode dummy(0);\n        ListNode* curr = &dummy;\n        while (list1 && list2) {\n            if (list1->val <= list2->val) {\n                curr->next = list1;\n                list1 = list1->next;\n            } else {\n                curr->next = list2;\n                list2 = list2->next;\n            }\n            curr = curr->next;\n        }\n        curr->next = list1 ? list1 : list2;\n        return dummy.next;\n    }\n};",
-      "javascript": "var mergeTwoLists = function(list1, list2) {\n    const dummy = new ListNode(0);\n    let curr = dummy;\n    while (list1 && list2) {\n        if (list1.val <= list2.val) {\n            curr.next = list1;\n            list1 = list1.next;\n        } else {\n            curr.next = list2;\n            list2 = list2.next;\n        }\n        curr = curr.next;\n    }\n    curr.next = list1 || list2;\n    return dummy.next;\n};",
-      "go": "func mergeTwoLists(list1 *ListNode, list2 *ListNode) *ListNode {\n    dummy := &ListNode{}\n    curr := dummy\n    for list1 != nil && list2 != nil {\n        if list1.Val <= list2.Val {\n            curr.Next = list1\n            list1 = list1.Next\n        } else {\n            curr.Next = list2\n            list2 = list2.Next\n        }\n        curr = curr.Next\n    }\n    if list1 != nil {\n        curr.Next = list1\n    } else {\n        curr.Next = list2\n    }\n    return dummy.Next\n}",
-      "rust": "impl Solution {\n    pub fn merge_two_lists(list1: Option<Box<ListNode>>, list2: Option<Box<ListNode>>) -> Option<Box<ListNode>> {\n        let mut dummy = Box::new(ListNode::new(0));\n        let mut curr = &mut dummy;\n        let (mut l1, mut l2) = (list1, list2);\n        while let (Some(n1), Some(n2)) = (l1.as_ref(), l2.as_ref()) {\n            if n1.val <= n2.val {\n                let next = l1.as_mut().unwrap().next.take();\n                curr.next = l1;\n                l1 = next;\n            } else {\n                let next = l2.as_mut().unwrap().next.take();\n                curr.next = l2;\n                l2 = next;\n            }\n            curr = curr.next.as_mut().unwrap();\n        }\n        curr.next = l1.or(l2);\n        dummy.next\n    }\n}"
-    }
-  },
-  {
-    "id": "middle-of-the-linked-list",
-    "leetcode": 876,
-    "title": "Middle of the Linked List",
-    "difficulty": "Easy",
-    "description": "Given the head of a singly linked list, return the middle node of the linked list. If there are two middle nodes, return the second middle node.",
-    "examples": [
-      { "input": "head = [1,2,3,4,5]", "output": "[3,4,5]" },
-      { "input": "head = [1,2,3,4,5,6]", "output": "[4,5,6]" }
-    ],
-    "hints": [
-      "Use the fast and slow pointer technique.",
-      "Move fast pointer two steps and slow pointer one step. When fast reaches the end, slow is at the middle."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "class Solution:\n    def middleNode(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        slow = fast = head\n        while fast and fast.next:\n            slow = slow.next\n            fast = fast.next.next\n        return slow",
-      "java": "class Solution {\n    public ListNode middleNode(ListNode head) {\n        ListNode slow = head, fast = head;\n        while (fast != null && fast.next != null) {\n            slow = slow.next;\n            fast = fast.next.next;\n        }\n        return slow;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    ListNode* middleNode(ListNode* head) {\n        ListNode* slow = head;\n        ListNode* fast = head;\n        while (fast && fast->next) {\n            slow = slow->next;\n            fast = fast->next->next;\n        }\n        return slow;\n    }\n};",
-      "javascript": "var middleNode = function(head) {\n    let slow = head, fast = head;\n    while (fast && fast.next) {\n        slow = slow.next;\n        fast = fast.next.next;\n    }\n    return slow;\n};",
-      "go": "func middleNode(head *ListNode) *ListNode {\n    slow, fast := head, head\n    for fast != nil && fast.Next != nil {\n        slow = slow.Next\n        fast = fast.Next.Next\n    }\n    return slow\n}",
-      "rust": "impl Solution {\n    pub fn middle_node(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {\n        let mut slow = &head;\n        let mut fast = &head;\n        while let Some(f) = fast {\n            fast = &f.next;\n            if let Some(f) = fast {\n                fast = &f.next;\n                slow = &slow.as_ref().unwrap().next;\n            }\n        }\n        slow.clone()\n    }\n}"
-    }
-  },
-  {
-    "id": "delete-node-in-a-linked-list",
-    "leetcode": 237,
-    "title": "Delete Node in a Linked List",
-    "difficulty": "Easy",
-    "description": "There is a singly-linked list head and we want to delete a node node in it. You are given the node to be deleted node. You will be given no access to the head of the list, and you will only have access to the node to be deleted. The value of the head is guaranteed not to be the last node.",
-    "examples": [
-      { "input": "head = [4,5,1,9], node = 5", "output": "[4,1,9]" },
-      { "input": "head = [4,5,1,9], node = 1", "output": "[4,5,9]" }
-    ],
-    "hints": [
-      "Copy the value of the next node into the current node.",
-      "Then delete the next node."
-    ],
-    "timeComplexity": "O(1)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "class Solution:\n    def deleteNode(self, node: ListNode):\n        node.val = node.next.val\n        node.next = node.next.next",
-      "java": "class Solution {\n    public void deleteNode(ListNode node) {\n        node.val = node.next.val;\n        node.next = node.next.next;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    void deleteNode(ListNode* node) {\n        node->val = node->next->val;\n        node->next = node->next->next;\n    }\n};",
-      "javascript": "var deleteNode = function(node) {\n    node.val = node.next.val;\n    node.next = node.next.next;\n};",
-      "go": "func deleteNode(node *ListNode) {\n    node.Val = node.Next.Val\n    node.Next = node.Next.Next\n}",
-      "rust": "impl Solution {\n    pub fn delete_node(node: &mut Option<Box<ListNode>>) {\n        if let Some(n) = node {\n            if let Some(next) = n.next.take() {\n                n.val = next.val;\n                n.next = next.next;\n            }\n        }\n    }\n}"
-    }
-  },
-  {
-    "id": "remove-linked-list-elements",
-    "leetcode": 203,
-    "title": "Remove Linked List Elements",
-    "difficulty": "Easy",
-    "description": "Given the head of a linked list and an integer val, remove all the nodes of the linked list that has Node.val == val, and return the new head.",
-    "examples": [
-      { "input": "head = [1,2,6,3,4,5,6], val = 6", "output": "[1,2,3,4,5]" },
-      { "input": "head = [], val = 1", "output": "[]" },
-      { "input": "head = [7,7,7,7], val = 7", "output": "[]" }
-    ],
-    "hints": [
-      "Use a dummy head to handle edge cases where the head itself needs to be removed.",
-      "Traverse the list and skip nodes with the target value."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "class Solution:\n    def removeElements(self, head: Optional[ListNode], val: int) -> Optional[ListNode]:\n        dummy = ListNode(0, head)\n        prev, curr = dummy, head\n        while curr:\n            if curr.val == val:\n                prev.next = curr.next\n            else:\n                prev = curr\n            curr = curr.next\n        return dummy.next",
-      "java": "class Solution {\n    public ListNode removeElements(ListNode head, int val) {\n        ListNode dummy = new ListNode(0, head);\n        ListNode prev = dummy, curr = head;\n        while (curr != null) {\n            if (curr.val == val) {\n                prev.next = curr.next;\n            } else {\n                prev = curr;\n            }\n            curr = curr.next;\n        }\n        return dummy.next;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    ListNode* removeElements(ListNode* head, int val) {\n        ListNode dummy(0, head);\n        ListNode* prev = &dummy;\n        ListNode* curr = head;\n        while (curr) {\n            if (curr->val == val) {\n                prev->next = curr->next;\n            } else {\n                prev = curr;\n            }\n            curr = curr->next;\n        }\n        return dummy.next;\n    }\n};",
-      "javascript": "var removeElements = function(head, val) {\n    const dummy = new ListNode(0, head);\n    let prev = dummy, curr = head;\n    while (curr) {\n        if (curr.val === val) {\n            prev.next = curr.next;\n        } else {\n            prev = curr;\n        }\n        curr = curr.next;\n    }\n    return dummy.next;\n};",
-      "go": "func removeElements(head *ListNode, val int) *ListNode {\n    dummy := &ListNode{Next: head}\n    prev, curr := dummy, head\n    for curr != nil {\n        if curr.Val == val {\n            prev.Next = curr.Next\n        } else {\n            prev = curr\n        }\n        curr = curr.Next\n    }\n    return dummy.Next\n}",
-      "rust": "impl Solution {\n    pub fn remove_elements(head: Option<Box<ListNode>>, val: i32) -> Option<Box<ListNode>> {\n        let mut dummy = Box::new(ListNode { val: 0, next: head });\n        let mut prev = &mut dummy;\n        while let Some(mut node) = prev.next.take() {\n            if node.val == val {\n                prev.next = node.next.take();\n            } else {\n                prev.next = Some(node);\n                prev = prev.next.as_mut().unwrap();\n            }\n        }\n        dummy.next\n    }\n}"
-    }
-  },
-  {
-    "id": "intersection-of-two-linked-lists",
-    "leetcode": 160,
-    "title": "Intersection of Two Linked Lists",
-    "difficulty": "Easy",
-    "description": "Given the heads of two singly linked-lists headA and headB, return the node at which the two lists intersect. If the two linked lists have no intersection at all, return null.",
-    "examples": [
-      { "input": "listA = [4,1,8,4,5], listB = [5,6,1,8,4,5]", "output": "Node with value 8" },
-      { "input": "listA = [1,9,1,2,4], listB = [3,2,4]", "output": "Node with value 2" },
-      { "input": "listA = [2,6,4], listB = [1,5]", "output": "null" }
-    ],
-    "hints": [
-      "Two pointers can be used to traverse both lists.",
-      "When a pointer reaches the end, redirect it to the head of the other list. They will meet at the intersection."
-    ],
-    "timeComplexity": "O(m + n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "class Solution:\n    def getIntersectionNode(self, headA: ListNode, headB: ListNode) -> Optional[ListNode]:\n        a, b = headA, headB\n        while a is not b:\n            a = a.next if a else headB\n            b = b.next if b else headA\n        return a",
-      "java": "public class Solution {\n    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {\n        ListNode a = headA, b = headB;\n        while (a != b) {\n            a = a == null ? headB : a.next;\n            b = b == null ? headA : b.next;\n        }\n        return a;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {\n        ListNode* a = headA;\n        ListNode* b = headB;\n        while (a != b) {\n            a = a ? a->next : headB;\n            b = b ? b->next : headA;\n        }\n        return a;\n    }\n};",
-      "javascript": "var getIntersectionNode = function(headA, headB) {\n    let a = headA, b = headB;\n    while (a !== b) {\n        a = a ? a.next : headB;\n        b = b ? b.next : headA;\n    }\n    return a;\n};",
-      "go": "func getIntersectionNode(headA, headB *ListNode) *ListNode {\n    a, b := headA, headB\n    for a != b {\n        if a == nil {\n            a = headB\n        } else {\n            a = a.Next\n        }\n        if b == nil {\n            b = headA\n        } else {\n            b = b.Next\n        }\n    }\n    return a\n}",
-      "rust": "use std::rc::Rc;\nuse std::cell::RefCell;\n\nimpl Solution {\n    pub fn get_intersection_node(headA: Option<Box<ListNode>>, headB: Option<Box<ListNode>>) -> Option<Box<ListNode>> {\n        let mut a = &headA;\n        let mut b = &headB;\n        loop {\n            match (a, b) {\n                (Some(na), Some(nb)) => {\n                    if std::ptr::eq(na.as_ref(), nb.as_ref()) {\n                        return a.cloned();\n                    }\n                    a = &na.next;\n                    b = &nb.next;\n                }\n                (None, None) => return None,\n                (None, Some(_)) => a = &headB,\n                (Some(_), None) => b = &headA,\n            }\n        }\n    }\n}"
-    }
-  },
-  {
-    "id": "remove-duplicates-from-sorted-list",
-    "leetcode": 83,
-    "title": "Remove Duplicates from Sorted List",
-    "difficulty": "Easy",
-    "description": "Given the head of a sorted linked list, delete all duplicates such that each element appears only once. Return the linked list sorted as well.",
-    "examples": [
-      { "input": "head = [1,1,2]", "output": "[1,2]" },
-      { "input": "head = [1,1,2,3,3]", "output": "[1,2,3]" }
-    ],
-    "hints": [
-      "Traverse the list and compare each node with the next node.",
-      "If they have the same value, skip the next node."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "class Solution:\n    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        curr = head\n        while curr and curr.next:\n            if curr.val == curr.next.val:\n                curr.next = curr.next.next\n            else:\n                curr = curr.next\n        return head",
-      "java": "class Solution {\n    public ListNode deleteDuplicates(ListNode head) {\n        ListNode curr = head;\n        while (curr != null && curr.next != null) {\n            if (curr.val == curr.next.val) {\n                curr.next = curr.next.next;\n            } else {\n                curr = curr.next;\n            }\n        }\n        return head;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    ListNode* deleteDuplicates(ListNode* head) {\n        ListNode* curr = head;\n        while (curr && curr->next) {\n            if (curr->val == curr->next->val) {\n                curr->next = curr->next->next;\n            } else {\n                curr = curr->next;\n            }\n        }\n        return head;\n    }\n};",
-      "javascript": "var deleteDuplicates = function(head) {\n    let curr = head;\n    while (curr && curr.next) {\n        if (curr.val === curr.next.val) {\n            curr.next = curr.next.next;\n        } else {\n            curr = curr.next;\n        }\n    }\n    return head;\n};",
-      "go": "func deleteDuplicates(head *ListNode) *ListNode {\n    curr := head\n    for curr != nil && curr.Next != nil {\n        if curr.Val == curr.Next.Val {\n            curr.Next = curr.Next.Next\n        } else {\n            curr = curr.Next\n        }\n    }\n    return head\n}",
-      "rust": "impl Solution {\n    pub fn delete_duplicates(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {\n        let mut curr = head;\n        let mut tail = &mut curr;\n        while let Some(mut node) = tail.as_mut().and_then(|n| n.next.take()) {\n            if tail.as_ref().unwrap().val == node.val {\n                tail.as_mut().unwrap().next = node.next.take();\n            } else {\n                *tail = Some(node);\n                tail = &mut tail.as_mut().unwrap().next;\n            }\n        }\n        curr\n    }\n}"
-    }
-  },
-  {
-    "id": "add-two-numbers",
-    "leetcode": 2,
-    "title": "Add Two Numbers",
-    "difficulty": "Medium",
-    "description": "You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.",
-    "examples": [
-      { "input": "l1 = [2,4,3], l2 = [5,6,4]", "output": "[7,0,8]" },
-      { "input": "l1 = [0], l2 = [0]", "output": "[0]" },
-      { "input": "l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]", "output": "[8,9,9,9,0,0,0,1]" }
-    ],
-    "hints": [
-      "Traverse both lists simultaneously, adding corresponding digits.",
-      "Keep track of the carry and create new nodes for the result."
-    ],
-    "timeComplexity": "O(max(m, n))",
-    "spaceComplexity": "O(max(m, n))",
-    "solutions": {
-      "python": "class Solution:\n    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:\n        dummy = ListNode(0)\n        curr = dummy\n        carry = 0\n        while l1 or l2 or carry:\n            val = carry\n            if l1:\n                val += l1.val\n                l1 = l1.next\n            if l2:\n                val += l2.val\n                l2 = l2.next\n            carry = val // 10\n            curr.next = ListNode(val % 10)\n            curr = curr.next\n        return dummy.next",
-      "java": "class Solution {\n    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {\n        ListNode dummy = new ListNode(0);\n        ListNode curr = dummy;\n        int carry = 0;\n        while (l1 != null || l2 != null || carry != 0) {\n            int val = carry;\n            if (l1 != null) { val += l1.val; l1 = l1.next; }\n            if (l2 != null) { val += l2.val; l2 = l2.next; }\n            carry = val / 10;\n            curr.next = new ListNode(val % 10);\n            curr = curr.next;\n        }\n        return dummy.next;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {\n        ListNode dummy(0);\n        ListNode* curr = &dummy;\n        int carry = 0;\n        while (l1 || l2 || carry) {\n            int val = carry;\n            if (l1) { val += l1->val; l1 = l1->next; }\n            if (l2) { val += l2->val; l2 = l2->next; }\n            carry = val / 10;\n            curr->next = new ListNode(val % 10);\n            curr = curr->next;\n        }\n        return dummy.next;\n    }\n};",
-      "javascript": "var addTwoNumbers = function(l1, l2) {\n    const dummy = new ListNode(0);\n    let curr = dummy;\n    let carry = 0;\n    while (l1 || l2 || carry) {\n        let val = carry;\n        if (l1) { val += l1.val; l1 = l1.next; }\n        if (l2) { val += l2.val; l2 = l2.next; }\n        carry = Math.floor(val / 10);\n        curr.next = new ListNode(val % 10);\n        curr = curr.next;\n    }\n    return dummy.next;\n};",
-      "go": "func addTwoNumbers(l1 *ListNode, l2 *ListNode) *ListNode {\n    dummy := &ListNode{}\n    curr := dummy\n    carry := 0\n    for l1 != nil || l2 != nil || carry != 0 {\n        val := carry\n        if l1 != nil {\n            val += l1.Val\n            l1 = l1.Next\n        }\n        if l2 != nil {\n            val += l2.Val\n            l2 = l2.Next\n        }\n        carry = val / 10\n        curr.Next = &ListNode{Val: val % 10}\n        curr = curr.Next\n    }\n    return dummy.Next\n}",
-      "rust": "impl Solution {\n    pub fn add_two_numbers(l1: Option<Box<ListNode>>, l2: Option<Box<ListNode>>) -> Option<Box<ListNode>> {\n        let mut dummy = Box::new(ListNode::new(0));\n        let mut curr = &mut dummy;\n        let mut carry = 0;\n        let (mut l1, mut l2) = (l1, l2);\n        while l1.is_some() || l2.is_some() || carry != 0 {\n            let mut val = carry;\n            if let Some(ref n) = l1 {\n                val += n.val;\n                l1 = l1.unwrap().next;\n            }\n            if let Some(ref n) = l2 {\n                val += n.val;\n                l2 = l2.unwrap().next;\n            }\n            carry = val / 10;\n            curr.next = Some(Box::new(ListNode::new(val % 10)));\n            curr = curr.next.as_mut().unwrap();\n        }\n        dummy.next\n    }\n}"
-    }
-  },
-  {
-    "id": "remove-nth-node-from-end-of-list",
-    "leetcode": 19,
-    "title": "Remove Nth Node From End of List",
-    "difficulty": "Medium",
-    "description": "Given the head of a linked list, remove the nth node from the end of the list and return its head.",
-    "examples": [
-      { "input": "head = [1,2,3,4,5], n = 2", "output": "[1,2,3,5]" },
-      { "input": "head = [1], n = 1", "output": "[]" },
-      { "input": "head = [1,2], n = 1", "output": "[1]" }
-    ],
-    "hints": [
-      "Use a dummy head to handle edge cases.",
-      "Use two pointers with a gap of n nodes. When the fast pointer reaches the end, the slow pointer is at the node to remove."
-    ],
-    "timeComplexity": "O(L)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "class Solution:\n    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:\n        dummy = ListNode(0, head)\n        fast = slow = dummy\n        for _ in range(n + 1):\n            fast = fast.next\n        while fast:\n            fast = fast.next\n            slow = slow.next\n        slow.next = slow.next.next\n        return dummy.next",
-      "java": "class Solution {\n    public ListNode removeNthFromEnd(ListNode head, int n) {\n        ListNode dummy = new ListNode(0, head);\n        ListNode fast = dummy, slow = dummy;\n        for (int i = 0; i <= n; i++) fast = fast.next;\n        while (fast != null) {\n            fast = fast.next;\n            slow = slow.next;\n        }\n        slow.next = slow.next.next;\n        return dummy.next;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    ListNode* removeNthFromEnd(ListNode* head, int n) {\n        ListNode dummy(0, head);\n        ListNode* fast = &dummy;\n        ListNode* slow = &dummy;\n        for (int i = 0; i <= n; i++) fast = fast->next;\n        while (fast) {\n            fast = fast->next;\n            slow = slow->next;\n        }\n        slow->next = slow->next->next;\n        return dummy.next;\n    }\n};",
-      "javascript": "var removeNthFromEnd = function(head, n) {\n    const dummy = new ListNode(0, head);\n    let fast = dummy, slow = dummy;\n    for (let i = 0; i <= n; i++) fast = fast.next;\n    while (fast) {\n        fast = fast.next;\n        slow = slow.next;\n    }\n    slow.next = slow.next.next;\n    return dummy.next;\n};",
-      "go": "func removeNthFromEnd(head *ListNode, n int) *ListNode {\n    dummy := &ListNode{Next: head}\n    fast, slow := dummy, dummy\n    for i := 0; i <= n; i++ {\n        fast = fast.Next\n    }\n    for fast != nil {\n        fast = fast.Next\n        slow = slow.Next\n    }\n    slow.Next = slow.Next.Next\n    return dummy.Next\n}",
-      "rust": "impl Solution {\n    pub fn remove_nth_from_end(head: Option<Box<ListNode>>, n: i32) -> Option<Box<ListNode>> {\n        let mut dummy = Box::new(ListNode { val: 0, next: head });\n        let mut fast = &dummy.clone();\n        let mut slow = &dummy;\n        for _ in 0..=n {\n            fast = fast.next.as_ref().unwrap();\n        }\n        while fast.is_some() {\n            fast = fast.next.as_ref().unwrap();\n            slow = slow.next.as_ref().unwrap();\n        }\n        let slow_mut = &mut dummy;\n        let mut curr = slow_mut;\n        loop {\n            if let Some(ref node) = curr.next {\n                if node.val == slow.val {\n                    curr.next = curr.next.as_ref().unwrap().next.clone();\n                    break;\n                }\n                curr = curr.next.as_mut().unwrap();\n            }\n        }\n        dummy.next\n    }\n}"
-    }
-  },
-  {
-    "id": "reorder-list",
-    "leetcode": 143,
-    "title": "Reorder List",
-    "difficulty": "Medium",
-    "description": "You are given the head of a singly linked-list. The list can be represented as: L0 → L1 → … → Ln-1 → Ln. Reorder the list to be on the following form: L0 → Ln → L1 → Ln-1 → L2 → Ln-2 → …. You must not modify the values in the nodes' lists. Only nodes themselves may be changed.",
-    "examples": [
-      { "input": "head = [1,2,3,4]", "output": "[1,4,2,3]" },
-      { "input": "head = [1,2,3,4,5]", "output": "[1,5,2,4,3]" }
-    ],
-    "hints": [
-      "Find the middle of the list using fast-slow pointers.",
-      "Reverse the second half of the list.",
-      "Merge the two halves alternately."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "class Solution:\n    def reorderList(self, head: Optional[ListNode]) -> None:\n        if not head or not head.next:\n            return\n        slow, fast = head, head\n        while fast.next and fast.next.next:\n            slow = slow.next\n            fast = fast.next.next\n        prev, curr = None, slow.next\n        slow.next = None\n        while curr:\n            nxt = curr.next\n            curr.next = prev\n            prev = curr\n            curr = nxt\n        first, second = head, prev\n        while second:\n            tmp1, tmp2 = first.next, second.next\n            first.next = second\n            second.next = tmp1\n            first = tmp1\n            second = tmp2",
-      "java": "class Solution {\n    public void reorderList(ListNode head) {\n        if (head == null || head.next == null) return;\n        ListNode slow = head, fast = head;\n        while (fast.next != null && fast.next.next != null) {\n            slow = slow.next;\n            fast = fast.next.next;\n        }\n        ListNode prev = null, curr = slow.next;\n        slow.next = null;\n        while (curr != null) {\n            ListNode nxt = curr.next;\n            curr.next = prev;\n            prev = curr;\n            curr = nxt;\n        }\n        ListNode first = head, second = prev;\n        while (second != null) {\n            ListNode tmp1 = first.next, tmp2 = second.next;\n            first.next = second;\n            second.next = tmp1;\n            first = tmp1;\n            second = tmp2;\n        }\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    void reorderList(ListNode* head) {\n        if (!head || !head->next) return;\n        ListNode* slow = head;\n        ListNode* fast = head;\n        while (fast->next && fast->next->next) {\n            slow = slow->next;\n            fast = fast->next->next;\n        }\n        ListNode* prev = nullptr;\n        ListNode* curr = slow->next;\n        slow->next = nullptr;\n        while (curr) {\n            ListNode* nxt = curr->next;\n            curr->next = prev;\n            prev = curr;\n            curr = nxt;\n        }\n        ListNode* first = head;\n        ListNode* second = prev;\n        while (second) {\n            ListNode* tmp1 = first->next;\n            ListNode* tmp2 = second->next;\n            first->next = second;\n            second->next = tmp1;\n            first = tmp1;\n            second = tmp2;\n        }\n    }\n};",
-      "javascript": "var reorderList = function(head) {\n    if (!head || !head.next) return;\n    let slow = head, fast = head;\n    while (fast.next && fast.next.next) {\n        slow = slow.next;\n        fast = fast.next.next;\n    }\n    let prev = null, curr = slow.next;\n    slow.next = null;\n    while (curr) {\n        const nxt = curr.next;\n        curr.next = prev;\n        prev = curr;\n        curr = nxt;\n    }\n    let first = head, second = prev;\n    while (second) {\n        const tmp1 = first.next, tmp2 = second.next;\n        first.next = second;\n        second.next = tmp1;\n        first = tmp1;\n        second = tmp2;\n    }\n};",
-      "go": "func reorderList(head *ListNode) {\n    if head == nil || head.Next == nil {\n        return\n    }\n    slow, fast := head, head\n    for fast.Next != nil && fast.Next.Next != nil {\n        slow = slow.Next\n        fast = fast.Next.Next\n    }\n    var prev *ListNode\n    curr := slow.Next\n    slow.Next = nil\n    for curr != nil {\n        nxt := curr.Next\n        curr.Next = prev\n        prev = curr\n        curr = nxt\n    }\n    first, second := head, prev\n    for second != nil {\n        tmp1, tmp2 := first.Next, second.Next\n        first.Next = second\n        second.Next = tmp1\n        first = tmp1\n        second = tmp2\n    }\n}",
-      "rust": "impl Solution {\n    pub fn reorder_list(head: &mut Option<Box<ListNode>>) {\n        if head.is_none() || head.as_ref().unwrap().next.is_none() {\n            return;\n        }\n        let mut slow = head.clone();\n        let mut fast = head.clone();\n        while fast.as_ref().unwrap().next.is_some() && fast.as_ref().unwrap().next.as_ref().unwrap().next.is_some() {\n            slow = slow.unwrap().next;\n            fast = fast.unwrap().next.unwrap().next;\n        }\n        let mut prev: Option<Box<ListNode>> = None;\n        let mut curr = slow.unwrap().next;\n        slow.as_mut().unwrap().next = None;\n        while curr.is_some() {\n            let nxt = curr.as_mut().unwrap().next.take();\n            curr.as_mut().unwrap().next = prev;\n            prev = curr;\n            curr = nxt;\n        }\n        let mut first = head.clone();\n        let mut second = prev;\n        while second.is_some() {\n            let tmp1 = first.as_mut().unwrap().next.take();\n            let tmp2 = second.as_mut().unwrap().next.take();\n            first.as_mut().unwrap().next = second;\n            first = first.unwrap().next.clone();\n            first.as_mut().unwrap().next = tmp1;\n            first = first.unwrap().next.clone();\n            second = tmp2;\n        }\n        *head = first;\n    }\n}"
-    }
-  },
-  {
-    "id": "odd-even-linked-list",
-    "leetcode": 328,
-    "title": "Odd Even Linked List",
-    "difficulty": "Medium",
-    "description": "Given the head of a singly linked list, group all the nodes with odd indices together followed by the nodes with even indices, and return the reordered list. The first node is considered odd, and the second node is even, and so on.",
-    "examples": [
-      { "input": "head = [1,2,3,4,5]", "output": [1,3,5,2,4] },
-      { "input": "head = [2,1,3,5,6,4,7]", "output": [2,3,6,7,1,5,4] }
-    ],
-    "hints": [
-      "Use two pointers: one for odd-indexed nodes and one for even-indexed nodes.",
-      "Connect the odd list to the even list at the end."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "class Solution:\n    def oddEvenList(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        if not head:\n            return None\n        odd = head\n        even = head.next\n        even_head = even\n        while even and even.next:\n            odd.next = even.next\n            odd = odd.next\n            even.next = odd.next\n            even = even.next\n        odd.next = even_head\n        return head",
-      "java": "class Solution {\n    public ListNode oddEvenList(ListNode head) {\n        if (head == null) return null;\n        ListNode odd = head, even = head.next, evenHead = even;\n        while (even != null && even.next != null) {\n            odd.next = even.next;\n            odd = odd.next;\n            even.next = odd.next;\n            even = even.next;\n        }\n        odd.next = evenHead;\n        return head;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    ListNode* oddEvenList(ListNode* head) {\n        if (!head) return nullptr;\n        ListNode* odd = head;\n        ListNode* even = head->next;\n        ListNode* evenHead = even;\n        while (even && even->next) {\n            odd->next = even->next;\n            odd = odd->next;\n            even->next = odd->next;\n            even = even->next;\n        }\n        odd->next = evenHead;\n        return head;\n    }\n};",
-      "javascript": "var oddEvenList = function(head) {\n    if (!head) return null;\n    let odd = head, even = head.next, evenHead = even;\n    while (even && even.next) {\n        odd.next = even.next;\n        odd = odd.next;\n        even.next = odd.next;\n        even = even.next;\n    }\n    odd.next = evenHead;\n    return head;\n};",
-      "go": "func oddEvenList(head *ListNode) *ListNode {\n    if head == nil {\n        return nil\n    }\n    odd, even := head, head.Next\n    evenHead := even\n    for even != nil && even.Next != nil {\n        odd.Next = even.Next\n        odd = odd.Next\n        even.Next = odd.Next\n        even = even.Next\n    }\n    odd.Next = evenHead\n    return head\n}",
-      "rust": "impl Solution {\n    pub fn odd_even_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {\n        let mut head = head;\n        if head.is_none() {\n            return None;\n        }\n        let mut odd = head.as_mut().unwrap();\n        let mut even = odd.next.as_mut().map(|n| n.clone());\n        let mut even_head = even.clone();\n        while let Some(ref mut e) = even {\n            if e.next.is_none() {\n                break;\n            }\n            let odd_next = e.next.take().unwrap();\n            odd.next = Some(odd_next.clone());\n            odd = odd.next.as_mut().unwrap();\n            let even_next = odd.next.take();\n            e.next = even_next;\n            even = e.next.as_mut().map(|n| n.clone());\n        }\n        odd.next = even_head;\n        head\n    }\n}"
-    }
+    "section": "Hard",
+    "problems": [
+      {
+        "id": "ll-012",
+        "leetcode": 23,
+        "title": "Merge k Sorted Lists",
+        "difficulty": "Hard",
+        "link": "https://leetcode.com/problems/merge-k-sorted-lists/"
+      },
+      {
+        "id": "ll-011",
+        "leetcode": 25,
+        "title": "Reverse Nodes in k-Group",
+        "difficulty": "Hard",
+        "link": "https://leetcode.com/problems/reverse-nodes-in-k-group/"
+      }
+    ]
   }
 ]

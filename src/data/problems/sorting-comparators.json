@@ -64,71 +64,67 @@
     }
   },
   {
-    "id": "sorting-comparators-3",
-    "leetcode": 435,
-    "title": "Non-overlapping Intervals",
+    "id": "sorting-comparators-12",
+    "leetcode": 148,
+    "title": "Sort List",
     "difficulty": "Medium",
-    "description": "Given an array of intervals intervals where intervals[i] = [starti, endi], return the minimum number of intervals you need to remove to make the rest of the intervals non-overlapping.",
+    "description": "Given the head of a linked list, return the list after sorting it in ascending order with O(n log n) time complexity and O(1) extra space for merge sort or O(log n) for recursive stack.",
     "examples": [
       {
-        "input": "intervals = [[1,2],[2,3],[3,4],[1,3]]",
-        "output": "1"
+        "input": "head = [4,2,1,3]",
+        "output": "[1,2,3,4]"
       },
       {
-        "input": "intervals = [[1,2],[1,2],[1,2]]",
-        "output": "2"
-      },
-      {
-        "input": "intervals = [[1,2],[2,3]]",
-        "output": "0"
+        "input": "head = [-1,5,3,4,0]",
+        "output": "[-1,0,3,4,5]"
       }
     ],
     "hints": [
-      "Sort intervals by their end times.",
-      "Greedy: keep the interval that ends earliest, as it leaves more room for subsequent intervals.",
-      "Count how many intervals overlap and must be removed."
+      "Use merge sort on a linked list.",
+      "Find the middle using slow/fast pointer technique.",
+      "Recursively sort the two halves and merge them."
     ],
     "timeComplexity": "O(n log n)",
-    "spaceComplexity": "O(1)",
+    "spaceComplexity": "O(log n)",
     "solutions": {
-      "python": "class Solution:\n    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:\n        if not intervals:\n            return 0\n        intervals.sort(key=lambda x: x[1])\n        count = 0\n        end = intervals[0][1]\n        for i in range(1, len(intervals)):\n            if intervals[i][0] < end:\n                count += 1\n            else:\n                end = intervals[i][1]\n        return count",
-      "java": "class Solution {\n    public int eraseOverlapIntervals(int[][] intervals) {\n        if (intervals.length == 0) return 0;\n        Arrays.sort(intervals, (a, b) -> Integer.compare(a[1], b[1]));\n        int count = 0;\n        int end = intervals[0][1];\n        for (int i = 1; i < intervals.length; i++) {\n            if (intervals[i][0] < end) {\n                count++;\n            } else {\n                end = intervals[i][1];\n            }\n        }\n        return count;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int eraseOverlapIntervals(vector<vector<int>>& intervals) {\n        if (intervals.empty()) return 0;\n        sort(intervals.begin(), intervals.end(), [](const vector<int>& a, const vector<int>& b) { return a[1] < b[1]; });\n        int count = 0;\n        int end = intervals[0][1];\n        for (int i = 1; i < intervals.size(); i++) {\n            if (intervals[i][0] < end) {\n                count++;\n            } else {\n                end = intervals[i][1];\n            }\n        }\n        return count;\n    }\n};",
-      "javascript": "var eraseOverlapIntervals = function(intervals) {\n    if (!intervals.length) return 0;\n    intervals.sort((a, b) => a[1] - b[1]);\n    let count = 0;\n    let end = intervals[0][1];\n    for (let i = 1; i < intervals.length; i++) {\n        if (intervals[i][0] < end) {\n            count++;\n        } else {\n            end = intervals[i][1];\n        }\n    }\n    return count;\n};",
-      "go": "func eraseOverlapIntervals(intervals [][]int) int {\n    if len(intervals) == 0 { return 0 }\n    sort.Slice(intervals, func(i, j int) bool { return intervals[i][1] < intervals[j][1] })\n    count := 0\n    end := intervals[0][1]\n    for i := 1; i < len(intervals); i++ {\n        if intervals[i][0] < end {\n            count++\n        } else {\n            end = intervals[i][1]\n        }\n    }\n    return count\n}",
-      "rust": "impl Solution {\n    pub fn erase_overlap_intervals(mut intervals: Vec<Vec<i32>>) -> i32 {\n        if intervals.is_empty() { return 0 }\n        intervals.sort_by_key(|v| v[1]);\n        let mut count = 0;\n        let mut end = intervals[0][1];\n        for i in 1..intervals.len() {\n            if intervals[i][0] < end {\n                count += 1;\n            } else {\n                end = intervals[i][1];\n            }\n        }\n        count\n    }\n}"
+      "python": "class Solution:\n    def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        if not head or not head.next:\n            return head\n        slow, fast = head, head.next\n        while fast and fast.next:\n            slow = slow.next\n            fast = fast.next.next\n        mid = slow.next\n        slow.next = None\n        left = self.sortList(head)\n        right = self.sortList(mid)\n        dummy = ListNode(0)\n        cur = dummy\n        while left and right:\n            if left.val <= right.val:\n                cur.next = left\n                left = left.next\n            else:\n                cur.next = right\n                right = right.next\n            cur = cur.next\n        cur.next = left or right\n        return dummy.next",
+      "java": "class Solution {\n    public ListNode sortList(ListNode head) {\n        if (head == null || head.next == null) return head;\n        ListNode slow = head, fast = head.next;\n        while (fast != null && fast.next != null) {\n            slow = slow.next;\n            fast = fast.next.next;\n        }\n        ListNode mid = slow.next;\n        slow.next = null;\n        ListNode left = sortList(head);\n        ListNode right = sortList(mid);\n        ListNode dummy = new ListNode(0);\n        ListNode cur = dummy;\n        while (left != null && right != null) {\n            if (left.val <= right.val) { cur.next = left; left = left.next; }\n            else { cur.next = right; right = right.next; }\n            cur = cur.next;\n        }\n        cur.next = (left != null) ? left : right;\n        return dummy.next;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    ListNode* sortList(ListNode* head) {\n        if (!head || !head->next) return head;\n        ListNode* slow = head;\n        ListNode* fast = head->next;\n        while (fast && fast->next) { slow = slow->next; fast = fast->next->next; }\n        ListNode* mid = slow->next;\n        slow->next = nullptr;\n        ListNode* left = sortList(head);\n        ListNode* right = sortList(mid);\n        ListNode dummy(0);\n        ListNode* cur = &dummy;\n        while (left && right) {\n            if (left->val <= right->val) { cur->next = left; left = left->next; }\n            else { cur->next = right; right = right->next; }\n            cur = cur->next;\n        }\n        cur->next = left ? left : right;\n        return dummy.next;\n    }\n};",
+      "javascript": "var sortList = function(head) {\n    if (!head || !head.next) return head;\n    let slow = head, fast = head.next;\n    while (fast && fast.next) { slow = slow.next; fast = fast.next.next; }\n    const mid = slow.next; slow.next = null;\n    const left = sortList(head);\n    const right = sortList(mid);\n    const dummy = new ListNode(0);\n    let cur = dummy;\n    while (left && right) {\n        if (left.val <= right.val) { cur.next = left; left = left.next; }\n        else { cur.next = right; right = right.next; }\n        cur = cur.next;\n    }\n    cur.next = left || right;\n    return dummy.next;\n};",
+      "go": "func sortList(head *ListNode) *ListNode {\n    if head == nil || head.Next == nil { return head }\n    slow, fast := head, head.Next\n    for fast != nil && fast.Next != nil { slow = slow.Next; fast = fast.Next.Next }\n    mid := slow.Next; slow.Next = nil\n    left := sortList(head)\n    right := sortList(mid)\n    dummy := &ListNode{}\n    cur := dummy\n    for left != nil && right != nil {\n        if left.Val <= right.Val { cur.Next = left; left = left.Next }\n        else { cur.Next = right; right = right.Next }\n        cur = cur.Next\n    }\n    if left != nil { cur.Next = left } else { cur.Next = right }\n    return dummy.Next\n}",
+      "rust": "impl Solution {\n    pub fn sort_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {\n        fn merge(l1: Option<Box<ListNode>>, l2: Option<Box<ListNode>>) -> Option<Box<ListNode>> {\n            match (l1, l2) {\n                (None, None) => None,\n                (Some(n), None) | (None, Some(n)) => Some(n),\n                (Some(n1), Some(n2)) => {\n                    if n1.val <= n2.val {\n                        Some(Box::new(ListNode { val: n1.val, next: merge(n1.next, Some(n2)) }))\n                    } else {\n                        Some(Box::new(ListNode { val: n2.val, next: merge(Some(n1), n2.next) }))\n                    }\n                }\n            }\n        }\n        fn sort(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {\n            if head.is_none() || head.as_ref().unwrap().next.is_none() { return head; }\n            let mut slow = head.as_ref().unwrap();\n            let mut fast = slow.next.as_ref().unwrap();\n            while fast.next.is_some() {\n                slow = slow.next.as_ref().unwrap();\n                fast = fast.next.as_ref().unwrap();\n                if fast.next.is_some() { fast = fast.next.as_ref().unwrap(); }\n            }\n            let mid = slow.next.clone();\n            let mut node = head;\n            node.as_mut().unwrap().next = None;\n            let left = sort(node);\n            let right = sort(mid);\n            merge(left, right)\n        }\n        sort(head)\n    }\n}"
     }
   },
   {
-    "id": "sorting-comparators-4",
-    "leetcode": 986,
-    "title": "Interval List Intersections",
+    "id": "sorting-comparators-9",
+    "leetcode": 179,
+    "title": "Largest Number",
     "difficulty": "Medium",
-    "description": "You are given two lists of closed intervals, firstList and secondList, where each list of intervals is pairwise disjoint and in sorted order. Return the intersection of these two interval lists. A closed interval [a, b] denotes the set of real numbers x with a <= x <= b.",
+    "description": "Given a list of non-negative integers nums, arrange them such that they form the largest number and return it. Since the result may be very large, return it as a string.",
     "examples": [
       {
-        "input": "firstList = [[0,2],[5,10],[13,23],[24,25]], secondList = [[1,5],[8,12],[15,24],[25,26]]",
-        "output": "[[1,2],[5,5],[8,10],[15,23],[24,24],[25,25]]"
+        "input": "nums = [10,2]",
+        "output": "210"
       },
       {
-        "input": "firstList = [[1,3],[5,9]], secondList = []",
-        "output": "[]"
+        "input": "nums = [3,30,34,5,9]",
+        "output": "9534330"
       }
     ],
     "hints": [
-      "Use two pointers, one for each list.",
-      "Two intervals [a,b] and [c,d] intersect if max(a,c) <= min(b,d).",
-      "Advance the pointer of the interval that ends first."
+      "Convert all integers to strings.",
+      "Custom comparator: for strings a and b, compare a+b vs b+a.",
+      "Sort in descending order of this custom comparison. Handle the edge case of all zeros."
     ],
-    "timeComplexity": "O(m + n)",
-    "spaceComplexity": "O(m + n)",
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(n)",
     "solutions": {
-      "python": "class Solution:\n    def intervalIntersection(self, firstList: List[List[int]], secondList: List[List[int]]) -> List[List[int]]:\n        result = []\n        i = j = 0\n        while i < len(firstList) and j < len(secondList):\n            lo = max(firstList[i][0], secondList[j][0])\n            hi = min(firstList[i][1], secondList[j][1])\n            if lo <= hi:\n                result.append([lo, hi])\n            if firstList[i][1] < secondList[j][1]:\n                i += 1\n            else:\n                j += 1\n        return result",
-      "java": "class Solution {\n    public int[][] intervalIntersection(int[][] firstList, int[][] secondList) {\n        List<int[]> result = new ArrayList<>();\n        int i = 0, j = 0;\n        while (i < firstList.length && j < secondList.length) {\n            int lo = Math.max(firstList[i][0], secondList[j][0]);\n            int hi = Math.min(firstList[i][1], secondList[j][1]);\n            if (lo <= hi) result.add(new int[]{lo, hi});\n            if (firstList[i][1] < secondList[j][1]) i++;\n            else j++;\n        }\n        return result.toArray(new int[result.size()][]);\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<vector<int>> intervalIntersection(vector<vector<int>>& firstList, vector<vector<int>>& secondList) {\n        vector<vector<int>> result;\n        int i = 0, j = 0;\n        while (i < firstList.size() && j < secondList.size()) {\n            int lo = max(firstList[i][0], secondList[j][0]);\n            int hi = min(firstList[i][1], secondList[j][1]);\n            if (lo <= hi) result.push_back({lo, hi});\n            if (firstList[i][1] < secondList[j][1]) i++;\n            else j++;\n        }\n        return result;\n    }\n};",
-      "javascript": "var intervalIntersection = function(firstList, secondList) {\n    const result = [];\n    let i = 0, j = 0;\n    while (i < firstList.length && j < secondList.length) {\n        const lo = Math.max(firstList[i][0], secondList[j][0]);\n        const hi = Math.min(firstList[i][1], secondList[j][1]);\n        if (lo <= hi) result.push([lo, hi]);\n        if (firstList[i][1] < secondList[j][1]) i++;\n        else j++;\n    }\n    return result;\n};",
-      "go": "func intervalIntersection(firstList [][]int, secondList [][]int) [][]int {\n    result := [][]int{}\n    i, j := 0, 0\n    for i < len(firstList) && j < len(secondList) {\n        lo := max(firstList[i][0], secondList[j][0])\n        hi := min(firstList[i][1], secondList[j][1])\n        if lo <= hi { result = append(result, []int{lo, hi}) }\n        if firstList[i][1] < secondList[j][1] { i++ } else { j++ }\n    }\n    return result\n}",
-      "rust": "impl Solution {\n    pub fn interval_intersection(first_list: Vec<Vec<i32>>, second_list: Vec<Vec<i32>>) -> Vec<Vec<i32>> {\n        let mut result = Vec::new();\n        let (mut i, mut j) = (0, 0);\n        while i < first_list.len() && j < second_list.len() {\n            let lo = first_list[i][0].max(second_list[j][0]);\n            let hi = first_list[i][1].min(second_list[j][1]);\n            if lo <= hi { result.push(vec![lo, hi]); }\n            if first_list[i][1] < second_list[j][1] { i += 1; } else { j += 1; }\n        }\n        result\n    }\n}"
+      "python": "from functools import cmp_to_key\nclass Solution:\n    def largestNumber(self, nums: List[int]) -> str:\n        strs = list(map(str, nums))\n        strs.sort(key=cmp_to_key(lambda a, b: -1 if a+b > b+a else 1 if a+b < b+a else 0))\n        result = ''.join(strs)\n        return '0' if result[0] == '0' else result",
+      "java": "class Solution {\n    public String largestNumber(int[] nums) {\n        String[] strs = new String[nums.length];\n        for (int i = 0; i < nums.length; i++) strs[i] = String.valueOf(nums[i]);\n        Arrays.sort(strs, (a, b) -> (b + a).compareTo(a + b));\n        StringBuilder sb = new StringBuilder();\n        for (String s : strs) sb.append(s);\n        return sb.charAt(0) == '0' ? \"0\" : sb.toString();\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    string largestNumber(vector<int>& nums) {\n        vector<string> strs;\n        for (int n : nums) strs.push_back(to_string(n));\n        sort(strs.begin(), strs.end(), [](const string& a, const string& b) { return a + b > b + a; });\n        if (strs[0] == \"0\") return \"0\";\n        string result;\n        for (auto& s : strs) result += s;\n        return result;\n    }\n};",
+      "javascript": "var largestNumber = function(nums) {\n    const strs = nums.map(String);\n    strs.sort((a, b) => (b + a).localeCompare(a + b));\n    const result = strs.join(\"\");\n    return result[0] === \"0\" ? \"0\" : result;\n};",
+      "go": "func largestNumber(nums []int) string {\n    strs := make([]string, len(nums))\n    for i, n := range nums { strs[i] = strconv.Itoa(n) }\n    sort.Slice(strs, func(i, j int) bool { return strs[i]+strs[j] > strs[j]+strs[i] })\n    if strs[0] == \"0\" { return \"0\" }\n    return strings.Join(strs, \"\")\n}",
+      "rust": "impl Solution {\n    pub fn largest_number(mut nums: Vec<i32>) -> String {\n        let mut strs: Vec<String> = nums.iter().map(|n| n.to_string()).collect();\n        strs.sort_by(|a, b| (b.clone() + a).cmp(&(a.clone() + b)));\n        if strs[0] == \"0\" { return \"0\".to_string(); }\n        strs.concat()\n    }\n}"
     }
   },
   {
@@ -164,39 +160,71 @@
     }
   },
   {
-    "id": "sorting-comparators-6",
-    "leetcode": 452,
-    "title": "Minimum Number of Arrows to Burst Balloons",
+    "id": "sorting-comparators-10",
+    "leetcode": 406,
+    "title": "Queue Reconstruction by Height",
     "difficulty": "Medium",
-    "description": "There are some spherical balloons taped onto a flat wall that represents the XY-plane. The balloons are represented as a 2D integer array points where points[i] = [xstart, xend] denotes that the balloon with horizontal diameter between xstart and xend. Given an array points, return the minimum number of arrows that must be shot to burst all balloons.",
+    "description": "You are given an array of people, people, which describes the qualities of each person (in no particular order), where people[i] = [hi, ki] represents the ith person of height hi with exactly ki other people in front who have a height greater than or equal to hi. Reconstruct and return the queue.",
     "examples": [
       {
-        "input": "points = [[10,16],[2,8],[1,6],[7,12]]",
-        "output": "2"
+        "input": "people = [[7,0],[4,4],[7,1],[5,0],[6,1],[5,2]]",
+        "output": "[[5,0],[7,0],[5,2],[6,1],[4,4],[7,1]]"
       },
       {
-        "input": "points = [[1,2],[3,4],[5,6],[7,8]]",
-        "output": "4"
-      },
-      {
-        "input": "points = [[1,2],[2,3],[3,4],[4,5]]",
-        "output": "2"
+        "input": "people = [[6,0],[5,0],[4,0],[3,2],[2,2],[1,4]]",
+        "output": "[[4,0],[5,0],[2,2],[3,2],[1,4],[6,0]]"
       }
     ],
     "hints": [
-      "Sort intervals by their end.",
-      "If the next balloon starts where the current arrow can reach, one arrow suffices.",
-      "Otherwise, fire a new arrow at the end of the next balloon."
+      "Sort people by height in descending order, and by k in ascending order for same height.",
+      "Insert each person at index k in the result list.",
+      "People already inserted are all taller or equal, so position k is correct."
+    ],
+    "timeComplexity": "O(n^2)",
+    "spaceComplexity": "O(n)",
+    "solutions": {
+      "python": "class Solution:\n    def reconstructQueue(self, people: List[List[int]]) -> List[List[int]]:\n        people.sort(key=lambda p: (-p[0], p[1]))\n        result = []\n        for h, k in people:\n            result.insert(k, [h, k])\n        return result",
+      "java": "class Solution {\n    public int[][] reconstructQueue(int[][] people) {\n        Arrays.sort(people, (a, b) -> a[0] == b[0] ? a[1] - b[1] : b[0] - a[0]);\n        List<int[]> result = new ArrayList<>();\n        for (int[] p : people) result.add(p[1], p);\n        return result.toArray(new int[people.length][]);\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {\n        sort(people.begin(), people.end(), [](const vector<int>& a, const vector<int>& b) {\n            return a[0] > b[0] || (a[0] == b[0] && a[1] < b[1]);\n        });\n        vector<vector<int>> result;\n        for (auto& p : people) result.insert(result.begin() + p[1], p);\n        return result;\n    }\n};",
+      "javascript": "var reconstructQueue = function(people) {\n    people.sort((a, b) => a[0] === b[0] ? a[1] - b[1] : b[0] - a[0]);\n    const result = [];\n    for (const [h, k] of people) result.splice(k, 0, [h, k]);\n    return result;\n};",
+      "go": "func reconstructQueue(people [][]int) [][]int {\n    sort.Slice(people, func(i, j int) bool {\n        return people[i][0] > people[j][0] || (people[i][0] == people[j][0] && people[i][1] < people[j][1])\n    })\n    result := make([][]int, 0, len(people))\n    for _, p := range people {\n        result = append(result[:p[1]], append([][]int{p}, result[p[1]:]...)...)\n    }\n    return result\n}",
+      "rust": "impl Solution {\n    pub fn reconstruct_queue(mut people: Vec<Vec<i32>>) -> Vec<Vec<i32>> {\n        people.sort_by(|a, b| {\n            if a[0] != b[0] { b[0].cmp(&a[0]) } else { a[1].cmp(&b[1]) }\n        });\n        let mut result: Vec<Vec<i32>> = Vec::new();\n        for p in people {\n            result.insert(p[1] as usize, p);\n        }\n        result\n    }\n}"
+    }
+  },
+  {
+    "id": "sorting-comparators-3",
+    "leetcode": 435,
+    "title": "Non-overlapping Intervals",
+    "difficulty": "Medium",
+    "description": "Given an array of intervals intervals where intervals[i] = [starti, endi], return the minimum number of intervals you need to remove to make the rest of the intervals non-overlapping.",
+    "examples": [
+      {
+        "input": "intervals = [[1,2],[2,3],[3,4],[1,3]]",
+        "output": "1"
+      },
+      {
+        "input": "intervals = [[1,2],[1,2],[1,2]]",
+        "output": "2"
+      },
+      {
+        "input": "intervals = [[1,2],[2,3]]",
+        "output": "0"
+      }
+    ],
+    "hints": [
+      "Sort intervals by their end times.",
+      "Greedy: keep the interval that ends earliest, as it leaves more room for subsequent intervals.",
+      "Count how many intervals overlap and must be removed."
     ],
     "timeComplexity": "O(n log n)",
     "spaceComplexity": "O(1)",
     "solutions": {
-      "python": "class Solution:\n    def findMinArrowShots(self, points: List[List[int]]) -> int:\n        if not points:\n            return 0\n        points.sort(key=lambda x: x[1])\n        arrows = 1\n        end = points[0][1]\n        for s, e in points[1:]:\n            if s > end:\n                arrows += 1\n                end = e\n        return arrows",
-      "java": "class Solution {\n    public int findMinArrowShots(int[][] points) {\n        if (points.length == 0) return 0;\n        Arrays.sort(points, (a, b) -> Integer.compare(a[1], b[1]));\n        int arrows = 1;\n        int end = points[0][1];\n        for (int i = 1; i < points.length; i++) {\n            if (points[i][0] > end) {\n                arrows++;\n                end = points[i][1];\n            }\n        }\n        return arrows;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int findMinArrowShots(vector<vector<int>>& points) {\n        if (points.empty()) return 0;\n        sort(points.begin(), points.end(), [](const vector<int>& a, const vector<int>& b) { return a[1] < b[1]; });\n        int arrows = 1;\n        int end = points[0][1];\n        for (int i = 1; i < points.size(); i++) {\n            if (points[i][0] > end) {\n                arrows++;\n                end = points[i][1];\n            }\n        }\n        return arrows;\n    }\n};",
-      "javascript": "var findMinArrowShots = function(points) {\n    if (!points.length) return 0;\n    points.sort((a, b) => a[1] - b[1]);\n    let arrows = 1;\n    let end = points[0][1];\n    for (let i = 1; i < points.length; i++) {\n        if (points[i][0] > end) {\n            arrows++;\n            end = points[i][1];\n        }\n    }\n    return arrows;\n};",
-      "go": "func findMinArrowShots(points [][]int) int {\n    if len(points) == 0 { return 0 }\n    sort.Slice(points, func(i, j int) bool { return points[i][1] < points[j][1] })\n    arrows := 1\n    end := points[0][1]\n    for i := 1; i < len(points); i++ {\n        if points[i][0] > end {\n            arrows++\n            end = points[i][1]\n        }\n    }\n    return arrows\n}",
-      "rust": "impl Solution {\n    pub fn find_min_arrow_shots(mut points: Vec<Vec<i32>>) -> i32 {\n        if points.is_empty() { return 0 }\n        points.sort_by_key(|v| v[1]);\n        let mut arrows = 1;\n        let mut end = points[0][1];\n        for i in 1..points.len() {\n            if points[i][0] > end {\n                arrows += 1;\n                end = points[i][1];\n            }\n        }\n        arrows\n    }\n}"
+      "python": "class Solution:\n    def eraseOverlapIntervals(self, intervals: List[List[int]]) -> int:\n        if not intervals:\n            return 0\n        intervals.sort(key=lambda x: x[1])\n        count = 0\n        end = intervals[0][1]\n        for i in range(1, len(intervals)):\n            if intervals[i][0] < end:\n                count += 1\n            else:\n                end = intervals[i][1]\n        return count",
+      "java": "class Solution {\n    public int eraseOverlapIntervals(int[][] intervals) {\n        if (intervals.length == 0) return 0;\n        Arrays.sort(intervals, (a, b) -> Integer.compare(a[1], b[1]));\n        int count = 0;\n        int end = intervals[0][1];\n        for (int i = 1; i < intervals.length; i++) {\n            if (intervals[i][0] < end) {\n                count++;\n            } else {\n                end = intervals[i][1];\n            }\n        }\n        return count;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int eraseOverlapIntervals(vector<vector<int>>& intervals) {\n        if (intervals.empty()) return 0;\n        sort(intervals.begin(), intervals.end(), [](const vector<int>& a, const vector<int>& b) { return a[1] < b[1]; });\n        int count = 0;\n        int end = intervals[0][1];\n        for (int i = 1; i < intervals.size(); i++) {\n            if (intervals[i][0] < end) {\n                count++;\n            } else {\n                end = intervals[i][1];\n            }\n        }\n        return count;\n    }\n};",
+      "javascript": "var eraseOverlapIntervals = function(intervals) {\n    if (!intervals.length) return 0;\n    intervals.sort((a, b) => a[1] - b[1]);\n    let count = 0;\n    let end = intervals[0][1];\n    for (let i = 1; i < intervals.length; i++) {\n        if (intervals[i][0] < end) {\n            count++;\n        } else {\n            end = intervals[i][1];\n        }\n    }\n    return count;\n};",
+      "go": "func eraseOverlapIntervals(intervals [][]int) int {\n    if len(intervals) == 0 { return 0 }\n    sort.Slice(intervals, func(i, j int) bool { return intervals[i][1] < intervals[j][1] })\n    count := 0\n    end := intervals[0][1]\n    for i := 1; i < len(intervals); i++ {\n        if intervals[i][0] < end {\n            count++\n        } else {\n            end = intervals[i][1]\n        }\n    }\n    return count\n}",
+      "rust": "impl Solution {\n    pub fn erase_overlap_intervals(mut intervals: Vec<Vec<i32>>) -> i32 {\n        if intervals.is_empty() { return 0 }\n        intervals.sort_by_key(|v| v[1]);\n        let mut count = 0;\n        let mut end = intervals[0][1];\n        for i in 1..intervals.len() {\n            if intervals[i][0] < end {\n                count += 1;\n            } else {\n                end = intervals[i][1];\n            }\n        }\n        count\n    }\n}"
     }
   },
   {
@@ -236,99 +264,39 @@
     }
   },
   {
-    "id": "sorting-comparators-8",
-    "leetcode": 973,
-    "title": "K Closest Points to Origin",
+    "id": "sorting-comparators-6",
+    "leetcode": 452,
+    "title": "Minimum Number of Arrows to Burst Balloons",
     "difficulty": "Medium",
-    "description": "Given an array of points where points[i] = [xi, yi] represents a point on the X-Y plane and an integer k, return the k closest points to the origin (0, 0). The distance between two points on the X-Y plane is the Euclidean distance. You may return the answer in any order.",
+    "description": "There are some spherical balloons taped onto a flat wall that represents the XY-plane. The balloons are represented as a 2D integer array points where points[i] = [xstart, xend] denotes that the balloon with horizontal diameter between xstart and xend. Given an array points, return the minimum number of arrows that must be shot to burst all balloons.",
     "examples": [
       {
-        "input": "points = [[3,3],[5,-1],[-2,4]], k = 2",
-        "output": "[[3,3],[-2,4]]"
+        "input": "points = [[10,16],[2,8],[1,6],[7,12]]",
+        "output": "2"
       },
       {
-        "input": "points = [[1,3],[-2,2]], k = 1",
-        "output": "[[-2,2]]"
+        "input": "points = [[1,2],[3,4],[5,6],[7,8]]",
+        "output": "4"
+      },
+      {
+        "input": "points = [[1,2],[2,3],[3,4],[4,5]]",
+        "output": "2"
       }
     ],
     "hints": [
-      "The distance to the origin for point [x,y] is x^2 + y^2.",
-      "Sort points by distance squared to avoid floating point sqrt.",
-      "Alternatively use a max-heap of size k for O(n log k) solution."
+      "Sort intervals by their end.",
+      "If the next balloon starts where the current arrow can reach, one arrow suffices.",
+      "Otherwise, fire a new arrow at the end of the next balloon."
     ],
     "timeComplexity": "O(n log n)",
-    "spaceComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
     "solutions": {
-      "python": "class Solution:\n    def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:\n        return sorted(points, key=lambda p: p[0]**2 + p[1]**2)[:k]",
-      "java": "class Solution {\n    public int[][] kClosest(int[][] points, int k) {\n        Arrays.sort(points, (a, b) -> a[0]*a[0] + a[1]*a[1] - (b[0]*b[0] + b[1]*b[1]));\n        return Arrays.copyOf(points, k);\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {\n        sort(points.begin(), points.end(), [](const vector<int>& a, const vector<int>& b) {\n            return a[0]*a[0] + a[1]*a[1] < b[0]*b[0] + b[1]*b[1];\n        });\n        return vector<vector<int>>(points.begin(), points.begin() + k);\n    }\n};",
-      "javascript": "var kClosest = function(points, k) {\n    points.sort((a, b) => a[0]*a[0] + a[1]*a[1] - (b[0]*b[0] + b[1]*b[1]));\n    return points.slice(0, k);\n};",
-      "go": "func kClosest(points [][]int, k int) [][]int {\n    sort.Slice(points, func(i, j int) bool {\n        di := points[i][0]*points[i][0] + points[i][1]*points[i][1]\n        dj := points[j][0]*points[j][0] + points[j][1]*points[j][1]\n        return di < dj\n    })\n    return points[:k]\n}",
-      "rust": "impl Solution {\n    pub fn k_closest(mut points: Vec<Vec<i32>>, k: i32) -> Vec<Vec<i32>> {\n        points.sort_by_key(|p| p[0] * p[0] + p[1] * p[1]);\n        points.truncate(k as usize);\n        points\n    }\n}"
-    }
-  },
-  {
-    "id": "sorting-comparators-9",
-    "leetcode": 179,
-    "title": "Largest Number",
-    "difficulty": "Medium",
-    "description": "Given a list of non-negative integers nums, arrange them such that they form the largest number and return it. Since the result may be very large, return it as a string.",
-    "examples": [
-      {
-        "input": "nums = [10,2]",
-        "output": "210"
-      },
-      {
-        "input": "nums = [3,30,34,5,9]",
-        "output": "9534330"
-      }
-    ],
-    "hints": [
-      "Convert all integers to strings.",
-      "Custom comparator: for strings a and b, compare a+b vs b+a.",
-      "Sort in descending order of this custom comparison. Handle the edge case of all zeros."
-    ],
-    "timeComplexity": "O(n log n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "from functools import cmp_to_key\nclass Solution:\n    def largestNumber(self, nums: List[int]) -> str:\n        strs = list(map(str, nums))\n        strs.sort(key=cmp_to_key(lambda a, b: -1 if a+b > b+a else 1 if a+b < b+a else 0))\n        result = ''.join(strs)\n        return '0' if result[0] == '0' else result",
-      "java": "class Solution {\n    public String largestNumber(int[] nums) {\n        String[] strs = new String[nums.length];\n        for (int i = 0; i < nums.length; i++) strs[i] = String.valueOf(nums[i]);\n        Arrays.sort(strs, (a, b) -> (b + a).compareTo(a + b));\n        StringBuilder sb = new StringBuilder();\n        for (String s : strs) sb.append(s);\n        return sb.charAt(0) == '0' ? \"0\" : sb.toString();\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    string largestNumber(vector<int>& nums) {\n        vector<string> strs;\n        for (int n : nums) strs.push_back(to_string(n));\n        sort(strs.begin(), strs.end(), [](const string& a, const string& b) { return a + b > b + a; });\n        if (strs[0] == \"0\") return \"0\";\n        string result;\n        for (auto& s : strs) result += s;\n        return result;\n    }\n};",
-      "javascript": "var largestNumber = function(nums) {\n    const strs = nums.map(String);\n    strs.sort((a, b) => (b + a).localeCompare(a + b));\n    const result = strs.join(\"\");\n    return result[0] === \"0\" ? \"0\" : result;\n};",
-      "go": "func largestNumber(nums []int) string {\n    strs := make([]string, len(nums))\n    for i, n := range nums { strs[i] = strconv.Itoa(n) }\n    sort.Slice(strs, func(i, j int) bool { return strs[i]+strs[j] > strs[j]+strs[i] })\n    if strs[0] == \"0\" { return \"0\" }\n    return strings.Join(strs, \"\")\n}",
-      "rust": "impl Solution {\n    pub fn largest_number(mut nums: Vec<i32>) -> String {\n        let mut strs: Vec<String> = nums.iter().map(|n| n.to_string()).collect();\n        strs.sort_by(|a, b| (b.clone() + a).cmp(&(a.clone() + b)));\n        if strs[0] == \"0\" { return \"0\".to_string(); }\n        strs.concat()\n    }\n}"
-    }
-  },
-  {
-    "id": "sorting-comparators-10",
-    "leetcode": 406,
-    "title": "Queue Reconstruction by Height",
-    "difficulty": "Medium",
-    "description": "You are given an array of people, people, which describes the qualities of each person (in no particular order), where people[i] = [hi, ki] represents the ith person of height hi with exactly ki other people in front who have a height greater than or equal to hi. Reconstruct and return the queue.",
-    "examples": [
-      {
-        "input": "people = [[7,0],[4,4],[7,1],[5,0],[6,1],[5,2]]",
-        "output": "[[5,0],[7,0],[5,2],[6,1],[4,4],[7,1]]"
-      },
-      {
-        "input": "people = [[6,0],[5,0],[4,0],[3,2],[2,2],[1,4]]",
-        "output": "[[4,0],[5,0],[2,2],[3,2],[1,4],[6,0]]"
-      }
-    ],
-    "hints": [
-      "Sort people by height in descending order, and by k in ascending order for same height.",
-      "Insert each person at index k in the result list.",
-      "People already inserted are all taller or equal, so position k is correct."
-    ],
-    "timeComplexity": "O(n^2)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "class Solution:\n    def reconstructQueue(self, people: List[List[int]]) -> List[List[int]]:\n        people.sort(key=lambda p: (-p[0], p[1]))\n        result = []\n        for h, k in people:\n            result.insert(k, [h, k])\n        return result",
-      "java": "class Solution {\n    public int[][] reconstructQueue(int[][] people) {\n        Arrays.sort(people, (a, b) -> a[0] == b[0] ? a[1] - b[1] : b[0] - a[0]);\n        List<int[]> result = new ArrayList<>();\n        for (int[] p : people) result.add(p[1], p);\n        return result.toArray(new int[people.length][]);\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {\n        sort(people.begin(), people.end(), [](const vector<int>& a, const vector<int>& b) {\n            return a[0] > b[0] || (a[0] == b[0] && a[1] < b[1]);\n        });\n        vector<vector<int>> result;\n        for (auto& p : people) result.insert(result.begin() + p[1], p);\n        return result;\n    }\n};",
-      "javascript": "var reconstructQueue = function(people) {\n    people.sort((a, b) => a[0] === b[0] ? a[1] - b[1] : b[0] - a[0]);\n    const result = [];\n    for (const [h, k] of people) result.splice(k, 0, [h, k]);\n    return result;\n};",
-      "go": "func reconstructQueue(people [][]int) [][]int {\n    sort.Slice(people, func(i, j int) bool {\n        return people[i][0] > people[j][0] || (people[i][0] == people[j][0] && people[i][1] < people[j][1])\n    })\n    result := make([][]int, 0, len(people))\n    for _, p := range people {\n        result = append(result[:p[1]], append([][]int{p}, result[p[1]:]...)...)\n    }\n    return result\n}",
-      "rust": "impl Solution {\n    pub fn reconstruct_queue(mut people: Vec<Vec<i32>>) -> Vec<Vec<i32>> {\n        people.sort_by(|a, b| {\n            if a[0] != b[0] { b[0].cmp(&a[0]) } else { a[1].cmp(&b[1]) }\n        });\n        let mut result: Vec<Vec<i32>> = Vec::new();\n        for p in people {\n            result.insert(p[1] as usize, p);\n        }\n        result\n    }\n}"
+      "python": "class Solution:\n    def findMinArrowShots(self, points: List[List[int]]) -> int:\n        if not points:\n            return 0\n        points.sort(key=lambda x: x[1])\n        arrows = 1\n        end = points[0][1]\n        for s, e in points[1:]:\n            if s > end:\n                arrows += 1\n                end = e\n        return arrows",
+      "java": "class Solution {\n    public int findMinArrowShots(int[][] points) {\n        if (points.length == 0) return 0;\n        Arrays.sort(points, (a, b) -> Integer.compare(a[1], b[1]));\n        int arrows = 1;\n        int end = points[0][1];\n        for (int i = 1; i < points.length; i++) {\n            if (points[i][0] > end) {\n                arrows++;\n                end = points[i][1];\n            }\n        }\n        return arrows;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int findMinArrowShots(vector<vector<int>>& points) {\n        if (points.empty()) return 0;\n        sort(points.begin(), points.end(), [](const vector<int>& a, const vector<int>& b) { return a[1] < b[1]; });\n        int arrows = 1;\n        int end = points[0][1];\n        for (int i = 1; i < points.size(); i++) {\n            if (points[i][0] > end) {\n                arrows++;\n                end = points[i][1];\n            }\n        }\n        return arrows;\n    }\n};",
+      "javascript": "var findMinArrowShots = function(points) {\n    if (!points.length) return 0;\n    points.sort((a, b) => a[1] - b[1]);\n    let arrows = 1;\n    let end = points[0][1];\n    for (let i = 1; i < points.length; i++) {\n        if (points[i][0] > end) {\n            arrows++;\n            end = points[i][1];\n        }\n    }\n    return arrows;\n};",
+      "go": "func findMinArrowShots(points [][]int) int {\n    if len(points) == 0 { return 0 }\n    sort.Slice(points, func(i, j int) bool { return points[i][1] < points[j][1] })\n    arrows := 1\n    end := points[0][1]\n    for i := 1; i < len(points); i++ {\n        if points[i][0] > end {\n            arrows++\n            end = points[i][1]\n        }\n    }\n    return arrows\n}",
+      "rust": "impl Solution {\n    pub fn find_min_arrow_shots(mut points: Vec<Vec<i32>>) -> i32 {\n        if points.is_empty() { return 0 }\n        points.sort_by_key(|v| v[1]);\n        let mut arrows = 1;\n        let mut end = points[0][1];\n        for i in 1..points.len() {\n            if points[i][0] > end {\n                arrows += 1;\n                end = points[i][1];\n            }\n        }\n        arrows\n    }\n}"
     }
   },
   {
@@ -364,35 +332,67 @@
     }
   },
   {
-    "id": "sorting-comparators-12",
-    "leetcode": 148,
-    "title": "Sort List",
+    "id": "sorting-comparators-8",
+    "leetcode": 973,
+    "title": "K Closest Points to Origin",
     "difficulty": "Medium",
-    "description": "Given the head of a linked list, return the list after sorting it in ascending order with O(n log n) time complexity and O(1) extra space for merge sort or O(log n) for recursive stack.",
+    "description": "Given an array of points where points[i] = [xi, yi] represents a point on the X-Y plane and an integer k, return the k closest points to the origin (0, 0). The distance between two points on the X-Y plane is the Euclidean distance. You may return the answer in any order.",
     "examples": [
       {
-        "input": "head = [4,2,1,3]",
-        "output": "[1,2,3,4]"
+        "input": "points = [[3,3],[5,-1],[-2,4]], k = 2",
+        "output": "[[3,3],[-2,4]]"
       },
       {
-        "input": "head = [-1,5,3,4,0]",
-        "output": "[-1,0,3,4,5]"
+        "input": "points = [[1,3],[-2,2]], k = 1",
+        "output": "[[-2,2]]"
       }
     ],
     "hints": [
-      "Use merge sort on a linked list.",
-      "Find the middle using slow/fast pointer technique.",
-      "Recursively sort the two halves and merge them."
+      "The distance to the origin for point [x,y] is x^2 + y^2.",
+      "Sort points by distance squared to avoid floating point sqrt.",
+      "Alternatively use a max-heap of size k for O(n log k) solution."
     ],
     "timeComplexity": "O(n log n)",
-    "spaceComplexity": "O(log n)",
+    "spaceComplexity": "O(n)",
     "solutions": {
-      "python": "class Solution:\n    def sortList(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        if not head or not head.next:\n            return head\n        slow, fast = head, head.next\n        while fast and fast.next:\n            slow = slow.next\n            fast = fast.next.next\n        mid = slow.next\n        slow.next = None\n        left = self.sortList(head)\n        right = self.sortList(mid)\n        dummy = ListNode(0)\n        cur = dummy\n        while left and right:\n            if left.val <= right.val:\n                cur.next = left\n                left = left.next\n            else:\n                cur.next = right\n                right = right.next\n            cur = cur.next\n        cur.next = left or right\n        return dummy.next",
-      "java": "class Solution {\n    public ListNode sortList(ListNode head) {\n        if (head == null || head.next == null) return head;\n        ListNode slow = head, fast = head.next;\n        while (fast != null && fast.next != null) {\n            slow = slow.next;\n            fast = fast.next.next;\n        }\n        ListNode mid = slow.next;\n        slow.next = null;\n        ListNode left = sortList(head);\n        ListNode right = sortList(mid);\n        ListNode dummy = new ListNode(0);\n        ListNode cur = dummy;\n        while (left != null && right != null) {\n            if (left.val <= right.val) { cur.next = left; left = left.next; }\n            else { cur.next = right; right = right.next; }\n            cur = cur.next;\n        }\n        cur.next = (left != null) ? left : right;\n        return dummy.next;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    ListNode* sortList(ListNode* head) {\n        if (!head || !head->next) return head;\n        ListNode* slow = head;\n        ListNode* fast = head->next;\n        while (fast && fast->next) { slow = slow->next; fast = fast->next->next; }\n        ListNode* mid = slow->next;\n        slow->next = nullptr;\n        ListNode* left = sortList(head);\n        ListNode* right = sortList(mid);\n        ListNode dummy(0);\n        ListNode* cur = &dummy;\n        while (left && right) {\n            if (left->val <= right->val) { cur->next = left; left = left->next; }\n            else { cur->next = right; right = right->next; }\n            cur = cur->next;\n        }\n        cur->next = left ? left : right;\n        return dummy.next;\n    }\n};",
-      "javascript": "var sortList = function(head) {\n    if (!head || !head.next) return head;\n    let slow = head, fast = head.next;\n    while (fast && fast.next) { slow = slow.next; fast = fast.next.next; }\n    const mid = slow.next; slow.next = null;\n    const left = sortList(head);\n    const right = sortList(mid);\n    const dummy = new ListNode(0);\n    let cur = dummy;\n    while (left && right) {\n        if (left.val <= right.val) { cur.next = left; left = left.next; }\n        else { cur.next = right; right = right.next; }\n        cur = cur.next;\n    }\n    cur.next = left || right;\n    return dummy.next;\n};",
-      "go": "func sortList(head *ListNode) *ListNode {\n    if head == nil || head.Next == nil { return head }\n    slow, fast := head, head.Next\n    for fast != nil && fast.Next != nil { slow = slow.Next; fast = fast.Next.Next }\n    mid := slow.Next; slow.Next = nil\n    left := sortList(head)\n    right := sortList(mid)\n    dummy := &ListNode{}\n    cur := dummy\n    for left != nil && right != nil {\n        if left.Val <= right.Val { cur.Next = left; left = left.Next }\n        else { cur.Next = right; right = right.Next }\n        cur = cur.Next\n    }\n    if left != nil { cur.Next = left } else { cur.Next = right }\n    return dummy.Next\n}",
-      "rust": "impl Solution {\n    pub fn sort_list(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {\n        fn merge(l1: Option<Box<ListNode>>, l2: Option<Box<ListNode>>) -> Option<Box<ListNode>> {\n            match (l1, l2) {\n                (None, None) => None,\n                (Some(n), None) | (None, Some(n)) => Some(n),\n                (Some(n1), Some(n2)) => {\n                    if n1.val <= n2.val {\n                        Some(Box::new(ListNode { val: n1.val, next: merge(n1.next, Some(n2)) }))\n                    } else {\n                        Some(Box::new(ListNode { val: n2.val, next: merge(Some(n1), n2.next) }))\n                    }\n                }\n            }\n        }\n        fn sort(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {\n            if head.is_none() || head.as_ref().unwrap().next.is_none() { return head; }\n            let mut slow = head.as_ref().unwrap();\n            let mut fast = slow.next.as_ref().unwrap();\n            while fast.next.is_some() {\n                slow = slow.next.as_ref().unwrap();\n                fast = fast.next.as_ref().unwrap();\n                if fast.next.is_some() { fast = fast.next.as_ref().unwrap(); }\n            }\n            let mid = slow.next.clone();\n            let mut node = head;\n            node.as_mut().unwrap().next = None;\n            let left = sort(node);\n            let right = sort(mid);\n            merge(left, right)\n        }\n        sort(head)\n    }\n}"
+      "python": "class Solution:\n    def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:\n        return sorted(points, key=lambda p: p[0]**2 + p[1]**2)[:k]",
+      "java": "class Solution {\n    public int[][] kClosest(int[][] points, int k) {\n        Arrays.sort(points, (a, b) -> a[0]*a[0] + a[1]*a[1] - (b[0]*b[0] + b[1]*b[1]));\n        return Arrays.copyOf(points, k);\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {\n        sort(points.begin(), points.end(), [](const vector<int>& a, const vector<int>& b) {\n            return a[0]*a[0] + a[1]*a[1] < b[0]*b[0] + b[1]*b[1];\n        });\n        return vector<vector<int>>(points.begin(), points.begin() + k);\n    }\n};",
+      "javascript": "var kClosest = function(points, k) {\n    points.sort((a, b) => a[0]*a[0] + a[1]*a[1] - (b[0]*b[0] + b[1]*b[1]));\n    return points.slice(0, k);\n};",
+      "go": "func kClosest(points [][]int, k int) [][]int {\n    sort.Slice(points, func(i, j int) bool {\n        di := points[i][0]*points[i][0] + points[i][1]*points[i][1]\n        dj := points[j][0]*points[j][0] + points[j][1]*points[j][1]\n        return di < dj\n    })\n    return points[:k]\n}",
+      "rust": "impl Solution {\n    pub fn k_closest(mut points: Vec<Vec<i32>>, k: i32) -> Vec<Vec<i32>> {\n        points.sort_by_key(|p| p[0] * p[0] + p[1] * p[1]);\n        points.truncate(k as usize);\n        points\n    }\n}"
+    }
+  },
+  {
+    "id": "sorting-comparators-4",
+    "leetcode": 986,
+    "title": "Interval List Intersections",
+    "difficulty": "Medium",
+    "description": "You are given two lists of closed intervals, firstList and secondList, where each list of intervals is pairwise disjoint and in sorted order. Return the intersection of these two interval lists. A closed interval [a, b] denotes the set of real numbers x with a <= x <= b.",
+    "examples": [
+      {
+        "input": "firstList = [[0,2],[5,10],[13,23],[24,25]], secondList = [[1,5],[8,12],[15,24],[25,26]]",
+        "output": "[[1,2],[5,5],[8,10],[15,23],[24,24],[25,25]]"
+      },
+      {
+        "input": "firstList = [[1,3],[5,9]], secondList = []",
+        "output": "[]"
+      }
+    ],
+    "hints": [
+      "Use two pointers, one for each list.",
+      "Two intervals [a,b] and [c,d] intersect if max(a,c) <= min(b,d).",
+      "Advance the pointer of the interval that ends first."
+    ],
+    "timeComplexity": "O(m + n)",
+    "spaceComplexity": "O(m + n)",
+    "solutions": {
+      "python": "class Solution:\n    def intervalIntersection(self, firstList: List[List[int]], secondList: List[List[int]]) -> List[List[int]]:\n        result = []\n        i = j = 0\n        while i < len(firstList) and j < len(secondList):\n            lo = max(firstList[i][0], secondList[j][0])\n            hi = min(firstList[i][1], secondList[j][1])\n            if lo <= hi:\n                result.append([lo, hi])\n            if firstList[i][1] < secondList[j][1]:\n                i += 1\n            else:\n                j += 1\n        return result",
+      "java": "class Solution {\n    public int[][] intervalIntersection(int[][] firstList, int[][] secondList) {\n        List<int[]> result = new ArrayList<>();\n        int i = 0, j = 0;\n        while (i < firstList.length && j < secondList.length) {\n            int lo = Math.max(firstList[i][0], secondList[j][0]);\n            int hi = Math.min(firstList[i][1], secondList[j][1]);\n            if (lo <= hi) result.add(new int[]{lo, hi});\n            if (firstList[i][1] < secondList[j][1]) i++;\n            else j++;\n        }\n        return result.toArray(new int[result.size()][]);\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    vector<vector<int>> intervalIntersection(vector<vector<int>>& firstList, vector<vector<int>>& secondList) {\n        vector<vector<int>> result;\n        int i = 0, j = 0;\n        while (i < firstList.size() && j < secondList.size()) {\n            int lo = max(firstList[i][0], secondList[j][0]);\n            int hi = min(firstList[i][1], secondList[j][1]);\n            if (lo <= hi) result.push_back({lo, hi});\n            if (firstList[i][1] < secondList[j][1]) i++;\n            else j++;\n        }\n        return result;\n    }\n};",
+      "javascript": "var intervalIntersection = function(firstList, secondList) {\n    const result = [];\n    let i = 0, j = 0;\n    while (i < firstList.length && j < secondList.length) {\n        const lo = Math.max(firstList[i][0], secondList[j][0]);\n        const hi = Math.min(firstList[i][1], secondList[j][1]);\n        if (lo <= hi) result.push([lo, hi]);\n        if (firstList[i][1] < secondList[j][1]) i++;\n        else j++;\n    }\n    return result;\n};",
+      "go": "func intervalIntersection(firstList [][]int, secondList [][]int) [][]int {\n    result := [][]int{}\n    i, j := 0, 0\n    for i < len(firstList) && j < len(secondList) {\n        lo := max(firstList[i][0], secondList[j][0])\n        hi := min(firstList[i][1], secondList[j][1])\n        if lo <= hi { result = append(result, []int{lo, hi}) }\n        if firstList[i][1] < secondList[j][1] { i++ } else { j++ }\n    }\n    return result\n}",
+      "rust": "impl Solution {\n    pub fn interval_intersection(first_list: Vec<Vec<i32>>, second_list: Vec<Vec<i32>>) -> Vec<Vec<i32>> {\n        let mut result = Vec::new();\n        let (mut i, mut j) = (0, 0);\n        while i < first_list.len() && j < second_list.len() {\n            let lo = first_list[i][0].max(second_list[j][0]);\n            let hi = first_list[i][1].min(second_list[j][1]);\n            if lo <= hi { result.push(vec![lo, hi]); }\n            if first_list[i][1] < second_list[j][1] { i += 1; } else { j += 1; }\n        }\n        result\n    }\n}"
     }
   }
 ]

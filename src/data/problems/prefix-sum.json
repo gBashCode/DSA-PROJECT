@@ -1,64 +1,15 @@
 [
   {
-    "id": "prefix-sum-01",
-    "leetcode": 1480,
-    "title": "Running Sum of 1d Array",
-    "difficulty": "Easy",
-    "description": "Given an array nums, return the running sum where runningSum[i] = sum(nums[0]...nums[i]).",
-    "examples": [
-      { "input": "nums = [1,2,3,4]", "output": "[1,3,6,10]" },
-      { "input": "nums = [1,1,1,1,1]", "output": "[1,2,3,4,5]" },
-      { "input": "nums = [3,1,2,10,1]", "output": "[3,4,6,16,17]" }
-    ],
-    "hints": [
-      "You can solve this by computing a prefix sum array.",
-      "Store the cumulative sum at each index."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(1) (output array not counted)",
-    "solutions": {
-      "python": "def runningSum(nums):\n    for i in range(1, len(nums)):\n        nums[i] += nums[i - 1]\n    return nums",
-      "java": "public int[] runningSum(int[] nums) {\n    for (int i = 1; i < nums.length; i++) {\n        nums[i] += nums[i - 1];\n    }\n    return nums;\n}",
-      "cpp": "vector<int> runningSum(vector<int>& nums) {\n    for (int i = 1; i < nums.size(); i++) {\n        nums[i] += nums[i - 1];\n    }\n    return nums;\n}",
-      "javascript": "function runningSum(nums) {\n    for (let i = 1; i < nums.length; i++) {\n        nums[i] += nums[i - 1];\n    }\n    return nums;\n}",
-      "go": "func runningSum(nums []int) []int {\n    for i := 1; i < len(nums); i++ {\n        nums[i] += nums[i-1]\n    }\n    return nums\n}",
-      "rust": "pub fn running_sum(nums: Vec<i32>) -> Vec<i32> {\n    let mut result = nums;\n    for i in 1..result.len() {\n        result[i] += result[i - 1];\n    }\n    result\n}"
-    }
-  },
-  {
-    "id": "prefix-sum-02",
-    "leetcode": 724,
-    "title": "Find Pivot Index",
-    "difficulty": "Easy",
-    "description": "Given an array nums, return the leftmost index such that the sum of all elements to the left equals the sum of all elements to the right. If no such index exists, return -1.",
-    "examples": [
-      { "input": "nums = [1,7,3,6,5,6]", "output": "3" },
-      { "input": "nums = [1,2,3]", "output": "-1" },
-      { "input": "nums = [2,1,-1]", "output": "0" }
-    ],
-    "hints": [
-      "Compute the total sum first.",
-      "For each index, check if leftSum == totalSum - leftSum - nums[i]."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "def pivotIndex(nums):\n    total = sum(nums)\n    left = 0\n    for i in range(len(nums)):\n        if left == total - left - nums[i]:\n            return i\n        left += nums[i]\n    return -1",
-      "java": "public int pivotIndex(int[] nums) {\n    int total = 0;\n    for (int num : nums) total += num;\n    int left = 0;\n    for (int i = 0; i < nums.length; i++) {\n        if (left == total - left - nums[i]) return i;\n        left += nums[i];\n    }\n    return -1;\n}",
-      "cpp": "int pivotIndex(vector<int>& nums) {\n    int total = 0;\n    for (int num : nums) total += num;\n    int left = 0;\n    for (int i = 0; i < nums.size(); i++) {\n        if (left == total - left - nums[i]) return i;\n        left += nums[i];\n    }\n    return -1;\n}",
-      "javascript": "function pivotIndex(nums) {\n    const total = nums.reduce((a, b) => a + b, 0);\n    let left = 0;\n    for (let i = 0; i < nums.length; i++) {\n        if (left === total - left - nums[i]) return i;\n        left += nums[i];\n    }\n    return -1;\n}",
-      "go": "func pivotIndex(nums []int) int {\n    total := 0\n    for _, num := range nums {\n        total += num\n    }\n    left := 0\n    for i, num := range nums {\n        if left == total-left-num {\n            return i\n        }\n        left += num\n    }\n    return -1\n}",
-      "rust": "pub fn pivot_index(nums: Vec<i32>) -> i32 {\n    let total: i32 = nums.iter().sum();\n    let mut left: i32 = 0;\n    for (i, &num) in nums.iter().enumerate() {\n        if left == total - left - num {\n            return i as i32;\n        }\n        left += num;\n    }\n    -1\n}"
-    }
-  },
-  {
     "id": "prefix-sum-03",
     "leetcode": 303,
     "title": "Range Sum Query - Immutable",
     "difficulty": "Easy",
     "description": "Design an algorithm that accepts an integer array and efficiently answers multiple range sum queries [left, right], returning the sum of elements between left and right inclusive.",
     "examples": [
-      { "input": "nums = [-2,0,3,-5,2,-1], sumRange(0,2) -> 1, sumRange(2,5) -> -1, sumRange(0,5) -> -3", "output": "1, -1, -3" }
+      {
+        "input": "nums = [-2,0,3,-5,2,-1], sumRange(0,2) -> 1, sumRange(2,5) -> -1, sumRange(0,5) -> -3",
+        "output": "1, -1, -3"
+      }
     ],
     "hints": [
       "Precompute a prefix sum array during initialization.",
@@ -76,14 +27,90 @@
     }
   },
   {
+    "id": "prefix-sum-02",
+    "leetcode": 724,
+    "title": "Find Pivot Index",
+    "difficulty": "Easy",
+    "description": "Given an array nums, return the leftmost index such that the sum of all elements to the left equals the sum of all elements to the right. If no such index exists, return -1.",
+    "examples": [
+      {
+        "input": "nums = [1,7,3,6,5,6]",
+        "output": "3"
+      },
+      {
+        "input": "nums = [1,2,3]",
+        "output": "-1"
+      },
+      {
+        "input": "nums = [2,1,-1]",
+        "output": "0"
+      }
+    ],
+    "hints": [
+      "Compute the total sum first.",
+      "For each index, check if leftSum == totalSum - leftSum - nums[i]."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "solutions": {
+      "python": "def pivotIndex(nums):\n    total = sum(nums)\n    left = 0\n    for i in range(len(nums)):\n        if left == total - left - nums[i]:\n            return i\n        left += nums[i]\n    return -1",
+      "java": "public int pivotIndex(int[] nums) {\n    int total = 0;\n    for (int num : nums) total += num;\n    int left = 0;\n    for (int i = 0; i < nums.length; i++) {\n        if (left == total - left - nums[i]) return i;\n        left += nums[i];\n    }\n    return -1;\n}",
+      "cpp": "int pivotIndex(vector<int>& nums) {\n    int total = 0;\n    for (int num : nums) total += num;\n    int left = 0;\n    for (int i = 0; i < nums.size(); i++) {\n        if (left == total - left - nums[i]) return i;\n        left += nums[i];\n    }\n    return -1;\n}",
+      "javascript": "function pivotIndex(nums) {\n    const total = nums.reduce((a, b) => a + b, 0);\n    let left = 0;\n    for (let i = 0; i < nums.length; i++) {\n        if (left === total - left - nums[i]) return i;\n        left += nums[i];\n    }\n    return -1;\n}",
+      "go": "func pivotIndex(nums []int) int {\n    total := 0\n    for _, num := range nums {\n        total += num\n    }\n    left := 0\n    for i, num := range nums {\n        if left == total-left-num {\n            return i\n        }\n        left += num\n    }\n    return -1\n}",
+      "rust": "pub fn pivot_index(nums: Vec<i32>) -> i32 {\n    let total: i32 = nums.iter().sum();\n    let mut left: i32 = 0;\n    for (i, &num) in nums.iter().enumerate() {\n        if left == total - left - num {\n            return i as i32;\n        }\n        left += num;\n    }\n    -1\n}"
+    }
+  },
+  {
+    "id": "prefix-sum-01",
+    "leetcode": 1480,
+    "title": "Running Sum of 1d Array",
+    "difficulty": "Easy",
+    "description": "Given an array nums, return the running sum where runningSum[i] = sum(nums[0]...nums[i]).",
+    "examples": [
+      {
+        "input": "nums = [1,2,3,4]",
+        "output": "[1,3,6,10]"
+      },
+      {
+        "input": "nums = [1,1,1,1,1]",
+        "output": "[1,2,3,4,5]"
+      },
+      {
+        "input": "nums = [3,1,2,10,1]",
+        "output": "[3,4,6,16,17]"
+      }
+    ],
+    "hints": [
+      "You can solve this by computing a prefix sum array.",
+      "Store the cumulative sum at each index."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1) (output array not counted)",
+    "solutions": {
+      "python": "def runningSum(nums):\n    for i in range(1, len(nums)):\n        nums[i] += nums[i - 1]\n    return nums",
+      "java": "public int[] runningSum(int[] nums) {\n    for (int i = 1; i < nums.length; i++) {\n        nums[i] += nums[i - 1];\n    }\n    return nums;\n}",
+      "cpp": "vector<int> runningSum(vector<int>& nums) {\n    for (int i = 1; i < nums.size(); i++) {\n        nums[i] += nums[i - 1];\n    }\n    return nums;\n}",
+      "javascript": "function runningSum(nums) {\n    for (let i = 1; i < nums.length; i++) {\n        nums[i] += nums[i - 1];\n    }\n    return nums;\n}",
+      "go": "func runningSum(nums []int) []int {\n    for i := 1; i < len(nums); i++ {\n        nums[i] += nums[i-1]\n    }\n    return nums\n}",
+      "rust": "pub fn running_sum(nums: Vec<i32>) -> Vec<i32> {\n    let mut result = nums;\n    for i in 1..result.len() {\n        result[i] += result[i - 1];\n    }\n    result\n}"
+    }
+  },
+  {
     "id": "prefix-sum-04",
     "leetcode": 1732,
     "title": "Find the Highest Altitude",
     "difficulty": "Easy",
     "description": "A biker goes on a road trip with n+1 points at different altitudes. Given an array gain where gain[i] is the net gain in altitude between points i and i+1, return the highest altitude reached.",
     "examples": [
-      { "input": "gain = [-5,1,5,0,-7]", "output": "1" },
-      { "input": "gain = [-4,-3,-2,-1,4,3,2]", "output": "0" }
+      {
+        "input": "gain = [-5,1,5,0,-7]",
+        "output": "1"
+      },
+      {
+        "input": "gain = [-4,-3,-2,-1,4,3,2]",
+        "output": "0"
+      }
     ],
     "hints": [
       "Start at altitude 0 and accumulate the gains.",
@@ -107,8 +134,14 @@
     "difficulty": "Medium",
     "description": "Given an integer array nums, return an array answer such that answer[i] is the product of all elements of nums except nums[i]. The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer. You must solve it without using division and in O(n) time.",
     "examples": [
-      { "input": "nums = [1,2,3,4]", "output": "[24,12,8,6]" },
-      { "input": "nums = [-1,1,0,-3,3]", "output": "[0,0,9,0,0]" }
+      {
+        "input": "nums = [1,2,3,4]",
+        "output": "[24,12,8,6]"
+      },
+      {
+        "input": "nums = [-1,1,0,-3,3]",
+        "output": "[0,0,9,0,0]"
+      }
     ],
     "hints": [
       "Build a prefix product array and a suffix product array.",
@@ -126,91 +159,20 @@
     }
   },
   {
-    "id": "prefix-sum-06",
-    "leetcode": 560,
-    "title": "Subarray Sum Equals K",
-    "difficulty": "Medium",
-    "description": "Given an array of integers nums and an integer k, return the total number of subarrays whose sum equals to k.",
-    "examples": [
-      { "input": "nums = [1,1,1], k = 2", "output": "2" },
-      { "input": "nums = [1,2,3], k = 3", "output": "2" }
-    ],
-    "hints": [
-      "Use a prefix sum with a hashmap to count occurrences.",
-      "For each prefix sum, check if (prefix - k) has been seen before."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "def subarraySum(nums, k):\n    count = 0\n    prefix = 0\n    seen = {0: 1}\n    for num in nums:\n        prefix += num\n        if prefix - k in seen:\n            count += seen[prefix - k]\n        seen[prefix] = seen.get(prefix, 0) + 1\n    return count",
-      "java": "public int subarraySum(int[] nums, int k) {\n    int count = 0, prefix = 0;\n    Map<Integer, Integer> seen = new HashMap<>();\n    seen.put(0, 1);\n    for (int num : nums) {\n        prefix += num;\n        count += seen.getOrDefault(prefix - k, 0);\n        seen.merge(prefix, 1, Integer::sum);\n    }\n    return count;\n}",
-      "cpp": "int subarraySum(vector<int>& nums, int k) {\n    int count = 0, prefix = 0;\n    unordered_map<int, int> seen;\n    seen[0] = 1;\n    for (int num : nums) {\n        prefix += num;\n        if (seen.count(prefix - k)) count += seen[prefix - k];\n        seen[prefix]++;\n    }\n    return count;\n}",
-      "javascript": "function subarraySum(nums, k) {\n    let count = 0, prefix = 0;\n    const seen = new Map();\n    seen.set(0, 1);\n    for (const num of nums) {\n        prefix += num;\n        count += seen.get(prefix - k) || 0;\n        seen.set(prefix, (seen.get(prefix) || 0) + 1);\n    }\n    return count;\n}",
-      "go": "func subarraySum(nums []int, k int) int {\n    count, prefix := 0, 0\n    seen := map[int]int{0: 1}\n    for _, num := range nums {\n        prefix += num\n        count += seen[prefix-k]\n        seen[prefix]++\n    }\n    return count\n}",
-      "rust": "pub fn subarray_sum(nums: Vec<i32>, k: i32) -> i32 {\n    use std::collections::HashMap;\n    let mut count = 0;\n    let mut prefix = 0;\n    let mut seen = HashMap::new();\n    seen.insert(0, 1);\n    for num in nums {\n        prefix += num;\n        count += seen.get(&(prefix - k)).unwrap_or(&0);\n        *seen.entry(prefix).or_insert(0) += 1;\n    }\n    count\n}"
-    }
-  },
-  {
-    "id": "prefix-sum-07",
-    "leetcode": 525,
-    "title": "Contiguous Array",
-    "difficulty": "Medium",
-    "description": "Given a binary array nums, return the maximum length of a contiguous subarray with an equal number of 0 and 1.",
-    "examples": [
-      { "input": "nums = [0,1]", "output": "2" },
-      { "input": "nums = [0,1,0]", "output": "2" },
-      { "input": "nums = [0,0,1,0,0,0,1,1]", "output": "6" }
-    ],
-    "hints": [
-      "Treat 0 as -1 and compute a running sum.",
-      "If the same sum is seen at two indices, the subarray between them has equal 0s and 1s."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "def findMaxLength(nums):\n    seen = {0: -1}\n    max_len = 0\n    prefix = 0\n    for i, num in enumerate(nums):\n        prefix += 1 if num == 1 else -1\n        if prefix in seen:\n            max_len = max(max_len, i - seen[prefix])\n        else:\n            seen[prefix] = i\n    return max_len",
-      "java": "public int findMaxLength(int[] nums) {\n    Map<Integer, Integer> seen = new HashMap<>();\n    seen.put(0, -1);\n    int maxLen = 0, prefix = 0;\n    for (int i = 0; i < nums.length; i++) {\n        prefix += nums[i] == 1 ? 1 : -1;\n        if (seen.containsKey(prefix)) {\n            maxLen = Math.max(maxLen, i - seen.get(prefix));\n        } else {\n            seen.put(prefix, i);\n        }\n    }\n    return maxLen;\n}",
-      "cpp": "int findMaxLength(vector<int>& nums) {\n    unordered_map<int, int> seen;\n    seen[0] = -1;\n    int maxLen = 0, prefix = 0;\n    for (int i = 0; i < nums.size(); i++) {\n        prefix += nums[i] == 1 ? 1 : -1;\n        if (seen.count(prefix)) {\n            maxLen = max(maxLen, i - seen[prefix]);\n        } else {\n            seen[prefix] = i;\n        }\n    }\n    return maxLen;\n}",
-      "javascript": "function findMaxLength(nums) {\n    const seen = new Map();\n    seen.set(0, -1);\n    let maxLen = 0, prefix = 0;\n    for (let i = 0; i < nums.length; i++) {\n        prefix += nums[i] === 1 ? 1 : -1;\n        if (seen.has(prefix)) {\n            maxLen = Math.max(maxLen, i - seen.get(prefix));\n        } else {\n            seen.set(prefix, i);\n        }\n    }\n    return maxLen;\n}",
-      "go": "func findMaxLength(nums []int) int {\n    seen := map[int]int{0: -1}\n    maxLen, prefix := 0, 0\n    for i, num := range nums {\n        if num == 1 {\n            prefix++\n        } else {\n            prefix--\n        }\n        if idx, ok := seen[prefix]; ok {\n            if i-idx > maxLen {\n                maxLen = i - idx\n            }\n        } else {\n            seen[prefix] = i\n        }\n    }\n    return maxLen\n}",
-      "rust": "pub fn find_max_length(nums: Vec<i32>) -> i32 {\n    use std::collections::HashMap;\n    let mut seen = HashMap::new();\n    seen.insert(0, -1);\n    let mut max_len = 0;\n    let mut prefix = 0;\n    for (i, &num) in nums.iter().enumerate() {\n        prefix += if num == 1 { 1 } else { -1 };\n        if let Some(&idx) = seen.get(&prefix) {\n            max_len = max_len.max(i as i32 - idx);\n        } else {\n            seen.insert(prefix, i as i32);\n        }\n    }\n    max_len\n}"
-    }
-  },
-  {
-    "id": "prefix-sum-08",
-    "leetcode": 523,
-    "title": "Continuous Subarray Sum",
-    "difficulty": "Medium",
-    "description": "Given an integer array nums and an integer k, return true if nums has a good subarray. A good subarray has a length of at least 2 and the sum of its elements is a multiple of k.",
-    "examples": [
-      { "input": "nums = [23,2,4,6,7], k = 6", "output": "true" },
-      { "input": "nums = [23,2,6,4,7], k = 6", "output": "true" },
-      { "input": "nums = [23,2,6,4,7], k = 13", "output": "false" }
-    ],
-    "hints": [
-      "Use prefix sum modulo k.",
-      "If the same remainder appears at two indices with distance >= 2, return true."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(min(n, k))",
-    "solutions": {
-      "python": "def checkSubarraySum(nums, k):\n    seen = {0: -1}\n    prefix = 0\n    for i, num in enumerate(nums):\n        prefix += num\n        rem = prefix % k\n        if rem in seen:\n            if i - seen[rem] >= 2:\n                return True\n        else:\n            seen[rem] = i\n    return False",
-      "java": "public boolean checkSubarraySum(int[] nums, int k) {\n    Map<Integer, Integer> seen = new HashMap<>();\n    seen.put(0, -1);\n    int prefix = 0;\n    for (int i = 0; i < nums.length; i++) {\n        prefix += nums[i];\n        int rem = prefix % k;\n        if (seen.containsKey(rem)) {\n            if (i - seen.get(rem) >= 2) return true;\n        } else {\n            seen.put(rem, i);\n        }\n    }\n    return false;\n}",
-      "cpp": "bool checkSubarraySum(vector<int>& nums, int k) {\n    unordered_map<int, int> seen;\n    seen[0] = -1;\n    int prefix = 0;\n    for (int i = 0; i < nums.size(); i++) {\n        prefix += nums[i];\n        int rem = prefix % k;\n        if (seen.count(rem)) {\n            if (i - seen[rem] >= 2) return true;\n        } else {\n            seen[rem] = i;\n        }\n    }\n    return false;\n}",
-      "javascript": "function checkSubarraySum(nums, k) {\n    const seen = new Map();\n    seen.set(0, -1);\n    let prefix = 0;\n    for (let i = 0; i < nums.length; i++) {\n        prefix += nums[i];\n        const rem = prefix % k;\n        if (seen.has(rem)) {\n            if (i - seen.get(rem) >= 2) return true;\n        } else {\n            seen.set(rem, i);\n        }\n    }\n    return false;\n}",
-      "go": "func checkSubarraySum(nums []int, k int) bool {\n    seen := map[int]int{0: -1}\n    prefix := 0\n    for i, num := range nums {\n        prefix += num\n        rem := prefix % k\n        if idx, ok := seen[rem]; ok {\n            if i-idx >= 2 {\n                return true\n            }\n        } else {\n            seen[rem] = i\n        }\n    }\n    return false\n}",
-      "rust": "pub fn check_subarray_sum(nums: Vec<i32>, k: i32) -> bool {\n    use std::collections::HashMap;\n    let mut seen = HashMap::new();\n    seen.insert(0, -1);\n    let mut prefix = 0;\n    for (i, &num) in nums.iter().enumerate() {\n        prefix += num;\n        let rem = prefix % k;\n        if let Some(&idx) = seen.get(&rem) {\n            if i as i32 - idx >= 2 {\n                return true;\n            }\n        } else {\n            seen.insert(rem, i as i32);\n        }\n    }\n    false\n}"
-    }
-  },
-  {
     "id": "prefix-sum-09",
     "leetcode": 437,
     "title": "Path Sum III",
     "difficulty": "Medium",
     "description": "Given the root of a binary tree and an integer targetSum, return the number of paths where the sum of values along the path equals targetSum. The path does not need to start or end at the root or a leaf, but it must go downwards.",
     "examples": [
-      { "input": "root = [10,5,-3,3,2,null,11,3,-2,null,1], targetSum = 8", "output": "3" },
-      { "input": "root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22", "output": "3" }
+      {
+        "input": "root = [10,5,-3,3,2,null,11,3,-2,null,1], targetSum = 8",
+        "output": "3"
+      },
+      {
+        "input": "root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22",
+        "output": "3"
+      }
     ],
     "hints": [
       "Use a DFS traversal with a prefix sum hashmap.",
@@ -228,15 +190,125 @@
     }
   },
   {
+    "id": "prefix-sum-08",
+    "leetcode": 523,
+    "title": "Continuous Subarray Sum",
+    "difficulty": "Medium",
+    "description": "Given an integer array nums and an integer k, return true if nums has a good subarray. A good subarray has a length of at least 2 and the sum of its elements is a multiple of k.",
+    "examples": [
+      {
+        "input": "nums = [23,2,4,6,7], k = 6",
+        "output": "true"
+      },
+      {
+        "input": "nums = [23,2,6,4,7], k = 6",
+        "output": "true"
+      },
+      {
+        "input": "nums = [23,2,6,4,7], k = 13",
+        "output": "false"
+      }
+    ],
+    "hints": [
+      "Use prefix sum modulo k.",
+      "If the same remainder appears at two indices with distance >= 2, return true."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(min(n, k))",
+    "solutions": {
+      "python": "def checkSubarraySum(nums, k):\n    seen = {0: -1}\n    prefix = 0\n    for i, num in enumerate(nums):\n        prefix += num\n        rem = prefix % k\n        if rem in seen:\n            if i - seen[rem] >= 2:\n                return True\n        else:\n            seen[rem] = i\n    return False",
+      "java": "public boolean checkSubarraySum(int[] nums, int k) {\n    Map<Integer, Integer> seen = new HashMap<>();\n    seen.put(0, -1);\n    int prefix = 0;\n    for (int i = 0; i < nums.length; i++) {\n        prefix += nums[i];\n        int rem = prefix % k;\n        if (seen.containsKey(rem)) {\n            if (i - seen.get(rem) >= 2) return true;\n        } else {\n            seen.put(rem, i);\n        }\n    }\n    return false;\n}",
+      "cpp": "bool checkSubarraySum(vector<int>& nums, int k) {\n    unordered_map<int, int> seen;\n    seen[0] = -1;\n    int prefix = 0;\n    for (int i = 0; i < nums.size(); i++) {\n        prefix += nums[i];\n        int rem = prefix % k;\n        if (seen.count(rem)) {\n            if (i - seen[rem] >= 2) return true;\n        } else {\n            seen[rem] = i;\n        }\n    }\n    return false;\n}",
+      "javascript": "function checkSubarraySum(nums, k) {\n    const seen = new Map();\n    seen.set(0, -1);\n    let prefix = 0;\n    for (let i = 0; i < nums.length; i++) {\n        prefix += nums[i];\n        const rem = prefix % k;\n        if (seen.has(rem)) {\n            if (i - seen.get(rem) >= 2) return true;\n        } else {\n            seen.set(rem, i);\n        }\n    }\n    return false;\n}",
+      "go": "func checkSubarraySum(nums []int, k int) bool {\n    seen := map[int]int{0: -1}\n    prefix := 0\n    for i, num := range nums {\n        prefix += num\n        rem := prefix % k\n        if idx, ok := seen[rem]; ok {\n            if i-idx >= 2 {\n                return true\n            }\n        } else {\n            seen[rem] = i\n        }\n    }\n    return false\n}",
+      "rust": "pub fn check_subarray_sum(nums: Vec<i32>, k: i32) -> bool {\n    use std::collections::HashMap;\n    let mut seen = HashMap::new();\n    seen.insert(0, -1);\n    let mut prefix = 0;\n    for (i, &num) in nums.iter().enumerate() {\n        prefix += num;\n        let rem = prefix % k;\n        if let Some(&idx) = seen.get(&rem) {\n            if i as i32 - idx >= 2 {\n                return true;\n            }\n        } else {\n            seen.insert(rem, i as i32);\n        }\n    }\n    false\n}"
+    }
+  },
+  {
+    "id": "prefix-sum-07",
+    "leetcode": 525,
+    "title": "Contiguous Array",
+    "difficulty": "Medium",
+    "description": "Given a binary array nums, return the maximum length of a contiguous subarray with an equal number of 0 and 1.",
+    "examples": [
+      {
+        "input": "nums = [0,1]",
+        "output": "2"
+      },
+      {
+        "input": "nums = [0,1,0]",
+        "output": "2"
+      },
+      {
+        "input": "nums = [0,0,1,0,0,0,1,1]",
+        "output": "6"
+      }
+    ],
+    "hints": [
+      "Treat 0 as -1 and compute a running sum.",
+      "If the same sum is seen at two indices, the subarray between them has equal 0s and 1s."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "solutions": {
+      "python": "def findMaxLength(nums):\n    seen = {0: -1}\n    max_len = 0\n    prefix = 0\n    for i, num in enumerate(nums):\n        prefix += 1 if num == 1 else -1\n        if prefix in seen:\n            max_len = max(max_len, i - seen[prefix])\n        else:\n            seen[prefix] = i\n    return max_len",
+      "java": "public int findMaxLength(int[] nums) {\n    Map<Integer, Integer> seen = new HashMap<>();\n    seen.put(0, -1);\n    int maxLen = 0, prefix = 0;\n    for (int i = 0; i < nums.length; i++) {\n        prefix += nums[i] == 1 ? 1 : -1;\n        if (seen.containsKey(prefix)) {\n            maxLen = Math.max(maxLen, i - seen.get(prefix));\n        } else {\n            seen.put(prefix, i);\n        }\n    }\n    return maxLen;\n}",
+      "cpp": "int findMaxLength(vector<int>& nums) {\n    unordered_map<int, int> seen;\n    seen[0] = -1;\n    int maxLen = 0, prefix = 0;\n    for (int i = 0; i < nums.size(); i++) {\n        prefix += nums[i] == 1 ? 1 : -1;\n        if (seen.count(prefix)) {\n            maxLen = max(maxLen, i - seen[prefix]);\n        } else {\n            seen[prefix] = i;\n        }\n    }\n    return maxLen;\n}",
+      "javascript": "function findMaxLength(nums) {\n    const seen = new Map();\n    seen.set(0, -1);\n    let maxLen = 0, prefix = 0;\n    for (let i = 0; i < nums.length; i++) {\n        prefix += nums[i] === 1 ? 1 : -1;\n        if (seen.has(prefix)) {\n            maxLen = Math.max(maxLen, i - seen.get(prefix));\n        } else {\n            seen.set(prefix, i);\n        }\n    }\n    return maxLen;\n}",
+      "go": "func findMaxLength(nums []int) int {\n    seen := map[int]int{0: -1}\n    maxLen, prefix := 0, 0\n    for i, num := range nums {\n        if num == 1 {\n            prefix++\n        } else {\n            prefix--\n        }\n        if idx, ok := seen[prefix]; ok {\n            if i-idx > maxLen {\n                maxLen = i - idx\n            }\n        } else {\n            seen[prefix] = i\n        }\n    }\n    return maxLen\n}",
+      "rust": "pub fn find_max_length(nums: Vec<i32>) -> i32 {\n    use std::collections::HashMap;\n    let mut seen = HashMap::new();\n    seen.insert(0, -1);\n    let mut max_len = 0;\n    let mut prefix = 0;\n    for (i, &num) in nums.iter().enumerate() {\n        prefix += if num == 1 { 1 } else { -1 };\n        if let Some(&idx) = seen.get(&prefix) {\n            max_len = max_len.max(i as i32 - idx);\n        } else {\n            seen.insert(prefix, i as i32);\n        }\n    }\n    max_len\n}"
+    }
+  },
+  {
+    "id": "prefix-sum-06",
+    "leetcode": 560,
+    "title": "Subarray Sum Equals K",
+    "difficulty": "Medium",
+    "description": "Given an array of integers nums and an integer k, return the total number of subarrays whose sum equals to k.",
+    "examples": [
+      {
+        "input": "nums = [1,1,1], k = 2",
+        "output": "2"
+      },
+      {
+        "input": "nums = [1,2,3], k = 3",
+        "output": "2"
+      }
+    ],
+    "hints": [
+      "Use a prefix sum with a hashmap to count occurrences.",
+      "For each prefix sum, check if (prefix - k) has been seen before."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(n)",
+    "solutions": {
+      "python": "def subarraySum(nums, k):\n    count = 0\n    prefix = 0\n    seen = {0: 1}\n    for num in nums:\n        prefix += num\n        if prefix - k in seen:\n            count += seen[prefix - k]\n        seen[prefix] = seen.get(prefix, 0) + 1\n    return count",
+      "java": "public int subarraySum(int[] nums, int k) {\n    int count = 0, prefix = 0;\n    Map<Integer, Integer> seen = new HashMap<>();\n    seen.put(0, 1);\n    for (int num : nums) {\n        prefix += num;\n        count += seen.getOrDefault(prefix - k, 0);\n        seen.merge(prefix, 1, Integer::sum);\n    }\n    return count;\n}",
+      "cpp": "int subarraySum(vector<int>& nums, int k) {\n    int count = 0, prefix = 0;\n    unordered_map<int, int> seen;\n    seen[0] = 1;\n    for (int num : nums) {\n        prefix += num;\n        if (seen.count(prefix - k)) count += seen[prefix - k];\n        seen[prefix]++;\n    }\n    return count;\n}",
+      "javascript": "function subarraySum(nums, k) {\n    let count = 0, prefix = 0;\n    const seen = new Map();\n    seen.set(0, 1);\n    for (const num of nums) {\n        prefix += num;\n        count += seen.get(prefix - k) || 0;\n        seen.set(prefix, (seen.get(prefix) || 0) + 1);\n    }\n    return count;\n}",
+      "go": "func subarraySum(nums []int, k int) int {\n    count, prefix := 0, 0\n    seen := map[int]int{0: 1}\n    for _, num := range nums {\n        prefix += num\n        count += seen[prefix-k]\n        seen[prefix]++\n    }\n    return count\n}",
+      "rust": "pub fn subarray_sum(nums: Vec<i32>, k: i32) -> i32 {\n    use std::collections::HashMap;\n    let mut count = 0;\n    let mut prefix = 0;\n    let mut seen = HashMap::new();\n    seen.insert(0, 1);\n    for num in nums {\n        prefix += num;\n        count += seen.get(&(prefix - k)).unwrap_or(&0);\n        *seen.entry(prefix).or_insert(0) += 1;\n    }\n    count\n}"
+    }
+  },
+  {
     "id": "prefix-sum-10",
     "leetcode": 1658,
     "title": "Minimum Operations to Reduce X to Zero",
     "difficulty": "Medium",
     "description": "You are given an integer array nums and an integer x. In one operation, you can remove either the leftmost or rightmost element from nums and subtract its value from x. Return the minimum number of operations to reduce x to exactly 0. If it is not possible, return -1.",
     "examples": [
-      { "input": "nums = [1,1,4,2,3], x = 5", "output": "2" },
-      { "input": "nums = [5,6,7,8,9], x = 4", "output": "-1" },
-      { "input": "nums = [3,2,20,1,1,3], x = 10", "output": "5" }
+      {
+        "input": "nums = [1,1,4,2,3], x = 5",
+        "output": "2"
+      },
+      {
+        "input": "nums = [5,6,7,8,9], x = 4",
+        "output": "-1"
+      },
+      {
+        "input": "nums = [3,2,20,1,1,3], x = 10",
+        "output": "5"
+      }
     ],
     "hints": [
       "This is equivalent to finding the longest subarray with sum equal to totalSum - x.",

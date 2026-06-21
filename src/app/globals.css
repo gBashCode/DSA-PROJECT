@@ -11,6 +11,8 @@
   --color-accent-amber: var(--accent-amber);
   --color-accent-teal: var(--accent-teal);
   --color-accent-danger: var(--accent-danger);
+  --color-accent-rose: var(--accent-rose);
+  --color-accent-violet: var(--accent-violet);
   --color-primary: var(--accent-amber);
   --color-primary-foreground: #0A0E16;
   --color-muted-foreground: var(--text-muted);
@@ -41,6 +43,8 @@
   --accent-amber: #F2A33C;
   --accent-teal: #3FBFAD;
   --accent-danger: #E2685A;
+  --accent-rose: #F472B6;
+  --accent-violet: #A78BFA;
 }
 
 .dark {
@@ -52,6 +56,8 @@
   --accent-amber: #F2A33C;
   --accent-teal: #3FBFAD;
   --accent-danger: #E2685A;
+  --accent-rose: #F472B6;
+  --accent-violet: #A78BFA;
 }
 
 [data-theme="light"] {
@@ -63,6 +69,8 @@
   --accent-amber: #F2A33C;
   --accent-teal: #3FBFAD;
   --accent-danger: #E2685A;
+  --accent-rose: #F472B6;
+  --accent-violet: #A78BFA;
 }
 
 * {
@@ -105,7 +113,7 @@ body {
 .tag-bracket::before { content: "["; }
 .tag-bracket::after { content: "]"; }
 
-/* ── Friend's UI classes ────────────────────────────── */
+/* ── UI utility classes ────────────────────────────── */
 
 .card-interactive {
   transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s, background-color 0.2s;
@@ -122,6 +130,70 @@ body {
 }
 .btn-press:active {
   transform: scale(0.97);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-amber); }
+  50% { box-shadow: 0 0 12px 2px var(--accent-amber); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes staggerFade {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fireGlow {
+  from { filter: drop-shadow(0 0 2px rgba(242, 163, 60, 0.3)); }
+  to { filter: drop-shadow(0 0 8px rgba(242, 163, 60, 0.6)); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease-out forwards;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.3s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.4s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.stagger-item {
+  animation: staggerFade 0.4s ease-out forwards;
+  opacity: 0;
+}
+
+.streak-fire {
+  animation: fireGlow 1.5s ease-in-out infinite alternate;
 }
 
 .gradient-text {
@@ -148,43 +220,22 @@ body {
   width: 100%;
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.animate-fade-in {
-  animation: fadeIn 0.4s ease-out forwards;
+.card-hover {
+  transition: all 0.2s ease;
 }
 
-@keyframes scaleIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
-}
-.animate-scale-in {
-  animation: scaleIn 0.3s ease-out forwards;
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
 
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.animate-slide-up {
-  animation: slideUp 0.4s ease-out forwards;
+.glass {
+  background: rgba(19, 26, 39, 0.8);
+  backdrop-filter: blur(12px);
 }
 
-@keyframes staggerFade {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.stagger-item {
-  animation: staggerFade 0.4s ease-out forwards;
-  opacity: 0;
-}
-
-.streak-fire {
-  animation: fireGlow 1.5s ease-in-out infinite alternate;
-}
-@keyframes fireGlow {
-  from { filter: drop-shadow(0 0 2px rgba(242, 163, 60, 0.3)); }
-  to { filter: drop-shadow(0 0 8px rgba(242, 163, 60, 0.6)); }
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
 }
