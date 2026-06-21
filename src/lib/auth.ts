@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { createClient } from "@/lib/supabase/client";
 import type { User } from "@supabase/supabase-js";
 
@@ -23,15 +23,22 @@ export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
-  const supabase = createClient();
+  const supabaseRef = useRef<ReturnType<typeof createClient> | null>(null);
+
+  const getSupabase = useCallback(() => {
+    if (!supabaseRef.current) {
+      supabaseRef.current = createClient();
+    }
+    return supabaseRef.current;
+  }, []);
 
   useEffect(() => {
     const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const { data: { user } } = await getSupabase().auth.getUser();
       setUser(user);
 
       if (user) {
-        const { data } = await supabase
+        const { data } = await getSupabase()
           .from("profiles")
           .select("*")
           .eq("id", user.id)
@@ -44,12 +51,12 @@ export function useAuth() {
 
     getUser();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+    const { data: { subscription } } = getSupabase().auth.onAuthStateChange(
       async (_event, session) => {
         setUser(session?.user ?? null);
 
         if (session?.user) {
-          const { data } = await supabase
+          const { data } = await getSupabase()
             .from("profiles")
             .select("*")
             .eq("id", session.user.id)
@@ -64,7 +71,7 @@ export function useAuth() {
     );
 
     return () => subscription.unsubscribe();
-  }, [supabase]);
+  }, [getSupabase]);
 
   const signup = useCallback(
     async (
@@ -75,7 +82,7 @@ export function useAuth() {
       avatar: string,
       bio: string
     ): Promise<{ ok: boolean; error?: string }> => {
-      const { data: existing } = await supabase
+      const { data: existing } = await getSupabase()
         .from("profiles")
         .select("id")
         .eq("username", username.toLowerCase())
@@ -85,7 +92,7 @@ export function useAuth() {
         return { ok: false, error: "Username already taken." };
       }
 
-      const { data, error } = await supabase.auth.signUp({
+      const { data, error } = await getSupabase().auth.signUp({
         email,
         password,
         options: {
@@ -108,7 +115,7 @@ export function useAuth() {
         // Wait briefly for the trigger, then fetch the profile.
         await new Promise((r) => setTimeout(r, 500));
 
-        const { data: profileData } = await supabase
+        const { data: profileData } = await getSupabase()
           .from("profiles")
           .select("*")
           .eq("id", data.user.id)
@@ -121,7 +128,7 @@ export function useAuth() {
 
       return { ok: true };
     },
-    [supabase]
+    [getSupabase]
   );
 
   const login = useCallback(
@@ -129,7 +136,7 @@ export function useAuth() {
       email: string,
       password: string
     ): Promise<{ ok: boolean; error?: string }> => {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { error } = await getSupabase().auth.signInWithPassword({
         email,
         password,
       });
@@ -140,18 +147,18 @@ export function useAuth() {
 
       return { ok: true };
     },
-    [supabase]
+    [getSupabase]
   );
 
   const logout = useCallback(async () => {
-    await supabase.auth.signOut();
-  }, [supabase]);
+    await getSupabase().auth.signOut();
+  }, [getSupabase]);
 
   const updateProfile = useCallback(
     async (updates: Partial<Pick<Profile, "display_name" | "avatar" | "bio">>) => {
       if (!user) return;
 
-      const { error } = await supabase
+      const { error } = await getSupabase()
         .from("profiles")
         .update(updates)
         .eq("id", user.id);
@@ -160,7 +167,7 @@ export function useAuth() {
         setProfile({ ...profile, ...updates });
       }
     },
-    [user, profile, supabase]
+    [user, profile, getSupabase]
   );
 
   const changePassword = useCallback(
@@ -170,7 +177,7 @@ export function useAuth() {
     ): Promise<{ ok: boolean; error?: string }> => {
       if (!user?.email) return { ok: false, error: "Not logged in." };
 
-      const { error: signInError } = await supabase.auth.signInWithPassword({
+      const { error: signInError } = await getSupabase().auth.signInWithPassword({
         email: user.email,
         password: currentPassword,
       });
@@ -179,7 +186,7 @@ export function useAuth() {
         return { ok: false, error: "Current password is incorrect." };
       }
 
-      const { error } = await supabase.auth.updateUser({
+      const { error } = await getSupabase().auth.updateUser({
         password: newPassword,
       });
 
@@ -189,12 +196,12 @@ export function useAuth() {
 
       return { ok: true };
     },
-    [user, supabase]
+    [user, getSupabase]
   );
 
   const findUserByUsername = useCallback(
     async (username: string): Promise<Profile | null> => {
-      const { data } = await supabase
+      const { data } = await getSupabase()
         .from("profiles")
         .select("*")
         .eq("username", username.toLowerCase())
@@ -202,12 +209,12 @@ export function useAuth() {
 
       return data;
     },
-    [supabase]
+    [getSupabase]
   );
 
   const getUserById = useCallback(
     async (id: string): Promise<Profile | null> => {
-      const { data } = await supabase
+      const { data } = await getSupabase()
         .from("profiles")
         .select("*")
         .eq("id", id)
@@ -215,14 +222,14 @@ export function useAuth() {
 
       return data;
     },
-    [supabase]
+    [getSupabase]
   );
 
   const signInWithMagicLink = useCallback(
     async (
       email: string
     ): Promise<{ error?: string }> => {
-      const { error } = await supabase.auth.signInWithOtp({
+      const { error } = await getSupabase().auth.signInWithOtp({
         email,
       });
 
@@ -232,7 +239,7 @@ export function useAuth() {
 
       return {};
     },
-    [supabase]
+    [getSupabase]
   );
 
   return {
