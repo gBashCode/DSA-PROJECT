@@ -11,6 +11,8 @@
   --color-accent-amber: var(--accent-amber);
   --color-accent-teal: var(--accent-teal);
   --color-accent-danger: var(--accent-danger);
+  --color-accent-rose: var(--accent-rose);
+  --color-accent-violet: var(--accent-violet);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
   --radius-sm: 0.25rem;
@@ -27,6 +29,8 @@
   --accent-amber: #F2A33C;
   --accent-teal: #3FBFAD;
   --accent-danger: #E2685A;
+  --accent-rose: #F472B6;
+  --accent-violet: #A78BFA;
 }
 
 .dark {
@@ -38,6 +42,8 @@
   --accent-amber: #F2A33C;
   --accent-teal: #3FBFAD;
   --accent-danger: #E2685A;
+  --accent-rose: #F472B6;
+  --accent-violet: #A78BFA;
 }
 
 [data-theme="light"] {
@@ -49,6 +55,8 @@
   --accent-amber: #F2A33C;
   --accent-teal: #3FBFAD;
   --accent-danger: #E2685A;
+  --accent-rose: #F472B6;
+  --accent-violet: #A78BFA;
 }
 
 * {
@@ -90,3 +98,57 @@ body {
 
 .tag-bracket::before { content: "["; }
 .tag-bracket::after { content: "]"; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-amber); }
+  50% { box-shadow: 0 0 12px 2px var(--accent-amber); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.3s ease-out forwards;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+.card-hover {
+  transition: all 0.2s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent-amber), var(--accent-teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.glass {
+  background: rgba(19, 26, 39, 0.8);
+  backdrop-filter: blur(12px);
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}

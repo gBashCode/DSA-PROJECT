@@ -1,5 +1,17 @@
 [
   {
+    "section": "Easy",
+    "problems": [
+      {
+        "id": "bfs-003",
+        "leetcode": 1971,
+        "title": "Find if Path Exists in Graph",
+        "difficulty": "Easy",
+        "link": "https://leetcode.com/problems/find-if-path-exists-in-graph/"
+      }
+    ]
+  },
+  {
     "section": "Medium",
     "problems": [
       {
@@ -15,13 +27,6 @@
         "title": "Open the Lock",
         "difficulty": "Medium",
         "link": "https://leetcode.com/problems/open-the-lock/"
-      },
-      {
-        "id": "bfs-003",
-        "leetcode": 1971,
-        "title": "Find if Path Exists in Graph",
-        "difficulty": "Easy",
-        "link": "https://leetcode.com/problems/find-if-path-exists-in-graph/"
       }
     ]
   },

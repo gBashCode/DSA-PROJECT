@@ -3,18 +3,18 @@
     "section": "Easy",
     "problems": [
       {
-        "id": "ll-001",
-        "leetcode": 206,
-        "title": "Reverse Linked List",
-        "difficulty": "Easy",
-        "link": "https://leetcode.com/problems/reverse-linked-list/"
-      },
-      {
         "id": "ll-002",
         "leetcode": 141,
         "title": "Linked List Cycle",
         "difficulty": "Easy",
         "link": "https://leetcode.com/problems/linked-list-cycle/"
+      },
+      {
+        "id": "ll-001",
+        "leetcode": 206,
+        "title": "Reverse Linked List",
+        "difficulty": "Easy",
+        "link": "https://leetcode.com/problems/reverse-linked-list/"
       }
     ]
   },
@@ -22,18 +22,11 @@
     "section": "Medium",
     "problems": [
       {
-        "id": "ll-003",
-        "leetcode": 160,
-        "title": "Linked List Cycle II",
+        "id": "ll-007",
+        "leetcode": 2,
+        "title": "Add Two Numbers",
         "difficulty": "Medium",
-        "link": "https://leetcode.com/problems/linked-list-cycle-ii/"
-      },
-      {
-        "id": "ll-004",
-        "leetcode": 143,
-        "title": "Reorder List",
-        "difficulty": "Medium",
-        "link": "https://leetcode.com/problems/reorder-list/"
+        "link": "https://leetcode.com/problems/add-two-numbers/"
       },
       {
         "id": "ll-005",
@@ -50,11 +43,11 @@
         "link": "https://leetcode.com/problems/merge-two-sorted-lists/"
       },
       {
-        "id": "ll-007",
-        "leetcode": 2,
-        "title": "Add Two Numbers",
+        "id": "ll-009",
+        "leetcode": 24,
+        "title": "Swap Nodes in Pairs",
         "difficulty": "Medium",
-        "link": "https://leetcode.com/problems/add-two-numbers/"
+        "link": "https://leetcode.com/problems/swap-nodes-in-pairs/"
       },
       {
         "id": "ll-008",
@@ -64,11 +57,11 @@
         "link": "https://leetcode.com/problems/copy-list-with-random-pointer/"
       },
       {
-        "id": "ll-009",
-        "leetcode": 24,
-        "title": "Swap Nodes in Pairs",
+        "id": "ll-004",
+        "leetcode": 143,
+        "title": "Reorder List",
         "difficulty": "Medium",
-        "link": "https://leetcode.com/problems/swap-nodes-in-pairs/"
+        "link": "https://leetcode.com/problems/reorder-list/"
       },
       {
         "id": "ll-010",
@@ -76,6 +69,13 @@
         "title": "LRU Cache",
         "difficulty": "Medium",
         "link": "https://leetcode.com/problems/lru-cache/"
+      },
+      {
+        "id": "ll-003",
+        "leetcode": 160,
+        "title": "Linked List Cycle II",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/linked-list-cycle-ii/"
       }
     ]
   },
@@ -83,18 +83,18 @@
     "section": "Hard",
     "problems": [
       {
-        "id": "ll-011",
-        "leetcode": 25,
-        "title": "Reverse Nodes in k-Group",
-        "difficulty": "Hard",
-        "link": "https://leetcode.com/problems/reverse-nodes-in-k-group/"
-      },
-      {
         "id": "ll-012",
         "leetcode": 23,
         "title": "Merge k Sorted Lists",
         "difficulty": "Hard",
         "link": "https://leetcode.com/problems/merge-k-sorted-lists/"
+      },
+      {
+        "id": "ll-011",
+        "leetcode": 25,
+        "title": "Reverse Nodes in k-Group",
+        "difficulty": "Hard",
+        "link": "https://leetcode.com/problems/reverse-nodes-in-k-group/"
       }
     ]
   }

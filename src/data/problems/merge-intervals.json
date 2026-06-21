@@ -1,5 +1,36 @@
 [
   {
+    "id": "merge-intervals-004",
+    "leetcode": 252,
+    "title": "Meeting Rooms",
+    "difficulty": "Easy",
+    "description": "Given an array of meeting time intervals where intervals[i] = [starti, endi], determine if a person could attend all meetings.",
+    "examples": [
+      {
+        "input": "intervals = [[0,30],[5,10],[15,20]]",
+        "output": "false"
+      },
+      {
+        "input": "intervals = [[7,10],[2,4]]",
+        "output": "true"
+      }
+    ],
+    "hints": [
+      "Sort the intervals by start time.",
+      "Check if any interval's start is less than the previous interval's end."
+    ],
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(1)",
+    "solutions": {
+      "python": "def canAttendMeetings(intervals):\n    intervals.sort(key=lambda x: x[0])\n    for i in range(1, len(intervals)):\n        if intervals[i][0] < intervals[i-1][1]:\n            return False\n    return True",
+      "java": "class Solution {\n    public boolean canAttendMeetings(int[][] intervals) {\n        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));\n        for (int i = 1; i < intervals.length; i++) {\n            if (intervals[i][0] < intervals[i-1][1]) {\n                return false;\n            }\n        }\n        return true;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    bool canAttendMeetings(vector<vector<int>>& intervals) {\n        sort(intervals.begin(), intervals.end());\n        for (int i = 1; i < intervals.size(); i++) {\n            if (intervals[i][0] < intervals[i-1][1]) {\n                return false;\n            }\n        }\n        return true;\n    }\n};",
+      "javascript": "var canAttendMeetings = function(intervals) {\n    intervals.sort((a, b) => a[0] - b[0]);\n    for (let i = 1; i < intervals.length; i++) {\n        if (intervals[i][0] < intervals[i-1][1]) {\n            return false;\n        }\n    }\n    return true;\n};",
+      "go": "func canAttendMeetings(intervals [][]int) bool {\n    sort.Slice(intervals, func(i, j int) bool {\n        return intervals[i][0] < intervals[j][0]\n    })\n    for i := 1; i < len(intervals); i++ {\n        if intervals[i][0] < intervals[i-1][1] {\n            return false\n        }\n    }\n    return true\n}",
+      "rust": "impl Solution {\n    pub fn can_attend_meetings(mut intervals: Vec<Vec<i32>>) -> bool {\n        intervals.sort_by_key(|x| x[0]);\n        for i in 1..intervals.len() {\n            if intervals[i][0] < intervals[i-1][1] {\n                return false;\n            }\n        }\n        true\n    }\n}"
+    }
+  },
+  {
     "id": "merge-intervals-001",
     "leetcode": 56,
     "title": "Merge Intervals",
@@ -65,69 +96,6 @@
     }
   },
   {
-    "id": "merge-intervals-003",
-    "leetcode": 435,
-    "title": "Non-overlapping Intervals",
-    "difficulty": "Medium",
-    "description": "Given an array of intervals intervals where intervals[i] = [starti, endi], return the minimum number of intervals you need to remove to make the rest of the intervals non-overlapping.",
-    "examples": [
-      {
-        "input": "intervals = [[1,2],[2,3],[3,4],[1,3]]",
-        "output": "1"
-      },
-      {
-        "input": "intervals = [[1,2],[1,2],[1,2]]",
-        "output": "2"
-      }
-    ],
-    "hints": [
-      "Sort intervals by their end time.",
-      "Greedy: always keep the interval with the earliest end time.",
-      "Count how many intervals overlap and need to be removed."
-    ],
-    "timeComplexity": "O(n log n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "def eraseOverlapIntervals(intervals):\n    if not intervals:\n        return 0\n    intervals.sort(key=lambda x: x[1])\n    count = 0\n    end = intervals[0][1]\n    for i in range(1, len(intervals)):\n        if intervals[i][0] < end:\n            count += 1\n        else:\n            end = intervals[i][1]\n    return count",
-      "java": "class Solution {\n    public int eraseOverlapIntervals(int[][] intervals) {\n        if (intervals.length == 0) return 0;\n        Arrays.sort(intervals, (a, b) -> Integer.compare(a[1], b[1]));\n        int count = 0;\n        int end = intervals[0][1];\n        for (int i = 1; i < intervals.length; i++) {\n            if (intervals[i][0] < end) {\n                count++;\n            } else {\n                end = intervals[i][1];\n            }\n        }\n        return count;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int eraseOverlapIntervals(vector<vector<int>>& intervals) {\n        if (intervals.empty()) return 0;\n        sort(intervals.begin(), intervals.end(), [](const auto& a, const auto& b) {\n            return a[1] < b[1];\n        });\n        int count = 0;\n        int end = intervals[0][1];\n        for (int i = 1; i < intervals.size(); i++) {\n            if (intervals[i][0] < end) {\n                count++;\n            } else {\n                end = intervals[i][1];\n            }\n        }\n        return count;\n    }\n};",
-      "javascript": "var eraseOverlapIntervals = function(intervals) {\n    if (!intervals.length) return 0;\n    intervals.sort((a, b) => a[1] - b[1]);\n    let count = 0;\n    let end = intervals[0][1];\n    for (let i = 1; i < intervals.length; i++) {\n        if (intervals[i][0] < end) {\n            count++;\n        } else {\n            end = intervals[i][1];\n        }\n    }\n    return count;\n};",
-      "go": "func eraseOverlapIntervals(intervals [][]int) int {\n    if len(intervals) == 0 {\n        return 0\n    }\n    sort.Slice(intervals, func(i, j int) bool {\n        return intervals[i][1] < intervals[j][1]\n    })\n    count := 0\n    end := intervals[0][1]\n    for i := 1; i < len(intervals); i++ {\n        if intervals[i][0] < end {\n            count++\n        } else {\n            end = intervals[i][1]\n        }\n    }\n    return count\n}",
-      "rust": "impl Solution {\n    pub fn erase_overlap_intervals(mut intervals: Vec<Vec<i32>>) -> i32 {\n        if intervals.is_empty() {\n            return 0;\n        }\n        intervals.sort_by_key(|x| x[1]);\n        let mut count = 0;\n        let mut end = intervals[0][1];\n        for i in 1..intervals.len() {\n            if intervals[i][0] < end {\n                count += 1;\n            } else {\n                end = intervals[i][1];\n            }\n        }\n        count\n    }\n}"
-    }
-  },
-  {
-    "id": "merge-intervals-004",
-    "leetcode": 252,
-    "title": "Meeting Rooms",
-    "difficulty": "Easy",
-    "description": "Given an array of meeting time intervals where intervals[i] = [starti, endi], determine if a person could attend all meetings.",
-    "examples": [
-      {
-        "input": "intervals = [[0,30],[5,10],[15,20]]",
-        "output": "false"
-      },
-      {
-        "input": "intervals = [[7,10],[2,4]]",
-        "output": "true"
-      }
-    ],
-    "hints": [
-      "Sort the intervals by start time.",
-      "Check if any interval's start is less than the previous interval's end."
-    ],
-    "timeComplexity": "O(n log n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "def canAttendMeetings(intervals):\n    intervals.sort(key=lambda x: x[0])\n    for i in range(1, len(intervals)):\n        if intervals[i][0] < intervals[i-1][1]:\n            return False\n    return True",
-      "java": "class Solution {\n    public boolean canAttendMeetings(int[][] intervals) {\n        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));\n        for (int i = 1; i < intervals.length; i++) {\n            if (intervals[i][0] < intervals[i-1][1]) {\n                return false;\n            }\n        }\n        return true;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    bool canAttendMeetings(vector<vector<int>>& intervals) {\n        sort(intervals.begin(), intervals.end());\n        for (int i = 1; i < intervals.size(); i++) {\n            if (intervals[i][0] < intervals[i-1][1]) {\n                return false;\n            }\n        }\n        return true;\n    }\n};",
-      "javascript": "var canAttendMeetings = function(intervals) {\n    intervals.sort((a, b) => a[0] - b[0]);\n    for (let i = 1; i < intervals.length; i++) {\n        if (intervals[i][0] < intervals[i-1][1]) {\n            return false;\n        }\n    }\n    return true;\n};",
-      "go": "func canAttendMeetings(intervals [][]int) bool {\n    sort.Slice(intervals, func(i, j int) bool {\n        return intervals[i][0] < intervals[j][0]\n    })\n    for i := 1; i < len(intervals); i++ {\n        if intervals[i][0] < intervals[i-1][1] {\n            return false\n        }\n    }\n    return true\n}",
-      "rust": "impl Solution {\n    pub fn can_attend_meetings(mut intervals: Vec<Vec<i32>>) -> bool {\n        intervals.sort_by_key(|x| x[0]);\n        for i in 1..intervals.len() {\n            if intervals[i][0] < intervals[i-1][1] {\n                return false;\n            }\n        }\n        true\n    }\n}"
-    }
-  },
-  {
     "id": "merge-intervals-005",
     "leetcode": 253,
     "title": "Meeting Rooms II",
@@ -160,35 +128,35 @@
     }
   },
   {
-    "id": "merge-intervals-006",
-    "leetcode": 986,
-    "title": "Interval List Intersections",
+    "id": "merge-intervals-003",
+    "leetcode": 435,
+    "title": "Non-overlapping Intervals",
     "difficulty": "Medium",
-    "description": "Given two lists of closed intervals, firstList and secondList, each list of intervals is pairwise disjoint and in sorted order. Return the intersection of these two interval lists.",
+    "description": "Given an array of intervals intervals where intervals[i] = [starti, endi], return the minimum number of intervals you need to remove to make the rest of the intervals non-overlapping.",
     "examples": [
       {
-        "input": "firstList = [[0,2],[5,5],[8,10]], secondList = [[1,4],[7,12]]",
-        "output": "[[1,2],[5,5],[8,10],[12,12]]"
+        "input": "intervals = [[1,2],[2,3],[3,4],[1,3]]",
+        "output": "1"
       },
       {
-        "input": "firstList = [[1,3],[3,4]], secondList = [[2,2]]",
-        "output": "[[2,2],[3,3],[3,4]]"
+        "input": "intervals = [[1,2],[1,2],[1,2]]",
+        "output": "2"
       }
     ],
     "hints": [
-      "Use two pointers to iterate through both lists simultaneously.",
-      "For each pair of intervals, find the overlap by taking max of starts and min of ends.",
-      "Move the pointer of the interval that ends first."
+      "Sort intervals by their end time.",
+      "Greedy: always keep the interval with the earliest end time.",
+      "Count how many intervals overlap and need to be removed."
     ],
-    "timeComplexity": "O(m + n)",
-    "spaceComplexity": "O(m + n)",
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(1)",
     "solutions": {
-      "python": "def intervalIntersection(firstList, secondList):\n    result = []\n    i = j = 0\n    while i < len(firstList) and j < len(secondList):\n        start = max(firstList[i][0], secondList[j][0])\n        end = min(firstList[i][1], secondList[j][1])\n        if start <= end:\n            result.append([start, end])\n        if firstList[i][1] < secondList[j][1]:\n            i += 1\n        else:\n            j += 1\n    return result",
-      "java": "class Solution {\n    public int[][] intervalIntersection(int[][] firstList, int[][] secondList) {\n        List<int[]> result = new ArrayList<>();\n        int i = 0, j = 0;\n        while (i < firstList.length && j < secondList.length) {\n            int start = Math.max(firstList[i][0], secondList[j][0]);\n            int end = Math.min(firstList[i][1], secondList[j][1]);\n            if (start <= end) {\n                result.add(new int[]{start, end});\n            }\n            if (firstList[i][1] < secondList[j][1]) {\n                i++;\n            } else {\n                j++;\n            }\n        }\n        return result.toArray(new int[result.size()][]);\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<vector<int>> intervalIntersection(vector<vector<int>>& firstList, vector<vector<int>>& secondList) {\n        vector<vector<int>> result;\n        int i = 0, j = 0;\n        while (i < firstList.size() && j < secondList.size()) {\n            int start = max(firstList[i][0], secondList[j][0]);\n            int end = min(firstList[i][1], secondList[j][1]);\n            if (start <= end) {\n                result.push_back({start, end});\n            }\n            if (firstList[i][1] < secondList[j][1]) {\n                i++;\n            } else {\n                j++;\n            }\n        }\n        return result;\n    }\n};",
-      "javascript": "var intervalIntersection = function(firstList, secondList) {\n    const result = [];\n    let i = 0, j = 0;\n    while (i < firstList.length && j < secondList.length) {\n        const start = Math.max(firstList[i][0], secondList[j][0]);\n        const end = Math.min(firstList[i][1], secondList[j][1]);\n        if (start <= end) {\n            result.push([start, end]);\n        }\n        if (firstList[i][1] < secondList[j][1]) {\n            i++;\n        } else {\n            j++;\n        }\n    }\n    return result;\n};",
-      "go": "func intervalIntersection(firstList [][]int, secondList [][]int) [][]int {\n    var result [][]int\n    i, j := 0, 0\n    for i < len(firstList) && j < len(secondList) {\n        start := max(firstList[i][0], secondList[j][0])\n        end := min(firstList[i][1], secondList[j][1])\n        if start <= end {\n            result = append(result, []int{start, end})\n        }\n        if firstList[i][1] < secondList[j][1] {\n            i++\n        } else {\n            j++\n        }\n    }\n    return result\n}",
-      "rust": "impl Solution {\n    pub fn interval_intersection(first_list: Vec<Vec<i32>>, second_list: Vec<Vec<i32>>) -> Vec<Vec<i32>> {\n        let mut result = Vec::new();\n        let mut i = 0;\n        let mut j = 0;\n        while i < first_list.len() && j < second_list.len() {\n            let start = first_list[i][0].max(second_list[j][0]);\n            let end = first_list[i][1].min(second_list[j][1]);\n            if start <= end {\n                result.push(vec![start, end]);\n            }\n            if first_list[i][1] < second_list[j][1] {\n                i += 1;\n            } else {\n                j += 1;\n            }\n        }\n        result\n    }\n}"
+      "python": "def eraseOverlapIntervals(intervals):\n    if not intervals:\n        return 0\n    intervals.sort(key=lambda x: x[1])\n    count = 0\n    end = intervals[0][1]\n    for i in range(1, len(intervals)):\n        if intervals[i][0] < end:\n            count += 1\n        else:\n            end = intervals[i][1]\n    return count",
+      "java": "class Solution {\n    public int eraseOverlapIntervals(int[][] intervals) {\n        if (intervals.length == 0) return 0;\n        Arrays.sort(intervals, (a, b) -> Integer.compare(a[1], b[1]));\n        int count = 0;\n        int end = intervals[0][1];\n        for (int i = 1; i < intervals.length; i++) {\n            if (intervals[i][0] < end) {\n                count++;\n            } else {\n                end = intervals[i][1];\n            }\n        }\n        return count;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int eraseOverlapIntervals(vector<vector<int>>& intervals) {\n        if (intervals.empty()) return 0;\n        sort(intervals.begin(), intervals.end(), [](const auto& a, const auto& b) {\n            return a[1] < b[1];\n        });\n        int count = 0;\n        int end = intervals[0][1];\n        for (int i = 1; i < intervals.size(); i++) {\n            if (intervals[i][0] < end) {\n                count++;\n            } else {\n                end = intervals[i][1];\n            }\n        }\n        return count;\n    }\n};",
+      "javascript": "var eraseOverlapIntervals = function(intervals) {\n    if (!intervals.length) return 0;\n    intervals.sort((a, b) => a[1] - b[1]);\n    let count = 0;\n    let end = intervals[0][1];\n    for (let i = 1; i < intervals.length; i++) {\n        if (intervals[i][0] < end) {\n            count++;\n        } else {\n            end = intervals[i][1];\n        }\n    }\n    return count;\n};",
+      "go": "func eraseOverlapIntervals(intervals [][]int) int {\n    if len(intervals) == 0 {\n        return 0\n    }\n    sort.Slice(intervals, func(i, j int) bool {\n        return intervals[i][1] < intervals[j][1]\n    })\n    count := 0\n    end := intervals[0][1]\n    for i := 1; i < len(intervals); i++ {\n        if intervals[i][0] < end {\n            count++\n        } else {\n            end = intervals[i][1]\n        }\n    }\n    return count\n}",
+      "rust": "impl Solution {\n    pub fn erase_overlap_intervals(mut intervals: Vec<Vec<i32>>) -> i32 {\n        if intervals.is_empty() {\n            return 0;\n        }\n        intervals.sort_by_key(|x| x[1]);\n        let mut count = 0;\n        let mut end = intervals[0][1];\n        for i in 1..intervals.len() {\n            if intervals[i][0] < end {\n                count += 1;\n            } else {\n                end = intervals[i][1];\n            }\n        }\n        count\n    }\n}"
     }
   },
   {
@@ -228,35 +196,35 @@
     }
   },
   {
-    "id": "merge-intervals-008",
-    "leetcode": 759,
-    "title": "Employee Free Time",
-    "difficulty": "Hard",
-    "description": "We are given a list schedule of employees, which represents the working time for each employee. Each employee has a list of non-overlapping intervals representing their busy time. Return a list of finite intervals representing the free time common to all employees.",
+    "id": "merge-intervals-006",
+    "leetcode": 986,
+    "title": "Interval List Intersections",
+    "difficulty": "Medium",
+    "description": "Given two lists of closed intervals, firstList and secondList, each list of intervals is pairwise disjoint and in sorted order. Return the intersection of these two interval lists.",
     "examples": [
       {
-        "input": "schedule = [[[1,2],[5,6]],[[1,3]],[[4,10]]]",
-        "output": "[[3,4]]"
+        "input": "firstList = [[0,2],[5,5],[8,10]], secondList = [[1,4],[7,12]]",
+        "output": "[[1,2],[5,5],[8,10],[12,12]]"
       },
       {
-        "input": "schedule = [[[1,3],[6,7]],[[2,4]],[[2,5],[9,12]]]",
-        "output": "[[5,6],[7,9]]"
+        "input": "firstList = [[1,3],[3,4]], secondList = [[2,2]]",
+        "output": "[[2,2],[3,3],[3,4]]"
       }
     ],
     "hints": [
-      "Merge all busy intervals from all employees into a single sorted list.",
-      "After merging, gaps between consecutive intervals are the free time.",
-      "The result should not include intervals before the first busy or after the last busy."
+      "Use two pointers to iterate through both lists simultaneously.",
+      "For each pair of intervals, find the overlap by taking max of starts and min of ends.",
+      "Move the pointer of the interval that ends first."
     ],
-    "timeComplexity": "O(n log n)",
-    "spaceComplexity": "O(n)",
+    "timeComplexity": "O(m + n)",
+    "spaceComplexity": "O(m + n)",
     "solutions": {
-      "python": "def employeeFreeTime(schedule):\n    busy = []\n    for emp in schedule:\n        for interval in emp:\n            busy.append(interval)\n    busy.sort()\n    merged = [busy[0]]\n    for start, end in busy[1:]:\n        if start <= merged[-1][1]:\n            merged[-1][1] = max(merged[-1][1], end)\n        else:\n            merged.append([start, end])\n    free = []\n    for i in range(1, len(merged)):\n        free.append([merged[i-1][1], merged[i][0]])\n    return free",
-      "java": "class Solution {\n    public List<Interval> employeeFreeTime(List<List<Interval>> schedule) {\n        List<Interval> busy = new ArrayList<>();\n        for (List<Interval> emp : schedule) {\n            busy.addAll(emp);\n        }\n        Collections.sort(busy, (a, b) -> a.start == b.start ? a.end - b.end : a.start - b.start);\n        List<Interval> merged = new ArrayList<>();\n        merged.add(busy.get(0));\n        for (int i = 1; i < busy.size(); i++) {\n            Interval last = merged.get(merged.size() - 1);\n            if (busy.get(i).start <= last.end) {\n                last.end = Math.max(last.end, busy.get(i).end);\n            } else {\n                merged.add(busy.get(i));\n            }\n        }\n        List<Interval> free = new ArrayList<>();\n        for (int i = 1; i < merged.size(); i++) {\n            free.add(new Interval(merged.get(i-1).end, merged.get(i).start));\n        }\n        return free;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<Interval> employeeFreeTime(vector<vector<Interval>>& schedule) {\n        vector<Interval> busy;\n        for (auto& emp : schedule) {\n            busy.insert(busy.end(), emp.begin(), emp.end());\n        }\n        sort(busy.begin(), busy.end(), [](const Interval& a, const Interval& b) {\n            return a.start == b.start ? a.end < b.end : a.start < b.start;\n        });\n        vector<Interval> merged;\n        merged.push_back(busy[0]);\n        for (int i = 1; i < busy.size(); i++) {\n            if (busy[i].start <= merged.back().end) {\n                merged.back().end = max(merged.back().end, busy[i].end);\n            } else {\n                merged.push_back(busy[i]);\n            }\n        }\n        vector<Interval> free;\n        for (int i = 1; i < merged.size(); i++) {\n            free.push_back(Interval(merged[i-1].end, merged[i].start));\n        }\n        return free;\n    }\n};",
-      "javascript": "var employeeFreeTime = function(schedule) {\n    const busy = [];\n    for (const emp of schedule) {\n        for (const interval of emp) {\n            busy.push(interval);\n        }\n    }\n    busy.sort((a, b) => a.start === b.start ? a.end - b.end : a.start - b.start);\n    const merged = [busy[0]];\n    for (let i = 1; i < busy.length; i++) {\n        if (busy[i].start <= merged[merged.length - 1].end) {\n            merged[merged.length - 1].end = Math.max(merged[merged.length - 1].end, busy[i].end);\n        } else {\n            merged.push(busy[i]);\n        }\n    }\n    const free = [];\n    for (let i = 1; i < merged.length; i++) {\n        free.push({ start: merged[i-1].end, end: merged[i].start });\n    }\n    return free;\n};",
-      "go": "func employeeFreeTime(schedule [][]Interval) []Interval {\n    var busy []Interval\n    for _, emp := range schedule {\n        busy = append(busy, emp...)\n    }\n    sort.Slice(busy, func(i, j int) bool {\n        if busy[i].Start == busy[j].Start {\n            return busy[i].End < busy[j].End\n        }\n        return busy[i].Start < busy[j].Start\n    })\n    merged := []Interval{busy[0]}\n    for i := 1; i < len(busy); i++ {\n        last := &merged[len(merged)-1]\n        if busy[i].Start <= last.End {\n            if busy[i].End > last.End {\n                last.End = busy[i].End\n            }\n        } else {\n            merged = append(merged, busy[i])\n        }\n    }\n    var free []Interval\n    for i := 1; i < len(merged); i++ {\n        free = append(free, Interval{Start: merged[i-1].End, End: merged[i].Start})\n    }\n    return free\n}",
-      "rust": "impl Solution {\n    pub fn employee_free_time(schedule: Vec<Vec<Interval>>) -> Vec<Interval> {\n        let mut busy: Vec<Interval> = schedule.into_iter().flatten().collect();\n        busy.sort_by(|a, b| if a.start == b.start { a.end.cmp(&b.end) } else { a.start.cmp(&b.start) });\n        let mut merged: Vec<Interval> = vec![busy[0].clone()];\n        for i in 1..busy.len() {\n            let last = merged.last_mut().unwrap();\n            if busy[i].start <= last.end {\n                if busy[i].end > last.end {\n                    last.end = busy[i].end;\n                }\n            } else {\n                merged.push(busy[i].clone());\n            }\n        }\n        let mut free = Vec::new();\n        for i in 1..merged.len() {\n            free.push(Interval { start: merged[i-1].end, end: merged[i].start });\n        }\n        free\n    }\n}"
+      "python": "def intervalIntersection(firstList, secondList):\n    result = []\n    i = j = 0\n    while i < len(firstList) and j < len(secondList):\n        start = max(firstList[i][0], secondList[j][0])\n        end = min(firstList[i][1], secondList[j][1])\n        if start <= end:\n            result.append([start, end])\n        if firstList[i][1] < secondList[j][1]:\n            i += 1\n        else:\n            j += 1\n    return result",
+      "java": "class Solution {\n    public int[][] intervalIntersection(int[][] firstList, int[][] secondList) {\n        List<int[]> result = new ArrayList<>();\n        int i = 0, j = 0;\n        while (i < firstList.length && j < secondList.length) {\n            int start = Math.max(firstList[i][0], secondList[j][0]);\n            int end = Math.min(firstList[i][1], secondList[j][1]);\n            if (start <= end) {\n                result.add(new int[]{start, end});\n            }\n            if (firstList[i][1] < secondList[j][1]) {\n                i++;\n            } else {\n                j++;\n            }\n        }\n        return result.toArray(new int[result.size()][]);\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    vector<vector<int>> intervalIntersection(vector<vector<int>>& firstList, vector<vector<int>>& secondList) {\n        vector<vector<int>> result;\n        int i = 0, j = 0;\n        while (i < firstList.size() && j < secondList.size()) {\n            int start = max(firstList[i][0], secondList[j][0]);\n            int end = min(firstList[i][1], secondList[j][1]);\n            if (start <= end) {\n                result.push_back({start, end});\n            }\n            if (firstList[i][1] < secondList[j][1]) {\n                i++;\n            } else {\n                j++;\n            }\n        }\n        return result;\n    }\n};",
+      "javascript": "var intervalIntersection = function(firstList, secondList) {\n    const result = [];\n    let i = 0, j = 0;\n    while (i < firstList.length && j < secondList.length) {\n        const start = Math.max(firstList[i][0], secondList[j][0]);\n        const end = Math.min(firstList[i][1], secondList[j][1]);\n        if (start <= end) {\n            result.push([start, end]);\n        }\n        if (firstList[i][1] < secondList[j][1]) {\n            i++;\n        } else {\n            j++;\n        }\n    }\n    return result;\n};",
+      "go": "func intervalIntersection(firstList [][]int, secondList [][]int) [][]int {\n    var result [][]int\n    i, j := 0, 0\n    for i < len(firstList) && j < len(secondList) {\n        start := max(firstList[i][0], secondList[j][0])\n        end := min(firstList[i][1], secondList[j][1])\n        if start <= end {\n            result = append(result, []int{start, end})\n        }\n        if firstList[i][1] < secondList[j][1] {\n            i++\n        } else {\n            j++\n        }\n    }\n    return result\n}",
+      "rust": "impl Solution {\n    pub fn interval_intersection(first_list: Vec<Vec<i32>>, second_list: Vec<Vec<i32>>) -> Vec<Vec<i32>> {\n        let mut result = Vec::new();\n        let mut i = 0;\n        let mut j = 0;\n        while i < first_list.len() && j < second_list.len() {\n            let start = first_list[i][0].max(second_list[j][0]);\n            let end = first_list[i][1].min(second_list[j][1]);\n            if start <= end {\n                result.push(vec![start, end]);\n            }\n            if first_list[i][1] < second_list[j][1] {\n                i += 1;\n            } else {\n                j += 1;\n            }\n        }\n        result\n    }\n}"
     }
   },
   {
@@ -322,6 +290,38 @@
       "javascript": "var getSkyline = function(buildings) {\n    const events = [];\n    for (const [l, r, h] of buildings) {\n        events.push([l, -h]);\n        events.push([r, h]);\n    }\n    events.sort((a, b) => a[0] === b[0] ? a[1] - b[1] : a[0] - b[0]);\n    const heap = [0];\n    const remove = new Map();\n    const result = [];\n    let prev = 0;\n    for (const [x, h] of events) {\n        if (h < 0) {\n            heap.push(h);\n            heap.sort((a, b) => b - a);\n        } else {\n            remove.set(h, (remove.get(h) || 0) + 1);\n        }\n        while (heap.length && remove.has(-heap[0]) && remove.get(-heap[0]) > 0) {\n            remove.set(-heap[0], remove.get(-heap[0]) - 1);\n            if (remove.get(-heap[0]) === 0) remove.delete(-heap[0]);\n            heap.shift();\n        }\n        const curr = -heap[0];\n        if (curr !== prev) {\n            result.push([x, curr]);\n            prev = curr;\n        }\n    }\n    return result;\n};",
       "go": "import \"sort\"\n\nfunc getSkyline(buildings [][]int) [][]int {\n    type event struct { x, h int }\n    events := []event{}\n    for _, b := range buildings {\n        events = append(events, event{b[0], -b[2]})\n        events = append(events, event{b[1], b[2]})\n    }\n    sort.Slice(events, func(i, j int) bool {\n        if events[i].x == events[j].x {\n            return events[i].h < events[j].h\n        }\n        return events[i].x < events[j].x\n    })\n    heap := []int{0}\n    remove := map[int]int{}\n    var result [][]int\n    prev := 0\n    for _, e := range events {\n        if e.h < 0 {\n            heap = append(heap, e.h)\n            sort.Slice(heap, func(i, j int) bool { return heap[i] > heap[j] })\n        } else {\n            remove[e.h]++\n        }\n        for len(heap) > 0 && remove[-heap[0]] > 0 {\n            remove[-heap[0]]--\n            heap = heap[1:]\n        }\n        curr := -heap[0]\n        if curr != prev {\n            result = append(result, []int{e.x, curr})\n            prev = curr\n        }\n    }\n    return result\n}",
       "rust": "use std::collections::BTreeMap;\n\nimpl Solution {\n    pub fn get_skyline(buildings: Vec<Vec<i32>>) -> Vec<Vec<i32>> {\n        let mut events: Vec<(i32, i32)> = Vec::new();\n        for b in &buildings {\n            events.push((b[0], -b[2]));\n            events.push((b[1], b[2]));\n        }\n        events.sort_by(|a, b| {\n            if a.0 == b.0 {\n                a.1.cmp(&b.1)\n            } else {\n                a.0.cmp(&b.0)\n            }\n        });\n        let mut map: BTreeMap<i32, i32> = BTreeMap::new();\n        *map.entry(0).or_insert(0) += 1;\n        let mut result = Vec::new();\n        let mut prev = 0;\n        for (x, h) in &events {\n            if *h < 0 {\n                *map.entry(-h).or_insert(0) += 1;\n            } else {\n                let entry = map.get_mut(h).unwrap();\n                *entry -= 1;\n                if *entry == 0 {\n                    map.remove(h);\n                }\n            }\n            let curr = *map.iter().next_back().unwrap().0;\n            if curr != prev {\n                result.push(vec![*x, curr]);\n                prev = curr;\n            }\n        }\n        result\n    }\n}"
+    }
+  },
+  {
+    "id": "merge-intervals-008",
+    "leetcode": 759,
+    "title": "Employee Free Time",
+    "difficulty": "Hard",
+    "description": "We are given a list schedule of employees, which represents the working time for each employee. Each employee has a list of non-overlapping intervals representing their busy time. Return a list of finite intervals representing the free time common to all employees.",
+    "examples": [
+      {
+        "input": "schedule = [[[1,2],[5,6]],[[1,3]],[[4,10]]]",
+        "output": "[[3,4]]"
+      },
+      {
+        "input": "schedule = [[[1,3],[6,7]],[[2,4]],[[2,5],[9,12]]]",
+        "output": "[[5,6],[7,9]]"
+      }
+    ],
+    "hints": [
+      "Merge all busy intervals from all employees into a single sorted list.",
+      "After merging, gaps between consecutive intervals are the free time.",
+      "The result should not include intervals before the first busy or after the last busy."
+    ],
+    "timeComplexity": "O(n log n)",
+    "spaceComplexity": "O(n)",
+    "solutions": {
+      "python": "def employeeFreeTime(schedule):\n    busy = []\n    for emp in schedule:\n        for interval in emp:\n            busy.append(interval)\n    busy.sort()\n    merged = [busy[0]]\n    for start, end in busy[1:]:\n        if start <= merged[-1][1]:\n            merged[-1][1] = max(merged[-1][1], end)\n        else:\n            merged.append([start, end])\n    free = []\n    for i in range(1, len(merged)):\n        free.append([merged[i-1][1], merged[i][0]])\n    return free",
+      "java": "class Solution {\n    public List<Interval> employeeFreeTime(List<List<Interval>> schedule) {\n        List<Interval> busy = new ArrayList<>();\n        for (List<Interval> emp : schedule) {\n            busy.addAll(emp);\n        }\n        Collections.sort(busy, (a, b) -> a.start == b.start ? a.end - b.end : a.start - b.start);\n        List<Interval> merged = new ArrayList<>();\n        merged.add(busy.get(0));\n        for (int i = 1; i < busy.size(); i++) {\n            Interval last = merged.get(merged.size() - 1);\n            if (busy.get(i).start <= last.end) {\n                last.end = Math.max(last.end, busy.get(i).end);\n            } else {\n                merged.add(busy.get(i));\n            }\n        }\n        List<Interval> free = new ArrayList<>();\n        for (int i = 1; i < merged.size(); i++) {\n            free.add(new Interval(merged.get(i-1).end, merged.get(i).start));\n        }\n        return free;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    vector<Interval> employeeFreeTime(vector<vector<Interval>>& schedule) {\n        vector<Interval> busy;\n        for (auto& emp : schedule) {\n            busy.insert(busy.end(), emp.begin(), emp.end());\n        }\n        sort(busy.begin(), busy.end(), [](const Interval& a, const Interval& b) {\n            return a.start == b.start ? a.end < b.end : a.start < b.start;\n        });\n        vector<Interval> merged;\n        merged.push_back(busy[0]);\n        for (int i = 1; i < busy.size(); i++) {\n            if (busy[i].start <= merged.back().end) {\n                merged.back().end = max(merged.back().end, busy[i].end);\n            } else {\n                merged.push_back(busy[i]);\n            }\n        }\n        vector<Interval> free;\n        for (int i = 1; i < merged.size(); i++) {\n            free.push_back(Interval(merged[i-1].end, merged[i].start));\n        }\n        return free;\n    }\n};",
+      "javascript": "var employeeFreeTime = function(schedule) {\n    const busy = [];\n    for (const emp of schedule) {\n        for (const interval of emp) {\n            busy.push(interval);\n        }\n    }\n    busy.sort((a, b) => a.start === b.start ? a.end - b.end : a.start - b.start);\n    const merged = [busy[0]];\n    for (let i = 1; i < busy.length; i++) {\n        if (busy[i].start <= merged[merged.length - 1].end) {\n            merged[merged.length - 1].end = Math.max(merged[merged.length - 1].end, busy[i].end);\n        } else {\n            merged.push(busy[i]);\n        }\n    }\n    const free = [];\n    for (let i = 1; i < merged.length; i++) {\n        free.push({ start: merged[i-1].end, end: merged[i].start });\n    }\n    return free;\n};",
+      "go": "func employeeFreeTime(schedule [][]Interval) []Interval {\n    var busy []Interval\n    for _, emp := range schedule {\n        busy = append(busy, emp...)\n    }\n    sort.Slice(busy, func(i, j int) bool {\n        if busy[i].Start == busy[j].Start {\n            return busy[i].End < busy[j].End\n        }\n        return busy[i].Start < busy[j].Start\n    })\n    merged := []Interval{busy[0]}\n    for i := 1; i < len(busy); i++ {\n        last := &merged[len(merged)-1]\n        if busy[i].Start <= last.End {\n            if busy[i].End > last.End {\n                last.End = busy[i].End\n            }\n        } else {\n            merged = append(merged, busy[i])\n        }\n    }\n    var free []Interval\n    for i := 1; i < len(merged); i++ {\n        free = append(free, Interval{Start: merged[i-1].End, End: merged[i].Start})\n    }\n    return free\n}",
+      "rust": "impl Solution {\n    pub fn employee_free_time(schedule: Vec<Vec<Interval>>) -> Vec<Interval> {\n        let mut busy: Vec<Interval> = schedule.into_iter().flatten().collect();\n        busy.sort_by(|a, b| if a.start == b.start { a.end.cmp(&b.end) } else { a.start.cmp(&b.start) });\n        let mut merged: Vec<Interval> = vec![busy[0].clone()];\n        for i in 1..busy.len() {\n            let last = merged.last_mut().unwrap();\n            if busy[i].start <= last.end {\n                if busy[i].end > last.end {\n                    last.end = busy[i].end;\n                }\n            } else {\n                merged.push(busy[i].clone());\n            }\n        }\n        let mut free = Vec::new();\n        for i in 1..merged.len() {\n            free.push(Interval { start: merged[i-1].end, end: merged[i].start });\n        }\n        free\n    }\n}"
     }
   }
 ]

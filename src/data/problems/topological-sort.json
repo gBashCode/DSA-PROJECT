@@ -6,8 +6,14 @@
     "difficulty": "Medium",
     "description": "There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai. Return true if you can finish all courses. Otherwise, return false.",
     "examples": [
-      { "input": "numCourses = 2, prerequisites = [[1,0]]", "output": "true" },
-      { "input": "numCourses = 2, prerequisites = [[1,0],[0,1]]", "output": "false" }
+      {
+        "input": "numCourses = 2, prerequisites = [[1,0]]",
+        "output": "true"
+      },
+      {
+        "input": "numCourses = 2, prerequisites = [[1,0],[0,1]]",
+        "output": "false"
+      }
     ],
     "hints": [
       "Model the courses as a directed graph where each course is a node and each prerequisite is a directed edge.",
@@ -32,9 +38,18 @@
     "difficulty": "Medium",
     "description": "There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai. Return the ordering of courses you should take to finish all courses. If there are many valid answers, return any of them. If it is impossible to finish all courses, return an empty array.",
     "examples": [
-      { "input": "numCourses = 2, prerequisites = [[1,0]]", "output": "[0,1]" },
-      { "input": "numCourses = 4, prerequisites = [[1,0],[2,0],[3,1],[3,2]]", "output": "[0,1,2,3]" },
-      { "input": "numCourses = 1, prerequisites = []", "output": "[0]" }
+      {
+        "input": "numCourses = 2, prerequisites = [[1,0]]",
+        "output": "[0,1]"
+      },
+      {
+        "input": "numCourses = 4, prerequisites = [[1,0],[2,0],[3,1],[3,2]]",
+        "output": "[0,1,2,3]"
+      },
+      {
+        "input": "numCourses = 1, prerequisites = []",
+        "output": "[0]"
+      }
     ],
     "hints": [
       "This is a classic topological sort problem.",
@@ -53,41 +68,20 @@
     }
   },
   {
-    "id": "topological-sort-003",
-    "leetcode": 269,
-    "title": "Alien Dictionary",
-    "difficulty": "Hard",
-    "description": "There is a new alien language that uses the Latin alphabet, but the order among the letters are unknown to you. You are given a list of strings words from the alien language's dictionary, where the strings in words are sorted lexicographically according to the language's rules. Now, due to the authorities, you are given a string word. Return a string of the unique letters in the new alien language, sorted in lexicographically ascending order according to the language's rules. If there is no solution, return an empty string.",
-    "examples": [
-      { "input": "words = [wrt, wrf, er, ett, rftt]", "output": "wertf" },
-      { "input": "words = [z, x]", "output": "zx" },
-      { "input": "words = [z, x, z]", "output": "" }
-    ],
-    "hints": [
-      "Compare adjacent words to find ordering constraints between characters.",
-      "Build a directed graph where an edge from char a to char b means a comes before b.",
-      "Perform topological sort on the graph. If a cycle is detected, return empty string."
-    ],
-    "timeComplexity": "O(C) where C is the total length of all words combined",
-    "spaceComplexity": "O(1) since alphabet size is fixed at 26, or O(C) for the graph",
-    "solutions": {
-      "python": "from collections import deque\n\ndef alienOrder(words):\n    adj = {c: set() for word in words for c in word}\n    for i in range(len(words) - 1):\n        w1, w2 = words[i], words[i + 1]\n        minLen = min(len(w1), len(w2))\n        if len(w1) > len(w2) and w1[:minLen] == w2[:minLen]:\n            return \"\"\n        for j in range(minLen):\n            if w1[j] != w2[j]:\n                adj[w1[j]].add(w2[j])\n                break\n    in_degree = {c: 0 for c in adj}\n    for c in adj:\n        for nei in adj[c]:\n            in_degree[nei] += 1\n    queue = deque([c for c in in_degree if in_degree[c] == 0])\n    result = []\n    while queue:\n        c = queue.popleft()\n        result.append(c)\n        for nei in adj[c]:\n            in_degree[nei] -= 1\n            if in_degree[nei] == 0:\n                queue.append(nei)\n    return \"\" if len(result) != len(adj) else \"\".join(result)",
-      "java": "import java.util.*;\n\nclass Solution {\n    public String alienOrder(String[] words) {\n        Map<Character, Set<Character>> adj = new HashMap<>();\n        Map<Character, Integer> inDegree = new HashMap<>();\n        for (String w : words) {\n            for (char c : w.toCharArray()) {\n                adj.putIfAbsent(c, new HashSet<>());\n                inDegree.putIfAbsent(c, 0);\n            }\n        }\n        for (int i = 0; i < words.length - 1; i++) {\n            String w1 = words[i], w2 = words[i + 1];\n            int minLen = Math.min(w1.length(), w2.length());\n            if (w1.length() > w2.length() && w1.substring(0, minLen).equals(w2.substring(0, minLen))) {\n                return \"\";\n            }\n            for (int j = 0; j < minLen; j++) {\n                if (w1.charAt(j) != w2.charAt(j)) {\n                    if (adj.get(w1.charAt(j)).add(w2.charAt(j))) {\n                        inDegree.merge(w2.charAt(j), 1, Integer::sum);\n                    }\n                    break;\n                }\n            }\n        }\n        Queue<Character> queue = new LinkedList<>();\n        for (var e : inDegree.entrySet()) {\n            if (e.getValue() == 0) queue.offer(e.getKey());\n        }\n        StringBuilder sb = new StringBuilder();\n        while (!queue.isEmpty()) {\n            char c = queue.poll();\n            sb.append(c);\n            for (char nei : adj.get(c)) {\n                inDegree.merge(nei, -1, Integer::sum);\n                if (inDegree.get(nei) == 0) queue.offer(nei);\n            }\n        }\n        return sb.length() == inDegree.size() ? sb.toString() : \"\";\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    string alienOrder(vector<string>& words) {\n        unordered_map<char, unordered_set<char>> adj;\n        unordered_map<char, int> inDegree;\n        for (auto& w : words) {\n            for (char c : w) {\n                adj[c];\n                inDegree[c] = 0;\n            }\n        }\n        for (int i = 0; i < (int)words.size() - 1; i++) {\n            string w1 = words[i], w2 = words[i + 1];\n            int minLen = min(w1.size(), w2.size());\n            if (w1.size() > w2.size() && w1.substr(0, minLen) == w2.substr(0, minLen))\n                return \"\";\n            for (int j = 0; j < minLen; j++) {\n                if (w1[j] != w2[j]) {\n                    if (adj[w1[j]].insert(w2[j]).second) inDegree[w2[j]]++;\n                    break;\n                }\n            }\n        }\n        queue<char> q;\n        for (auto& [c, d] : inDegree) {\n            if (d == 0) q.push(c);\n        }\n        string result;\n        while (!q.empty()) {\n            char c = q.front(); q.pop();\n            result += c;\n            for (char nei : adj[c]) {\n                if (--inDegree[nei] == 0) q.push(nei);\n            }\n        }\n        return result.size() == inDegree.size() ? result : \"\";\n    }\n};",
-      "javascript": "var alienOrder = function(words) {\n    const adj = new Map();\n    const inDegree = new Map();\n    for (const w of words) {\n        for (const c of w) {\n            if (!adj.has(c)) adj.set(c, new Set());\n            if (!inDegree.has(c)) inDegree.set(c, 0);\n        }\n    }\n    for (let i = 0; i < words.length - 1; i++) {\n        const w1 = words[i], w2 = words[i + 1];\n        const minLen = Math.min(w1.length, w2.length);\n        if (w1.length > w2.length && w1.slice(0, minLen) === w2.slice(0, minLen)) return \"\";\n        for (let j = 0; j < minLen; j++) {\n            if (w1[j] !== w2[j]) {\n                if (!adj.get(w1[j]).has(w2[j])) {\n                    adj.get(w1[j]).add(w2[j]);\n                    inDegree.set(w2[j], inDegree.get(w2[j]) + 1);\n                }\n                break;\n            }\n        }\n    }\n    const queue = [];\n    for (const [c, d] of inDegree) {\n        if (d === 0) queue.push(c);\n    }\n    let result = \"\";\n    while (queue.length) {\n        const c = queue.shift();\n        result += c;\n        for (const nei of adj.get(c)) {\n            inDegree.set(nei, inDegree.get(nei) - 1);\n            if (inDegree.get(nei) === 0) queue.push(nei);\n        }\n    }\n    return result.length === inDegree.size ? result : \"\";\n};",
-      "go": "func alienOrder(words []string) string {\n    adj := make(map[byte]map[byte]bool)\n    inDegree := make(map[byte]int)\n    for _, w := range words {\n        for i := 0; i < len(w); i++ {\n            c := w[i]\n            if _, ok := adj[c]; !ok {\n                adj[c] = make(map[byte]bool)\n            }\n            if _, ok := inDegree[c]; !ok {\n                inDegree[c] = 0\n            }\n        }\n    }\n    for i := 0; i < len(words)-1; i++ {\n        w1, w2 := words[i], words[i+1]\n        minLen := len(w1)\n        if len(w2) < minLen {\n            minLen = len(w2)\n        }\n        if len(w1) > len(w2) && w1[:minLen] == w2[:minLen] {\n            return \"\"\n        }\n        for j := 0; j < minLen; j++ {\n            if w1[j] != w2[j] {\n                if !adj[w1[j]][w2[j]] {\n                    adj[w1[j]][w2[j]] = true\n                    inDegree[w2[j]]++\n                }\n                break\n            }\n        }\n    }\n    queue := []byte{}\n    for c, d := range inDegree {\n        if d == 0 {\n            queue = append(queue, c)\n        }\n    }\n    result := []byte{}\n    for len(queue) > 0 {\n        c := queue[0]\n        queue = queue[1:]\n        result = append(result, c)\n        for nei := range adj[c] {\n            inDegree[nei]--\n            if inDegree[nei] == 0 {\n                queue = append(queue, nei)\n            }\n        }\n    }\n    if len(result) != len(inDegree) {\n        return \"\"\n    }\n    return string(result)\n}",
-      "rust": "use std::collections::{HashMap, HashSet, VecDeque};\n\nimpl Solution {\n    pub fn alien_order(words: Vec<String>) -> String {\n        let mut adj: HashMap<u8, HashSet<u8>> = HashMap::new();\n        let mut in_degree: HashMap<u8, i32> = HashMap::new();\n        for w in &words {\n            for &c in w.as_bytes() {\n                adj.entry(c).or_insert_with(HashSet::new);\n                in_degree.entry(c).or_insert(0);\n            }\n        }\n        for i in 0..words.len() - 1 {\n            let w1 = words[i].as_bytes();\n            let w2 = words[i + 1].as_bytes();\n            let min_len = w1.len().min(w2.len());\n            if w1.len() > w2.len() && &w1[..min_len] == &w2[..min_len] {\n                return String::new();\n            }\n            for j in 0..min_len {\n                if w1[j] != w2[j] {\n                    if adj.get_mut(&w1[j]).unwrap().insert(w2[j]) {\n                        *in_degree.entry(w2[j]).or_insert(0) += 1;\n                    }\n                    break;\n                }\n            }\n        }\n        let mut queue: VecDeque<u8> = VecDeque::new();\n        for (&c, &d) in &in_degree {\n            if d == 0 {\n                queue.push_back(c);\n            }\n        }\n        let mut result = Vec::new();\n        while let Some(c) = queue.pop_front() {\n            result.push(c as char);\n            if let Some(neighbors) = adj.get(&c) {\n                for &nei in neighbors {\n                    let entry = in_degree.entry(nei).or_insert(0);\n                    *entry -= 1;\n                    if *entry == 0 {\n                        queue.push_back(nei);\n                    }\n                }\n            }\n        }\n        if result.len() == in_degree.len() {\n            result.iter().collect()\n        } else {\n            String::new()\n        }\n    }\n}"
-    }
-  },
-  {
     "id": "topological-sort-004",
     "leetcode": 310,
     "title": "Minimum Height Trees",
     "difficulty": "Medium",
     "description": "A tree is an undirected graph in which any two nodes are connected by exactly one path. Given a tree of n nodes labelled from 0 to n - 1, and an array of n - 1 edges, and a label n. Return all the labels of the root nodes of minimum height trees. A node's height is the number of edges on the longest path from the node to a leaf.",
     "examples": [
-      { "input": "n = 4, edges = [[1,0],[1,2],[1,3]]", "output": "[1]" },
-      { "input": "n = 6, edges = [[3,0],[3,1],[3,2],[3,4],[5,4]]", "output": "[3,4]" }
+      {
+        "input": "n = 4, edges = [[1,0],[1,2],[1,3]]",
+        "output": "[1]"
+      },
+      {
+        "input": "n = 6, edges = [[3,0],[3,1],[3,2],[3,4],[5,4]]",
+        "output": "[3,4]"
+      }
     ],
     "hints": [
       "The root of a minimum height tree must be near the center of the tree.",
@@ -112,8 +106,14 @@
     "difficulty": "Medium",
     "description": "There is a directed graph of n nodes with each node labeled from 0 to n - 1. The graph is represented by a 0-indexed 2D integer array graph where graph[i] is an array of nodes that node i has a directed edge to. A node is a terminal node if there are no outgoing edges. A node is a safe node if every possible path starting from that node leads to a terminal node. Return a list containing all the safe nodes of the graph in sorted order.",
     "examples": [
-      { "input": "graph = [[1,2],[2,3],[5],[0],[5],[],[]]", "output": "[2,4,5,6]" },
-      { "input": "graph = [[1,2,3,4],[1,2],[3,4],[4],[]]", "output": "[4]" }
+      {
+        "input": "graph = [[1,2],[2,3],[5],[0],[5],[],[]]",
+        "output": "[2,4,5,6]"
+      },
+      {
+        "input": "graph = [[1,2,3,4],[1,2],[3,4],[4],[]]",
+        "output": "[4]"
+      }
     ],
     "hints": [
       "Safe nodes are those that are not part of any cycle and do not lead to a cycle.",
@@ -132,41 +132,20 @@
     }
   },
   {
-    "id": "topological-sort-006",
-    "leetcode": 444,
-    "title": "Sequence Reconstruction",
-    "difficulty": "Hard",
-    "description": "You are given an array of integers nums that represents a permutation of integers. You are also given a 2D integer array sequences where sequences[i] is a subsequence of nums. Return true if nums is the only supersequence of sequences. In other words, if nums can be uniquely reconstructed from all the subsequences in sequences, return true. Otherwise, return false.",
-    "examples": [
-      { "input": "nums = [1,2,3], sequences = [[1,2],[1,3]]", "output": "false" },
-      { "input": "nums = [1,2,3], sequences = [[1,2]]", "output": "false" },
-      { "input": "nums = [1,2,3], sequences = [[1,2],[1,3],[2,3]]", "output": "true" }
-    ],
-    "hints": [
-      "Build a directed graph from the subsequences where an edge from a to b means a must come before b.",
-      "Perform topological sort and check that at every step there is exactly one node with in-degree 0.",
-      "Also verify that the resulting topological order matches the given nums array."
-    ],
-    "timeComplexity": "O(N + S) where N is the length of nums and S is the total length of all sequences",
-    "spaceComplexity": "O(N + S)",
-    "solutions": {
-      "python": "from collections import deque\n\ndef sequenceReconstruction(nums, sequences):\n    n = len(nums)\n    adj = [[] for _ in range(n + 1)]\n    in_degree = [0] * (n + 1)\n    pos = [0] * (n + 1)\n    for i, num in enumerate(nums):\n        pos[num] = i\n    for seq in sequences:\n        for i in range(len(seq) - 1):\n            adj[seq[i]].append(seq[i + 1])\n            in_degree[seq[i + 1]] += 1\n    queue = deque([i for i in range(1, n + 1) if in_degree[i] == 0])\n    idx = 0\n    while queue:\n        if len(queue) > 1:\n            return False\n        node = queue.popleft()\n        if node != nums[idx]:\n            return False\n        idx += 1\n        for neighbor in adj[node]:\n            in_degree[neighbor] -= 1\n            if in_degree[neighbor] == 0:\n                queue.append(neighbor)\n    return idx == n",
-      "java": "import java.util.*;\n\nclass Solution {\n    public boolean sequenceReconstruction(int[] nums, List<List<Integer>> sequences) {\n        int n = nums.length;\n        List<List<Integer>> adj = new ArrayList<>();\n        int[] inDegree = new int[n + 1];\n        int[] pos = new int[n + 1];\n        for (int i = 0; i < n; i++) {\n            adj.add(new ArrayList<>());\n            pos[nums[i]] = i;\n        }\n        adj.add(new ArrayList<>());\n        for (List<Integer> seq : sequences) {\n            for (int i = 0; i < seq.size() - 1; i++) {\n                adj.get(seq.get(i)).add(seq.get(i + 1));\n                inDegree[seq.get(i + 1)]++;\n            }\n        }\n        Queue<Integer> queue = new LinkedList<>();\n        for (int i = 1; i <= n; i++) {\n            if (inDegree[i] == 0) queue.offer(i);\n        }\n        int idx = 0;\n        while (!queue.isEmpty()) {\n            if (queue.size() > 1) return false;\n            int node = queue.poll();\n            if (node != nums[idx]) return false;\n            idx++;\n            for (int neighbor : adj.get(node)) {\n                if (--inDegree[neighbor] == 0) queue.offer(neighbor);\n            }\n        }\n        return idx == n;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    bool sequenceReconstruction(vector<int>& nums, vector<vector<int>>& sequences) {\n        int n = nums.size();\n        vector<vector<int>> adj(n + 1);\n        vector<int> inDegree(n + 1, 0);\n        for (auto& seq : sequences) {\n            for (int i = 0; i < (int)seq.size() - 1; i++) {\n                adj[seq[i]].push_back(seq[i + 1]);\n                inDegree[seq[i + 1]]++;\n            }\n        }\n        queue<int> q;\n        for (int i = 1; i <= n; i++) {\n            if (inDegree[i] == 0) q.push(i);\n        }\n        int idx = 0;\n        while (!q.empty()) {\n            if (q.size() > 1) return false;\n            int node = q.front(); q.pop();\n            if (node != nums[idx]) return false;\n            idx++;\n            for (int neighbor : adj[node]) {\n                if (--inDegree[neighbor] == 0) q.push(neighbor);\n            }\n        }\n        return idx == n;\n    }\n};",
-      "javascript": "var sequenceReconstruction = function(nums, sequences) {\n    const n = nums.length;\n    const adj = Array.from({ length: n + 1 }, () => []);\n    const inDegree = new Array(n + 1).fill(0);\n    for (const seq of sequences) {\n        for (let i = 0; i < seq.length - 1; i++) {\n            adj[seq[i]].push(seq[i + 1]);\n            inDegree[seq[i + 1]]++;\n        }\n    }\n    const queue = [];\n    for (let i = 1; i <= n; i++) {\n        if (inDegree[i] === 0) queue.push(i);\n    }\n    let idx = 0;\n    while (queue.length) {\n        if (queue.length > 1) return false;\n        const node = queue.shift();\n        if (node !== nums[idx]) return false;\n        idx++;\n        for (const neighbor of adj[node]) {\n            if (--inDegree[neighbor] === 0) queue.push(neighbor);\n        }\n    }\n    return idx === n;\n};",
-      "go": "func sequenceReconstruction(nums []int, sequences [][]int) bool {\n    n := len(nums)\n    adj := make([][]int, n+1)\n    inDegree := make([]int, n+1)\n    for _, seq := range sequences {\n        for i := 0; i < len(seq)-1; i++ {\n            adj[seq[i]] = append(adj[seq[i]], seq[i+1])\n            inDegree[seq[i+1]]++\n        }\n    }\n    queue := []int{}\n    for i := 1; i <= n; i++ {\n        if inDegree[i] == 0 {\n            queue = append(queue, i)\n        }\n    }\n    idx := 0\n    for len(queue) > 0 {\n        if len(queue) > 1 {\n            return false\n        }\n        node := queue[0]\n        queue = queue[1:]\n        if node != nums[idx] {\n            return false\n        }\n        idx++\n        for _, neighbor := range adj[node] {\n            inDegree[neighbor]--\n            if inDegree[neighbor] == 0 {\n                queue = append(queue, neighbor)\n            }\n        }\n    }\n    return idx == n\n}",
-      "rust": "use std::collections::VecDeque;\n\nimpl Solution {\n    pub fn sequence_reconstruction(nums: Vec<i32>, sequences: Vec<Vec<i32>>) -> bool {\n        let n = nums.len();\n        let mut adj = vec![Vec::<i32>::new(); n + 1];\n        let mut in_degree = vec![0i32; n + 1];\n        for seq in &sequences {\n            for i in 0..seq.len() - 1 {\n                adj[seq[i] as usize].push(seq[i + 1]);\n                in_degree[seq[i + 1] as usize] += 1;\n            }\n        }\n        let mut queue: VecDeque<i32> = VecDeque::new();\n        for i in 1..=n as i32 {\n            if in_degree[i as usize] == 0 {\n                queue.push_back(i);\n            }\n        }\n        let mut idx = 0;\n        while !queue.is_empty() {\n            if queue.len() > 1 {\n                return false;\n            }\n            let node = queue.pop_front().unwrap();\n            if node != nums[idx] {\n                return false;\n            }\n            idx += 1;\n            for &neighbor in &adj[node as usize] {\n                in_degree[neighbor as usize] -= 1;\n                if in_degree[neighbor as usize] == 0 {\n                    queue.push_back(neighbor);\n                }\n            }\n        }\n        idx == n\n    }\n}"
-    }
-  },
-  {
     "id": "topological-sort-007",
     "leetcode": 1462,
     "title": "Course Schedule IV",
     "difficulty": "Medium",
     "description": "There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai. After completing a course, you receive a certificate. You are also given some queries where queries[i] = [ui, vi] determines whether you should take course ui before course vi. Return a boolean array answer, where answer[i] is true if you should take course ui before course vi, otherwise false.",
     "examples": [
-      { "input": "numCourses = 2, prerequisites = [[1,0]], queries = [[0,1],[1,0]]", "output": "[false,true]" },
-      { "input": "numCourses = 2, prerequisites = [], queries = [[1,0],[0,1]]", "output": "[false,false]" }
+      {
+        "input": "numCourses = 2, prerequisites = [[1,0]], queries = [[0,1],[1,0]]",
+        "output": "[false,true]"
+      },
+      {
+        "input": "numCourses = 2, prerequisites = [], queries = [[1,0],[0,1]]",
+        "output": "[false,false]"
+      }
     ],
     "hints": [
       "Use Floyd-Warshall or BFS/DFS to compute all pairs reachability.",
@@ -191,8 +170,14 @@
     "difficulty": "Medium",
     "description": "You are given an array of strings recipes where recipes[i] is the name of a recipe. You are also given two string arrays ingredients and supplies. Each recipe has a list of ingredients that must be available in supplies. Return a list of all recipes that can be prepared. A recipe can be prepared if all of its ingredients are available in supplies and can themselves be prepared (recursively). Return the result in any order.",
     "examples": [
-      { "input": "recipes = [bread], ingredients = [[yeast, flour]], supplies = [yeast, flour, sugar]", "output": "[bread]" },
-      { "input": "recipes = [bread, sandwich], ingredients = [[yeast, flour], [bread, meat]], supplies = [yeast, flour, meat]", "output": "[bread, sandwich]" }
+      {
+        "input": "recipes = [bread], ingredients = [[yeast, flour]], supplies = [yeast, flour, sugar]",
+        "output": "[bread]"
+      },
+      {
+        "input": "recipes = [bread, sandwich], ingredients = [[yeast, flour], [bread, meat]], supplies = [yeast, flour, meat]",
+        "output": "[bread, sandwich]"
+      }
     ],
     "hints": [
       "Build a dependency graph where each recipe depends on its ingredients.",
@@ -211,29 +196,39 @@
     }
   },
   {
-    "id": "topological-sort-009",
-    "leetcode": 2050,
-    "title": "Parallel Courses III",
+    "id": "topological-sort-003",
+    "leetcode": 269,
+    "title": "Alien Dictionary",
     "difficulty": "Hard",
-    "description": "You are given an integer n, which indicates that there are n courses labeled from 1 to n. You are also given a 2D integer array relations where relations[j] = [prevCoursej, nextCoursej] denotes that course prevCoursej has to be completed before course nextCoursej. You are given a 0-indexed integer array time where time[i] denotes the number of months it takes to complete the (i+1)th course. You must complete all the courses. You can start taking courses at any time if the prerequisites are satisfied. Return the minimum number of months needed to complete all the courses.",
+    "description": "There is a new alien language that uses the Latin alphabet, but the order among the letters are unknown to you. You are given a list of strings words from the alien language's dictionary, where the strings in words are sorted lexicographically according to the language's rules. Now, due to the authorities, you are given a string word. Return a string of the unique letters in the new alien language, sorted in lexicographically ascending order according to the language's rules. If there is no solution, return an empty string.",
     "examples": [
-      { "input": "n = 3, relations = [[1,3],[2,3]], time = [3,2,5]", "output": "8" },
-      { "input": "n = 5, relations = [[1,5],[2,5],[3,5],[3,4],[4,5]], time = [1,2,3,4,5]", "output": "12" }
+      {
+        "input": "words = [wrt, wrf, er, ett, rftt]",
+        "output": "wertf"
+      },
+      {
+        "input": "words = [z, x]",
+        "output": "zx"
+      },
+      {
+        "input": "words = [z, x, z]",
+        "output": ""
+      }
     ],
     "hints": [
-      "This is a topological sort problem where you need to find the longest path in a DAG.",
-      "For each course, compute the earliest completion time considering all prerequisite paths.",
-      "Use topological sort and relax edges: for each course, its earliest finish time is max of all predecessors' finish times plus its own duration."
+      "Compare adjacent words to find ordering constraints between characters.",
+      "Build a directed graph where an edge from char a to char b means a comes before b.",
+      "Perform topological sort on the graph. If a cycle is detected, return empty string."
     ],
-    "timeComplexity": "O(V + E)",
-    "spaceComplexity": "O(V + E)",
+    "timeComplexity": "O(C) where C is the total length of all words combined",
+    "spaceComplexity": "O(1) since alphabet size is fixed at 26, or O(C) for the graph",
     "solutions": {
-      "python": "from collections import deque\n\ndef minimumTime(n, relations, time):\n    adj = [[] for _ in range(n)]\n    in_degree = [0] * n\n    for u, v in relations:\n        adj[u - 1].append(v - 1)\n        in_degree[v - 1] += 1\n    earliest = [0] * n\n    queue = deque()\n    for i in range(n):\n        if in_degree[i] == 0:\n            queue.append(i)\n            earliest[i] = time[i]\n    while queue:\n        node = queue.popleft()\n        for neighbor in adj[node]:\n            earliest[neighbor] = max(earliest[neighbor], earliest[node] + time[neighbor])\n            in_degree[neighbor] -= 1\n            if in_degree[neighbor] == 0:\n                queue.append(neighbor)\n    return max(earliest)",
-      "java": "import java.util.*;\n\nclass Solution {\n    public int minimumTime(int n, int[][] relations, int[] time) {\n        List<List<Integer>> adj = new ArrayList<>();\n        int[] inDegree = new int[n];\n        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());\n        for (int[] r : relations) {\n            adj.get(r[0] - 1).add(r[1] - 1);\n            inDegree[r[1] - 1]++;\n        }\n        int[] earliest = new int[n];\n        Queue<Integer> queue = new LinkedList<>();\n        for (int i = 0; i < n; i++) {\n            if (inDegree[i] == 0) {\n                queue.offer(i);\n                earliest[i] = time[i];\n            }\n        }\n        while (!queue.isEmpty()) {\n            int node = queue.poll();\n            for (int neighbor : adj.get(node)) {\n                earliest[neighbor] = Math.max(earliest[neighbor], earliest[node] + time[neighbor]);\n                if (--inDegree[neighbor] == 0) queue.offer(neighbor);\n            }\n        }\n        return Arrays.stream(earliest).max().getAsInt();\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int minimumTime(int n, vector<vector<int>>& relations, vector<int>& time) {\n        vector<vector<int>> adj(n);\n        vector<int> inDegree(n, 0);\n        for (auto& r : relations) {\n            adj[r[0] - 1].push_back(r[1] - 1);\n            inDegree[r[1] - 1]++;\n        }\n        vector<int> earliest(n, 0);\n        queue<int> q;\n        for (int i = 0; i < n; i++) {\n            if (inDegree[i] == 0) {\n                q.push(i);\n                earliest[i] = time[i];\n            }\n        }\n        while (!q.empty()) {\n            int node = q.front(); q.pop();\n            for (int neighbor : adj[node]) {\n                earliest[neighbor] = max(earliest[neighbor], earliest[node] + time[neighbor]);\n                if (--inDegree[neighbor] == 0) q.push(neighbor);\n            }\n        }\n        return *max_element(earliest.begin(), earliest.end());\n    }\n};",
-      "javascript": "var minimumTime = function(n, relations, time) {\n    const adj = Array.from({ length: n }, () => []);\n    const inDegree = new Array(n).fill(0);\n    for (const [u, v] of relations) {\n        adj[u - 1].push(v - 1);\n        inDegree[v - 1]++;\n    }\n    const earliest = new Array(n).fill(0);\n    const queue = [];\n    for (let i = 0; i < n; i++) {\n        if (inDegree[i] === 0) {\n            queue.push(i);\n            earliest[i] = time[i];\n        }\n    }\n    while (queue.length) {\n        const node = queue.shift();\n        for (const neighbor of adj[node]) {\n            earliest[neighbor] = Math.max(earliest[neighbor], earliest[node] + time[neighbor]);\n            if (--inDegree[neighbor] === 0) queue.push(neighbor);\n        }\n    }\n    return Math.max(...earliest);\n};",
-      "go": "func minimumTime(n int, relations [][]int, time []int) int {\n    adj := make([][]int, n)\n    inDegree := make([]int, n)\n    for _, r := range relations {\n        adj[r[0]-1] = append(adj[r[0]-1], r[1]-1)\n        inDegree[r[1]-1]++\n    }\n    earliest := make([]int, n)\n    queue := []int{}\n    for i := 0; i < n; i++ {\n        if inDegree[i] == 0 {\n            queue = append(queue, i)\n            earliest[i] = time[i]\n        }\n    }\n    for len(queue) > 0 {\n        node := queue[0]\n        queue = queue[1:]\n        for _, neighbor := range adj[node] {\n            if earliest[node]+time[neighbor] > earliest[neighbor] {\n                earliest[neighbor] = earliest[node] + time[neighbor]\n            }\n            inDegree[neighbor]--\n            if inDegree[neighbor] == 0 {\n                queue = append(queue, neighbor)\n            }\n        }\n    }\n    max := 0\n    for _, v := range earliest {\n        if v > max {\n            max = v\n        }\n    }\n    return max\n}",
-      "rust": "use std::collections::VecDeque;\n\nimpl Solution {\n    pub fn minimum_time(n: i32, relations: Vec<Vec<i32>>, time: Vec<i32>) -> i32 {\n        let n = n as usize;\n        let mut adj = vec![Vec::<usize>::new(); n];\n        let mut in_degree = vec![0i32; n];\n        for r in &relations {\n            let (u, v) = (r[0] as usize - 1, r[1] as usize - 1);\n            adj[u].push(v);\n            in_degree[v] += 1;\n        }\n        let mut earliest = vec![0i32; n];\n        let mut queue: VecDeque<usize> = VecDeque::new();\n        for i in 0..n {\n            if in_degree[i] == 0 {\n                queue.push_back(i);\n                earliest[i] = time[i];\n            }\n        }\n        while let Some(node) = queue.pop_front() {\n            for &neighbor in &adj[node] {\n                earliest[neighbor] = earliest[neighbor].max(earliest[node] + time[neighbor]);\n                in_degree[neighbor] -= 1;\n                if in_degree[neighbor] == 0 {\n                    queue.push_back(neighbor);\n                }\n            }\n        }\n        *earliest.iter().max().unwrap()\n    }\n}"
+      "python": "from collections import deque\n\ndef alienOrder(words):\n    adj = {c: set() for word in words for c in word}\n    for i in range(len(words) - 1):\n        w1, w2 = words[i], words[i + 1]\n        minLen = min(len(w1), len(w2))\n        if len(w1) > len(w2) and w1[:minLen] == w2[:minLen]:\n            return \"\"\n        for j in range(minLen):\n            if w1[j] != w2[j]:\n                adj[w1[j]].add(w2[j])\n                break\n    in_degree = {c: 0 for c in adj}\n    for c in adj:\n        for nei in adj[c]:\n            in_degree[nei] += 1\n    queue = deque([c for c in in_degree if in_degree[c] == 0])\n    result = []\n    while queue:\n        c = queue.popleft()\n        result.append(c)\n        for nei in adj[c]:\n            in_degree[nei] -= 1\n            if in_degree[nei] == 0:\n                queue.append(nei)\n    return \"\" if len(result) != len(adj) else \"\".join(result)",
+      "java": "import java.util.*;\n\nclass Solution {\n    public String alienOrder(String[] words) {\n        Map<Character, Set<Character>> adj = new HashMap<>();\n        Map<Character, Integer> inDegree = new HashMap<>();\n        for (String w : words) {\n            for (char c : w.toCharArray()) {\n                adj.putIfAbsent(c, new HashSet<>());\n                inDegree.putIfAbsent(c, 0);\n            }\n        }\n        for (int i = 0; i < words.length - 1; i++) {\n            String w1 = words[i], w2 = words[i + 1];\n            int minLen = Math.min(w1.length(), w2.length());\n            if (w1.length() > w2.length() && w1.substring(0, minLen).equals(w2.substring(0, minLen))) {\n                return \"\";\n            }\n            for (int j = 0; j < minLen; j++) {\n                if (w1.charAt(j) != w2.charAt(j)) {\n                    if (adj.get(w1.charAt(j)).add(w2.charAt(j))) {\n                        inDegree.merge(w2.charAt(j), 1, Integer::sum);\n                    }\n                    break;\n                }\n            }\n        }\n        Queue<Character> queue = new LinkedList<>();\n        for (var e : inDegree.entrySet()) {\n            if (e.getValue() == 0) queue.offer(e.getKey());\n        }\n        StringBuilder sb = new StringBuilder();\n        while (!queue.isEmpty()) {\n            char c = queue.poll();\n            sb.append(c);\n            for (char nei : adj.get(c)) {\n                inDegree.merge(nei, -1, Integer::sum);\n                if (inDegree.get(nei) == 0) queue.offer(nei);\n            }\n        }\n        return sb.length() == inDegree.size() ? sb.toString() : \"\";\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    string alienOrder(vector<string>& words) {\n        unordered_map<char, unordered_set<char>> adj;\n        unordered_map<char, int> inDegree;\n        for (auto& w : words) {\n            for (char c : w) {\n                adj[c];\n                inDegree[c] = 0;\n            }\n        }\n        for (int i = 0; i < (int)words.size() - 1; i++) {\n            string w1 = words[i], w2 = words[i + 1];\n            int minLen = min(w1.size(), w2.size());\n            if (w1.size() > w2.size() && w1.substr(0, minLen) == w2.substr(0, minLen))\n                return \"\";\n            for (int j = 0; j < minLen; j++) {\n                if (w1[j] != w2[j]) {\n                    if (adj[w1[j]].insert(w2[j]).second) inDegree[w2[j]]++;\n                    break;\n                }\n            }\n        }\n        queue<char> q;\n        for (auto& [c, d] : inDegree) {\n            if (d == 0) q.push(c);\n        }\n        string result;\n        while (!q.empty()) {\n            char c = q.front(); q.pop();\n            result += c;\n            for (char nei : adj[c]) {\n                if (--inDegree[nei] == 0) q.push(nei);\n            }\n        }\n        return result.size() == inDegree.size() ? result : \"\";\n    }\n};",
+      "javascript": "var alienOrder = function(words) {\n    const adj = new Map();\n    const inDegree = new Map();\n    for (const w of words) {\n        for (const c of w) {\n            if (!adj.has(c)) adj.set(c, new Set());\n            if (!inDegree.has(c)) inDegree.set(c, 0);\n        }\n    }\n    for (let i = 0; i < words.length - 1; i++) {\n        const w1 = words[i], w2 = words[i + 1];\n        const minLen = Math.min(w1.length, w2.length);\n        if (w1.length > w2.length && w1.slice(0, minLen) === w2.slice(0, minLen)) return \"\";\n        for (let j = 0; j < minLen; j++) {\n            if (w1[j] !== w2[j]) {\n                if (!adj.get(w1[j]).has(w2[j])) {\n                    adj.get(w1[j]).add(w2[j]);\n                    inDegree.set(w2[j], inDegree.get(w2[j]) + 1);\n                }\n                break;\n            }\n        }\n    }\n    const queue = [];\n    for (const [c, d] of inDegree) {\n        if (d === 0) queue.push(c);\n    }\n    let result = \"\";\n    while (queue.length) {\n        const c = queue.shift();\n        result += c;\n        for (const nei of adj.get(c)) {\n            inDegree.set(nei, inDegree.get(nei) - 1);\n            if (inDegree.get(nei) === 0) queue.push(nei);\n        }\n    }\n    return result.length === inDegree.size ? result : \"\";\n};",
+      "go": "func alienOrder(words []string) string {\n    adj := make(map[byte]map[byte]bool)\n    inDegree := make(map[byte]int)\n    for _, w := range words {\n        for i := 0; i < len(w); i++ {\n            c := w[i]\n            if _, ok := adj[c]; !ok {\n                adj[c] = make(map[byte]bool)\n            }\n            if _, ok := inDegree[c]; !ok {\n                inDegree[c] = 0\n            }\n        }\n    }\n    for i := 0; i < len(words)-1; i++ {\n        w1, w2 := words[i], words[i+1]\n        minLen := len(w1)\n        if len(w2) < minLen {\n            minLen = len(w2)\n        }\n        if len(w1) > len(w2) && w1[:minLen] == w2[:minLen] {\n            return \"\"\n        }\n        for j := 0; j < minLen; j++ {\n            if w1[j] != w2[j] {\n                if !adj[w1[j]][w2[j]] {\n                    adj[w1[j]][w2[j]] = true\n                    inDegree[w2[j]]++\n                }\n                break\n            }\n        }\n    }\n    queue := []byte{}\n    for c, d := range inDegree {\n        if d == 0 {\n            queue = append(queue, c)\n        }\n    }\n    result := []byte{}\n    for len(queue) > 0 {\n        c := queue[0]\n        queue = queue[1:]\n        result = append(result, c)\n        for nei := range adj[c] {\n            inDegree[nei]--\n            if inDegree[nei] == 0 {\n                queue = append(queue, nei)\n            }\n        }\n    }\n    if len(result) != len(inDegree) {\n        return \"\"\n    }\n    return string(result)\n}",
+      "rust": "use std::collections::{HashMap, HashSet, VecDeque};\n\nimpl Solution {\n    pub fn alien_order(words: Vec<String>) -> String {\n        let mut adj: HashMap<u8, HashSet<u8>> = HashMap::new();\n        let mut in_degree: HashMap<u8, i32> = HashMap::new();\n        for w in &words {\n            for &c in w.as_bytes() {\n                adj.entry(c).or_insert_with(HashSet::new);\n                in_degree.entry(c).or_insert(0);\n            }\n        }\n        for i in 0..words.len() - 1 {\n            let w1 = words[i].as_bytes();\n            let w2 = words[i + 1].as_bytes();\n            let min_len = w1.len().min(w2.len());\n            if w1.len() > w2.len() && &w1[..min_len] == &w2[..min_len] {\n                return String::new();\n            }\n            for j in 0..min_len {\n                if w1[j] != w2[j] {\n                    if adj.get_mut(&w1[j]).unwrap().insert(w2[j]) {\n                        *in_degree.entry(w2[j]).or_insert(0) += 1;\n                    }\n                    break;\n                }\n            }\n        }\n        let mut queue: VecDeque<u8> = VecDeque::new();\n        for (&c, &d) in &in_degree {\n            if d == 0 {\n                queue.push_back(c);\n            }\n        }\n        let mut result = Vec::new();\n        while let Some(c) = queue.pop_front() {\n            result.push(c as char);\n            if let Some(neighbors) = adj.get(&c) {\n                for &nei in neighbors {\n                    let entry = in_degree.entry(nei).or_insert(0);\n                    *entry -= 1;\n                    if *entry == 0 {\n                        queue.push_back(nei);\n                    }\n                }\n            }\n        }\n        if result.len() == in_degree.len() {\n            result.iter().collect()\n        } else {\n            String::new()\n        }\n    }\n}"
     }
   },
   {
@@ -243,9 +238,18 @@
     "difficulty": "Hard",
     "description": "Given an m x n integers matrix, return the length of the longest increasing path in matrix. From each cell, you can either move in four directions: left, right, up, or down. You may not move diagonally or move outside the boundary. An increasing path is a path where the values are strictly increasing.",
     "examples": [
-      { "input": "matrix = [[9,9,4],[6,6,8],[2,1,1]]", "output": "4" },
-      { "input": "matrix = [[3,4,5],[3,2,6],[2,2,1]]", "output": "4" },
-      { "input": "matrix = [[1]]", "output": "1" }
+      {
+        "input": "matrix = [[9,9,4],[6,6,8],[2,1,1]]",
+        "output": "4"
+      },
+      {
+        "input": "matrix = [[3,4,5],[3,2,6],[2,2,1]]",
+        "output": "4"
+      },
+      {
+        "input": "matrix = [[1]]",
+        "output": "1"
+      }
     ],
     "hints": [
       "Use memoized DFS to avoid recomputing the longest path from each cell.",
@@ -261,6 +265,74 @@
       "javascript": "var longestIncreasingPath = function(matrix) {\n    if (!matrix.length) return 0;\n    const m = matrix.length, n = matrix[0].length;\n    const memo = Array.from({ length: m }, () => new Array(n).fill(0));\n    const dirs = [[0,1],[0,-1],[1,0],[-1,0]];\n    const dfs = (i, j) => {\n        if (memo[i][j]) return memo[i][j];\n        let best = 1;\n        for (const [di, dj] of dirs) {\n            const ni = i + di, nj = j + dj;\n            if (ni >= 0 && ni < m && nj >= 0 && nj < n && matrix[ni][nj] > matrix[i][j]) {\n                best = Math.max(best, 1 + dfs(ni, nj));\n            }\n        }\n        memo[i][j] = best;\n        return best;\n    };\n    let maxLen = 0;\n    for (let i = 0; i < m; i++) {\n        for (let j = 0; j < n; j++) {\n            maxLen = Math.max(maxLen, dfs(i, j));\n        }\n    }\n    return maxLen;\n};",
       "go": "func longestIncreasingPath(matrix [][]int) int {\n    if len(matrix) == 0 {\n        return 0\n    }\n    m, n := len(matrix), len(matrix[0])\n    memo := make([][]int, m)\n    for i := range memo {\n        memo[i] = make([]int, n)\n    }\n    dirs := [][2]int{{0, 1}, {0, -1}, {1, 0}, {-1, 0}}\n    var dfs func(int, int) int\n    dfs = func(i, j int) int {\n        if memo[i][j] != 0 {\n            return memo[i][j]\n        }\n        best := 1\n        for _, d := range dirs {\n            ni, nj := i+d[0], j+d[1]\n            if ni >= 0 && ni < m && nj >= 0 && nj < n && matrix[ni][nj] > matrix[i][j] {\n                if 1+dfs(ni, nj) > best {\n                    best = 1 + dfs(ni, nj)\n                }\n            }\n        }\n        memo[i][j] = best\n        return best\n    }\n    maxLen := 0\n    for i := 0; i < m; i++ {\n        for j := 0; j < n; j++ {\n            if v := dfs(i, j); v > maxLen {\n                maxLen = v\n            }\n        }\n    }\n    return maxLen\n}",
       "rust": "impl Solution {\n    pub fn longest_increasing_path(matrix: Vec<Vec<i32>>) -> i32 {\n        if matrix.is_empty() {\n            return 0;\n        }\n        let m = matrix.len();\n        let n = matrix[0].len();\n        let mut memo = vec![vec![0i32; n]; m];\n        let dirs = [(0i32, 1i32), (0, -1), (1, 0), (-1, 0)];\n        \n        fn dfs(\n            matrix: &Vec<Vec<i32>>,\n            memo: &mut Vec<Vec<i32>>,\n            dirs: &[(i32, i32); 4],\n            i: usize,\n            j: usize,\n        ) -> i32 {\n            if memo[i][j] != 0 {\n                return memo[i][j];\n            }\n            let m = matrix.len();\n            let n = matrix[0].len();\n            let mut best = 1;\n            for &(di, dj) in dirs {\n                let ni = i as i32 + di;\n                let nj = j as i32 + dj;\n                if ni >= 0 && (ni as usize) < m && nj >= 0 && (nj as usize) < n {\n                    let (ni, nj) = (ni as usize, nj as usize);\n                    if matrix[ni][nj] > matrix[i][j] {\n                        best = best.max(1 + dfs(matrix, memo, dirs, ni, nj));\n                    }\n                }\n            }\n            memo[i][j] = best;\n            best\n        }\n        \n        let mut max_len = 0;\n        for i in 0..m {\n            for j in 0..n {\n                max_len = max_len.max(dfs(&matrix, &mut memo, &dirs, i, j));\n            }\n        }\n        max_len\n    }\n}"
+    }
+  },
+  {
+    "id": "topological-sort-006",
+    "leetcode": 444,
+    "title": "Sequence Reconstruction",
+    "difficulty": "Hard",
+    "description": "You are given an array of integers nums that represents a permutation of integers. You are also given a 2D integer array sequences where sequences[i] is a subsequence of nums. Return true if nums is the only supersequence of sequences. In other words, if nums can be uniquely reconstructed from all the subsequences in sequences, return true. Otherwise, return false.",
+    "examples": [
+      {
+        "input": "nums = [1,2,3], sequences = [[1,2],[1,3]]",
+        "output": "false"
+      },
+      {
+        "input": "nums = [1,2,3], sequences = [[1,2]]",
+        "output": "false"
+      },
+      {
+        "input": "nums = [1,2,3], sequences = [[1,2],[1,3],[2,3]]",
+        "output": "true"
+      }
+    ],
+    "hints": [
+      "Build a directed graph from the subsequences where an edge from a to b means a must come before b.",
+      "Perform topological sort and check that at every step there is exactly one node with in-degree 0.",
+      "Also verify that the resulting topological order matches the given nums array."
+    ],
+    "timeComplexity": "O(N + S) where N is the length of nums and S is the total length of all sequences",
+    "spaceComplexity": "O(N + S)",
+    "solutions": {
+      "python": "from collections import deque\n\ndef sequenceReconstruction(nums, sequences):\n    n = len(nums)\n    adj = [[] for _ in range(n + 1)]\n    in_degree = [0] * (n + 1)\n    pos = [0] * (n + 1)\n    for i, num in enumerate(nums):\n        pos[num] = i\n    for seq in sequences:\n        for i in range(len(seq) - 1):\n            adj[seq[i]].append(seq[i + 1])\n            in_degree[seq[i + 1]] += 1\n    queue = deque([i for i in range(1, n + 1) if in_degree[i] == 0])\n    idx = 0\n    while queue:\n        if len(queue) > 1:\n            return False\n        node = queue.popleft()\n        if node != nums[idx]:\n            return False\n        idx += 1\n        for neighbor in adj[node]:\n            in_degree[neighbor] -= 1\n            if in_degree[neighbor] == 0:\n                queue.append(neighbor)\n    return idx == n",
+      "java": "import java.util.*;\n\nclass Solution {\n    public boolean sequenceReconstruction(int[] nums, List<List<Integer>> sequences) {\n        int n = nums.length;\n        List<List<Integer>> adj = new ArrayList<>();\n        int[] inDegree = new int[n + 1];\n        int[] pos = new int[n + 1];\n        for (int i = 0; i < n; i++) {\n            adj.add(new ArrayList<>());\n            pos[nums[i]] = i;\n        }\n        adj.add(new ArrayList<>());\n        for (List<Integer> seq : sequences) {\n            for (int i = 0; i < seq.size() - 1; i++) {\n                adj.get(seq.get(i)).add(seq.get(i + 1));\n                inDegree[seq.get(i + 1)]++;\n            }\n        }\n        Queue<Integer> queue = new LinkedList<>();\n        for (int i = 1; i <= n; i++) {\n            if (inDegree[i] == 0) queue.offer(i);\n        }\n        int idx = 0;\n        while (!queue.isEmpty()) {\n            if (queue.size() > 1) return false;\n            int node = queue.poll();\n            if (node != nums[idx]) return false;\n            idx++;\n            for (int neighbor : adj.get(node)) {\n                if (--inDegree[neighbor] == 0) queue.offer(neighbor);\n            }\n        }\n        return idx == n;\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    bool sequenceReconstruction(vector<int>& nums, vector<vector<int>>& sequences) {\n        int n = nums.size();\n        vector<vector<int>> adj(n + 1);\n        vector<int> inDegree(n + 1, 0);\n        for (auto& seq : sequences) {\n            for (int i = 0; i < (int)seq.size() - 1; i++) {\n                adj[seq[i]].push_back(seq[i + 1]);\n                inDegree[seq[i + 1]]++;\n            }\n        }\n        queue<int> q;\n        for (int i = 1; i <= n; i++) {\n            if (inDegree[i] == 0) q.push(i);\n        }\n        int idx = 0;\n        while (!q.empty()) {\n            if (q.size() > 1) return false;\n            int node = q.front(); q.pop();\n            if (node != nums[idx]) return false;\n            idx++;\n            for (int neighbor : adj[node]) {\n                if (--inDegree[neighbor] == 0) q.push(neighbor);\n            }\n        }\n        return idx == n;\n    }\n};",
+      "javascript": "var sequenceReconstruction = function(nums, sequences) {\n    const n = nums.length;\n    const adj = Array.from({ length: n + 1 }, () => []);\n    const inDegree = new Array(n + 1).fill(0);\n    for (const seq of sequences) {\n        for (let i = 0; i < seq.length - 1; i++) {\n            adj[seq[i]].push(seq[i + 1]);\n            inDegree[seq[i + 1]]++;\n        }\n    }\n    const queue = [];\n    for (let i = 1; i <= n; i++) {\n        if (inDegree[i] === 0) queue.push(i);\n    }\n    let idx = 0;\n    while (queue.length) {\n        if (queue.length > 1) return false;\n        const node = queue.shift();\n        if (node !== nums[idx]) return false;\n        idx++;\n        for (const neighbor of adj[node]) {\n            if (--inDegree[neighbor] === 0) queue.push(neighbor);\n        }\n    }\n    return idx === n;\n};",
+      "go": "func sequenceReconstruction(nums []int, sequences [][]int) bool {\n    n := len(nums)\n    adj := make([][]int, n+1)\n    inDegree := make([]int, n+1)\n    for _, seq := range sequences {\n        for i := 0; i < len(seq)-1; i++ {\n            adj[seq[i]] = append(adj[seq[i]], seq[i+1])\n            inDegree[seq[i+1]]++\n        }\n    }\n    queue := []int{}\n    for i := 1; i <= n; i++ {\n        if inDegree[i] == 0 {\n            queue = append(queue, i)\n        }\n    }\n    idx := 0\n    for len(queue) > 0 {\n        if len(queue) > 1 {\n            return false\n        }\n        node := queue[0]\n        queue = queue[1:]\n        if node != nums[idx] {\n            return false\n        }\n        idx++\n        for _, neighbor := range adj[node] {\n            inDegree[neighbor]--\n            if inDegree[neighbor] == 0 {\n                queue = append(queue, neighbor)\n            }\n        }\n    }\n    return idx == n\n}",
+      "rust": "use std::collections::VecDeque;\n\nimpl Solution {\n    pub fn sequence_reconstruction(nums: Vec<i32>, sequences: Vec<Vec<i32>>) -> bool {\n        let n = nums.len();\n        let mut adj = vec![Vec::<i32>::new(); n + 1];\n        let mut in_degree = vec![0i32; n + 1];\n        for seq in &sequences {\n            for i in 0..seq.len() - 1 {\n                adj[seq[i] as usize].push(seq[i + 1]);\n                in_degree[seq[i + 1] as usize] += 1;\n            }\n        }\n        let mut queue: VecDeque<i32> = VecDeque::new();\n        for i in 1..=n as i32 {\n            if in_degree[i as usize] == 0 {\n                queue.push_back(i);\n            }\n        }\n        let mut idx = 0;\n        while !queue.is_empty() {\n            if queue.len() > 1 {\n                return false;\n            }\n            let node = queue.pop_front().unwrap();\n            if node != nums[idx] {\n                return false;\n            }\n            idx += 1;\n            for &neighbor in &adj[node as usize] {\n                in_degree[neighbor as usize] -= 1;\n                if in_degree[neighbor as usize] == 0 {\n                    queue.push_back(neighbor);\n                }\n            }\n        }\n        idx == n\n    }\n}"
+    }
+  },
+  {
+    "id": "topological-sort-009",
+    "leetcode": 2050,
+    "title": "Parallel Courses III",
+    "difficulty": "Hard",
+    "description": "You are given an integer n, which indicates that there are n courses labeled from 1 to n. You are also given a 2D integer array relations where relations[j] = [prevCoursej, nextCoursej] denotes that course prevCoursej has to be completed before course nextCoursej. You are given a 0-indexed integer array time where time[i] denotes the number of months it takes to complete the (i+1)th course. You must complete all the courses. You can start taking courses at any time if the prerequisites are satisfied. Return the minimum number of months needed to complete all the courses.",
+    "examples": [
+      {
+        "input": "n = 3, relations = [[1,3],[2,3]], time = [3,2,5]",
+        "output": "8"
+      },
+      {
+        "input": "n = 5, relations = [[1,5],[2,5],[3,5],[3,4],[4,5]], time = [1,2,3,4,5]",
+        "output": "12"
+      }
+    ],
+    "hints": [
+      "This is a topological sort problem where you need to find the longest path in a DAG.",
+      "For each course, compute the earliest completion time considering all prerequisite paths.",
+      "Use topological sort and relax edges: for each course, its earliest finish time is max of all predecessors' finish times plus its own duration."
+    ],
+    "timeComplexity": "O(V + E)",
+    "spaceComplexity": "O(V + E)",
+    "solutions": {
+      "python": "from collections import deque\n\ndef minimumTime(n, relations, time):\n    adj = [[] for _ in range(n)]\n    in_degree = [0] * n\n    for u, v in relations:\n        adj[u - 1].append(v - 1)\n        in_degree[v - 1] += 1\n    earliest = [0] * n\n    queue = deque()\n    for i in range(n):\n        if in_degree[i] == 0:\n            queue.append(i)\n            earliest[i] = time[i]\n    while queue:\n        node = queue.popleft()\n        for neighbor in adj[node]:\n            earliest[neighbor] = max(earliest[neighbor], earliest[node] + time[neighbor])\n            in_degree[neighbor] -= 1\n            if in_degree[neighbor] == 0:\n                queue.append(neighbor)\n    return max(earliest)",
+      "java": "import java.util.*;\n\nclass Solution {\n    public int minimumTime(int n, int[][] relations, int[] time) {\n        List<List<Integer>> adj = new ArrayList<>();\n        int[] inDegree = new int[n];\n        for (int i = 0; i < n; i++) adj.add(new ArrayList<>());\n        for (int[] r : relations) {\n            adj.get(r[0] - 1).add(r[1] - 1);\n            inDegree[r[1] - 1]++;\n        }\n        int[] earliest = new int[n];\n        Queue<Integer> queue = new LinkedList<>();\n        for (int i = 0; i < n; i++) {\n            if (inDegree[i] == 0) {\n                queue.offer(i);\n                earliest[i] = time[i];\n            }\n        }\n        while (!queue.isEmpty()) {\n            int node = queue.poll();\n            for (int neighbor : adj.get(node)) {\n                earliest[neighbor] = Math.max(earliest[neighbor], earliest[node] + time[neighbor]);\n                if (--inDegree[neighbor] == 0) queue.offer(neighbor);\n            }\n        }\n        return Arrays.stream(earliest).max().getAsInt();\n    }\n}",
+      "cpp": "class Solution {\npublic:\n    int minimumTime(int n, vector<vector<int>>& relations, vector<int>& time) {\n        vector<vector<int>> adj(n);\n        vector<int> inDegree(n, 0);\n        for (auto& r : relations) {\n            adj[r[0] - 1].push_back(r[1] - 1);\n            inDegree[r[1] - 1]++;\n        }\n        vector<int> earliest(n, 0);\n        queue<int> q;\n        for (int i = 0; i < n; i++) {\n            if (inDegree[i] == 0) {\n                q.push(i);\n                earliest[i] = time[i];\n            }\n        }\n        while (!q.empty()) {\n            int node = q.front(); q.pop();\n            for (int neighbor : adj[node]) {\n                earliest[neighbor] = max(earliest[neighbor], earliest[node] + time[neighbor]);\n                if (--inDegree[neighbor] == 0) q.push(neighbor);\n            }\n        }\n        return *max_element(earliest.begin(), earliest.end());\n    }\n};",
+      "javascript": "var minimumTime = function(n, relations, time) {\n    const adj = Array.from({ length: n }, () => []);\n    const inDegree = new Array(n).fill(0);\n    for (const [u, v] of relations) {\n        adj[u - 1].push(v - 1);\n        inDegree[v - 1]++;\n    }\n    const earliest = new Array(n).fill(0);\n    const queue = [];\n    for (let i = 0; i < n; i++) {\n        if (inDegree[i] === 0) {\n            queue.push(i);\n            earliest[i] = time[i];\n        }\n    }\n    while (queue.length) {\n        const node = queue.shift();\n        for (const neighbor of adj[node]) {\n            earliest[neighbor] = Math.max(earliest[neighbor], earliest[node] + time[neighbor]);\n            if (--inDegree[neighbor] === 0) queue.push(neighbor);\n        }\n    }\n    return Math.max(...earliest);\n};",
+      "go": "func minimumTime(n int, relations [][]int, time []int) int {\n    adj := make([][]int, n)\n    inDegree := make([]int, n)\n    for _, r := range relations {\n        adj[r[0]-1] = append(adj[r[0]-1], r[1]-1)\n        inDegree[r[1]-1]++\n    }\n    earliest := make([]int, n)\n    queue := []int{}\n    for i := 0; i < n; i++ {\n        if inDegree[i] == 0 {\n            queue = append(queue, i)\n            earliest[i] = time[i]\n        }\n    }\n    for len(queue) > 0 {\n        node := queue[0]\n        queue = queue[1:]\n        for _, neighbor := range adj[node] {\n            if earliest[node]+time[neighbor] > earliest[neighbor] {\n                earliest[neighbor] = earliest[node] + time[neighbor]\n            }\n            inDegree[neighbor]--\n            if inDegree[neighbor] == 0 {\n                queue = append(queue, neighbor)\n            }\n        }\n    }\n    max := 0\n    for _, v := range earliest {\n        if v > max {\n            max = v\n        }\n    }\n    return max\n}",
+      "rust": "use std::collections::VecDeque;\n\nimpl Solution {\n    pub fn minimum_time(n: i32, relations: Vec<Vec<i32>>, time: Vec<i32>) -> i32 {\n        let n = n as usize;\n        let mut adj = vec![Vec::<usize>::new(); n];\n        let mut in_degree = vec![0i32; n];\n        for r in &relations {\n            let (u, v) = (r[0] as usize - 1, r[1] as usize - 1);\n            adj[u].push(v);\n            in_degree[v] += 1;\n        }\n        let mut earliest = vec![0i32; n];\n        let mut queue: VecDeque<usize> = VecDeque::new();\n        for i in 0..n {\n            if in_degree[i] == 0 {\n                queue.push_back(i);\n                earliest[i] = time[i];\n            }\n        }\n        while let Some(node) = queue.pop_front() {\n            for &neighbor in &adj[node] {\n                earliest[neighbor] = earliest[neighbor].max(earliest[node] + time[neighbor]);\n                in_degree[neighbor] -= 1;\n                if in_degree[neighbor] == 0 {\n                    queue.push_back(neighbor);\n                }\n            }\n        }\n        *earliest.iter().max().unwrap()\n    }\n}"
     }
   }
 ]

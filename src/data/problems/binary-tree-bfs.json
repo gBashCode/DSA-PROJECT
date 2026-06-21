@@ -3,6 +3,20 @@
     "section": "Easy",
     "problems": [
       {
+        "id": "tree-003",
+        "leetcode": 100,
+        "title": "Same Tree",
+        "difficulty": "Easy",
+        "link": "https://leetcode.com/problems/same-tree/"
+      },
+      {
+        "id": "tree-004",
+        "leetcode": 101,
+        "title": "Symmetric Tree",
+        "difficulty": "Easy",
+        "link": "https://leetcode.com/problems/symmetric-tree/"
+      },
+      {
         "id": "tree-001",
         "leetcode": 104,
         "title": "Maximum Depth of Binary Tree",
@@ -17,18 +31,11 @@
         "link": "https://leetcode.com/problems/invert-binary-tree/"
       },
       {
-        "id": "tree-003",
-        "leetcode": 100,
-        "title": "Same Tree",
+        "id": "tree-008",
+        "leetcode": 543,
+        "title": "Diameter of Binary Tree",
         "difficulty": "Easy",
-        "link": "https://leetcode.com/problems/same-tree/"
-      },
-      {
-        "id": "tree-004",
-        "leetcode": 101,
-        "title": "Symmetric Tree",
-        "difficulty": "Easy",
-        "link": "https://leetcode.com/problems/symmetric-tree/"
+        "link": "https://leetcode.com/problems/diameter-of-binary-tree/"
       }
     ]
   },
@@ -55,14 +62,12 @@
         "title": "Binary Tree Right Side View",
         "difficulty": "Medium",
         "link": "https://leetcode.com/problems/binary-tree-right-side-view/"
-      },
-      {
-        "id": "tree-008",
-        "leetcode": 543,
-        "title": "Diameter of Binary Tree",
-        "difficulty": "Easy",
-        "link": "https://leetcode.com/problems/diameter-of-binary-tree/"
-      },
+      }
+    ]
+  },
+  {
+    "section": "Hard",
+    "problems": [
       {
         "id": "tree-009",
         "leetcode": 124,

@@ -3,36 +3,12 @@
     "section": "Easy",
     "problems": [
       {
-        "id": "bs-001",
-        "leetcode": 704,
-        "title": "Binary Search",
-        "difficulty": "Easy",
-        "description": "Given an array of integers nums which is sorted in ascending order, and an integer target, write a function to search target in nums. If target exists, then return its index. Otherwise, return -1. You must write an algorithm with O(log n) runtime complexity.",
-        "link": "https://leetcode.com/problems/binary-search/"
-      },
-      {
         "id": "bs-002",
         "leetcode": 35,
         "title": "Search Insert Position",
         "difficulty": "Easy",
         "description": "Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.",
         "link": "https://leetcode.com/problems/search-insert-position/"
-      },
-      {
-        "id": "bs-003",
-        "leetcode": 374,
-        "title": "Guess Number Higher or Lower",
-        "difficulty": "Easy",
-        "description": "We are playing the Guess Game. You have to guess which number I picked using binary search.",
-        "link": "https://leetcode.com/problems/guess-number-higher-or-lower/"
-      },
-      {
-        "id": "bs-004",
-        "leetcode": 278,
-        "title": "First Bad Version",
-        "difficulty": "Easy",
-        "description": "You are a product manager and currently leading a team to develop a new product. Unfortunately, the latest version of your product fails the quality check. Find the first bad version.",
-        "link": "https://leetcode.com/problems/first-bad-version/"
       },
       {
         "id": "bs-005",
@@ -43,12 +19,36 @@
         "link": "https://leetcode.com/problems/sqrtx/"
       },
       {
+        "id": "bs-004",
+        "leetcode": 278,
+        "title": "First Bad Version",
+        "difficulty": "Easy",
+        "description": "You are a product manager and currently leading a team to develop a new product. Unfortunately, the latest version of your product fails the quality check. Find the first bad version.",
+        "link": "https://leetcode.com/problems/first-bad-version/"
+      },
+      {
         "id": "bs-006",
         "leetcode": 367,
         "title": "Valid Perfect Square",
         "difficulty": "Easy",
         "description": "Given a positive integer num, return true if num is a perfect square or false otherwise. You must not use any built-in library function such as sqrt.",
         "link": "https://leetcode.com/problems/valid-perfect-square/"
+      },
+      {
+        "id": "bs-003",
+        "leetcode": 374,
+        "title": "Guess Number Higher or Lower",
+        "difficulty": "Easy",
+        "description": "We are playing the Guess Game. You have to guess which number I picked using binary search.",
+        "link": "https://leetcode.com/problems/guess-number-higher-or-lower/"
+      },
+      {
+        "id": "bs-001",
+        "leetcode": 704,
+        "title": "Binary Search",
+        "difficulty": "Easy",
+        "description": "Given an array of integers nums which is sorted in ascending order, and an integer target, write a function to search target in nums. If target exists, then return its index. Otherwise, return -1. You must write an algorithm with O(log n) runtime complexity.",
+        "link": "https://leetcode.com/problems/binary-search/"
       },
       {
         "id": "bs-007",
@@ -64,20 +64,20 @@
     "section": "Medium",
     "problems": [
       {
-        "id": "bs-008",
-        "leetcode": 875,
-        "title": "Koko Eating Bananas",
-        "difficulty": "Medium",
-        "description": "Koko loves to eat bananas. There are n piles of bananas. The guards have gone and will come back in h hours. Return the minimum integer k such that she can eat all the bananas within h hours.",
-        "link": "https://leetcode.com/problems/koko-eating-bananas/"
-      },
-      {
         "id": "bs-009",
         "leetcode": 33,
         "title": "Search in Rotated Sorted Array",
         "difficulty": "Medium",
         "description": "There is an integer array nums sorted in ascending order (with distinct values). Prior to being passed to your function, nums is possibly rotated. Given the array nums after the possible rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums.",
         "link": "https://leetcode.com/problems/search-in-rotated-sorted-array/"
+      },
+      {
+        "id": "bs-011",
+        "leetcode": 74,
+        "title": "Search a 2D Matrix",
+        "difficulty": "Medium",
+        "description": "You are given an m x n integer matrix matrix with the following two properties: each row is sorted in non-decreasing order, the first integer of each row is greater than the last integer of the previous row. Given an integer target, return true if target is in matrix.",
+        "link": "https://leetcode.com/problems/search-a-2d-matrix/"
       },
       {
         "id": "bs-010",
@@ -88,12 +88,12 @@
         "link": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/"
       },
       {
-        "id": "bs-011",
-        "leetcode": 74,
-        "title": "Search a 2D Matrix",
+        "id": "bs-008",
+        "leetcode": 875,
+        "title": "Koko Eating Bananas",
         "difficulty": "Medium",
-        "description": "You are given an m x n integer matrix matrix with the following two properties: each row is sorted in non-decreasing order, the first integer of each row is greater than the last integer of the previous row. Given an integer target, return true if target is in matrix.",
-        "link": "https://leetcode.com/problems/search-a-2d-matrix/"
+        "description": "Koko loves to eat bananas. There are n piles of bananas. The guards have gone and will come back in h hours. Return the minimum integer k such that she can eat all the bananas within h hours.",
+        "link": "https://leetcode.com/problems/koko-eating-bananas/"
       },
       {
         "id": "bs-012",

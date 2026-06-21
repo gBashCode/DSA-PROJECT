@@ -29,18 +29,18 @@
         "link": "https://leetcode.com/problems/longest-substring-without-repeating-characters/"
       },
       {
+        "id": "sw-007",
+        "leetcode": 209,
+        "title": "Minimum Size Subarray Sum",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/minimum-size-subarray-sum/"
+      },
+      {
         "id": "sw-004",
         "leetcode": 424,
         "title": "Longest Repeating Character Replacement",
         "difficulty": "Medium",
         "link": "https://leetcode.com/problems/longest-repeating-character-replacement/"
-      },
-      {
-        "id": "sw-005",
-        "leetcode": 567,
-        "title": "Permutation in String",
-        "difficulty": "Medium",
-        "link": "https://leetcode.com/problems/permutation-in-string/"
       },
       {
         "id": "sw-006",
@@ -50,11 +50,11 @@
         "link": "https://leetcode.com/problems/find-all-anagrams-in-a-string/"
       },
       {
-        "id": "sw-007",
-        "leetcode": 209,
-        "title": "Minimum Size Subarray Sum",
+        "id": "sw-005",
+        "leetcode": 567,
+        "title": "Permutation in String",
         "difficulty": "Medium",
-        "link": "https://leetcode.com/problems/minimum-size-subarray-sum/"
+        "link": "https://leetcode.com/problems/permutation-in-string/"
       },
       {
         "id": "sw-008",
@@ -69,13 +69,6 @@
     "section": "Hard",
     "problems": [
       {
-        "id": "sw-009",
-        "leetcode": 239,
-        "title": "Sliding Window Maximum",
-        "difficulty": "Hard",
-        "link": "https://leetcode.com/problems/sliding-window-maximum/"
-      },
-      {
         "id": "sw-010",
         "leetcode": 30,
         "title": "Substring with Concatenation of All Words",
@@ -88,6 +81,13 @@
         "title": "Minimum Window Substring",
         "difficulty": "Hard",
         "link": "https://leetcode.com/problems/minimum-window-substring/"
+      },
+      {
+        "id": "sw-009",
+        "leetcode": 239,
+        "title": "Sliding Window Maximum",
+        "difficulty": "Hard",
+        "link": "https://leetcode.com/problems/sliding-window-maximum/"
       }
     ]
   }

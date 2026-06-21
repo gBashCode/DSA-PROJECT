@@ -6,9 +6,18 @@
     "difficulty": "Easy",
     "description": "Given head, the head of a linked list, determine if the linked list has a cycle in it. There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer is connected to. Note that pos is not passed as a parameter. Return true if there is a cycle in the linked list. Otherwise, return false.",
     "examples": [
-      { "input": "head = [3,2,0,-4], pos = 1", "output": "true" },
-      { "input": "head = [1,2], pos = 0", "output": "true" },
-      { "input": "head = [1], pos = -1", "output": "false" }
+      {
+        "input": "head = [3,2,0,-4], pos = 1",
+        "output": "true"
+      },
+      {
+        "input": "head = [1,2], pos = 0",
+        "output": "true"
+      },
+      {
+        "input": "head = [1], pos = -1",
+        "output": "false"
+      }
     ],
     "hints": [
       "Use two pointers, one moving one step at a time and the other moving two steps at a time.",
@@ -27,40 +36,20 @@
     }
   },
   {
-    "id": "fast-slow-pointers-002",
-    "leetcode": 876,
-    "title": "Middle of the Linked List",
-    "difficulty": "Easy",
-    "description": "Given the head of a singly linked list, return the middle node of the linked list. If there are two middle nodes, return the second middle node.",
-    "examples": [
-      { "input": "head = [1,2,3,4,5]", "output": "3" },
-      { "input": "head = [1,2,3,4,5,6]", "output": "4" }
-    ],
-    "hints": [
-      "Use a slow pointer that moves one step at a time and a fast pointer that moves two steps.",
-      "When the fast pointer reaches the end, the slow pointer will be at the middle.",
-      "For even-length lists, this approach naturally gives the second middle node."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "def middleNode(head):\n    slow = head\n    fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n    return slow",
-      "java": "public ListNode middleNode(ListNode head) {\n    ListNode slow = head;\n    ListNode fast = head;\n    while (fast != null && fast.next != null) {\n        slow = slow.next;\n        fast = fast.next.next;\n    }\n    return slow;\n}",
-      "cpp": "ListNode* middleNode(ListNode* head) {\n    ListNode* slow = head;\n    ListNode* fast = head;\n    while (fast && fast->next) {\n        slow = slow->next;\n        fast = fast->next->next;\n    }\n    return slow;\n}",
-      "javascript": "var middleNode = function(head) {\n    let slow = head;\n    let fast = head;\n    while (fast && fast.next) {\n        slow = slow.next;\n        fast = fast.next.next;\n    }\n    return slow;\n};",
-      "go": "func middleNode(head *ListNode) *ListNode {\n    slow, fast := head, head\n    for fast != nil && fast.Next != nil {\n        slow = slow.Next\n        fast = fast.Next.Next\n    }\n    return slow\n}",
-      "rust": "pub fn middle_node(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {\n    let mut slow = &head;\n    let mut fast = &head;\n    while let Some(f) = fast.as_ref().and_then(|n| n.next.as_ref()) {\n        slow = &slow.as_ref().unwrap().next;\n        fast = &f.next;\n    }\n    slow.clone()\n}"
-    }
-  },
-  {
     "id": "fast-slow-pointers-003",
     "leetcode": 202,
     "title": "Happy Number",
     "difficulty": "Easy",
     "description": "Write an algorithm to determine if a number n is happy. A happy number is a number defined by the following process: Starting with any positive integer, replace the number by the sum of the squares of its digits. Repeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1. Those numbers for which this process ends in 1 are happy. Return true if n is happy, otherwise return false.",
     "examples": [
-      { "input": "n = 19", "output": "true" },
-      { "input": "n = 2", "output": "false" }
+      {
+        "input": "n = 19",
+        "output": "true"
+      },
+      {
+        "input": "n = 2",
+        "output": "false"
+      }
     ],
     "hints": [
       "Think of the sequence of numbers as a linked list where each number points to the sum of squares of its digits.",
@@ -79,94 +68,20 @@
     }
   },
   {
-    "id": "fast-slow-pointers-004",
-    "leetcode": 142,
-    "title": "Linked List Cycle II",
-    "difficulty": "Medium",
-    "description": "Given the head of a linked list, return the node where the cycle begins. If there is no cycle, return null. There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer is connected to. Note that pos is not passed as a parameter. Do not modify the linked list.",
-    "examples": [
-      { "input": "head = [3,2,0,-4], pos = 1", "output": "Node with value 2" },
-      { "input": "head = [1,2], pos = 0", "output": "Node with value 1" },
-      { "input": "head = [1], pos = -1", "output": "null" }
-    ],
-    "hints": [
-      "After detecting a cycle with fast and slow pointers, reset one pointer to head.",
-      "Move both pointers one step at a time until they meet again.",
-      "The meeting point is the start of the cycle."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "def detectCycle(head):\n    if not head or not head.next:\n        return None\n    slow = head\n    fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n        if slow == fast:\n            slow = head\n            while slow != fast:\n                slow = slow.next\n                fast = fast.next\n            return slow\n    return None",
-      "java": "public ListNode detectCycle(ListNode head) {\n    if (head == null || head.next == null) return null;\n    ListNode slow = head;\n    ListNode fast = head;\n    while (fast != null && fast.next != null) {\n        slow = slow.next;\n        fast = fast.next.next;\n        if (slow == fast) {\n            slow = head;\n            while (slow != fast) {\n                slow = slow.next;\n                fast = fast.next;\n            }\n            return slow;\n        }\n    }\n    return null;\n}",
-      "cpp": "ListNode* detectCycle(ListNode* head) {\n    if (!head || !head->next) return nullptr;\n    ListNode* slow = head;\n    ListNode* fast = head;\n    while (fast && fast->next) {\n        slow = slow->next;\n        fast = fast->next->next;\n        if (slow == fast) {\n            slow = head;\n            while (slow != fast) {\n                slow = slow->next;\n                fast = fast->next;\n            }\n            return slow;\n        }\n    }\n    return nullptr;\n}",
-      "javascript": "var detectCycle = function(head) {\n    if (!head || !head.next) return null;\n    let slow = head;\n    let fast = head;\n    while (fast && fast.next) {\n        slow = slow.next;\n        fast = fast.next.next;\n        if (slow === fast) {\n            slow = head;\n            while (slow !== fast) {\n                slow = slow.next;\n                fast = fast.next;\n            }\n            return slow;\n        }\n    }\n    return null;\n};",
-      "go": "func detectCycle(head *ListNode) *ListNode {\n    if head == nil || head.Next == nil {\n        return nil\n    }\n    slow, fast := head, head\n    for fast != nil && fast.Next != nil {\n        slow = slow.Next\n        fast = fast.Next.Next\n        if slow == fast {\n            slow = head\n            for slow != fast {\n                slow = slow.Next\n                fast = fast.Next\n            }\n            return slow\n        }\n    }\n    return nil\n}",
-      "rust": "pub fn detect_cycle(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {\n    let mut slow = &head;\n    let mut fast = &head;\n    loop {\n        match (slow.as_ref().and_then(|n| n.next.as_ref()), fast.as_ref().and_then(|n| n.next.as_ref().and_then(|n2| n2.next.as_ref()))) {\n            (Some(s), Some(f)) => {\n                slow = &s.next;\n                fast = &f.next;\n                if std::ptr::eq(slow.as_ref().unwrap(), fast.as_ref().unwrap()) {\n                    slow = &head;\n                    while !std::ptr::eq(slow.as_ref().unwrap(), fast.as_ref().unwrap()) {\n                        slow = &slow.as_ref().unwrap().next;\n                        fast = &fast.as_ref().unwrap().next;\n                    }\n                    return slow.clone();\n                }\n            }\n            _ => return None,\n        }\n    }\n}"
-    }
-  },
-  {
-    "id": "fast-slow-pointers-005",
-    "leetcode": 287,
-    "title": "Find the Duplicate Number",
-    "difficulty": "Medium",
-    "description": "Given an array of integers nums containing n + 1 integers where each integer is in the range [1, n] inclusive. There is only one repeated number in nums, return this repeated number. You must solve the problem without modifying the array nums and use only constant extra space.",
-    "examples": [
-      { "input": "nums = [1,3,4,2,2]", "output": "2" },
-      { "input": "nums = [3,1,3,4,2]", "output": "3" },
-      { "input": "nums = [1,1]", "output": "1" }
-    ],
-    "hints": [
-      "Treat the array as a linked list where index i points to nums[i].",
-      "The duplicate number creates a cycle in this linked list.",
-      "Use Floyd's cycle detection algorithm to find the start of the cycle."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "def findDuplicate(nums):\n    slow = nums[0]\n    fast = nums[0]\n    while True:\n        slow = nums[slow]\n        fast = nums[nums[fast]]\n        if slow == fast:\n            break\n    slow = nums[0]\n    while slow != fast:\n        slow = nums[slow]\n        fast = nums[fast]\n    return slow",
-      "java": "public int findDuplicate(int[] nums) {\n    int slow = nums[0];\n    int fast = nums[0];\n    do {\n        slow = nums[slow];\n        fast = nums[nums[fast]];\n    } while (slow != fast);\n    slow = nums[0];\n    while (slow != fast) {\n        slow = nums[slow];\n        fast = nums[fast];\n    }\n    return slow;\n}",
-      "cpp": "int findDuplicate(vector<int>& nums) {\n    int slow = nums[0];\n    int fast = nums[0];\n    do {\n        slow = nums[slow];\n        fast = nums[nums[fast]];\n    } while (slow != fast);\n    slow = nums[0];\n    while (slow != fast) {\n        slow = nums[slow];\n        fast = nums[fast];\n    }\n    return slow;\n}",
-      "javascript": "var findDuplicate = function(nums) {\n    let slow = nums[0];\n    let fast = nums[0];\n    do {\n        slow = nums[slow];\n        fast = nums[nums[fast]];\n    } while (slow !== fast);\n    slow = nums[0];\n    while (slow !== fast) {\n        slow = nums[slow];\n        fast = nums[fast];\n    }\n    return slow;\n};",
-      "go": "func findDuplicate(nums []int) int {\n    slow, fast := nums[0], nums[0]\n    for {\n        slow = nums[slow]\n        fast = nums[nums[fast]]\n        if slow == fast {\n            break\n        }\n    }\n    slow = nums[0]\n    for slow != fast {\n        slow = nums[slow]\n        fast = nums[fast]\n    }\n    return slow\n}",
-      "rust": "pub fn find_duplicate(nums: Vec<i32>) -> i32 {\n    let mut slow = nums[0] as usize;\n    let mut fast = nums[0] as usize;\n    loop {\n        slow = nums[slow] as usize;\n        fast = nums[nums[fast] as usize] as usize;\n        if slow == fast {\n            break;\n        }\n    }\n    slow = nums[0] as usize;\n    while slow != fast {\n        slow = nums[slow] as usize;\n        fast = nums[fast] as usize;\n    }\n    slow as i32\n}"
-    }
-  },
-  {
-    "id": "fast-slow-pointers-006",
-    "leetcode": 143,
-    "title": "Reorder List",
-    "difficulty": "Medium",
-    "description": "You are given the head of a singly linked-list. The list can be represented as: L0 → L1 → … → Ln-1 → Ln. Reorder the list to be on the following form: L0 → Ln → L1 → Ln-1 → L2 → Ln-2 → …. You must not modify the values in the list's nodes. Only nodes themselves may be changed.",
-    "examples": [
-      { "input": "head = [1,2,3,4]", "output": "[1,4,2,3]" },
-      { "input": "head = [1,2,3,4,5]", "output": "[1,5,2,4,3]" }
-    ],
-    "hints": [
-      "Find the middle of the list using fast and slow pointers.",
-      "Reverse the second half of the list.",
-      "Merge the first half and the reversed second half alternately."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "def reorderList(head):\n    if not head or not head.next:\n        return\n    slow = head\n    fast = head\n    while fast.next and fast.next.next:\n        slow = slow.next\n        fast = fast.next.next\n    prev = None\n    curr = slow.next\n    slow.next = None\n    while curr:\n        nxt = curr.next\n        curr.next = prev\n        prev = curr\n        curr = nxt\n    first = head\n    second = prev\n    while second:\n        tmp1 = first.next\n        tmp2 = second.next\n        first.next = second\n        second.next = tmp1\n        first = tmp1\n        second = tmp2",
-      "java": "public void reorderList(ListNode head) {\n    if (head == null || head.next == null) return;\n    ListNode slow = head;\n    ListNode fast = head;\n    while (fast.next != null && fast.next.next != null) {\n        slow = slow.next;\n        fast = fast.next.next;\n    }\n    ListNode prev = null;\n    ListNode curr = slow.next;\n    slow.next = null;\n    while (curr != null) {\n        ListNode next = curr.next;\n        curr.next = prev;\n        prev = curr;\n        curr = next;\n    }\n    ListNode first = head;\n    ListNode second = prev;\n    while (second != null) {\n        ListNode tmp1 = first.next;\n        ListNode tmp2 = second.next;\n        first.next = second;\n        second.next = tmp1;\n        first = tmp1;\n        second = tmp2;\n    }\n}",
-      "cpp": "void reorderList(ListNode* head) {\n    if (!head || !head->next) return;\n    ListNode* slow = head;\n    ListNode* fast = head;\n    while (fast->next && fast->next->next) {\n        slow = slow->next;\n        fast = fast->next->next;\n    }\n    ListNode* prev = nullptr;\n    ListNode* curr = slow->next;\n    slow->next = nullptr;\n    while (curr) {\n        ListNode* next = curr->next;\n        curr->next = prev;\n        prev = curr;\n        curr = next;\n    }\n    ListNode* first = head;\n    ListNode* second = prev;\n    while (second) {\n        ListNode* tmp1 = first->next;\n        ListNode* tmp2 = second->next;\n        first->next = second;\n        second->next = tmp1;\n        first = tmp1;\n        second = tmp2;\n    }\n}",
-      "javascript": "var reorderList = function(head) {\n    if (!head || !head.next) return;\n    let slow = head;\n    let fast = head;\n    while (fast.next && fast.next.next) {\n        slow = slow.next;\n        fast = fast.next.next;\n    }\n    let prev = null;\n    let curr = slow.next;\n    slow.next = null;\n    while (curr) {\n        let next = curr.next;\n        curr.next = prev;\n        prev = curr;\n        curr = next;\n    }\n    let first = head;\n    let second = prev;\n    while (second) {\n        let tmp1 = first.next;\n        let tmp2 = second.next;\n        first.next = second;\n        second.next = tmp1;\n        first = tmp1;\n        second = tmp2;\n    }\n};",
-      "go": "func reorderList(head *ListNode) {\n    if head == nil || head.Next == nil {\n        return\n    }\n    slow, fast := head, head\n    for fast.Next != nil && fast.Next.Next != nil {\n        slow = slow.Next\n        fast = fast.Next.Next\n    }\n    var prev *ListNode\n    curr := slow.Next\n    slow.Next = nil\n    for curr != nil {\n        next := curr.Next\n        curr.Next = prev\n        prev = curr\n        curr = next\n    }\n    first, second := head, prev\n    for second != nil {\n        tmp1 := first.Next\n        tmp2 := second.Next\n        first.Next = second\n        second.Next = tmp1\n        first = tmp1\n        second = tmp2\n    }\n}",
-      "rust": "pub fn reorder_list(head: &mut Option<Box<ListNode>>) {\n    if head.is_none() || head.as_ref().unwrap().next.is_none() {\n        return;\n    }\n    let mut slow = head.clone();\n    let mut fast = head.clone();\n    while fast.as_ref().unwrap().next.is_some() && fast.as_ref().unwrap().next.as_ref().unwrap().next.is_some() {\n        slow = slow.unwrap().next;\n        fast = fast.unwrap().next.unwrap().next;\n    }\n    let mut prev: Option<Box<ListNode>> = None;\n    let mut curr = slow.unwrap().next;\n    while curr.is_some() {\n        let next = curr.as_mut().unwrap().next.take();\n        curr.as_mut().unwrap().next = prev;\n        prev = curr;\n        curr = next;\n    }\n    let mut first = head.clone();\n    let mut second = prev;\n    while second.is_some() {\n        let tmp1 = first.as_mut().unwrap().next.take();\n        let tmp2 = second.as_mut().unwrap().next.take();\n        first.as_mut().unwrap().next = second;\n        second.as_mut().unwrap().next = tmp1;\n        first = first.unwrap().next;\n        second = tmp2;\n    }\n    *head = first;\n}"
-    }
-  },
-  {
     "id": "fast-slow-pointers-007",
     "leetcode": 234,
     "title": "Palindrome Linked List",
     "difficulty": "Easy",
     "description": "Given the head of a singly linked list, return true if it is a palindrome or false otherwise.",
     "examples": [
-      { "input": "head = [1,2,2,1]", "output": "true" },
-      { "input": "head = [1,2]", "output": "false" }
+      {
+        "input": "head = [1,2,2,1]",
+        "output": "true"
+      },
+      {
+        "input": "head = [1,2]",
+        "output": "false"
+      }
     ],
     "hints": [
       "Find the middle of the linked list using fast and slow pointers.",
@@ -185,15 +100,56 @@
     }
   },
   {
+    "id": "fast-slow-pointers-002",
+    "leetcode": 876,
+    "title": "Middle of the Linked List",
+    "difficulty": "Easy",
+    "description": "Given the head of a singly linked list, return the middle node of the linked list. If there are two middle nodes, return the second middle node.",
+    "examples": [
+      {
+        "input": "head = [1,2,3,4,5]",
+        "output": "3"
+      },
+      {
+        "input": "head = [1,2,3,4,5,6]",
+        "output": "4"
+      }
+    ],
+    "hints": [
+      "Use a slow pointer that moves one step at a time and a fast pointer that moves two steps.",
+      "When the fast pointer reaches the end, the slow pointer will be at the middle.",
+      "For even-length lists, this approach naturally gives the second middle node."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "solutions": {
+      "python": "def middleNode(head):\n    slow = head\n    fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n    return slow",
+      "java": "public ListNode middleNode(ListNode head) {\n    ListNode slow = head;\n    ListNode fast = head;\n    while (fast != null && fast.next != null) {\n        slow = slow.next;\n        fast = fast.next.next;\n    }\n    return slow;\n}",
+      "cpp": "ListNode* middleNode(ListNode* head) {\n    ListNode* slow = head;\n    ListNode* fast = head;\n    while (fast && fast->next) {\n        slow = slow->next;\n        fast = fast->next->next;\n    }\n    return slow;\n}",
+      "javascript": "var middleNode = function(head) {\n    let slow = head;\n    let fast = head;\n    while (fast && fast.next) {\n        slow = slow.next;\n        fast = fast.next.next;\n    }\n    return slow;\n};",
+      "go": "func middleNode(head *ListNode) *ListNode {\n    slow, fast := head, head\n    for fast != nil && fast.Next != nil {\n        slow = slow.Next\n        fast = fast.Next.Next\n    }\n    return slow\n}",
+      "rust": "pub fn middle_node(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {\n    let mut slow = &head;\n    let mut fast = &head;\n    while let Some(f) = fast.as_ref().and_then(|n| n.next.as_ref()) {\n        slow = &slow.as_ref().unwrap().next;\n        fast = &f.next;\n    }\n    slow.clone()\n}"
+    }
+  },
+  {
     "id": "fast-slow-pointers-008",
     "leetcode": 19,
     "title": "Remove Nth Node From End of List",
     "difficulty": "Medium",
     "description": "Given the head of a linked list, remove the nth node from the end of the list and return its head.",
     "examples": [
-      { "input": "head = [1,2,3,4,5], n = 2", "output": "[1,2,3,5]" },
-      { "input": "head = [1], n = 1", "output": "[]" },
-      { "input": "head = [1,2], n = 1", "output": "[1]" }
+      {
+        "input": "head = [1,2,3,4,5], n = 2",
+        "output": "[1,2,3,5]"
+      },
+      {
+        "input": "head = [1], n = 1",
+        "output": "[]"
+      },
+      {
+        "input": "head = [1,2], n = 1",
+        "output": "[1]"
+      }
     ],
     "hints": [
       "Use two pointers with an n-step gap between them.",
@@ -212,41 +168,20 @@
     }
   },
   {
-    "id": "fast-slow-pointers-009",
-    "leetcode": 23,
-    "title": "Merge k Sorted Lists",
-    "difficulty": "Hard",
-    "description": "You are given an array of k linked-lists lists, each linked-list is sorted in ascending order. Merge all the linked-lists into one sorted linked-list and return it.",
-    "examples": [
-      { "input": "lists = [[1,4,5],[1,3,4],[2,6]]", "output": "[1,1,2,3,4,4,5,6]" },
-      { "input": "lists = []", "output": "[]" },
-      { "input": "lists = [[]]", "output": "[]" }
-    ],
-    "hints": [
-      "Use a divide and conquer approach, similar to merge sort.",
-      "Merge pairs of lists repeatedly until only one list remains.",
-      "Alternatively, use a min-heap (priority queue) to always pick the smallest element."
-    ],
-    "timeComplexity": "O(n log k) where n is the total number of nodes",
-    "spaceComplexity": "O(1)",
-    "solutions": {
-      "python": "def mergeKLists(lists):\n    if not lists:\n        return None\n    def mergeTwo(l1, l2):\n        dummy = ListNode(0)\n        curr = dummy\n        while l1 and l2:\n            if l1.val <= l2.val:\n                curr.next = l1\n                l1 = l1.next\n            else:\n                curr.next = l2\n                l2 = l2.next\n            curr = curr.next\n        curr.next = l1 if l1 else l2\n        return dummy.next\n    while len(lists) > 1:\n        merged = []\n        for i in range(0, len(lists), 2):\n            l1 = lists[i]\n            l2 = lists[i + 1] if i + 1 < len(lists) else None\n            merged.append(mergeTwo(l1, l2))\n        lists = merged\n    return lists[0]",
-      "java": "public ListNode mergeKLists(ListNode[] lists) {\n    if (lists.length == 0) return null;\n    while (lists.length > 1) {\n        List<ListNode> merged = new ArrayList<>();\n        for (int i = 0; i < lists.length; i += 2) {\n            ListNode l1 = lists[i];\n            ListNode l2 = (i + 1 < lists.length) ? lists[i + 1] : null;\n            merged.add(mergeTwo(l1, l2));\n        }\n        lists = merged.toArray(new ListNode[0]);\n    }\n    return lists[0];\n}\n\nprivate ListNode mergeTwo(ListNode l1, ListNode l2) {\n    ListNode dummy = new ListNode(0);\n    ListNode curr = dummy;\n    while (l1 != null && l2 != null) {\n        if (l1.val <= l2.val) {\n            curr.next = l1;\n            l1 = l1.next;\n        } else {\n            curr.next = l2;\n            l2 = l2.next;\n        }\n        curr = curr.next;\n    }\n    curr.next = (l1 != null) ? l1 : l2;\n    return dummy.next;\n}",
-      "cpp": "ListNode* mergeKLists(vector<ListNode*>& lists) {\n    if (lists.empty()) return nullptr;\n    while (lists.size() > 1) {\n        vector<ListNode*> merged;\n        for (int i = 0; i < lists.size(); i += 2) {\n            ListNode* l1 = lists[i];\n            ListNode* l2 = (i + 1 < lists.size()) ? lists[i + 1] : nullptr;\n            merged.push_back(mergeTwo(l1, l2));\n        }\n        lists = merged;\n    }\n    return lists[0];\n}\n\nListNode* mergeTwo(ListNode* l1, ListNode* l2) {\n    ListNode dummy(0);\n    ListNode* curr = &dummy;\n    while (l1 && l2) {\n        if (l1->val <= l2->val) {\n            curr->next = l1;\n            l1 = l1->next;\n        } else {\n            curr->next = l2;\n            l2 = l2->next;\n        }\n        curr = curr->next;\n    }\n    curr->next = l1 ? l1 : l2;\n    return dummy.next;\n}",
-      "javascript": "var mergeKLists = function(lists) {\n    if (!lists.length) return null;\n    function mergeTwo(l1, l2) {\n        let dummy = new ListNode(0);\n        let curr = dummy;\n        while (l1 && l2) {\n            if (l1.val <= l2.val) {\n                curr.next = l1;\n                l1 = l1.next;\n            } else {\n                curr.next = l2;\n                l2 = l2.next;\n            }\n            curr = curr.next;\n        }\n        curr.next = l1 || l2;\n        return dummy.next;\n    }\n    while (lists.length > 1) {\n        let merged = [];\n        for (let i = 0; i < lists.length; i += 2) {\n            let l1 = lists[i];\n            let l2 = lists[i + 1] || null;\n            merged.push(mergeTwo(l1, l2));\n        }\n        lists = merged;\n    }\n    return lists[0];\n};",
-      "go": "func mergeKLists(lists []*ListNode) *ListNode {\n    if len(lists) == 0 {\n        return nil\n    }\n    for len(lists) > 1 {\n        var merged []*ListNode\n        for i := 0; i < len(lists); i += 2 {\n            l1 := lists[i]\n            var l2 *ListNode\n            if i+1 < len(lists) {\n                l2 = lists[i+1]\n            }\n            merged = append(merged, mergeTwo(l1, l2))\n        }\n        lists = merged\n    }\n    return lists[0]\n}\n\nfunc mergeTwo(l1, l2 *ListNode) *ListNode {\n    dummy := &ListNode{0, nil}\n    curr := dummy\n    for l1 != nil && l2 != nil {\n        if l1.Val <= l2.Val {\n            curr.Next = l1\n            l1 = l1.Next\n        } else {\n            curr.Next = l2\n            l2 = l2.Next\n        }\n        curr = curr.Next\n    }\n    if l1 != nil {\n        curr.Next = l1\n    } else {\n        curr.Next = l2\n    }\n    return dummy.Next\n}",
-      "rust": "pub fn merge_k_lists(lists: Vec<Option<Box<ListNode>>>) -> Option<Box<ListNode>> {\n    if lists.is_empty() {\n        return None;\n    }\n    fn merge_two(l1: Option<Box<ListNode>>, l2: Option<Box<ListNode>>) -> Option<Box<ListNode>> {\n        match (l1, l2) {\n            (None, None) => None,\n            (Some(n), None) | (None, Some(n)) => Some(n),\n            (Some(l1), Some(l2)) => {\n                if l1.val <= l2.val {\n                    Some(Box::new(ListNode { val: l1.val, next: merge_two(l1.next, Some(l2)) }))\n                } else {\n                    Some(Box::new(ListNode { val: l2.val, next: merge_two(Some(l1), l2.next) }))\n                }\n            }\n        }\n    }\n    let mut lists = lists;\n    while lists.len() > 1 {\n        let mut merged = Vec::new();\n        let mut i = 0;\n        while i < lists.len() {\n            let l1 = lists[i].take();\n            let l2 = if i + 1 < lists.len() { lists[i + 1].take() } else { None };\n            merged.push(merge_two(l1, l2));\n            i += 2;\n        }\n        lists = merged;\n    }\n    lists.into_iter().next().flatten()\n}"
-    }
-  },
-  {
     "id": "fast-slow-pointers-010",
     "leetcode": 61,
     "title": "Rotate List",
     "difficulty": "Medium",
     "description": "Given the head of a linked list, rotate the list to the right by k places.",
     "examples": [
-      { "input": "head = [1,2,3,4,5], k = 2", "output": "[4,5,1,2,3]" },
-      { "input": "head = [0,1,2], k = 4", "output": "[2,0,1]" }
+      {
+        "input": "head = [1,2,3,4,5], k = 2",
+        "output": "[4,5,1,2,3]"
+      },
+      {
+        "input": "head = [0,1,2], k = 4",
+        "output": "[2,0,1]"
+      }
     ],
     "hints": [
       "Connect the last node to the first node to form a cycle.",
@@ -262,6 +197,146 @@
       "javascript": "var rotateRight = function(head, k) {\n    if (!head || !head.next || k === 0) return head;\n    let length = 1;\n    let tail = head;\n    while (tail.next) {\n        tail = tail.next;\n        length++;\n    }\n    k = k % length;\n    if (k === 0) return head;\n    tail.next = head;\n    let stepsToNewTail = length - k;\n    let newTail = head;\n    for (let i = 0; i < stepsToNewTail - 1; i++) {\n        newTail = newTail.next;\n    }\n    let newHead = newTail.next;\n    newTail.next = null;\n    return newHead;\n};",
       "go": "func rotateRight(head *ListNode, k int) *ListNode {\n    if head == nil || head.Next == nil || k == 0 {\n        return head\n    }\n    length := 1\n    tail := head\n    for tail.Next != nil {\n        tail = tail.Next\n        length++\n    }\n    k = k % length\n    if k == 0 {\n        return head\n    }\n    tail.Next = head\n    stepsToNewTail := length - k\n    newTail := head\n    for i := 0; i < stepsToNewTail-1; i++ {\n        newTail = newTail.Next\n    }\n    newHead := newTail.Next\n    newTail.Next = nil\n    return newHead\n}",
       "rust": "pub fn rotate_right(head: Option<Box<ListNode>>, k: i32) -> Option<Box<ListNode>> {\n    if head.is_none() || head.as_ref().unwrap().next.is_none() || k == 0 {\n        return head;\n    }\n    let mut length = 1;\n    let mut tail = &head;\n    while tail.as_ref().unwrap().next.is_some() {\n        tail = &tail.as_ref().unwrap().next;\n        length += 1;\n    }\n    let k = k % length;\n    if k == 0 {\n        return head;\n    }\n    let mut head = head;\n    tail.as_ref().unwrap().next.as_ref().map(|n| {\n        let tail_next = n.next.take();\n        tail_next\n    });\n    let mut tail_ref = &mut head;\n    for _ in 0..length - 1 {\n        tail_ref = &mut tail_ref.as_mut().unwrap().next;\n    }\n    let mut new_head = tail_ref.as_mut().unwrap().next.take();\n    let mut curr = &mut new_head;\n    for _ in 0..length - k - 1 {\n        curr = &mut curr.as_mut().unwrap().next;\n    }\n    curr.as_mut().unwrap().next = head;\n    new_head\n}"
+    }
+  },
+  {
+    "id": "fast-slow-pointers-004",
+    "leetcode": 142,
+    "title": "Linked List Cycle II",
+    "difficulty": "Medium",
+    "description": "Given the head of a linked list, return the node where the cycle begins. If there is no cycle, return null. There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer is connected to. Note that pos is not passed as a parameter. Do not modify the linked list.",
+    "examples": [
+      {
+        "input": "head = [3,2,0,-4], pos = 1",
+        "output": "Node with value 2"
+      },
+      {
+        "input": "head = [1,2], pos = 0",
+        "output": "Node with value 1"
+      },
+      {
+        "input": "head = [1], pos = -1",
+        "output": "null"
+      }
+    ],
+    "hints": [
+      "After detecting a cycle with fast and slow pointers, reset one pointer to head.",
+      "Move both pointers one step at a time until they meet again.",
+      "The meeting point is the start of the cycle."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "solutions": {
+      "python": "def detectCycle(head):\n    if not head or not head.next:\n        return None\n    slow = head\n    fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = fast.next.next\n        if slow == fast:\n            slow = head\n            while slow != fast:\n                slow = slow.next\n                fast = fast.next\n            return slow\n    return None",
+      "java": "public ListNode detectCycle(ListNode head) {\n    if (head == null || head.next == null) return null;\n    ListNode slow = head;\n    ListNode fast = head;\n    while (fast != null && fast.next != null) {\n        slow = slow.next;\n        fast = fast.next.next;\n        if (slow == fast) {\n            slow = head;\n            while (slow != fast) {\n                slow = slow.next;\n                fast = fast.next;\n            }\n            return slow;\n        }\n    }\n    return null;\n}",
+      "cpp": "ListNode* detectCycle(ListNode* head) {\n    if (!head || !head->next) return nullptr;\n    ListNode* slow = head;\n    ListNode* fast = head;\n    while (fast && fast->next) {\n        slow = slow->next;\n        fast = fast->next->next;\n        if (slow == fast) {\n            slow = head;\n            while (slow != fast) {\n                slow = slow->next;\n                fast = fast->next;\n            }\n            return slow;\n        }\n    }\n    return nullptr;\n}",
+      "javascript": "var detectCycle = function(head) {\n    if (!head || !head.next) return null;\n    let slow = head;\n    let fast = head;\n    while (fast && fast.next) {\n        slow = slow.next;\n        fast = fast.next.next;\n        if (slow === fast) {\n            slow = head;\n            while (slow !== fast) {\n                slow = slow.next;\n                fast = fast.next;\n            }\n            return slow;\n        }\n    }\n    return null;\n};",
+      "go": "func detectCycle(head *ListNode) *ListNode {\n    if head == nil || head.Next == nil {\n        return nil\n    }\n    slow, fast := head, head\n    for fast != nil && fast.Next != nil {\n        slow = slow.Next\n        fast = fast.Next.Next\n        if slow == fast {\n            slow = head\n            for slow != fast {\n                slow = slow.Next\n                fast = fast.Next\n            }\n            return slow\n        }\n    }\n    return nil\n}",
+      "rust": "pub fn detect_cycle(head: Option<Box<ListNode>>) -> Option<Box<ListNode>> {\n    let mut slow = &head;\n    let mut fast = &head;\n    loop {\n        match (slow.as_ref().and_then(|n| n.next.as_ref()), fast.as_ref().and_then(|n| n.next.as_ref().and_then(|n2| n2.next.as_ref()))) {\n            (Some(s), Some(f)) => {\n                slow = &s.next;\n                fast = &f.next;\n                if std::ptr::eq(slow.as_ref().unwrap(), fast.as_ref().unwrap()) {\n                    slow = &head;\n                    while !std::ptr::eq(slow.as_ref().unwrap(), fast.as_ref().unwrap()) {\n                        slow = &slow.as_ref().unwrap().next;\n                        fast = &fast.as_ref().unwrap().next;\n                    }\n                    return slow.clone();\n                }\n            }\n            _ => return None,\n        }\n    }\n}"
+    }
+  },
+  {
+    "id": "fast-slow-pointers-006",
+    "leetcode": 143,
+    "title": "Reorder List",
+    "difficulty": "Medium",
+    "description": "You are given the head of a singly linked-list. The list can be represented as: L0 → L1 → … → Ln-1 → Ln. Reorder the list to be on the following form: L0 → Ln → L1 → Ln-1 → L2 → Ln-2 → …. You must not modify the values in the list's nodes. Only nodes themselves may be changed.",
+    "examples": [
+      {
+        "input": "head = [1,2,3,4]",
+        "output": "[1,4,2,3]"
+      },
+      {
+        "input": "head = [1,2,3,4,5]",
+        "output": "[1,5,2,4,3]"
+      }
+    ],
+    "hints": [
+      "Find the middle of the list using fast and slow pointers.",
+      "Reverse the second half of the list.",
+      "Merge the first half and the reversed second half alternately."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "solutions": {
+      "python": "def reorderList(head):\n    if not head or not head.next:\n        return\n    slow = head\n    fast = head\n    while fast.next and fast.next.next:\n        slow = slow.next\n        fast = fast.next.next\n    prev = None\n    curr = slow.next\n    slow.next = None\n    while curr:\n        nxt = curr.next\n        curr.next = prev\n        prev = curr\n        curr = nxt\n    first = head\n    second = prev\n    while second:\n        tmp1 = first.next\n        tmp2 = second.next\n        first.next = second\n        second.next = tmp1\n        first = tmp1\n        second = tmp2",
+      "java": "public void reorderList(ListNode head) {\n    if (head == null || head.next == null) return;\n    ListNode slow = head;\n    ListNode fast = head;\n    while (fast.next != null && fast.next.next != null) {\n        slow = slow.next;\n        fast = fast.next.next;\n    }\n    ListNode prev = null;\n    ListNode curr = slow.next;\n    slow.next = null;\n    while (curr != null) {\n        ListNode next = curr.next;\n        curr.next = prev;\n        prev = curr;\n        curr = next;\n    }\n    ListNode first = head;\n    ListNode second = prev;\n    while (second != null) {\n        ListNode tmp1 = first.next;\n        ListNode tmp2 = second.next;\n        first.next = second;\n        second.next = tmp1;\n        first = tmp1;\n        second = tmp2;\n    }\n}",
+      "cpp": "void reorderList(ListNode* head) {\n    if (!head || !head->next) return;\n    ListNode* slow = head;\n    ListNode* fast = head;\n    while (fast->next && fast->next->next) {\n        slow = slow->next;\n        fast = fast->next->next;\n    }\n    ListNode* prev = nullptr;\n    ListNode* curr = slow->next;\n    slow->next = nullptr;\n    while (curr) {\n        ListNode* next = curr->next;\n        curr->next = prev;\n        prev = curr;\n        curr = next;\n    }\n    ListNode* first = head;\n    ListNode* second = prev;\n    while (second) {\n        ListNode* tmp1 = first->next;\n        ListNode* tmp2 = second->next;\n        first->next = second;\n        second->next = tmp1;\n        first = tmp1;\n        second = tmp2;\n    }\n}",
+      "javascript": "var reorderList = function(head) {\n    if (!head || !head.next) return;\n    let slow = head;\n    let fast = head;\n    while (fast.next && fast.next.next) {\n        slow = slow.next;\n        fast = fast.next.next;\n    }\n    let prev = null;\n    let curr = slow.next;\n    slow.next = null;\n    while (curr) {\n        let next = curr.next;\n        curr.next = prev;\n        prev = curr;\n        curr = next;\n    }\n    let first = head;\n    let second = prev;\n    while (second) {\n        let tmp1 = first.next;\n        let tmp2 = second.next;\n        first.next = second;\n        second.next = tmp1;\n        first = tmp1;\n        second = tmp2;\n    }\n};",
+      "go": "func reorderList(head *ListNode) {\n    if head == nil || head.Next == nil {\n        return\n    }\n    slow, fast := head, head\n    for fast.Next != nil && fast.Next.Next != nil {\n        slow = slow.Next\n        fast = fast.Next.Next\n    }\n    var prev *ListNode\n    curr := slow.Next\n    slow.Next = nil\n    for curr != nil {\n        next := curr.Next\n        curr.Next = prev\n        prev = curr\n        curr = next\n    }\n    first, second := head, prev\n    for second != nil {\n        tmp1 := first.Next\n        tmp2 := second.Next\n        first.Next = second\n        second.Next = tmp1\n        first = tmp1\n        second = tmp2\n    }\n}",
+      "rust": "pub fn reorder_list(head: &mut Option<Box<ListNode>>) {\n    if head.is_none() || head.as_ref().unwrap().next.is_none() {\n        return;\n    }\n    let mut slow = head.clone();\n    let mut fast = head.clone();\n    while fast.as_ref().unwrap().next.is_some() && fast.as_ref().unwrap().next.as_ref().unwrap().next.is_some() {\n        slow = slow.unwrap().next;\n        fast = fast.unwrap().next.unwrap().next;\n    }\n    let mut prev: Option<Box<ListNode>> = None;\n    let mut curr = slow.unwrap().next;\n    while curr.is_some() {\n        let next = curr.as_mut().unwrap().next.take();\n        curr.as_mut().unwrap().next = prev;\n        prev = curr;\n        curr = next;\n    }\n    let mut first = head.clone();\n    let mut second = prev;\n    while second.is_some() {\n        let tmp1 = first.as_mut().unwrap().next.take();\n        let tmp2 = second.as_mut().unwrap().next.take();\n        first.as_mut().unwrap().next = second;\n        second.as_mut().unwrap().next = tmp1;\n        first = first.unwrap().next;\n        second = tmp2;\n    }\n    *head = first;\n}"
+    }
+  },
+  {
+    "id": "fast-slow-pointers-005",
+    "leetcode": 287,
+    "title": "Find the Duplicate Number",
+    "difficulty": "Medium",
+    "description": "Given an array of integers nums containing n + 1 integers where each integer is in the range [1, n] inclusive. There is only one repeated number in nums, return this repeated number. You must solve the problem without modifying the array nums and use only constant extra space.",
+    "examples": [
+      {
+        "input": "nums = [1,3,4,2,2]",
+        "output": "2"
+      },
+      {
+        "input": "nums = [3,1,3,4,2]",
+        "output": "3"
+      },
+      {
+        "input": "nums = [1,1]",
+        "output": "1"
+      }
+    ],
+    "hints": [
+      "Treat the array as a linked list where index i points to nums[i].",
+      "The duplicate number creates a cycle in this linked list.",
+      "Use Floyd's cycle detection algorithm to find the start of the cycle."
+    ],
+    "timeComplexity": "O(n)",
+    "spaceComplexity": "O(1)",
+    "solutions": {
+      "python": "def findDuplicate(nums):\n    slow = nums[0]\n    fast = nums[0]\n    while True:\n        slow = nums[slow]\n        fast = nums[nums[fast]]\n        if slow == fast:\n            break\n    slow = nums[0]\n    while slow != fast:\n        slow = nums[slow]\n        fast = nums[fast]\n    return slow",
+      "java": "public int findDuplicate(int[] nums) {\n    int slow = nums[0];\n    int fast = nums[0];\n    do {\n        slow = nums[slow];\n        fast = nums[nums[fast]];\n    } while (slow != fast);\n    slow = nums[0];\n    while (slow != fast) {\n        slow = nums[slow];\n        fast = nums[fast];\n    }\n    return slow;\n}",
+      "cpp": "int findDuplicate(vector<int>& nums) {\n    int slow = nums[0];\n    int fast = nums[0];\n    do {\n        slow = nums[slow];\n        fast = nums[nums[fast]];\n    } while (slow != fast);\n    slow = nums[0];\n    while (slow != fast) {\n        slow = nums[slow];\n        fast = nums[fast];\n    }\n    return slow;\n}",
+      "javascript": "var findDuplicate = function(nums) {\n    let slow = nums[0];\n    let fast = nums[0];\n    do {\n        slow = nums[slow];\n        fast = nums[nums[fast]];\n    } while (slow !== fast);\n    slow = nums[0];\n    while (slow !== fast) {\n        slow = nums[slow];\n        fast = nums[fast];\n    }\n    return slow;\n};",
+      "go": "func findDuplicate(nums []int) int {\n    slow, fast := nums[0], nums[0]\n    for {\n        slow = nums[slow]\n        fast = nums[nums[fast]]\n        if slow == fast {\n            break\n        }\n    }\n    slow = nums[0]\n    for slow != fast {\n        slow = nums[slow]\n        fast = nums[fast]\n    }\n    return slow\n}",
+      "rust": "pub fn find_duplicate(nums: Vec<i32>) -> i32 {\n    let mut slow = nums[0] as usize;\n    let mut fast = nums[0] as usize;\n    loop {\n        slow = nums[slow] as usize;\n        fast = nums[nums[fast] as usize] as usize;\n        if slow == fast {\n            break;\n        }\n    }\n    slow = nums[0] as usize;\n    while slow != fast {\n        slow = nums[slow] as usize;\n        fast = nums[fast] as usize;\n    }\n    slow as i32\n}"
+    }
+  },
+  {
+    "id": "fast-slow-pointers-009",
+    "leetcode": 23,
+    "title": "Merge k Sorted Lists",
+    "difficulty": "Hard",
+    "description": "You are given an array of k linked-lists lists, each linked-list is sorted in ascending order. Merge all the linked-lists into one sorted linked-list and return it.",
+    "examples": [
+      {
+        "input": "lists = [[1,4,5],[1,3,4],[2,6]]",
+        "output": "[1,1,2,3,4,4,5,6]"
+      },
+      {
+        "input": "lists = []",
+        "output": "[]"
+      },
+      {
+        "input": "lists = [[]]",
+        "output": "[]"
+      }
+    ],
+    "hints": [
+      "Use a divide and conquer approach, similar to merge sort.",
+      "Merge pairs of lists repeatedly until only one list remains.",
+      "Alternatively, use a min-heap (priority queue) to always pick the smallest element."
+    ],
+    "timeComplexity": "O(n log k) where n is the total number of nodes",
+    "spaceComplexity": "O(1)",
+    "solutions": {
+      "python": "def mergeKLists(lists):\n    if not lists:\n        return None\n    def mergeTwo(l1, l2):\n        dummy = ListNode(0)\n        curr = dummy\n        while l1 and l2:\n            if l1.val <= l2.val:\n                curr.next = l1\n                l1 = l1.next\n            else:\n                curr.next = l2\n                l2 = l2.next\n            curr = curr.next\n        curr.next = l1 if l1 else l2\n        return dummy.next\n    while len(lists) > 1:\n        merged = []\n        for i in range(0, len(lists), 2):\n            l1 = lists[i]\n            l2 = lists[i + 1] if i + 1 < len(lists) else None\n            merged.append(mergeTwo(l1, l2))\n        lists = merged\n    return lists[0]",
+      "java": "public ListNode mergeKLists(ListNode[] lists) {\n    if (lists.length == 0) return null;\n    while (lists.length > 1) {\n        List<ListNode> merged = new ArrayList<>();\n        for (int i = 0; i < lists.length; i += 2) {\n            ListNode l1 = lists[i];\n            ListNode l2 = (i + 1 < lists.length) ? lists[i + 1] : null;\n            merged.add(mergeTwo(l1, l2));\n        }\n        lists = merged.toArray(new ListNode[0]);\n    }\n    return lists[0];\n}\n\nprivate ListNode mergeTwo(ListNode l1, ListNode l2) {\n    ListNode dummy = new ListNode(0);\n    ListNode curr = dummy;\n    while (l1 != null && l2 != null) {\n        if (l1.val <= l2.val) {\n            curr.next = l1;\n            l1 = l1.next;\n        } else {\n            curr.next = l2;\n            l2 = l2.next;\n        }\n        curr = curr.next;\n    }\n    curr.next = (l1 != null) ? l1 : l2;\n    return dummy.next;\n}",
+      "cpp": "ListNode* mergeKLists(vector<ListNode*>& lists) {\n    if (lists.empty()) return nullptr;\n    while (lists.size() > 1) {\n        vector<ListNode*> merged;\n        for (int i = 0; i < lists.size(); i += 2) {\n            ListNode* l1 = lists[i];\n            ListNode* l2 = (i + 1 < lists.size()) ? lists[i + 1] : nullptr;\n            merged.push_back(mergeTwo(l1, l2));\n        }\n        lists = merged;\n    }\n    return lists[0];\n}\n\nListNode* mergeTwo(ListNode* l1, ListNode* l2) {\n    ListNode dummy(0);\n    ListNode* curr = &dummy;\n    while (l1 && l2) {\n        if (l1->val <= l2->val) {\n            curr->next = l1;\n            l1 = l1->next;\n        } else {\n            curr->next = l2;\n            l2 = l2->next;\n        }\n        curr = curr->next;\n    }\n    curr->next = l1 ? l1 : l2;\n    return dummy.next;\n}",
+      "javascript": "var mergeKLists = function(lists) {\n    if (!lists.length) return null;\n    function mergeTwo(l1, l2) {\n        let dummy = new ListNode(0);\n        let curr = dummy;\n        while (l1 && l2) {\n            if (l1.val <= l2.val) {\n                curr.next = l1;\n                l1 = l1.next;\n            } else {\n                curr.next = l2;\n                l2 = l2.next;\n            }\n            curr = curr.next;\n        }\n        curr.next = l1 || l2;\n        return dummy.next;\n    }\n    while (lists.length > 1) {\n        let merged = [];\n        for (let i = 0; i < lists.length; i += 2) {\n            let l1 = lists[i];\n            let l2 = lists[i + 1] || null;\n            merged.push(mergeTwo(l1, l2));\n        }\n        lists = merged;\n    }\n    return lists[0];\n};",
+      "go": "func mergeKLists(lists []*ListNode) *ListNode {\n    if len(lists) == 0 {\n        return nil\n    }\n    for len(lists) > 1 {\n        var merged []*ListNode\n        for i := 0; i < len(lists); i += 2 {\n            l1 := lists[i]\n            var l2 *ListNode\n            if i+1 < len(lists) {\n                l2 = lists[i+1]\n            }\n            merged = append(merged, mergeTwo(l1, l2))\n        }\n        lists = merged\n    }\n    return lists[0]\n}\n\nfunc mergeTwo(l1, l2 *ListNode) *ListNode {\n    dummy := &ListNode{0, nil}\n    curr := dummy\n    for l1 != nil && l2 != nil {\n        if l1.Val <= l2.Val {\n            curr.Next = l1\n            l1 = l1.Next\n        } else {\n            curr.Next = l2\n            l2 = l2.Next\n        }\n        curr = curr.Next\n    }\n    if l1 != nil {\n        curr.Next = l1\n    } else {\n        curr.Next = l2\n    }\n    return dummy.Next\n}",
+      "rust": "pub fn merge_k_lists(lists: Vec<Option<Box<ListNode>>>) -> Option<Box<ListNode>> {\n    if lists.is_empty() {\n        return None;\n    }\n    fn merge_two(l1: Option<Box<ListNode>>, l2: Option<Box<ListNode>>) -> Option<Box<ListNode>> {\n        match (l1, l2) {\n            (None, None) => None,\n            (Some(n), None) | (None, Some(n)) => Some(n),\n            (Some(l1), Some(l2)) => {\n                if l1.val <= l2.val {\n                    Some(Box::new(ListNode { val: l1.val, next: merge_two(l1.next, Some(l2)) }))\n                } else {\n                    Some(Box::new(ListNode { val: l2.val, next: merge_two(Some(l1), l2.next) }))\n                }\n            }\n        }\n    }\n    let mut lists = lists;\n    while lists.len() > 1 {\n        let mut merged = Vec::new();\n        let mut i = 0;\n        while i < lists.len() {\n            let l1 = lists[i].take();\n            let l2 = if i + 1 < lists.len() { lists[i + 1].take() } else { None };\n            merged.push(merge_two(l1, l2));\n            i += 2;\n        }\n        lists = merged;\n    }\n    lists.into_iter().next().flatten()\n}"
     }
   }
 ]

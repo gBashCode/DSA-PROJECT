@@ -3,18 +3,11 @@
     "section": "Medium",
     "problems": [
       {
-        "id": "back-001",
-        "leetcode": 78,
-        "title": "Subsets",
+        "id": "back-009",
+        "leetcode": 17,
+        "title": "Letter Combinations of a Phone Number",
         "difficulty": "Medium",
-        "link": "https://leetcode.com/problems/subsets/"
-      },
-      {
-        "id": "back-002",
-        "leetcode": 90,
-        "title": "Subsets II",
-        "difficulty": "Medium",
-        "link": "https://leetcode.com/problems/subsets-ii/"
+        "link": "https://leetcode.com/problems/letter-combinations-of-a-phone-number/"
       },
       {
         "id": "back-003",
@@ -45,6 +38,13 @@
         "link": "https://leetcode.com/problems/permutations-ii/"
       },
       {
+        "id": "back-001",
+        "leetcode": 78,
+        "title": "Subsets",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/subsets/"
+      },
+      {
         "id": "back-007",
         "leetcode": 79,
         "title": "Word Search",
@@ -52,18 +52,18 @@
         "link": "https://leetcode.com/problems/word-search/"
       },
       {
+        "id": "back-002",
+        "leetcode": 90,
+        "title": "Subsets II",
+        "difficulty": "Medium",
+        "link": "https://leetcode.com/problems/subsets-ii/"
+      },
+      {
         "id": "back-008",
         "leetcode": 131,
         "title": "Palindrome Partitioning",
         "difficulty": "Medium",
         "link": "https://leetcode.com/problems/palindrome-partitioning/"
-      },
-      {
-        "id": "back-009",
-        "leetcode": 17,
-        "title": "Letter Combinations of a Phone Number",
-        "difficulty": "Medium",
-        "link": "https://leetcode.com/problems/letter-combinations-of-a-phone-number/"
       }
     ]
   },
@@ -71,18 +71,18 @@
     "section": "Hard",
     "problems": [
       {
-        "id": "back-010",
-        "leetcode": 51,
-        "title": "N-Queens",
-        "difficulty": "Hard",
-        "link": "https://leetcode.com/problems/n-queens/"
-      },
-      {
         "id": "back-011",
         "leetcode": 37,
         "title": "Sudoku Solver",
         "difficulty": "Hard",
         "link": "https://leetcode.com/problems/sudoku-solver/"
+      },
+      {
+        "id": "back-010",
+        "leetcode": 51,
+        "title": "N-Queens",
+        "difficulty": "Hard",
+        "link": "https://leetcode.com/problems/n-queens/"
       }
     ]
   }
