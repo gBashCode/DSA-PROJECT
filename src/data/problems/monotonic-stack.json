@@ -4,318 +4,69 @@
     "leetcode": 496,
     "title": "Next Greater Element I",
     "difficulty": "Easy",
-    "description": "The next greater element of some element x in an array is the first greater element that is to the right of x in the same array. You are given two distinct 0-indexed integer arrays nums1 and nums2, where nums1 is a subset of nums2. For each 0 <= i < nums1.length, find the index j such that nums1[i] == nums2[j] and determine the next greater element of nums2[j] in nums2. If there is no next greater element, then the answer for this query is -1. Return an array ans of length nums1.length such that ans[i] is the next greater element as described above.",
-    "examples": [
-      {
-        "input": "nums1 = [4,1,2], nums2 = [1,3,4,2]",
-        "output": "[-1,3,-1]"
-      },
-      {
-        "input": "nums1 = [2,4], nums2 = [1,2,3,4]",
-        "output": "[3,-1]"
-      }
-    ],
-    "hints": [
-      "Use a monotonic decreasing stack to precompute the next greater element for each element in nums2.",
-      "Store results in a hash map for O(1) lookups."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "class Solution:\n    def nextGreaterElement(self, nums1: list[int], nums2: list[int]) -> list[int]:\n        stack = []\n        next_greater = {}\n        for num in nums2:\n            while stack and stack[-1] < num:\n                next_greater[stack.pop()] = num\n            stack.append(num)\n        return [next_greater.get(num, -1) for num in nums1]",
-      "java": "class Solution {\n    public int[] nextGreaterElement(int[] nums1, int[] nums2) {\n        Map<Integer, Integer> map = new HashMap<>();\n        Deque<Integer> stack = new ArrayDeque<>();\n        for (int num : nums2) {\n            while (!stack.isEmpty() && stack.peek() < num) {\n                map.put(stack.pop(), num);\n            }\n            stack.push(num);\n        }\n        int[] result = new int[nums1.length];\n        for (int i = 0; i < nums1.length; i++) {\n            result[i] = map.getOrDefault(nums1[i], -1);\n        }\n        return result;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {\n        stack<int> st;\n        unordered_map<int, int> mp;\n        for (int num : nums2) {\n            while (!st.empty() && st.top() < num) {\n                mp[st.top()] = num;\n                st.pop();\n            }\n            st.push(num);\n        }\n        vector<int> result(nums1.size());\n        for (int i = 0; i < nums1.size(); i++) {\n            result[i] = mp.count(nums1[i]) ? mp[nums1[i]] : -1;\n        }\n        return result;\n    }\n};",
-      "javascript": "var nextGreaterElement = function(nums1, nums2) {\n    const stack = [];\n    const map = new Map();\n    for (const num of nums2) {\n        while (stack.length && stack[stack.length - 1] < num) {\n            map.set(stack.pop(), num);\n        }\n        stack.push(num);\n    }\n    return nums1.map(num => map.get(num) ?? -1);\n};",
-      "go": "func nextGreaterElement(nums1 []int, nums2 []int) []int {\n    stack := []int{}\n    m := map[int]int{}\n    for _, num := range nums2 {\n        for len(stack) > 0 && stack[len(stack)-1] < num {\n            m[stack[len(stack)-1]] = num\n            stack = stack[:len(stack)-1]\n        }\n        stack = append(stack, num)\n    }\n    result := make([]int, len(nums1))\n    for i, num := range nums1 {\n        if v, ok := m[num]; ok {\n            result[i] = v\n        } else {\n            result[i] = -1\n        }\n    }\n    return result\n}",
-      "rust": "impl Solution {\n    pub fn next_greater_element(nums1: Vec<i32>, nums2: Vec<i32>) -> Vec<i32> {\n        use std::collections::HashMap;\n        let mut stack: Vec<i32> = Vec::new();\n        let mut map: HashMap<i32, i32> = HashMap::new();\n        for &num in &nums2 {\n            while let Some(&top) = stack.last() {\n                if top < num {\n                    map.insert(stack.pop().unwrap(), num);\n                } else {\n                    break;\n                }\n            }\n            stack.push(num);\n        }\n        nums1.iter().map(|&num| *map.get(&num).unwrap_or(&-1)).collect()\n    }\n}"
-    }
+    "link": "https://leetcode.com/problems/next-greater-element-i/"
   },
   {
     "id": "monotonic-stack-6",
     "leetcode": 155,
     "title": "Min Stack",
     "difficulty": "Medium",
-    "description": "Design a stack that supports push, pop, top, and retrieving the minimum element in constant time. Implement the MinStack class: void push(int val) pushes the element val onto the stack, void pop() removes the element on the top of the stack, int top() gets the top element of the stack, int getMin() retrieves the minimum element in the stack. You must implement a solution with O(1) time complexity for each function.",
-    "examples": [
-      {
-        "input": "MinStack minStack = new MinStack();\nminStack.push(-2);\nminStack.push(0);\nminStack.push(-3);\nminStack.getMin();\nminStack.pop();\nminStack.top();\nminStack.getMin();",
-        "output": "[-3, 0, -2]"
-      }
-    ],
-    "hints": [
-      "Use two stacks: one for the actual values and one to track the current minimum.",
-      "The min stack stores the minimum value at each level of the stack."
-    ],
-    "timeComplexity": "O(1) for all operations",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "class MinStack:\n    def __init__(self):\n        self.stack = []\n        self.min_stack = []\n\n    def push(self, val: int) -> None:\n        self.stack.append(val)\n        min_val = min(val, self.min_stack[-1] if self.min_stack else val)\n        self.min_stack.append(min_val)\n\n    def pop(self) -> None:\n        self.stack.pop()\n        self.min_stack.pop()\n\n    def top(self) -> int:\n        return self.stack[-1]\n\n    def getMin(self) -> int:\n        return self.min_stack[-1]",
-      "java": "class MinStack {\n    Deque<Integer> stack;\n    Deque<Integer> minStack;\n\n    public MinStack() {\n        stack = new ArrayDeque<>();\n        minStack = new ArrayDeque<>();\n    }\n\n    public void push(int val) {\n        stack.push(val);\n        minStack.push(minStack.isEmpty() ? val : Math.min(val, minStack.peek()));\n    }\n\n    public void pop() {\n        stack.pop();\n        minStack.pop();\n    }\n\n    public int top() {\n        return stack.peek();\n    }\n\n    public int getMin() {\n        return minStack.peek();\n    }\n}",
-      "cpp": "class MinStack {\n    stack<int> st;\n    stack<int> minSt;\npublic:\n    MinStack() {}\n\n    void push(int val) {\n        st.push(val);\n        if (minSt.empty() || val <= minSt.top()) minSt.push(val);\n    }\n\n    void pop() {\n        if (st.top() == minSt.top()) minSt.pop();\n        st.pop();\n    }\n\n    int top() { return st.top(); }\n\n    int getMin() { return minSt.top(); }\n};",
-      "javascript": "class MinStack {\n    constructor() {\n        this.stack = [];\n        this.minStack = [];\n    }\n\n    push(val) {\n        this.stack.push(val);\n        const minVal = this.minStack.length ? Math.min(val, this.minStack[this.minStack.length - 1]) : val;\n        this.minStack.push(minVal);\n    }\n\n    pop() {\n        this.stack.pop();\n        this.minStack.pop();\n    }\n\n    top() {\n        return this.stack[this.stack.length - 1];\n    }\n\n    getMin() {\n        return this.minStack[this.minStack.length - 1];\n    }\n}",
-      "go": "type MinStack struct {\n    stack    []int\n    minStack []int\n}\n\nfunc Constructor() MinStack {\n    return MinStack{}\n}\n\nfunc (this *MinStack) Push(val int) {\n    this.stack = append(this.stack, val)\n    if len(this.minStack) == 0 || val <= this.minStack[len(this.minStack)-1] {\n        this.minStack = append(this.minStack, val)\n    }\n}\n\nfunc (this *MinStack) Pop() {\n    if this.stack[len(this.stack)-1] == this.minStack[len(this.minStack)-1] {\n        this.minStack = this.minStack[:len(this.minStack)-1]\n    }\n    this.stack = this.stack[:len(this.stack)-1]\n}\n\nfunc (this *MinStack) Top() int {\n    return this.stack[len(this.stack)-1]\n}\n\nfunc (this *MinStack) GetMin() int {\n    return this.minStack[len(this.minStack)-1]\n}",
-      "rust": "struct MinStack {\n    stack: Vec<i32>,\n    min_stack: Vec<i32>,\n}\n\nimpl MinStack {\n    fn new() -> Self {\n        MinStack { stack: Vec::new(), min_stack: Vec::new() }\n    }\n\n    fn push(&mut self, val: i32) {\n        self.stack.push(val);\n        if self.min_stack.is_empty() || val <= *self.min_stack.last().unwrap() {\n            self.min_stack.push(val);\n        }\n    }\n\n    fn pop(&mut self) {\n        if self.stack.pop() == Some(*self.min_stack.last().unwrap()) {\n            self.min_stack.pop();\n        }\n    }\n\n    fn top(&self) -> i32 {\n        *self.stack.last().unwrap()\n    }\n\n    fn get_min(&self) -> i32 {\n        *self.min_stack.last().unwrap()\n    }\n}"
-    }
+    "link": "https://leetcode.com/problems/min-stack/"
   },
   {
     "id": "monotonic-stack-7",
     "leetcode": 316,
     "title": "Remove Duplicate Letters",
     "difficulty": "Medium",
-    "description": "Given a string s, remove duplicate letters so that every letter appears once and only once. You must make sure your result is the smallest in lexicographical order among all possible results.",
-    "examples": [
-      {
-        "input": "s = \"bcabc\"",
-        "output": "abc"
-      },
-      {
-        "input": "s = \"cbacdcbc\"",
-        "output": "acdb"
-      }
-    ],
-    "hints": [
-      "Use a monotonic increasing stack to build the result.",
-      "Track remaining occurrences of each character to know if a character can be removed."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(1) (at most 26 characters)",
-    "solutions": {
-      "python": "class Solution:\n    def removeDuplicateLetters(self, s: str) -> str:\n        last_occurrence = {c: i for i, c in enumerate(s)}\n        stack = []\n        seen = set()\n        for i, c in enumerate(s):\n            if c in seen:\n                continue\n            while stack and stack[-1] > c and last_occurrence[stack[-1]] > i:\n                seen.discard(stack.pop())\n            stack.append(c)\n            seen.add(c)\n        return ''.join(stack)",
-      "java": "class Solution {\n    public String removeDuplicateLetters(String s) {\n        int[] lastOccurrence = new int[26];\n        boolean[] visited = new boolean[26];\n        for (int i = 0; i < s.length(); i++) {\n            lastOccurrence[s.charAt(i) - 'a'] = i;\n        }\n        StringBuilder stack = new StringBuilder();\n        for (int i = 0; i < s.length(); i++) {\n            char c = s.charAt(i);\n            if (visited[c - 'a']) continue;\n            while (stack.length() > 0 && stack.charAt(stack.length() - 1) > c && lastOccurrence[stack.charAt(stack.length() - 1) - 'a'] > i) {\n                visited[stack.charAt(stack.length() - 1) - 'a'] = false;\n                stack.deleteCharAt(stack.length() - 1);\n            }\n            stack.append(c);\n            visited[c - 'a'] = true;\n        }\n        return stack.toString();\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    string removeDuplicateLetters(string s) {\n        int lastOccurrence[26] = {};\n        bool visited[26] = {};\n        for (int i = 0; i < s.size(); i++) lastOccurrence[s[i] - 'a'] = i;\n        string stack;\n        for (int i = 0; i < s.size(); i++) {\n            char c = s[i];\n            if (visited[c - 'a']) continue;\n            while (!stack.empty() && stack.back() > c && lastOccurrence[stack.back() - 'a'] > i) {\n                visited[stack.back() - 'a'] = false;\n                stack.pop_back();\n            }\n            stack.push_back(c);\n            visited[c - 'a'] = true;\n        }\n        return stack;\n    }\n};",
-      "javascript": "var removeDuplicateLetters = function(s) {\n    const lastOccurrence = {};\n    const visited = new Set();\n    for (let i = 0; i < s.length; i++) lastOccurrence[s[i]] = i;\n    const stack = [];\n    for (let i = 0; i < s.length; i++) {\n        const c = s[i];\n        if (visited.has(c)) continue;\n        while (stack.length && stack[stack.length - 1] > c && lastOccurrence[stack[stack.length - 1]] > i) {\n            visited.delete(stack.pop());\n        }\n        stack.push(c);\n        visited.add(c);\n    }\n    return stack.join('');\n};",
-      "go": "func removeDuplicateLetters(s string) string {\n    lastOccurrence := [26]int{}\n    visited := [26]bool{}\n    for i := 0; i < len(s); i++ {\n        lastOccurrence[s[i]-'a'] = i\n    }\n    stack := []byte{}\n    for i := 0; i < len(s); i++ {\n        c := s[i]\n        if visited[c-'a'] {\n            continue\n        }\n        for len(stack) > 0 && stack[len(stack)-1] > c && lastOccurrence[stack[len(stack)-1]-'a'] > i {\n            visited[stack[len(stack)-1]-'a'] = false\n            stack = stack[:len(stack)-1]\n        }\n        stack = append(stack, c)\n        visited[c-'a'] = true\n    }\n    return string(stack)\n}",
-      "rust": "impl Solution {\n    pub fn remove_duplicate_letters(s: String) -> String {\n        let mut last_occurrence = [0usize; 26];\n        let mut visited = [false; 26];\n        let s_bytes = s.as_bytes();\n        for i in 0..s_bytes.len() {\n            last_occurrence[(s_bytes[i] - b'a') as usize] = i;\n        }\n        let mut stack: Vec<u8> = Vec::new();\n        for i in 0..s_bytes.len() {\n            let c = s_bytes[i] - b'a';\n            if visited[c as usize] {\n                continue;\n            }\n            while let Some(&top) = stack.last() {\n                if top > c && last_occurrence[top as usize] > i {\n                    visited[top as usize] = false;\n                    stack.pop();\n                } else {\n                    break;\n                }\n            }\n            stack.push(c);\n            visited[c as usize] = true;\n        }\n        stack.iter().map(|&b| (b + b'a') as char).collect()\n    }\n}"
-    }
+    "link": "https://leetcode.com/problems/remove-duplicate-letters/"
   },
   {
     "id": "monotonic-stack-5",
     "leetcode": 402,
     "title": "Remove K Digits",
     "difficulty": "Medium",
-    "description": "Given string num representing a non-negative integer num, and an integer k, return the smallest possible integer after removing k digits from num.",
-    "examples": [
-      {
-        "input": "num = \"1432219\", k = 3",
-        "output": "1219"
-      },
-      {
-        "input": "num = \"10200\", k = 1",
-        "output": "200"
-      },
-      {
-        "input": "num = \"10\", k = 2",
-        "output": "0"
-      }
-    ],
-    "hints": [
-      "Use a monotonic increasing stack to greedily remove larger digits.",
-      "Remove digits from the left when a smaller digit is found."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "class Solution:\n    def removeKdigits(self, num: str, k: int) -> str:\n        stack = []\n        for digit in num:\n            while stack and k > 0 and stack[-1] > digit:\n                stack.pop()\n                k -= 1\n            stack.append(digit)\n        while k > 0:\n            stack.pop()\n            k -= 1\n        result = ''.join(stack).lstrip('0')\n        return result if result else '0'",
-      "java": "class Solution {\n    public String removeKdigits(String num, int k) {\n        StringBuilder stack = new StringBuilder();\n        for (char digit : num.toCharArray()) {\n            while (stack.length() > 0 && k > 0 && stack.charAt(stack.length() - 1) > digit) {\n                stack.deleteCharAt(stack.length() - 1);\n                k--;\n            }\n            stack.append(digit);\n        }\n        while (k > 0) {\n            stack.deleteCharAt(stack.length() - 1);\n            k--;\n        }\n        String result = stack.toString().replaceFirst(\"^0+\", \"\");\n        return result.isEmpty() ? \"0\" : result;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    string removeKdigits(string num, int k) {\n        string stack;\n        for (char digit : num) {\n            while (!stack.empty() && k > 0 && stack.back() > digit) {\n                stack.pop_back();\n                k--;\n            }\n            stack.push_back(digit);\n        }\n        while (k > 0) {\n            stack.pop_back();\n            k--;\n        }\n        int i = 0;\n        while (i < stack.size() && stack[i] == '0') i++;\n        string result = stack.substr(i);\n        return result.empty() ? \"0\" : result;\n    }\n};",
-      "javascript": "var removeKdigits = function(num, k) {\n    const stack = [];\n    for (const digit of num) {\n        while (stack.length && k > 0 && stack[stack.length - 1] > digit) {\n            stack.pop();\n            k--;\n        }\n        stack.push(digit);\n    }\n    while (k > 0) {\n        stack.pop();\n        k--;\n    }\n    const result = stack.join('').replace(/^0+/, '');\n    return result || '0';\n};",
-      "go": "func removeKdigits(num string, k int) string {\n    stack := []byte{}\n    for i := 0; i < len(num); i++ {\n        for len(stack) > 0 && k > 0 && stack[len(stack)-1] > num[i] {\n            stack = stack[:len(stack)-1]\n            k--\n        }\n        stack = append(stack, num[i])\n    }\n    for k > 0 {\n        stack = stack[:len(stack)-1]\n        k--\n    }\n    result := string(stack)\n    result = strings.TrimLeft(result, \"0\")\n    if result == \"\" {\n        return \"0\"\n    }\n    return result\n}",
-      "rust": "impl Solution {\n    pub fn remove_kdigits(num: String, k: i32) -> String {\n        let mut k = k as usize;\n        let mut stack: Vec<char> = Vec::new();\n        for digit in num.chars() {\n            while let Some(&top) = stack.last() {\n                if k > 0 && top > digit {\n                    stack.pop();\n                    k -= 1;\n                } else {\n                    break;\n                }\n            }\n            stack.push(digit);\n        }\n        while k > 0 {\n            stack.pop();\n            k -= 1;\n        }\n        let result: String = stack.into_iter().collect();\n        let result = result.trim_start_matches('0');\n        if result.is_empty() { \"0\".to_string() } else { result.to_string() }\n    }\n}"
-    }
+    "link": "https://leetcode.com/problems/remove-k-digits/"
   },
   {
     "id": "monotonic-stack-9",
     "leetcode": 503,
     "title": "Next Greater Element II",
     "difficulty": "Medium",
-    "description": "Given a circular integer array nums (i.e., the next element of nums[nums.length - 1] is nums[0]), return the next greater number for every element in nums. The next greater number of a number x is the first greater number to its traversing-order next in the array, which means you could search circularly to find its next greater number. If it doesn't exist, return -1 for this number.",
-    "examples": [
-      {
-        "input": "nums = [1,2,1]",
-        "output": "[2,-1,2]"
-      },
-      {
-        "input": "nums = [1,2,3,4,3]",
-        "output": "[2,3,4,-1,4]"
-      }
-    ],
-    "hints": [
-      "Traverse the array twice to handle the circular nature.",
-      "Use a monotonic decreasing stack storing indices."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "class Solution:\n    def nextGreaterElements(self, nums: list[int]) -> list[int]:\n        n = len(nums)\n        result = [-1] * n\n        stack = []\n        for i in range(2 * n):\n            while stack and nums[stack[-1]] < nums[i % n]:\n                result[stack.pop()] = nums[i % n]\n            stack.append(i % n)\n        return result",
-      "java": "class Solution {\n    public int[] nextGreaterElements(int[] nums) {\n        int n = nums.length;\n        int[] result = new int[n];\n        Arrays.fill(result, -1);\n        Deque<Integer> stack = new ArrayDeque<>();\n        for (int i = 0; i < 2 * n; i++) {\n            while (!stack.isEmpty() && nums[stack.peek()] < nums[i % n]) {\n                result[stack.pop()] = nums[i % n];\n            }\n            stack.push(i % n);\n        }\n        return result;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<int> nextGreaterElements(vector<int>& nums) {\n        int n = nums.size();\n        vector<int> result(n, -1);\n        stack<int> st;\n        for (int i = 0; i < 2 * n; i++) {\n            while (!st.empty() && nums[st.top()] < nums[i % n]) {\n                result[st.top()] = nums[i % n];\n                st.pop();\n            }\n            st.push(i % n);\n        }\n        return result;\n    }\n};",
-      "javascript": "var nextGreaterElements = function(nums) {\n    const n = nums.length;\n    const result = new Array(n).fill(-1);\n    const stack = [];\n    for (let i = 0; i < 2 * n; i++) {\n        while (stack.length && nums[stack[stack.length - 1]] < nums[i % n]) {\n            result[stack.pop()] = nums[i % n];\n        }\n        stack.push(i % n);\n    }\n    return result;\n};",
-      "go": "func nextGreaterElements(nums []int) []int {\n    n := len(nums)\n    result := make([]int, n)\n    for i := range result {\n        result[i] = -1\n    }\n    stack := []int{}\n    for i := 0; i < 2*n; i++ {\n        for len(stack) > 0 && nums[stack[len(stack)-1]] < nums[i%n] {\n            result[stack[len(stack)-1]] = nums[i%n]\n            stack = stack[:len(stack)-1]\n        }\n        stack = append(stack, i%n)\n    }\n    return result\n}",
-      "rust": "impl Solution {\n    pub fn next_greater_elements(nums: Vec<i32>) -> Vec<i32> {\n        let n = nums.len();\n        let mut result = vec![-1; n];\n        let mut stack: Vec<usize> = Vec::new();\n        for i in 0..2 * n {\n            while let Some(&top) = stack.last() {\n                if nums[top] < nums[i % n] {\n                    result[top] = nums[i % n];\n                    stack.pop();\n                } else {\n                    break;\n                }\n            }\n            stack.push(i % n);\n        }\n        result\n    }\n}"
-    }
+    "link": "https://leetcode.com/problems/next-greater-element-ii/"
   },
   {
     "id": "monotonic-stack-2",
     "leetcode": 739,
     "title": "Daily Temperatures",
     "difficulty": "Medium",
-    "description": "Given an array of integers temperatures represents the daily temperatures, return an array answer such that answer[i] is the number of days you have to wait after the ith day to get a warmer temperature. If there is no future day for which this is possible, keep answer[i] == 0 instead.",
-    "examples": [
-      {
-        "input": "temperatures = [73,74,75,71,69,72,76,73]",
-        "output": "[1,1,4,2,1,1,0,0]"
-      },
-      {
-        "input": "temperatures = [30,40,50,60]",
-        "output": "[1,1,1,0]"
-      },
-      {
-        "input": "temperatures = [30,60,90]",
-        "output": "[1,1,0]"
-      }
-    ],
-    "hints": [
-      "Use a monotonic decreasing stack storing indices.",
-      "When a warmer temperature is found, pop from the stack and calculate the difference in indices."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "class Solution:\n    def dailyTemperatures(self, temperatures: list[int]) -> list[int]:\n        n = len(temperatures)\n        result = [0] * n\n        stack = []\n        for i, temp in enumerate(temperatures):\n            while stack and temperatures[stack[-1]] < temp:\n                idx = stack.pop()\n                result[idx] = i - idx\n            stack.append(i)\n        return result",
-      "java": "class Solution {\n    public int[] dailyTemperatures(int[] temperatures) {\n        int n = temperatures.length;\n        int[] result = new int[n];\n        Deque<Integer> stack = new ArrayDeque<>();\n        for (int i = 0; i < n; i++) {\n            while (!stack.isEmpty() && temperatures[stack.peek()] < temperatures[i]) {\n                int idx = stack.pop();\n                result[idx] = i - idx;\n            }\n            stack.push(i);\n        }\n        return result;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    vector<int> dailyTemperatures(vector<int>& temperatures) {\n        int n = temperatures.size();\n        vector<int> result(n, 0);\n        stack<int> st;\n        for (int i = 0; i < n; i++) {\n            while (!st.empty() && temperatures[st.top()] < temperatures[i]) {\n                int idx = st.top(); st.pop();\n                result[idx] = i - idx;\n            }\n            st.push(i);\n        }\n        return result;\n    }\n};",
-      "javascript": "var dailyTemperatures = function(temperatures) {\n    const n = temperatures.length;\n    const result = new Array(n).fill(0);\n    const stack = [];\n    for (let i = 0; i < n; i++) {\n        while (stack.length && temperatures[stack[stack.length - 1]] < temperatures[i]) {\n            const idx = stack.pop();\n            result[idx] = i - idx;\n        }\n        stack.push(i);\n    }\n    return result;\n};",
-      "go": "func dailyTemperatures(temperatures []int) []int {\n    n := len(temperatures)\n    result := make([]int, n)\n    stack := []int{}\n    for i := 0; i < n; i++ {\n        for len(stack) > 0 && temperatures[stack[len(stack)-1]] < temperatures[i] {\n            idx := stack[len(stack)-1]\n            stack = stack[:len(stack)-1]\n            result[idx] = i - idx\n        }\n        stack = append(stack, i)\n    }\n    return result\n}",
-      "rust": "impl Solution {\n    pub fn daily_temperatures(temperatures: Vec<i32>) -> Vec<i32> {\n        let n = temperatures.len();\n        let mut result = vec![0; n];\n        let mut stack: Vec<usize> = Vec::new();\n        for i in 0..n {\n            while let Some(&top) = stack.last() {\n                if temperatures[top] < temperatures[i] {\n                    result[top] = (i - top) as i32;\n                    stack.pop();\n                } else {\n                    break;\n                }\n            }\n            stack.push(i);\n        }\n        result\n    }\n}"
-    }
+    "link": "https://leetcode.com/problems/daily-temperatures/"
   },
   {
     "id": "monotonic-stack-4",
     "leetcode": 907,
     "title": "Sum of Subarray Minimums",
     "difficulty": "Medium",
-    "description": "Given an array of integers arr, find the sum of min(b), over every contiguous subarray b of arr. Since the answer may be large, return the answer modulo 10^9 + 7.",
-    "examples": [
-      {
-        "input": "arr = [3,1,2,4]",
-        "output": "17"
-      },
-      {
-        "input": "arr = [11,81,94,43,3]",
-        "output": "444"
-      }
-    ],
-    "hints": [
-      "For each element, find how many subarrays it is the minimum of.",
-      "Use a monotonic increasing stack with previous less element (PLE) and next less element (NLE) indices."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "class Solution:\n    def sumSubarrayMins(self, arr: list[int]) -> int:\n        MOD = 10**9 + 7\n        n = len(arr)\n        left = [0] * n\n        right = [0] * n\n        stack = []\n        for i in range(n):\n            while stack and arr[stack[-1]] > arr[i]:\n                stack.pop()\n            left[i] = stack[-1] if stack else -1\n            stack.append(i)\n        stack = []\n        for i in range(n - 1, -1, -1):\n            while stack and arr[stack[-1]] >= arr[i]:\n                stack.pop()\n            right[i] = stack[-1] if stack else n\n            stack.append(i)\n        result = 0\n        for i in range(n):\n            result = (result + arr[i] * (i - left[i]) * (right[i] - i)) % MOD\n        return result",
-      "java": "class Solution {\n    public int sumSubarrayMins(int[] arr) {\n        final int MOD = 1_000_000_007;\n        int n = arr.length;\n        int[] left = new int[n];\n        int[] right = new int[n];\n        Deque<Integer> stack = new ArrayDeque<>();\n        for (int i = 0; i < n; i++) {\n            while (!stack.isEmpty() && arr[stack.peek()] > arr[i]) stack.pop();\n            left[i] = stack.isEmpty() ? -1 : stack.peek();\n            stack.push(i);\n        }\n        stack.clear();\n        for (int i = n - 1; i >= 0; i--) {\n            while (!stack.isEmpty() && arr[stack.peek()] >= arr[i]) stack.pop();\n            right[i] = stack.isEmpty() ? n : stack.peek();\n            stack.push(i);\n        }\n        long result = 0;\n        for (int i = 0; i < n; i++) {\n            result = (result + (long) arr[i] * (i - left[i]) * (right[i] - i)) % MOD;\n        }\n        return (int) result;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int sumSubarrayMins(vector<int>& arr) {\n        const int MOD = 1e9 + 7;\n        int n = arr.size();\n        vector<int> left(n), right(n);\n        stack<int> st;\n        for (int i = 0; i < n; i++) {\n            while (!st.empty() && arr[st.top()] > arr[i]) st.pop();\n            left[i] = st.empty() ? -1 : st.top();\n            st.push(i);\n        }\n        while (!st.empty()) st.pop();\n        for (int i = n - 1; i >= 0; i--) {\n            while (!st.empty() && arr[st.top()] >= arr[i]) st.pop();\n            right[i] = st.empty() ? n : st.top();\n            st.push(i);\n        }\n        long long result = 0;\n        for (int i = 0; i < n; i++) {\n            result = (result + (long long) arr[i] * (i - left[i]) * (right[i] - i)) % MOD;\n        }\n        return result;\n    }\n};",
-      "javascript": "var sumSubarrayMins = function(arr) {\n    const MOD = 1e9 + 7;\n    const n = arr.length;\n    const left = new Array(n), right = new Array(n);\n    let stack = [];\n    for (let i = 0; i < n; i++) {\n        while (stack.length && arr[stack[stack.length - 1]] > arr[i]) stack.pop();\n        left[i] = stack.length ? stack[stack.length - 1] : -1;\n        stack.push(i);\n    }\n    stack = [];\n    for (let i = n - 1; i >= 0; i--) {\n        while (stack.length && arr[stack[stack.length - 1]] >= arr[i]) stack.pop();\n        right[i] = stack.length ? stack[stack.length - 1] : n;\n        stack.push(i);\n    }\n    let result = 0;\n    for (let i = 0; i < n; i++) {\n        result = (result + arr[i] * (i - left[i]) * (right[i] - i)) % MOD;\n    }\n    return result;\n};",
-      "go": "func sumSubarrayMins(arr []int) int {\n    const MOD = 1_000_000_007\n    n := len(arr)\n    left := make([]int, n)\n    right := make([]int, n)\n    stack := []int{}\n    for i := 0; i < n; i++ {\n        for len(stack) > 0 && arr[stack[len(stack)-1]] > arr[i] {\n            stack = stack[:len(stack)-1]\n        }\n        if len(stack) == 0 {\n            left[i] = -1\n        } else {\n            left[i] = stack[len(stack)-1]\n        }\n        stack = append(stack, i)\n    }\n    stack = []int{}\n    for i := n - 1; i >= 0; i-- {\n        for len(stack) > 0 && arr[stack[len(stack)-1]] >= arr[i] {\n            stack = stack[:len(stack)-1]\n        }\n        if len(stack) == 0 {\n            right[i] = n\n        } else {\n            right[i] = stack[len(stack)-1]\n        }\n        stack = append(stack, i)\n    }\n    result := 0\n    for i := 0; i < n; i++ {\n        result = (result + arr[i]*(i-left[i])*(right[i]-i)) % MOD\n    }\n    return result\n}",
-      "rust": "impl Solution {\n    pub fn sum_subarray_mins(arr: Vec<i32>) -> i32 {\n        const MOD: i64 = 1_000_000_007;\n        let n = arr.len();\n        let mut left = vec![0i32; n];\n        let mut right = vec![0i32; n];\n        let mut stack: Vec<usize> = Vec::new();\n        for i in 0..n {\n            while let Some(&top) = stack.last() {\n                if arr[top] > arr[i] { stack.pop(); } else { break; }\n            }\n            left[i] = stack.last().map(|&x| x as i32).unwrap_or(-1);\n            stack.push(i);\n        }\n        stack.clear();\n        for i in (0..n).rev() {\n            while let Some(&top) = stack.last() {\n                if arr[top] >= arr[i] { stack.pop(); } else { break; }\n            }\n            right[i] = stack.last().map(|&x| x as i32).unwrap_or(n as i32);\n            stack.push(i);\n        }\n        let mut result: i64 = 0;\n        for i in 0..n {\n            result = (result + arr[i] as i64 * (i as i64 - left[i] as i64) * (right[i] as i64 - i as i64)) % MOD;\n        }\n        result as i32\n    }\n}"
-    }
+    "link": "https://leetcode.com/problems/sum-of-subarray-minimums/"
   },
   {
     "id": "monotonic-stack-10",
     "leetcode": 907,
     "title": "Subarray Minimums",
     "difficulty": "Medium",
-    "description": "Given an array of integers arr, find the sum of min(b), over every contiguous subarray b of arr. Since the answer may be large, return the answer modulo 10^9 + 7. This is the same as Sum of Subarray Minimums - included here for practice.",
-    "examples": [
-      {
-        "input": "arr = [11,81,94,43,3]",
-        "output": "444"
-      },
-      {
-        "input": "arr = [3,1,2,4]",
-        "output": "17"
-      }
-    ],
-    "hints": [
-      "Think about how many subarrays each element is the minimum of.",
-      "Use a monotonic stack to compute previous less and next less or equal indices.",
-      "Each element contributes arr[i] * count where count is the number of subarrays where it is the minimum."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "class Solution:\n    def sumSubarrayMins(self, arr: list[int]) -> int:\n        MOD = 10**9 + 7\n        n = len(arr)\n        ple = [-1] * n\n        nle = [n] * n\n        stack = []\n        for i in range(n):\n            while stack and arr[stack[-1]] >= arr[i]:\n                stack.pop()\n            ple[i] = stack[-1] if stack else -1\n            stack.append(i)\n        stack = []\n        for i in range(n - 1, -1, -1):\n            while stack and arr[stack[-1]] > arr[i]:\n                stack.pop()\n            nle[i] = stack[-1] if stack else n\n            stack.append(i)\n        total = 0\n        for i in range(n):\n            total = (total + arr[i] * (i - ple[i]) * (nle[i] - i)) % MOD\n        return total",
-      "java": "class Solution {\n    public int sumSubarrayMins(int[] arr) {\n        final int MOD = 1_000_000_007;\n        int n = arr.length;\n        int[] ple = new int[n];\n        int[] nle = new int[n];\n        Deque<Integer> stack = new ArrayDeque<>();\n        for (int i = 0; i < n; i++) {\n            while (!stack.isEmpty() && arr[stack.peek()] >= arr[i]) stack.pop();\n            ple[i] = stack.isEmpty() ? -1 : stack.peek();\n            stack.push(i);\n        }\n        stack.clear();\n        for (int i = n - 1; i >= 0; i--) {\n            while (!stack.isEmpty() && arr[stack.peek()] > arr[i]) stack.pop();\n            nle[i] = stack.isEmpty() ? n : stack.peek();\n            stack.push(i);\n        }\n        long total = 0;\n        for (int i = 0; i < n; i++) {\n            total = (total + (long) arr[i] * (i - ple[i]) * (nle[i] - i)) % MOD;\n        }\n        return (int) total;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int sumSubarrayMins(vector<int>& arr) {\n        const int MOD = 1e9 + 7;\n        int n = arr.size();\n        vector<int> ple(n, -1), nle(n, n);\n        stack<int> st;\n        for (int i = 0; i < n; i++) {\n            while (!st.empty() && arr[st.top()] >= arr[i]) st.pop();\n            ple[i] = st.empty() ? -1 : st.top();\n            st.push(i);\n        }\n        while (!st.empty()) st.pop();\n        for (int i = n - 1; i >= 0; i--) {\n            while (!st.empty() && arr[st.top()] > arr[i]) st.pop();\n            nle[i] = st.empty() ? n : st.top();\n            st.push(i);\n        }\n        long long total = 0;\n        for (int i = 0; i < n; i++) {\n            total = (total + (long long) arr[i] * (i - ple[i]) * (nle[i] - i)) % MOD;\n        }\n        return total;\n    }\n};",
-      "javascript": "var sumSubarrayMins = function(arr) {\n    const MOD = 1e9 + 7;\n    const n = arr.length;\n    const ple = new Array(n).fill(-1);\n    const nle = new Array(n).fill(n);\n    let stack = [];\n    for (let i = 0; i < n; i++) {\n        while (stack.length && arr[stack[stack.length - 1]] >= arr[i]) stack.pop();\n        ple[i] = stack.length ? stack[stack.length - 1] : -1;\n        stack.push(i);\n    }\n    stack = [];\n    for (let i = n - 1; i >= 0; i--) {\n        while (stack.length && arr[stack[stack.length - 1]] > arr[i]) stack.pop();\n        nle[i] = stack.length ? stack[stack.length - 1] : n;\n        stack.push(i);\n    }\n    let total = 0;\n    for (let i = 0; i < n; i++) {\n        total = (total + arr[i] * (i - ple[i]) * (nle[i] - i)) % MOD;\n    }\n    return total;\n};",
-      "go": "func sumSubarrayMins(arr []int) int {\n    const MOD = 1_000_000_007\n    n := len(arr)\n    ple := make([]int, n)\n    nle := make([]int, n)\n    for i := range ple {\n        ple[i] = -1\n        nle[i] = n\n    }\n    stack := []int{}\n    for i := 0; i < n; i++ {\n        for len(stack) > 0 && arr[stack[len(stack)-1]] >= arr[i] {\n            stack = stack[:len(stack)-1]\n        }\n        if len(stack) > 0 {\n            ple[i] = stack[len(stack)-1]\n        }\n        stack = append(stack, i)\n    }\n    stack = []int{}\n    for i := n - 1; i >= 0; i-- {\n        for len(stack) > 0 && arr[stack[len(stack)-1]] > arr[i] {\n            stack = stack[:len(stack)-1]\n        }\n        if len(stack) > 0 {\n            nle[i] = stack[len(stack)-1]\n        }\n        stack = append(stack, i)\n    }\n    total := 0\n    for i := 0; i < n; i++ {\n        total = (total + arr[i]*(i-ple[i])*(nle[i]-i)) % MOD\n    }\n    return total\n}",
-      "rust": "impl Solution {\n    pub fn sum_subarray_mins(arr: Vec<i32>) -> i32 {\n        const MOD: i64 = 1_000_000_007;\n        let n = arr.len();\n        let mut ple = vec![-1i32; n];\n        let mut nle = vec![n as i32; n];\n        let mut stack: Vec<usize> = Vec::new();\n        for i in 0..n {\n            while let Some(&top) = stack.last() {\n                if arr[top] >= arr[i] { stack.pop(); } else { break; }\n            }\n            ple[i] = stack.last().map(|&x| x as i32).unwrap_or(-1);\n            stack.push(i);\n        }\n        stack.clear();\n        for i in (0..n).rev() {\n            while let Some(&top) = stack.last() {\n                if arr[top] > arr[i] { stack.pop(); } else { break; }\n            }\n            nle[i] = stack.last().map(|&x| x as i32).unwrap_or(n as i32);\n            stack.push(i);\n        }\n        let mut total: i64 = 0;\n        for i in 0..n {\n            total = (total + arr[i] as i64 * (i as i64 - ple[i] as i64) * (nle[i] as i64 - i as i64)) % MOD;\n        }\n        total as i32\n    }\n}"
-    }
+    "link": "https://leetcode.com/problems/subarray-minimums/"
   },
   {
     "id": "monotonic-stack-3",
     "leetcode": 84,
     "title": "Largest Rectangle in Histogram",
     "difficulty": "Hard",
-    "description": "Given an array of integers heights representing the histogram's bar height where the width of each bar is 1, return the area of the largest rectangle in the histogram.",
-    "examples": [
-      {
-        "input": "heights = [2,1,5,6,2,3]",
-        "output": "10"
-      },
-      {
-        "input": "heights = [2,4]",
-        "output": "4"
-      }
-    ],
-    "hints": [
-      "Use a monotonic increasing stack to track indices of bars.",
-      "When a shorter bar is encountered, calculate areas for all taller bars that end at the current index."
-    ],
-    "timeComplexity": "O(n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "class Solution:\n    def largestRectangleArea(self, heights: list[int]) -> int:\n        stack = [-1]\n        max_area = 0\n        for i, h in enumerate(heights):\n            while stack[-1] != -1 and heights[stack[-1]] > h:\n                height = heights[stack.pop()]\n                width = i - stack[-1] - 1\n                max_area = max(max_area, height * width)\n            stack.append(i)\n        while stack[-1] != -1:\n            height = heights[stack.pop()]\n            width = len(heights) - stack[-1] - 1\n            max_area = max(max_area, height * width)\n        return max_area",
-      "java": "class Solution {\n    public int largestRectangleArea(int[] heights) {\n        Deque<Integer> stack = new ArrayDeque<>();\n        stack.push(-1);\n        int maxArea = 0;\n        for (int i = 0; i < heights.length; i++) {\n            while (stack.peek() != -1 && heights[stack.peek()] > heights[i]) {\n                int height = heights[stack.pop()];\n                int width = i - stack.peek() - 1;\n                maxArea = Math.max(maxArea, height * width);\n            }\n            stack.push(i);\n        }\n        while (stack.peek() != -1) {\n            int height = heights[stack.pop()];\n            int width = heights.length - stack.peek() - 1;\n            maxArea = Math.max(maxArea, height * width);\n        }\n        return maxArea;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int largestRectangleArea(vector<int>& heights) {\n        stack<int> st;\n        st.push(-1);\n        int maxArea = 0;\n        for (int i = 0; i < heights.size(); i++) {\n            while (st.top() != -1 && heights[st.top()] > heights[i]) {\n                int height = heights[st.top()]; st.pop();\n                int width = i - st.top() - 1;\n                maxArea = max(maxArea, height * width);\n            }\n            st.push(i);\n        }\n        while (st.top() != -1) {\n            int height = heights[st.top()]; st.pop();\n            int width = heights.size() - st.top() - 1;\n            maxArea = max(maxArea, height * width);\n        }\n        return maxArea;\n    }\n};",
-      "javascript": "var largestRectangleArea = function(heights) {\n    const stack = [-1];\n    let maxArea = 0;\n    for (let i = 0; i < heights.length; i++) {\n        while (stack[stack.length - 1] !== -1 && heights[stack[stack.length - 1]] > heights[i]) {\n            const height = heights[stack.pop()];\n            const width = i - stack[stack.length - 1] - 1;\n            maxArea = Math.max(maxArea, height * width);\n        }\n        stack.push(i);\n    }\n    while (stack[stack.length - 1] !== -1) {\n        const height = heights[stack.pop()];\n        const width = heights.length - stack[stack.length - 1] - 1;\n        maxArea = Math.max(maxArea, height * width);\n    }\n    return maxArea;\n};",
-      "go": "func largestRectangleArea(heights []int) int {\n    stack := []int{-1}\n    maxArea := 0\n    for i := 0; i < len(heights); i++ {\n        for stack[len(stack)-1] != -1 && heights[stack[len(stack)-1]] > heights[i] {\n            height := heights[len(stack)-1]\n            stack = stack[:len(stack)-1]\n            width := i - stack[len(stack)-1] - 1\n            if height*width > maxArea {\n                maxArea = height * width\n            }\n        }\n        stack = append(stack, i)\n    }\n    for stack[len(stack)-1] != -1 {\n        height := heights[len(stack)-1]\n        stack = stack[:len(stack)-1]\n        width := len(heights) - stack[len(stack)-1] - 1\n        if height*width > maxArea {\n            maxArea = height * width\n        }\n    }\n    return maxArea\n}",
-      "rust": "impl Solution {\n    pub fn largest_rectangle_area(heights: Vec<i32>) -> i32 {\n        let mut stack: Vec<i32> = vec![-1];\n        let mut max_area = 0;\n        for i in 0..heights.len() as i32 {\n            while *stack.last().unwrap() != -1 && heights[*stack.last().unwrap() as usize] > heights[i as usize] {\n                let height = heights[stack.pop().unwrap() as usize];\n                let width = i - *stack.last().unwrap() - 1;\n                max_area = max_area.max(height * width);\n            }\n            stack.push(i);\n        }\n        while *stack.last().unwrap() != -1 {\n            let height = heights[stack.pop().unwrap() as usize];\n            let width = heights.len() as i32 - *stack.last().unwrap() - 1;\n            max_area = max_area.max(height * width);\n        }\n        max_area\n    }\n}"
-    }
+    "link": "https://leetcode.com/problems/largest-rectangle-in-histogram/"
   },
   {
     "id": "monotonic-stack-8",
     "leetcode": 85,
     "title": "Maximal Rectangle",
     "difficulty": "Hard",
-    "description": "Given a rows x cols binary matrix filled with 0's and 1's, find the largest rectangle containing only 1's and return its area.",
-    "examples": [
-      {
-        "input": "matrix = [[\"1\",\"0\",\"1\",\"0\",\"0\"],[\"1\",\"0\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"1\"],[\"1\",\"0\",\"0\",\"1\",\"0\"]]",
-        "output": "6"
-      },
-      {
-        "input": "matrix = [[\"0\"]]",
-        "output": "0"
-      },
-      {
-        "input": "matrix = [[\"1\"]]",
-        "output": "1"
-      }
-    ],
-    "hints": [
-      "Convert each row into a histogram using the concept from 'Largest Rectangle in Histogram'.",
-      "For each row, update heights: if matrix[i][j] == '1', heights[j] += 1, else heights[j] = 0."
-    ],
-    "timeComplexity": "O(m * n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "class Solution:\n    def maximalRectangle(self, matrix: list[list[str]]) -> int:\n        if not matrix or not matrix[0]:\n            return 0\n        cols = len(matrix[0])\n        heights = [0] * (cols + 1)\n        max_area = 0\n        for row in matrix:\n            for j in range(cols):\n                heights[j] = heights[j] + 1 if row[j] == '1' else 0\n            stack = [-1]\n            for j in range(cols + 1):\n                while stack[-1] != -1 and heights[stack[-1]] > heights[j]:\n                    h = heights[stack.pop()]\n                    w = j - stack[-1] - 1\n                    max_area = max(max_area, h * w)\n                stack.append(j)\n        return max_area",
-      "java": "class Solution {\n    public int maximalRectangle(char[][] matrix) {\n        if (matrix.length == 0) return 0;\n        int cols = matrix[0].length;\n        int[] heights = new int[cols + 1];\n        int maxArea = 0;\n        for (char[] row : matrix) {\n            for (int j = 0; j < cols; j++) {\n                heights[j] = row[j] == '1' ? heights[j] + 1 : 0;\n            }\n            Deque<Integer> stack = new ArrayDeque<>();\n            stack.push(-1);\n            for (int j = 0; j <= cols; j++) {\n                while (stack.peek() != -1 && heights[stack.peek()] > heights[j]) {\n                    int h = heights[stack.pop()];\n                    int w = j - stack.peek() - 1;\n                    maxArea = Math.max(maxArea, h * w);\n                }\n                stack.push(j);\n            }\n        }\n        return maxArea;\n    }\n}",
-      "cpp": "class Solution {\npublic:\n    int maximalRectangle(vector<vector<char>>& matrix) {\n        if (matrix.empty()) return 0;\n        int cols = matrix[0].size();\n        vector<int> heights(cols + 1, 0);\n        int maxArea = 0;\n        for (auto& row : matrix) {\n            for (int j = 0; j < cols; j++) {\n                heights[j] = row[j] == '1' ? heights[j] + 1 : 0;\n            }\n            stack<int> st;\n            st.push(-1);\n            for (int j = 0; j <= cols; j++) {\n                while (st.top() != -1 && heights[st.top()] > heights[j]) {\n                    int h = heights[st.top()]; st.pop();\n                    int w = j - st.top() - 1;\n                    maxArea = max(maxArea, h * w);\n                }\n                st.push(j);\n            }\n        }\n        return maxArea;\n    }\n};",
-      "javascript": "var maximalRectangle = function(matrix) {\n    if (!matrix.length) return 0;\n    const cols = matrix[0].length;\n    const heights = new Array(cols + 1).fill(0);\n    let maxArea = 0;\n    for (const row of matrix) {\n        for (let j = 0; j < cols; j++) {\n            heights[j] = row[j] === '1' ? heights[j] + 1 : 0;\n        }\n        const stack = [-1];\n        for (let j = 0; j <= cols; j++) {\n            while (stack[stack.length - 1] !== -1 && heights[stack[stack.length - 1]] > heights[j]) {\n                const h = heights[stack.pop()];\n                const w = j - stack[stack.length - 1] - 1;\n                maxArea = Math.max(maxArea, h * w);\n            }\n            stack.push(j);\n        }\n    }\n    return maxArea;\n};",
-      "go": "func maximalRectangle(matrix [][]byte) int {\n    if len(matrix) == 0 {\n        return 0\n    }\n    cols := len(matrix[0])\n    heights := make([]int, cols+1)\n    maxArea := 0\n    for i := 0; i < len(matrix); i++ {\n        for j := 0; j < cols; j++ {\n            if matrix[i][j] == '1' {\n                heights[j]++\n            } else {\n                heights[j] = 0\n            }\n        }\n        stack := []int{-1}\n        for j := 0; j <= cols; j++ {\n            for stack[len(stack)-1] != -1 && heights[stack[len(stack)-1]] > heights[j] {\n                h := heights[len(stack)-1]\n                stack = stack[:len(stack)-1]\n                w := j - stack[len(stack)-1] - 1\n                if h*w > maxArea {\n                    maxArea = h * w\n                }\n            }\n            stack = append(stack, j)\n        }\n    }\n    return maxArea\n}",
-      "rust": "impl Solution {\n    pub fn maximal_rectangle(matrix: Vec<Vec<char>>) -> i32 {\n        if matrix.is_empty() { return 0; }\n        let cols = matrix[0].len();\n        let mut heights = vec![0i32; cols + 1];\n        let mut max_area = 0;\n        for row in &matrix {\n            for j in 0..cols {\n                if row[j] == '1' {\n                    heights[j] += 1;\n                } else {\n                    heights[j] = 0;\n                }\n            }\n            let mut stack: Vec<i32> = vec![-1];\n            for j in 0..=cols as i32 {\n                while *stack.last().unwrap() != -1 && heights[*stack.last().unwrap() as usize] > heights[j as usize] {\n                    let h = heights[stack.pop().unwrap() as usize];\n                    let w = j - *stack.last().unwrap() - 1;\n                    max_area = max_area.max(h * w);\n                }\n                stack.push(j);\n            }\n        }\n        max_area\n    }\n}"
-    }
+    "link": "https://leetcode.com/problems/maximal-rectangle/"
   }
 ]

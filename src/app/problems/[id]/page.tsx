@@ -8,12 +8,8 @@ import { patternVideos, problemVideos } from "@/lib/youtube";
 import { AnimateIn } from "@/components/animations/AnimateIn";
 import {
   ArrowLeft, ExternalLink, CheckCircle2, Circle, Bookmark, BookmarkCheck,
-  Lightbulb, Copy, Check, Play
+  Lightbulb, Play
 } from "lucide-react";
-
-const langLabels: Record<string, string> = {
-  java: "Java", python: "Python", cpp: "C++", javascript: "JavaScript", go: "Go", rust: "Rust",
-};
 
 export default function ProblemPage() {
   const params = useParams();
@@ -22,9 +18,7 @@ export default function ProblemPage() {
   const problem = result?.problem;
   const pattern = result?.pattern;
   const { progress, toggleSolved, toggleBookmark } = useProgress();
-  const [activeLang, setActiveLang] = useState<string>("java");
   const [showHint, setShowHint] = useState<number>(-1);
-  const [copied, setCopied] = useState(false);
 
   if (!problem) {
     return (
@@ -37,17 +31,8 @@ export default function ProblemPage() {
 
   const solved = progress.solved.includes(problem.id);
   const bookmarked = progress.bookmarked.includes(problem.id);
-  const solution = problem.solutions?.[activeLang as keyof typeof problem.solutions];
   const video = problemVideos[problem.id];
   const patternVids = pattern ? patternVideos[pattern.slug] || [] : [];
-
-  const copyCode = () => {
-    if (solution) {
-      navigator.clipboard.writeText(solution);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
-  };
 
   const diffStyles: Record<string, string> = {
     Easy: "bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20",
@@ -213,57 +198,6 @@ export default function ProblemPage() {
           </div>
         </section>
       </AnimateIn>
-
-      {/* Solution */}
-      {problem.solutions && (
-        <AnimateIn delay={350}>
-          <section>
-            <div className="flex items-center justify-between mb-3">
-              <h2 className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Solution</h2>
-              <button onClick={copyCode} className="inline-flex items-center gap-1.5 rounded-lg border border-border px-3 py-1.5 text-xs font-medium text-muted-foreground hover:text-foreground hover:bg-accent transition-all duration-200 btn-press">
-                {copied ? <Check className="h-3 w-3 text-green-500" /> : <Copy className="h-3 w-3" />}
-                {copied ? "Copied!" : "Copy"}
-              </button>
-            </div>
-            <div className="flex gap-1.5 mb-3 flex-wrap">
-              {Object.keys(problem.solutions).map((lang) => (
-                <button
-                  key={lang}
-                  onClick={() => setActiveLang(lang)}
-                  className={`px-4 py-2 rounded-lg text-xs font-semibold transition-all duration-200 btn-press ${
-                    activeLang === lang
-                      ? "bg-primary text-primary-foreground shadow-md shadow-primary/20"
-                      : "border border-border text-muted-foreground hover:text-foreground hover:bg-accent"
-                  }`}
-                >
-                  {langLabels[lang] || lang}
-                </button>
-              ))}
-            </div>
-            {solution ? (
-              <div className="rounded-xl border border-border overflow-hidden bg-card shadow-lg shadow-black/5 dark:shadow-black/20">
-                <div className="flex items-center gap-2 border-b border-border px-4 py-2.5">
-                  <div className="flex gap-1.5">
-                    <div className="h-3 w-3 rounded-full bg-red-400" />
-                    <div className="h-3 w-3 rounded-full bg-amber-400" />
-                    <div className="h-3 w-3 rounded-full bg-green-400" />
-                  </div>
-                  <span className="text-xs text-muted-foreground ml-2 font-mono">
-                    {problem.title.replace(/\s+/g, "")}.{activeLang === "cpp" ? "cpp" : activeLang === "javascript" ? "js" : activeLang === "python" ? "py" : activeLang}
-                  </span>
-                </div>
-                <pre className="p-6 overflow-x-auto text-sm leading-relaxed bg-muted/20">
-                  <code className="font-mono">{solution}</code>
-                </pre>
-              </div>
-            ) : (
-              <div className="rounded-xl border border-border p-8 text-center text-sm text-muted-foreground bg-card">
-                Solution not available in this language yet.
-              </div>
-            )}
-          </section>
-        </AnimateIn>
-      )}
 
       {/* Pattern Videos */}
       {patternVids.length > 0 && (

@@ -3,60 +3,76 @@
     "section": "Easy",
     "problems": [
       {
-        "id": "hash-001",
+        "id": "two-sum",
         "leetcode": 1,
         "title": "Two Sum",
         "difficulty": "Easy",
+        "description": "Given an array of numbers and a target, find two numbers that add up to the target. Return their indices.",
+        "examples": [
+          { "input": "[2,7,11,15], target = 9", "output": "[0,1]" },
+          { "input": "[3,2,4], target = 6", "output": "[1,2]" }
+        ],
+        "hints": [
+          "Use a hash map to store complement values.",
+          "For each number, check if its complement exists in the map."
+        ],
+        "timeComplexity": "O(n)",
+        "spaceComplexity": "O(n)",
         "link": "https://leetcode.com/problems/two-sum/"
       },
       {
-        "id": "hash-008",
-        "leetcode": 202,
-        "title": "Happy Number",
-        "difficulty": "Easy",
-        "link": "https://leetcode.com/problems/happy-number/"
-      },
-      {
-        "id": "hash-005",
-        "leetcode": 205,
-        "title": "Isomorphic Strings",
-        "difficulty": "Easy",
-        "link": "https://leetcode.com/problems/isomorphic-strings/"
-      },
-      {
-        "id": "hash-002",
+        "id": "contains-duplicate",
         "leetcode": 217,
         "title": "Contains Duplicate",
         "difficulty": "Easy",
+        "description": "Determine if any value appears at least twice in the array.",
+        "examples": [
+          { "input": "[1,2,3,1]", "output": "true" },
+          { "input": "[1,2,3,4]", "output": "false" }
+        ],
+        "hints": [
+          "Use a hash set to track seen elements.",
+          "If element already in set, return true."
+        ],
+        "timeComplexity": "O(n)",
+        "spaceComplexity": "O(n)",
         "link": "https://leetcode.com/problems/contains-duplicate/"
       },
       {
-        "id": "hash-003",
+        "id": "valid-anagram",
         "leetcode": 242,
         "title": "Valid Anagram",
         "difficulty": "Easy",
+        "description": "Check if two strings are anagrams of each other.",
+        "examples": [
+          { "input": "s = \"anagram\", t = \"nagaram\"", "output": "true" },
+          { "input": "s = \"rat\", t = \"car\"", "output": "false" }
+        ],
+        "hints": [
+          "Count character frequencies in both strings.",
+          "Compare the frequency maps."
+        ],
+        "timeComplexity": "O(n)",
+        "spaceComplexity": "O(1)",
         "link": "https://leetcode.com/problems/valid-anagram/"
       },
       {
-        "id": "hash-006",
-        "leetcode": 290,
-        "title": "Word Pattern",
+        "id": "happy-number",
+        "leetcode": 202,
+        "title": "Happy Number",
         "difficulty": "Easy",
-        "link": "https://leetcode.com/problems/word-pattern/"
-      },
-      {
-        "id": "hash-004",
-        "leetcode": 383,
-        "title": "Ransom Note",
-        "difficulty": "Easy",
-        "link": "https://leetcode.com/problems/ransom-note/"
-      },
-      {
-        "id": "hash-007",
-        "leetcode": 387,
-        "title": "First Unique Character in a String",
-        "difficulty": "Easy",
-        "link": "https://leetcode.com/problems/first-unique-character-in-a-string/"
+        "description": "Determine if a number is happy (eventually reaches 1 when replaced by sum of squares of digits).",
+        "examples": [
+          { "input": "19", "output": "true" },
+          { "input": "2", "output": "false" }
+        ],
+        "hints": [
+          "Use a set to detect cycles.",
+          "If a number repeats, it's not happy."
+        ],
+        "timeComplexity": "O(log n)",
+        "spaceComplexity": "O(log n)",
+        "link": "https://leetcode.com/problems/happy-number/"
       }
     ]
   },
@@ -64,31 +80,74 @@
     "section": "Medium",
     "problems": [
       {
-        "id": "hash-010",
+        "id": "group-anagrams",
         "leetcode": 49,
         "title": "Group Anagrams",
         "difficulty": "Medium",
+        "description": "Group strings that are anagrams of each other.",
+        "examples": [
+          { "input": "[\"eat\",\"tea\",\"tan\",\"ate\",\"nat\",\"bat\"]", "output": "[[\"bat\"],[\"nat\",\"tan\"],[\"ate\",\"eat\",\"tea\"]]" }
+        ],
+        "hints": [
+          "Use sorted string as key in hash map.",
+          "Group strings with same sorted key together."
+        ],
+        "timeComplexity": "O(n * k log k)",
+        "spaceComplexity": "O(n * k)",
         "link": "https://leetcode.com/problems/group-anagrams/"
       },
       {
-        "id": "hash-009",
-        "leetcode": 128,
-        "title": "Longest Consecutive Sequence",
-        "difficulty": "Medium",
-        "link": "https://leetcode.com/problems/longest-consecutive-sequence/"
-      },
-      {
-        "id": "hash-011",
+        "id": "top-k-frequent",
         "leetcode": 347,
         "title": "Top K Frequent Elements",
         "difficulty": "Medium",
+        "description": "Find the k most frequent elements in an array.",
+        "examples": [
+          { "input": "[1,1,1,2,2,3], k = 2", "output": "[1,2]" },
+          { "input": "[1], k = 1", "output": "[1]" }
+        ],
+        "hints": [
+          "Count frequencies with a hash map.",
+          "Use a min-heap of size k or bucket sort."
+        ],
+        "timeComplexity": "O(n log k)",
+        "spaceComplexity": "O(n)",
         "link": "https://leetcode.com/problems/top-k-frequent-elements/"
       },
       {
-        "id": "hash-012",
+        "id": "longest-consecutive",
+        "leetcode": 128,
+        "title": "Longest Consecutive Sequence",
+        "difficulty": "Medium",
+        "description": "Find the length of the longest consecutive sequence in an unsorted array.",
+        "examples": [
+          { "input": "[100,4,200,1,3,2]", "output": "4" },
+          { "input": "[0,3,7,2,5,8,4,6,0,1]", "output": "9" }
+        ],
+        "hints": [
+          "Use a set for O(1) lookups.",
+          "Only start counting from sequence beginnings."
+        ],
+        "timeComplexity": "O(n)",
+        "spaceComplexity": "O(n)",
+        "link": "https://leetcode.com/problems/longest-consecutive-sequence/"
+      },
+      {
+        "id": "subarray-sum-k",
         "leetcode": 560,
         "title": "Subarray Sum Equals K",
         "difficulty": "Medium",
+        "description": "Count the number of continuous subarrays whose sum equals k.",
+        "examples": [
+          { "input": "[1,1,1], k = 2", "output": "2" },
+          { "input": "[1,2,3], k = 3", "output": "2" }
+        ],
+        "hints": [
+          "Use prefix sum with hash map.",
+          "For each prefix sum, check if (prefix - k) exists."
+        ],
+        "timeComplexity": "O(n)",
+        "spaceComplexity": "O(n)",
         "link": "https://leetcode.com/problems/subarray-sum-equals-k/"
       }
     ]

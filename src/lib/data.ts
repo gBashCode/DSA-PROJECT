@@ -54,20 +54,19 @@ function normalizeProblems(data: unknown, slug: string): Problem[] {
   const raw = extractProblems(data);
   return raw.map((p) => {
     globalProblemCounter++;
-    return {
-      ...p,
+    const problem: Problem = {
       id: `${slug}-${globalProblemCounter}`,
-      title: p.title || "Untitled",
-      difficulty: p.difficulty || "Medium",
-      link: p.link || `https://leetcode.com/problems/${(p.title as string || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}/`,
-      leetcode: p.leetcode || 0,
-      description: p.description || "",
-      examples: p.examples || [],
-      hints: p.hints || [],
-      timeComplexity: p.timeComplexity || "",
-      spaceComplexity: p.spaceComplexity || "",
-      solutions: p.solutions || { python: "", java: "", cpp: "", javascript: "", go: "", rust: "" },
-    } as Problem;
+      title: (p.title as string) || "Untitled",
+      difficulty: (p.difficulty as Problem["difficulty"]) || "Medium",
+      link: (p.link as string) || `https://leetcode.com/problems/${((p.title as string) || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}/`,
+    };
+    if (p.leetcode) problem.leetcode = p.leetcode as number;
+    if (p.description) problem.description = p.description as string;
+    if (p.examples) problem.examples = p.examples as { input: string; output: string }[];
+    if (p.hints) problem.hints = p.hints as string[];
+    if (p.timeComplexity) problem.timeComplexity = p.timeComplexity as string;
+    if (p.spaceComplexity) problem.spaceComplexity = p.spaceComplexity as string;
+    return problem;
   });
 }
 

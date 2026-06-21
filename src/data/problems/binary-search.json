@@ -3,60 +3,58 @@
     "section": "Easy",
     "problems": [
       {
-        "id": "bs-002",
-        "leetcode": 35,
-        "title": "Search Insert Position",
-        "difficulty": "Easy",
-        "description": "Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.",
-        "link": "https://leetcode.com/problems/search-insert-position/"
-      },
-      {
-        "id": "bs-005",
-        "leetcode": 69,
-        "title": "Sqrt(x)",
-        "difficulty": "Easy",
-        "description": "Given a non-negative integer x, return the square root of x rounded down to the nearest integer. You must not use any built-in exponent function or operator.",
-        "link": "https://leetcode.com/problems/sqrtx/"
-      },
-      {
-        "id": "bs-004",
-        "leetcode": 278,
-        "title": "First Bad Version",
-        "difficulty": "Easy",
-        "description": "You are a product manager and currently leading a team to develop a new product. Unfortunately, the latest version of your product fails the quality check. Find the first bad version.",
-        "link": "https://leetcode.com/problems/first-bad-version/"
-      },
-      {
-        "id": "bs-006",
-        "leetcode": 367,
-        "title": "Valid Perfect Square",
-        "difficulty": "Easy",
-        "description": "Given a positive integer num, return true if num is a perfect square or false otherwise. You must not use any built-in library function such as sqrt.",
-        "link": "https://leetcode.com/problems/valid-perfect-square/"
-      },
-      {
-        "id": "bs-003",
-        "leetcode": 374,
-        "title": "Guess Number Higher or Lower",
-        "difficulty": "Easy",
-        "description": "We are playing the Guess Game. You have to guess which number I picked using binary search.",
-        "link": "https://leetcode.com/problems/guess-number-higher-or-lower/"
-      },
-      {
-        "id": "bs-001",
+        "id": "binary-search",
         "leetcode": 704,
         "title": "Binary Search",
         "difficulty": "Easy",
-        "description": "Given an array of integers nums which is sorted in ascending order, and an integer target, write a function to search target in nums. If target exists, then return its index. Otherwise, return -1. You must write an algorithm with O(log n) runtime complexity.",
+        "description": "Search for a target value in a sorted array using binary search.",
+        "examples": [
+          { "input": "[-1,0,3,5,9,12], target = 9", "output": "4" },
+          { "input": "[-1,0,3,5,9,12], target = 2", "output": "-1" }
+        ],
+        "hints": [
+          "Compare target with middle element.",
+          "Eliminate half the search space each step."
+        ],
+        "timeComplexity": "O(log n)",
+        "spaceComplexity": "O(1)",
         "link": "https://leetcode.com/problems/binary-search/"
       },
       {
-        "id": "bs-007",
-        "leetcode": 852,
-        "title": "Peak Index in a Mountain Array",
+        "id": "search-insert",
+        "leetcode": 35,
+        "title": "Search Insert Position",
         "difficulty": "Easy",
-        "description": "Given a mountain array arr, return the index i such that arr[0] < arr[1] < ... < arr[i-1] < arr[i] > arr[i+1] > ... > arr[arr.length-1].",
-        "link": "https://leetcode.com/problems/peak-index-in-a-mountain-array/"
+        "description": "Find the index where a target should be inserted in a sorted array.",
+        "examples": [
+          { "input": "[1,3,5,6], target = 5", "output": "2" },
+          { "input": "[1,3,5,6], target = 2", "output": "1" }
+        ],
+        "hints": [
+          "Standard binary search.",
+          "Return left pointer when not found."
+        ],
+        "timeComplexity": "O(log n)",
+        "spaceComplexity": "O(1)",
+        "link": "https://leetcode.com/problems/search-insert-position/"
+      },
+      {
+        "id": "sqrtx",
+        "leetcode": 69,
+        "title": "Sqrt(x)",
+        "difficulty": "Easy",
+        "description": "Compute the integer square root of a non-negative integer.",
+        "examples": [
+          { "input": "4", "output": "2" },
+          { "input": "8", "output": "2" }
+        ],
+        "hints": [
+          "Binary search on answer space [0, x].",
+          "Check if mid * mid <= x."
+        ],
+        "timeComplexity": "O(log x)",
+        "spaceComplexity": "O(1)",
+        "link": "https://leetcode.com/problems/sqrtx/"
       }
     ]
   },
@@ -64,44 +62,75 @@
     "section": "Medium",
     "problems": [
       {
-        "id": "bs-009",
-        "leetcode": 33,
-        "title": "Search in Rotated Sorted Array",
-        "difficulty": "Medium",
-        "description": "There is an integer array nums sorted in ascending order (with distinct values). Prior to being passed to your function, nums is possibly rotated. Given the array nums after the possible rotation and an integer target, return the index of target if it is in nums, or -1 if it is not in nums.",
-        "link": "https://leetcode.com/problems/search-in-rotated-sorted-array/"
-      },
-      {
-        "id": "bs-011",
+        "id": "search-2d-matrix",
         "leetcode": 74,
         "title": "Search a 2D Matrix",
         "difficulty": "Medium",
-        "description": "You are given an m x n integer matrix matrix with the following two properties: each row is sorted in non-decreasing order, the first integer of each row is greater than the last integer of the previous row. Given an integer target, return true if target is in matrix.",
+        "description": "Search for a target in a matrix where rows and columns are sorted.",
+        "examples": [
+          { "input": "[[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3", "output": "true" }
+        ],
+        "hints": [
+          "Treat matrix as a sorted 1D array.",
+          "Or use row/column elimination."
+        ],
+        "timeComplexity": "O(log(m*n))",
+        "spaceComplexity": "O(1)",
         "link": "https://leetcode.com/problems/search-a-2d-matrix/"
       },
       {
-        "id": "bs-010",
-        "leetcode": 153,
-        "title": "Find Minimum in Rotated Sorted Array",
-        "difficulty": "Medium",
-        "description": "Suppose an array of length n sorted in ascending order is rotated between 1 and n times. Given the sorted rotated array nums of unique elements, return the minimum element of this array.",
-        "link": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/"
-      },
-      {
-        "id": "bs-008",
+        "id": "koko-eating-bananas",
         "leetcode": 875,
         "title": "Koko Eating Bananas",
         "difficulty": "Medium",
-        "description": "Koko loves to eat bananas. There are n piles of bananas. The guards have gone and will come back in h hours. Return the minimum integer k such that she can eat all the bananas within h hours.",
+        "description": "Find minimum eating speed to finish all bananas within h hours.",
+        "examples": [
+          { "input": "piles = [3,6,7,11], h = 8", "output": "4" },
+          { "input": "piles = [30,11,23,4,20], h = 5", "output": "30" }
+        ],
+        "hints": [
+          "Binary search on speed [1, max(piles)].",
+          "Check if Koko can finish with given speed."
+        ],
+        "timeComplexity": "O(n * log max(piles))",
+        "spaceComplexity": "O(1)",
         "link": "https://leetcode.com/problems/koko-eating-bananas/"
       },
       {
-        "id": "bs-012",
-        "leetcode": 1011,
-        "title": "Capacity To Ship Packages Within D Days",
+        "id": "search-rotated-array",
+        "leetcode": 33,
+        "title": "Search in Rotated Sorted Array",
         "difficulty": "Medium",
-        "description": "A conveyor belt has packages that must be shipped from one port to another within d days. Return the least weight capacity of the ship that will result in all the packages on the conveyor belt being shipped within d days.",
-        "link": "https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/"
+        "description": "Search for a target in a rotated sorted array.",
+        "examples": [
+          { "input": "[4,5,6,7,0,1,2], target = 0", "output": "4" },
+          { "input": "[4,5,6,7,0,1,2], target = 3", "output": "-1" }
+        ],
+        "hints": [
+          "Find which half is sorted.",
+          "Search in the correct half."
+        ],
+        "timeComplexity": "O(log n)",
+        "spaceComplexity": "O(1)",
+        "link": "https://leetcode.com/problems/search-in-rotated-sorted-array/"
+      },
+      {
+        "id": "find-min-rotated",
+        "leetcode": 153,
+        "title": "Find Minimum in Rotated Sorted Array",
+        "difficulty": "Medium",
+        "description": "Find the minimum element in a rotated sorted array.",
+        "examples": [
+          { "input": "[3,4,5,1,2]", "output": "1" },
+          { "input": "[4,5,6,7,0,1,2]", "output": "0" }
+        ],
+        "hints": [
+          "The minimum is where rotation occurs.",
+          "Compare mid with right to determine direction."
+        ],
+        "timeComplexity": "O(log n)",
+        "spaceComplexity": "O(1)",
+        "link": "https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/"
       }
     ]
   },
@@ -109,11 +138,21 @@
     "section": "Hard",
     "problems": [
       {
-        "id": "bs-013",
+        "id": "median-two-sorted",
         "leetcode": 4,
         "title": "Median of Two Sorted Arrays",
         "difficulty": "Hard",
-        "description": "Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.",
+        "description": "Find the median of two sorted arrays in O(log(min(m,n))) time.",
+        "examples": [
+          { "input": "[1,3], [2]", "output": "2.0" },
+          { "input": "[1,2], [3,4]", "output": "2.5" }
+        ],
+        "hints": [
+          "Binary search on the smaller array.",
+          "Ensure left partition has equal or one more element than right."
+        ],
+        "timeComplexity": "O(log(min(m,n)))",
+        "spaceComplexity": "O(1)",
         "link": "https://leetcode.com/problems/median-of-two-sorted-arrays/"
       }
     ]

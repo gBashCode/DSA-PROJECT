@@ -3,23 +3,15 @@ export type Tier = "beginner" | "intermediate" | "advanced";
 
 export interface Problem {
   id: string;
-  leetcode: number;
+  leetcode?: number;
   title: string;
   difficulty: Difficulty;
-  description: string;
   link?: string;
-  examples: { input: string; output: string }[];
-  hints: string[];
-  timeComplexity: string;
-  spaceComplexity: string;
-  solutions: {
-    python: string;
-    java: string;
-    cpp: string;
-    javascript: string;
-    go: string;
-    rust: string;
-  };
+  description?: string;
+  examples?: { input: string; output: string }[];
+  hints?: string[];
+  timeComplexity?: string;
+  spaceComplexity?: string;
 }
 
 export interface Pattern {

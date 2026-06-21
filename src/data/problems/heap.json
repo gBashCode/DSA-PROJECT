@@ -4,332 +4,69 @@
     "leetcode": 703,
     "title": "Kth Largest Element in a Stream",
     "difficulty": "Easy",
-    "description": "Design a class to find the kth largest element in a stream. It is guaranteed that there will be at least k elements in the stream when the search for the kth largest element is called. Implement the KthLargest class: KthLargest(int k, int[] nums) initializes the object with the integer k and the stream of integers nums. int add(int val) appends the integer val to the stream and returns the element representing the kth largest element in the stream.",
-    "examples": [
-      {
-        "input": "KthLargest(3, [4,5,8,2]), add(3), add(5), add(10), add(9), add(4)",
-        "output": "[null, 4, 5, 5, 8, 8]"
-      }
-    ],
-    "hints": [
-      "Maintain a min-heap of size k that stores the k largest elements seen so far.",
-      "On initialization, push all elements into the heap and remove extras until size is k.",
-      "On add, if the new value is larger than the heap's root, replace it.",
-      "The heap's root is always the kth largest element."
-    ],
-    "timeComplexity": "O(log k) for add, O(n log k) for initialization",
-    "spaceComplexity": "O(k)",
-    "solutions": {
-      "python": "import heapq\n\nclass KthLargest:\n    def __init__(self, k, nums):\n        self.k = k\n        self.heap = nums[:k]\n        heapq.heapify(self.heap)\n        for num in nums[k:]:\n            if num > self.heap[0]:\n                heapq.heapreplace(self.heap, num)\n\n    def add(self, val):\n        if len(self.heap) < self.k:\n            heapq.heappush(self.heap, val)\n        elif val > self.heap[0]:\n            heapq.heapreplace(self.heap, val)\n        return self.heap[0]",
-      "java": "import java.util.PriorityQueue;\n\npublic class KthLargest {\n    private PriorityQueue<Integer> minHeap;\n    private int k;\n\n    public KthLargest(int k, int[] nums) {\n        this.k = k;\n        minHeap = new PriorityQueue<>();\n        for (int num : nums) {\n            add(num);\n        }\n    }\n\n    public int add(int val) {\n        minHeap.offer(val);\n        if (minHeap.size() > k) {\n            minHeap.poll();\n        }\n        return minHeap.peek();\n    }\n}",
-      "cpp": "#include <queue>\n#include <vector>\nusing namespace std;\n\nclass KthLargest {\nprivate:\n    priority_queue<int, vector<int>, greater<int>> minHeap;\n    int k;\npublic:\n    KthLargest(int k, vector<int>& nums) : k(k) {\n        for (int num : nums) {\n            add(num);\n        }\n    }\n\n    int add(int val) {\n        minHeap.push(val);\n        if (minHeap.size() > k) minHeap.pop();\n        return minHeap.top();\n    }\n};",
-      "javascript": "/**\n * @param {number} k\n * @param {number[]} nums\n */\nvar KthLargest = function(k, nums) {\n    this.k = k;\n    this.heap = new MinPriorityQueue();\n    for (const num of nums) {\n        this.add(num);\n    }\n};\n\n/**\n * @param {number} val\n * @return {number}\n */\nKthLargest.prototype.add = function(val) {\n    this.heap.enqueue(val);\n    if (this.heap.size() > this.k) {\n        this.heap.dequeue();\n    }\n    return this.heap.front().element;\n};",
-      "go": "import \"container/heap\"\n\ntype MinHeap []int\n\nfunc (h MinHeap) Len() int            { return len(h) }\nfunc (h MinHeap) Less(i, j int) bool  { return h[i] < h[j] }\nfunc (h MinHeap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }\nfunc (h *MinHeap) Push(x interface{}) { *h = append(*h, x.(int)) }\nfunc (h *MinHeap) Pop() interface{} {\n    old := *h\n    n := len(old)\n    x := old[n-1]\n    *h = old[:n-1]\n    return x\n}\n\ntype KthLargest struct {\n    k int\n    h MinHeap\n}\n\nfunc Constructor(k int, nums []int) KthLargest {\n    kl := KthLargest{k: k, h: MinHeap{}}\n    heap.Init(&kl.h)\n    for _, num := range nums {\n        kl.Add(num)\n    }\n    return kl\n}\n\nfunc (kl *KthLargest) Add(val int) int {\n    heap.Push(&kl.h, val)\n    if kl.h.Len() > kl.k {\n        heap.Pop(&kl.h)\n    }\n    return kl.h[0]\n}",
-      "rust": "use std::collections::BinaryHeap;\nuse std::cmp::Reverse;\n\npub struct KthLargest {\n    k: usize,\n    heap: BinaryHeap<Reverse<i32>>,\n}\n\nimpl KthLargest {\n    pub fn new(k: i32, nums: Vec<i32>) -> Self {\n        let mut kl = KthLargest { k: k as usize, heap: BinaryHeap::new() };\n        for num in nums {\n            kl.add(num);\n        }\n        kl\n    }\n\n    pub fn add(&mut self, val: i32) -> i32 {\n        self.heap.push(Reverse(val));\n        if self.heap.len() > self.k {\n            self.heap.pop();\n        }\n        self.heap.peek().unwrap().0\n    }\n}"
-    }
+    "link": "https://leetcode.com/problems/kth-largest-element-in-a-stream/"
   },
   {
     "id": "heap-009",
     "leetcode": 1046,
     "title": "Last Stone Weight",
     "difficulty": "Easy",
-    "description": "You are given an array of integers stones where stones[i] is the weight of the ith stone. We are playing a game with the stones. On each turn, we choose the heaviest two stones and smash them together. If the heaviest two stones have weights x and y with x <= y, then the result is: if x == y, both stones are destroyed; if x != y, the stone of weight x is destroyed, and the stone of weight y has new weight y - x. At the end of the game, there is at most one stone left. Return the weight of the last remaining stone. If there are no stones left, return 0.",
-    "examples": [
-      {
-        "input": "stones = [2,7,4,1,8,1]",
-        "output": "1"
-      },
-      {
-        "input": "stones = [1]",
-        "output": "1"
-      },
-      {
-        "input": "stones = [1,1]",
-        "output": "0"
-      }
-    ],
-    "hints": [
-      "Use a max-heap to always get the two heaviest stones.",
-      "Pop the two largest, compute their difference, and push the result back if non-zero.",
-      "Continue until at most one stone remains."
-    ],
-    "timeComplexity": "O(n log n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "import heapq\n\ndef lastStoneWeight(stones):\n    max_heap = [-s for s in stones]\n    heapq.heapify(max_heap)\n    while len(max_heap) > 1:\n        y = -heapq.heappop(max_heap)\n        x = -heapq.heappop(max_heap)\n        if x != y:\n            heapq.heappush(max_heap, -(y - x))\n    return -max_heap[0] if max_heap else 0",
-      "java": "import java.util.PriorityQueue;\nimport java.util.Collections;\n\npublic class Solution {\n    public int lastStoneWeight(int[] stones) {\n        PriorityQueue<Integer> maxHeap = new PriorityQueue<>(Collections.reverseOrder());\n        for (int s : stones) maxHeap.offer(s);\n        while (maxHeap.size() > 1) {\n            int y = maxHeap.poll();\n            int x = maxHeap.poll();\n            if (x != y) maxHeap.offer(y - x);\n        }\n        return maxHeap.isEmpty() ? 0 : maxHeap.peek();\n    }\n}",
-      "cpp": "#include <vector>\n#include <queue>\nusing namespace std;\n\nclass Solution {\npublic:\n    int lastStoneWeight(vector<int>& stones) {\n        priority_queue<int> maxHeap(stones.begin(), stones.end());\n        while (maxHeap.size() > 1) {\n            int y = maxHeap.top(); maxHeap.pop();\n            int x = maxHeap.top(); maxHeap.pop();\n            if (x != y) maxHeap.push(y - x);\n        }\n        return maxHeap.empty() ? 0 : maxHeap.top();\n    }\n};",
-      "javascript": "/**\n * @param {number[]} stones\n * @return {number}\n */\nvar lastStoneWeight = function(stones) {\n    const maxHeap = new MaxPriorityQueue();\n    for (const s of stones) maxHeap.enqueue(s);\n    while (maxHeap.size() > 1) {\n        const y = maxHeap.dequeue().element;\n        const x = maxHeap.dequeue().element;\n        if (x !== y) maxHeap.enqueue(y - x);\n    }\n    return maxHeap.isEmpty() ? 0 : maxHeap.front().element;\n};",
-      "go": "import \"container/heap\"\n\ntype IntMaxHeap []int\n\nfunc (h IntMaxHeap) Len() int            { return len(h) }\nfunc (h IntMaxHeap) Less(i, j int) bool  { return h[i] > h[j] }\nfunc (h IntMaxHeap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }\nfunc (h *IntMaxHeap) Push(x interface{}) { *h = append(*h, x.(int)) }\nfunc (h *IntMaxHeap) Pop() interface{} {\n    old := *h\n    n := len(old)\n    x := old[n-1]\n    *h = old[:n-1]\n    return x\n}\n\nfunc lastStoneWeight(stones []int) int {\n    h := &IntMaxHeap(stones)\n    heap.Init(h)\n    for h.Len() > 1 {\n        y := heap.Pop(h).(int)\n        x := heap.Pop(h).(int)\n        if x != y {\n            heap.Push(h, y-x)\n        }\n    }\n    if h.Len() == 0 {\n        return 0\n    }\n    return (*h)[0]\n}",
-      "rust": "use std::collections::BinaryHeap;\n\npub fn last_stone_weight(stones: Vec<i32>) -> i32 {\n    let mut heap: BinaryHeap<i32> = stones.into_iter().collect();\n    while heap.len() > 1 {\n        let y = heap.pop().unwrap();\n        let x = heap.pop().unwrap();\n        if x != y {\n            heap.push(y - x);\n        }\n    }\n    heap.pop().unwrap_or(0)\n}"
-    }
+    "link": "https://leetcode.com/problems/last-stone-weight/"
   },
   {
     "id": "heap-001",
     "leetcode": 215,
     "title": "Kth Largest Element in an Array",
     "difficulty": "Medium",
-    "description": "Given an integer array nums and an integer k, return the kth largest element in the array. Note that it is the kth largest element in the sorted order, not the kth distinct element. You must solve it in O(n) time complexity.",
-    "examples": [
-      {
-        "input": "nums = [3,2,1,5,6,4], k = 2",
-        "output": "5"
-      },
-      {
-        "input": "nums = [3,2,3,1,2,4,5,5,6], k = 4",
-        "output": "4"
-      }
-    ],
-    "hints": [
-      "Use a min-heap of size k to keep track of the k largest elements seen so far.",
-      "Initialize the heap with the first k elements.",
-      "For each remaining element, if it is larger than the heap's root, replace the root and heapify.",
-      "The root of the final heap is the kth largest element."
-    ],
-    "timeComplexity": "O(n log k)",
-    "spaceComplexity": "O(k)",
-    "solutions": {
-      "python": "import heapq\n\ndef findKthLargest(nums, k):\n    min_heap = nums[:k]\n    heapq.heapify(min_heap)\n    for num in nums[k:]:\n        if num > min_heap[0]:\n            heapq.heapreplace(min_heap, num)\n    return min_heap[0]",
-      "java": "import java.util.PriorityQueue;\n\npublic class Solution {\n    public int findKthLargest(int[] nums, int k) {\n        PriorityQueue<Integer> minHeap = new PriorityQueue<>();\n        for (int num : nums) {\n            minHeap.offer(num);\n            if (minHeap.size() > k) {\n                minHeap.poll();\n            }\n        }\n        return minHeap.peek();\n    }\n}",
-      "cpp": "#include <vector>\n#include <queue>\nusing namespace std;\n\nclass Solution {\npublic:\n    int findKthLargest(vector<int>& nums, int k) {\n        priority_queue<int, vector<int>, greater<int>> minHeap;\n        for (int num : nums) {\n            minHeap.push(num);\n            if (minHeap.size() > k) {\n                minHeap.pop();\n            }\n        }\n        return minHeap.top();\n    }\n};",
-      "javascript": "/**\n * @param {number[]} nums\n * @param {number} k\n * @return {number}\n */\nvar findKthLargest = function(nums, k) {\n    const minHeap = new MinPriorityQueue();\n    for (const num of nums) {\n        minHeap.enqueue(num);\n        if (minHeap.size() > k) {\n            minHeap.dequeue();\n        }\n    }\n    return minHeap.front().element;\n};",
-      "go": "import \"container/heap\"\n\ntype IntMinHeap []int\n\nfunc (h IntMinHeap) Len() int            { return len(h) }\nfunc (h IntMinHeap) Less(i, j int) bool  { return h[i] < h[j] }\nfunc (h IntMinHeap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }\nfunc (h *IntMinHeap) Push(x interface{}) { *h = append(*h, x.(int)) }\nfunc (h *IntMinHeap) Pop() interface{} {\n    old := *h\n    n := len(old)\n    x := old[n-1]\n    *h = old[:n-1]\n    return x\n}\n\nfunc findKthLargest(nums []int, k int) int {\n    h := &IntMinHeap{}\n    heap.Init(h)\n    for _, num := range nums {\n        heap.Push(h, num)\n        if h.Len() > k {\n            heap.Pop(h)\n        }\n    }\n    return (*h)[0]\n}",
-      "rust": "use std::collections::BinaryHeap;\nuse std::cmp::Reverse;\n\npub fn find_kth_largest(nums: Vec<i32>, k: i32) -> i32 {\n    let mut min_heap: BinaryHeap<Reverse<i32>> = BinaryHeap::new();\n    for &num in &nums {\n        min_heap.push(Reverse(num));\n        if min_heap.len() > k as usize {\n            min_heap.pop();\n        }\n    }\n    min_heap.peek().unwrap().0\n}"
-    }
+    "link": "https://leetcode.com/problems/kth-largest-element-in-an-array/"
   },
   {
     "id": "heap-008",
     "leetcode": 253,
     "title": "Meeting Rooms II",
     "difficulty": "Medium",
-    "description": "Given an array of meeting time intervals intervals where intervals[i] = [starti, endi], return the minimum number of conference rooms required.",
-    "examples": [
-      {
-        "input": "intervals = [[0,30],[5,10],[15,20]]",
-        "output": "2"
-      },
-      {
-        "input": "intervals = [[7,10],[2,4]]",
-        "output": "1"
-      }
-    ],
-    "hints": [
-      "Sort the intervals by their start times.",
-      "Use a min-heap to track the end times of ongoing meetings.",
-      "For each meeting, if it starts after the earliest ending meeting, reuse that room (pop from heap).",
-      "Always push the current meeting's end time. The heap size at any point is the number of rooms in use."
-    ],
-    "timeComplexity": "O(n log n)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "import heapq\n\ndef minMeetingRooms(intervals):\n    if not intervals:\n        return 0\n    intervals.sort()\n    heap = [intervals[0][1]]\n    for start, end in intervals[1:]:\n        if start >= heap[0]:\n            heapq.heapreplace(heap, end)\n        else:\n            heapq.heappush(heap, end)\n    return len(heap)",
-      "java": "import java.util.Arrays;\nimport java.util.PriorityQueue;\n\npublic class Solution {\n    public int minMeetingRooms(int[][] intervals) {\n        if (intervals.length == 0) return 0;\n        Arrays.sort(intervals, (a, b) -> a[0] - b[0]);\n        PriorityQueue<Integer> minHeap = new PriorityQueue<>();\n        minHeap.offer(intervals[0][1]);\n        for (int i = 1; i < intervals.length; i++) {\n            if (intervals[i][0] >= minHeap.peek()) {\n                minHeap.poll();\n            }\n            minHeap.offer(intervals[i][1]);\n        }\n        return minHeap.size();\n    }\n}",
-      "cpp": "#include <vector>\n#include <queue>\n#include <algorithm>\nusing namespace std;\n\nclass Solution {\npublic:\n    int minMeetingRooms(vector<vector<int>>& intervals) {\n        if (intervals.empty()) return 0;\n        sort(intervals.begin(), intervals.end());\n        priority_queue<int, vector<int>, greater<int>> minHeap;\n        minHeap.push(intervals[0][1]);\n        for (int i = 1; i < intervals.size(); i++) {\n            if (intervals[i][0] >= minHeap.top()) minHeap.pop();\n            minHeap.push(intervals[i][1]);\n        }\n        return minHeap.size();\n    }\n};",
-      "javascript": "/**\n * @param {number[][]} intervals\n * @return {number}\n */\nvar minMeetingRooms = function(intervals) {\n    if (!intervals.length) return 0;\n    intervals.sort((a, b) => a[0] - b[0]);\n    const minHeap = new MinPriorityQueue();\n    minHeap.enqueue(intervals[0][1]);\n    for (let i = 1; i < intervals.length; i++) {\n        if (intervals[i][0] >= minHeap.front().element) {\n            minHeap.dequeue();\n        }\n        minHeap.enqueue(intervals[i][1]);\n    }\n    return minHeap.size();\n};",
-      "go": "import (\n    \"container/heap\"\n    \"sort\"\n)\n\ntype IntHeap []int\n\nfunc (h IntHeap) Len() int            { return len(h) }\nfunc (h IntHeap) Less(i, j int) bool  { return h[i] < h[j] }\nfunc (h IntHeap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }\nfunc (h *IntHeap) Push(x interface{}) { *h = append(*h, x.(int)) }\nfunc (h *IntHeap) Pop() interface{} {\n    old := *h\n    n := len(old)\n    x := old[n-1]\n    *h = old[:n-1]\n    return x\n}\n\nfunc minMeetingRooms(intervals [][]int) int {\n    if len(intervals) == 0 {\n        return 0\n    }\n    sort.Slice(intervals, func(i, j int) bool {\n        return intervals[i][0] < intervals[j][0]\n    })\n    h := &IntHeap{intervals[0][1]}\n    heap.Init(h)\n    for i := 1; i < len(intervals); i++ {\n        if intervals[i][0] >= (*h)[0] {\n            heap.Pop(h)\n        }\n        heap.Push(h, intervals[i][1])\n    }\n    return h.Len()\n}",
-      "rust": "use std::collections::BinaryHeap;\nuse std::cmp::Reverse;\n\npub fn min_meeting_rooms(intervals: Vec<Vec<i32>>) -> i32 {\n    if intervals.is_empty() { return 0; }\n    let mut intervals = intervals;\n    intervals.sort_by_key(|x| x[0]);\n    let mut min_heap: BinaryHeap<Reverse<i32>> = BinaryHeap::new();\n    min_heap.push(Reverse(intervals[0][1]));\n    for i in 1..intervals.len() {\n        if intervals[i][0] >= min_heap.peek().unwrap().0 {\n            min_heap.pop();\n        }\n        min_heap.push(Reverse(intervals[i][1]));\n    }\n    min_heap.len() as i32\n}"
-    }
+    "link": "https://leetcode.com/problems/meeting-rooms-ii/"
   },
   {
     "id": "heap-002",
     "leetcode": 347,
     "title": "Top K Frequent Elements",
     "difficulty": "Medium",
-    "description": "Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.",
-    "examples": [
-      {
-        "input": "nums = [1,1,1,2,2,3], k = 2",
-        "output": "[1,2]"
-      },
-      {
-        "input": "nums = [1], k = 1",
-        "output": "[1]"
-      }
-    ],
-    "hints": [
-      "Count the frequency of each element using a hash map.",
-      "Use a min-heap of size k where each entry stores (frequency, element).",
-      "For each element, if the heap has fewer than k elements, push it. Otherwise, if its frequency is greater than the min-heap root, replace the root.",
-      "Extract all elements from the heap to get the result."
-    ],
-    "timeComplexity": "O(n log k)",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "import heapq\nfrom collections import Counter\n\ndef topKFrequent(nums, k):\n    count = Counter(nums)\n    min_heap = []\n    for num, freq in count.items():\n        heapq.heappush(min_heap, (freq, num))\n        if len(min_heap) > k:\n            heapq.heappop(min_heap)\n    return [num for freq, num in min_heap]",
-      "java": "import java.util.*;\n\npublic class Solution {\n    public int[] topKFrequent(int[] nums, int k) {\n        Map<Integer, Integer> count = new HashMap<>();\n        for (int num : nums) {\n            count.put(num, count.getOrDefault(num, 0) + 1);\n        }\n        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> a[1] - b[1]);\n        for (Map.Entry<Integer, Integer> entry : count.entrySet()) {\n            minHeap.offer(new int[]{entry.getKey(), entry.getValue()});\n            if (minHeap.size() > k) {\n                minHeap.poll();\n            }\n        }\n        int[] result = new int[k];\n        for (int i = 0; i < k; i++) {\n            result[i] = minHeap.poll()[0];\n        }\n        return result;\n    }\n}",
-      "cpp": "#include <vector>\n#include <queue>\n#include <unordered_map>\nusing namespace std;\n\nclass Solution {\npublic:\n    vector<int> topKFrequent(vector<int>& nums, int k) {\n        unordered_map<int, int> count;\n        for (int num : nums) count[num]++;\n        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> minHeap;\n        for (auto& [num, freq] : count) {\n            minHeap.push({freq, num});\n            if (minHeap.size() > k) minHeap.pop();\n        }\n        vector<int> result;\n        while (!minHeap.empty()) {\n            result.push_back(minHeap.top().second);\n            minHeap.pop();\n        }\n        return result;\n    }\n};",
-      "javascript": "/**\n * @param {number[]} nums\n * @param {number} k\n * @return {number[]}\n */\nvar topKFrequent = function(nums, k) {\n    const count = {};\n    for (const num of nums) {\n        count[num] = (count[num] || 0) + 1;\n    }\n    const minHeap = new MinPriorityQueue({ priority: x => x[1] });\n    for (const [num, freq] of Object.entries(count)) {\n        minHeap.enqueue([parseInt(num), freq]);\n        if (minHeap.size() > k) minHeap.dequeue();\n    }\n    return minHeap.toArray().map(x => x.element[0]);\n};",
-      "go": "import \"container/heap\"\n\ntype PairHeap [][2]int\n\nfunc (h PairHeap) Len() int            { return len(h) }\nfunc (h PairHeap) Less(i, j int) bool  { return h[i][1] < h[j][1] }\nfunc (h PairHeap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }\nfunc (h *PairHeap) Push(x interface{}) { *h = append(*h, x.([2]int)) }\nfunc (h *PairHeap) Pop() interface{} {\n    old := *h\n    n := len(old)\n    x := old[n-1]\n    *h = old[:n-1]\n    return x\n}\n\nfunc topKFrequent(nums []int, k int) []int {\n    count := map[int]int{}\n    for _, num := range nums {\n        count[num]++\n    }\n    h := &PairHeap{}\n    heap.Init(h)\n    for num, freq := range count {\n        heap.Push(h, [2]int{num, freq})\n        if h.Len() > k {\n            heap.Pop(h)\n        }\n    }\n    result := make([]int, 0, k)\n    for h.Len() > 0 {\n        result = append(result, heap.Pop(h).([2]int)[0])\n    }\n    return result\n}",
-      "rust": "use std::collections::{BinaryHeap, HashMap};\nuse std::cmp::Reverse;\n\npub fn top_k_frequent(nums: Vec<i32>, k: i32) -> Vec<i32> {\n    let mut count: HashMap<i32, i32> = HashMap::new();\n    for num in &nums {\n        *count.entry(*num).or_insert(0) += 1;\n    }\n    let mut min_heap: BinaryHeap<Reverse<(i32, i32)>> = BinaryHeap::new();\n    for (&num, &freq) in &count {\n        min_heap.push(Reverse((freq, num)));\n        if min_heap.len() > k as usize {\n            min_heap.pop();\n        }\n    }\n    min_heap.into_sorted_vec().into_iter().map(|Reverse((_, num))| num).collect()\n}"
-    }
+    "link": "https://leetcode.com/problems/top-k-frequent-elements/"
   },
   {
     "id": "heap-010",
     "leetcode": 378,
     "title": "Kth Smallest Element in a Sorted Matrix",
     "difficulty": "Medium",
-    "description": "Given an n x n matrix where each of the rows and columns is sorted in ascending order, return the kth smallest element in the matrix. Note that it is the kth smallest element in the sorted order, not the kth distinct element.",
-    "examples": [
-      {
-        "input": "matrix = [[1,5,9],[10,11,13],[12,13,15]], k = 8",
-        "output": "13"
-      },
-      {
-        "input": "matrix = [[-5]], k = 1",
-        "output": "-5"
-      }
-    ],
-    "hints": [
-      "Start from the top-left corner (smallest element) and add it to a min-heap.",
-      "Track visited cells to avoid duplicates.",
-      "For each popped cell, add its right and bottom neighbors to the heap if not visited.",
-      "Pop k times to get the kth smallest element."
-    ],
-    "timeComplexity": "O(k log k)",
-    "spaceComplexity": "O(k)",
-    "solutions": {
-      "python": "import heapq\n\ndef kthSmallest(matrix, k):\n    n = len(matrix)\n    min_heap = [(matrix[0][0], 0, 0)]\n    visited = {(0, 0)}\n    for _ in range(k):\n        val, r, c = heapq.heappop(min_heap)\n        if r + 1 < n and (r + 1, c) not in visited:\n            heapq.heappush(min_heap, (matrix[r + 1][c], r + 1, c))\n            visited.add((r + 1, c))\n        if c + 1 < n and (r, c + 1) not in visited:\n            heapq.heappush(min_heap, (matrix[r][c + 1], r, c + 1))\n            visited.add((r, c + 1))\n    return val",
-      "java": "import java.util.PriorityQueue;\nimport java.util.HashSet;\n\npublic class Solution {\n    public int kthSmallest(int[][] matrix, int k) {\n        int n = matrix.length;\n        PriorityQueue<int[]> minHeap = new PriorityQueue<>((a, b) -> a[0] - b[0]);\n        HashSet<String> visited = new HashSet<>();\n        minHeap.offer(new int[]{matrix[0][0], 0, 0});\n        visited.add(\"0,0\");\n        int val = 0;\n        for (int i = 0; i < k; i++) {\n            int[] curr = minHeap.poll();\n            val = curr[0];\n            int r = curr[1], c = curr[2];\n            if (r + 1 < n && !visited.contains((r+1)+\",\"+c)) {\n                minHeap.offer(new int[]{matrix[r+1][c], r+1, c});\n                visited.add((r+1)+\",\"+c);\n            }\n            if (c + 1 < n && !visited.contains(r+\",\"+(c+1))) {\n                minHeap.offer(new int[]{matrix[r][c+1], r, c+1});\n                visited.add(r+\",\"+(c+1));\n            }\n        }\n        return val;\n    }\n}",
-      "cpp": "#include <vector>\n#include <queue>\n#include <set>\nusing namespace std;\n\nclass Solution {\npublic:\n    int kthSmallest(vector<vector<int>>& matrix, int k) {\n        int n = matrix.size();\n        priority_queue<tuple<int,int,int>, vector<tuple<int,int,int>>, greater<tuple<int,int,int>>> minHeap;\n        set<pair<int,int>> visited;\n        minHeap.push({matrix[0][0], 0, 0});\n        visited.insert({0, 0});\n        int val = 0;\n        for (int i = 0; i < k; i++) {\n            auto [v, r, c] = minHeap.top(); minHeap.pop();\n            val = v;\n            if (r + 1 < n && !visited.count({r+1, c})) {\n                minHeap.push({matrix[r+1][c], r+1, c});\n                visited.insert({r+1, c});\n            }\n            if (c + 1 < n && !visited.count({r, c+1})) {\n                minHeap.push({matrix[r][c+1], r, c+1});\n                visited.insert({r, c+1});\n            }\n        }\n        return val;\n    }\n};",
-      "javascript": "/**\n * @param {number[][]} matrix\n * @param {number} k\n * @return {number}\n */\nvar kthSmallest = function(matrix, k) {\n    const n = matrix.length;\n    const minHeap = new MinPriorityQueue({ priority: x => x[0] });\n    const visited = new Set();\n    minHeap.enqueue([matrix[0][0], 0, 0]);\n    visited.add(\"0,0\");\n    let val = 0;\n    for (let i = 0; i < k; i++) {\n        const [v, r, c] = minHeap.dequeue().element;\n        val = v;\n        if (r + 1 < n && !visited.has(`${r+1},${c}`)) {\n            minHeap.enqueue([matrix[r+1][c], r+1, c]);\n            visited.add(`${r+1},${c}`);\n        }\n        if (c + 1 < n && !visited.has(`${r},${c+1}`)) {\n            minHeap.enqueue([matrix[r][c+1], r, c+1]);\n            visited.add(`${r},${c+1}`);\n        }\n    }\n    return val;\n};",
-      "go": "import \"container/heap\"\n\ntype Cell struct {\n    val, r, c int\n}\ntype CellHeap []Cell\n\nfunc (h CellHeap) Len() int            { return len(h) }\nfunc (h CellHeap) Less(i, j int) bool  { return h[i].val < h[j].val }\nfunc (h CellHeap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }\nfunc (h *CellHeap) Push(x interface{}) { *h = append(*h, x.(Cell)) }\nfunc (h *CellHeap) Pop() interface{} {\n    old := *h\n    n := len(old)\n    x := old[n-1]\n    *h = old[:n-1]\n    return x\n}\n\nfunc kthSmallest(matrix [][]int, k int) int {\n    n := len(matrix)\n    h := &CellHeap{{matrix[0][0], 0, 0}}\n    heap.Init(h)\n    visited := map[[2]int]bool{{0, 0}: true}\n    val := 0\n    for i := 0; i < k; i++ {\n        c := heap.Pop(h).(Cell)\n        val = c.val\n        dirs := [][2]int{{c.r + 1, c.c}, {c.r, c.c + 1}}\n        for _, d := range dirs {\n            if d[0] < n && d[1] < n && !visited[d] {\n                heap.Push(h, Cell{matrix[d[0]][d[1]], d[0], d[1]})\n                visited[d] = true\n            }\n        }\n    }\n    return val\n}",
-      "rust": "use std::collections::{BinaryHeap, HashSet};\nuse std::cmp::Reverse;\n\npub fn kth_smallest(matrix: Vec<Vec<i32>>, k: i32) -> i32 {\n    let n = matrix.len();\n    let mut min_heap: BinaryHeap<Reverse<(i32, usize, usize)>> = BinaryHeap::new();\n    let mut visited: HashSet<(usize, usize)> = HashSet::new();\n    min_heap.push(Reverse((matrix[0][0], 0, 0)));\n    visited.insert((0, 0));\n    let mut val = 0;\n    for _ in 0..k {\n        let Reverse((v, r, c)) = min_heap.pop().unwrap();\n        val = v;\n        let dirs = [(r + 1, c), (r, c + 1)];\n        for (nr, nc) in dirs {\n            if nr < n && nc < n && !visited.contains(&(nr, nc)) {\n                min_heap.push(Reverse((matrix[nr][nc], nr, nc)));\n                visited.insert((nr, nc));\n            }\n        }\n    }\n    val\n}"
-    }
+    "link": "https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/"
   },
   {
     "id": "heap-006",
     "leetcode": 621,
     "title": "Task Scheduler",
     "difficulty": "Medium",
-    "description": "You are given a char array representing tasks CPU needs to do. It contains capital letters A-Z representing different tasks. Each task could be done in one interval. For each interval, the CPU could finish one task or be idle. However, there is a non-negative integer n that represents the cooldown period between two same tasks. Return the least number of intervals the CPU will take to finish all the given tasks.",
-    "examples": [
-      {
-        "input": "tasks = [\"A\",\"A\",\"A\",\"B\",\"B\",\"B\"], n = 2",
-        "output": "8"
-      },
-      {
-        "input": "tasks = [\"A\",\"A\",\"A\",\"B\",\"B\",\"B\"], n = 0",
-        "output": "6"
-      },
-      {
-        "input": "tasks = [\"A\",\"A\",\"A\",\"A\",\"A\",\"A\",\"B\",\"C\",\"D\",\"E\",\"F\",\"G\"], n = 2",
-        "output": "16"
-      }
-    ],
-    "hints": [
-      "Count the frequency of each task.",
-      "The key observation is that the answer is determined by the most frequent task(s).",
-      "Calculate: (maxFreq - 1) * (n + 1) + count of tasks with max frequency.",
-      "The result is the maximum of this calculation and the total number of tasks."
-    ],
-    "timeComplexity": "O(n) where n is the number of tasks",
-    "spaceComplexity": "O(1) since there are at most 26 tasks",
-    "solutions": {
-      "python": "from collections import Counter\n\ndef leastInterval(tasks, n):\n    freq = Counter(tasks)\n    max_freq = max(freq.values())\n    count_max = sum(1 for v in freq.values() if v == max_freq)\n    return max(len(tasks), (max_freq - 1) * (n + 1) + count_max)",
-      "java": "import java.util.HashMap;\nimport java.util.Map;\n\npublic class Solution {\n    public int leastInterval(char[] tasks, int n) {\n        Map<Character, Integer> freq = new HashMap<>();\n        for (char t : tasks) {\n            freq.put(t, freq.getOrDefault(t, 0) + 1);\n        }\n        int maxFreq = 0, countMax = 0;\n        for (int f : freq.values()) {\n            if (f > maxFreq) {\n                maxFreq = f;\n                countMax = 1;\n            } else if (f == maxFreq) {\n                countMax++;\n            }\n        }\n        return Math.max(tasks.length, (maxFreq - 1) * (n + 1) + countMax);\n    }\n}",
-      "cpp": "#include <vector>\n#include <algorithm>\nusing namespace std;\n\nclass Solution {\npublic:\n    int leastInterval(vector<char>& tasks, int n) {\n        vector<int> freq(26, 0);\n        for (char t : tasks) freq[t - 'A']++;\n        sort(freq.begin(), freq.end(), greater<int>());\n        int maxFreq = freq[0], countMax = 0;\n        for (int f : freq) {\n            if (f == maxFreq) countMax++;\n            else break;\n        }\n        return max((int)tasks.size(), (maxFreq - 1) * (n + 1) + countMax);\n    }\n};",
-      "javascript": "/**\n * @param {character[]} tasks\n * @param {number} n\n * @return {number}\n */\nvar leastInterval = function(tasks, n) {\n    const freq = {};\n    for (const t of tasks) {\n        freq[t] = (freq[t] || 0) + 1;\n    }\n    let maxFreq = 0, countMax = 0;\n    for (const f of Object.values(freq)) {\n        if (f > maxFreq) { maxFreq = f; countMax = 1; }\n        else if (f === maxFreq) countMax++;\n    }\n    return Math.max(tasks.length, (maxFreq - 1) * (n + 1) + countMax);\n};",
-      "go": "func leastInterval(tasks []byte, n int) int {\n    freq := make(map[byte]int)\n    for _, t := range tasks {\n        freq[t]++\n    }\n    maxFreq, countMax := 0, 0\n    for _, f := range freq {\n        if f > maxFreq {\n            maxFreq = f\n            countMax = 1\n        } else if f == maxFreq {\n            countMax++\n        }\n    }\n    result := (maxFreq-1)*(n+1) + countMax\n    if result < len(tasks) {\n        return len(tasks)\n    }\n    return result\n}",
-      "rust": "use std::collections::HashMap;\n\npub fn least_interval(tasks: Vec<char>, n: i32) -> i32 {\n    let mut freq: HashMap<char, i32> = HashMap::new();\n    for &t in &tasks {\n        *freq.entry(t).or_insert(0) += 1;\n    }\n    let mut max_freq = 0;\n    let mut count_max = 0;\n    for &f in freq.values() {\n        if f > max_freq {\n            max_freq = f;\n            count_max = 1;\n        } else if f == max_freq {\n            count_max += 1;\n        }\n    }\n    let result = (max_freq - 1) * (n + 1) + count_max;\n    result.max(tasks.len() as i32)\n}"
-    }
+    "link": "https://leetcode.com/problems/task-scheduler/"
   },
   {
     "id": "heap-005",
     "leetcode": 973,
     "title": "K Closest Points to Origin",
     "difficulty": "Medium",
-    "description": "Given an array of points where points[i] = [xi, yi] represents a point on the X-Y plane and an integer k, return the k closest points to the origin (0, 0). The distance between two points is the Euclidean distance. You may return the answer in any order.",
-    "examples": [
-      {
-        "input": "points = [[3,3],[5,-1],[-2,4]], k = 2",
-        "output": "[[3,3],[-2,4]]"
-      },
-      {
-        "input": "points = [[1,3],[-2,2]], k = 1",
-        "output": "[[-2,2]]"
-      }
-    ],
-    "hints": [
-      "Calculate the squared distance for each point (avoids floating-point sqrt).",
-      "Use a max-heap of size k to store the k closest points seen so far.",
-      "For each point, if the heap has fewer than k elements, push it. Otherwise, if its distance is less than the max-heap root, replace the root.",
-      "The heap contains the k closest points at the end."
-    ],
-    "timeComplexity": "O(n log k)",
-    "spaceComplexity": "O(k)",
-    "solutions": {
-      "python": "import heapq\n\ndef kClosest(points, k):\n    max_heap = []\n    for x, y in points:\n        dist = x * x + y * y\n        heapq.heappush(max_heap, (-dist, x, y))\n        if len(max_heap) > k:\n            heapq.heappop(max_heap)\n    return [[x, y] for dist, x, y in max_heap]",
-      "java": "import java.util.PriorityQueue;\n\npublic class Solution {\n    public int[][] kClosest(int[][] points, int k) {\n        PriorityQueue<int[]> maxHeap = new PriorityQueue<>((a, b) ->\n            (b[0]*b[0] + b[1]*b[1]) - (a[0]*a[0] + a[1]*a[1]));\n        for (int[] p : points) {\n            maxHeap.offer(p);\n            if (maxHeap.size() > k) maxHeap.poll();\n        }\n        int[][] result = new int[k][2];\n        for (int i = 0; i < k; i++) {\n            result[i] = maxHeap.poll();\n        }\n        return result;\n    }\n}",
-      "cpp": "#include <vector>\n#include <queue>\nusing namespace std;\n\nclass Solution {\npublic:\n    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {\n        auto cmp = [](const vector<int>& a, const vector<int>& b) {\n            return a[0]*a[0] + a[1]*a[1] < b[0]*b[0] + b[1]*b[1];\n        };\n        priority_queue<vector<int>, vector<vector<int>>, decltype(cmp)> maxHeap(cmp);\n        for (auto& p : points) {\n            maxHeap.push(p);\n            if (maxHeap.size() > k) maxHeap.pop();\n        }\n        vector<vector<int>> result;\n        while (!maxHeap.empty()) {\n            result.push_back(maxHeap.top());\n            maxHeap.pop();\n        }\n        return result;\n    }\n};",
-      "javascript": "/**\n * @param {number[][]} points\n * @param {number} k\n * @return {number[][]}\n */\nvar kClosest = function(points, k) {\n    const maxHeap = new MaxPriorityQueue({\n        priority: x => x[0] * x[0] + x[1] * x[1]\n    });\n    for (const p of points) {\n        maxHeap.enqueue(p);\n        if (maxHeap.size() > k) maxHeap.dequeue();\n    }\n    return maxHeap.toArray().map(x => x.element);\n};",
-      "go": "import \"container/heap\"\n\ntype PointHeap [][]int\n\nfunc (h PointHeap) Len() int { return len(h) }\nfunc (h PointHeap) Less(i, j int) bool {\n    return h[i][0]*h[i][0]+h[i][1]*h[i][1] > h[j][0]*h[j][0]+h[j][1]*h[j][1]\n}\nfunc (h PointHeap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }\nfunc (h *PointHeap) Push(x interface{}) { *h = append(*h, x.([]int)) }\nfunc (h *PointHeap) Pop() interface{} {\n    old := *h\n    n := len(old)\n    x := old[n-1]\n    *h = old[:n-1]\n    return x\n}\n\nfunc kClosest(points [][]int, k int) [][]int {\n    h := &PointHeap{}\n    heap.Init(h)\n    for _, p := range points {\n        heap.Push(h, p)\n        if h.Len() > k {\n            heap.Pop(h)\n        }\n    }\n    return *h\n}",
-      "rust": "pub fn k_closest(points: Vec<Vec<i32>>, k: usize) -> Vec<Vec<i32>> {\n    let mut sorted = points;\n    sorted.sort_by_key(|p| p[0] * p[0] + p[1] * p[1]);\n    sorted.into_iter().take(k).collect()\n}"
-    }
+    "link": "https://leetcode.com/problems/k-closest-points-to-origin/"
   },
   {
     "id": "heap-003",
     "leetcode": 23,
     "title": "Merge k Sorted Lists",
     "difficulty": "Hard",
-    "description": "You are given an array of k linked-lists lists, each linked-list is sorted in ascending order. Merge all the linked-lists into one sorted linked-list and return it.",
-    "examples": [
-      {
-        "input": "lists = [[1,4,5],[1,3,4],[2,6]]",
-        "output": "[1,1,2,3,4,4,5,6]"
-      },
-      {
-        "input": "lists = []",
-        "output": "[]"
-      },
-      {
-        "input": "lists = [[]]",
-        "output": "[]"
-      }
-    ],
-    "hints": [
-      "Use a min-heap to always pick the smallest node among all current heads.",
-      "Push the head of each non-null list into the heap.",
-      "Pop the smallest, append it to the result, and push its next node if it exists.",
-      "Continue until the heap is empty."
-    ],
-    "timeComplexity": "O(N log k) where N is total number of nodes",
-    "spaceComplexity": "O(k)",
-    "solutions": {
-      "python": "import heapq\n\ndef mergeKLists(lists):\n    min_heap = []\n    for i, node in enumerate(lists):\n        if node:\n            heapq.heappush(min_heap, (node.val, i, node))\n    dummy = ListNode(0)\n    curr = dummy\n    while min_heap:\n        val, i, node = heapq.heappop(min_heap)\n        curr.next = node\n        curr = curr.next\n        if node.next:\n            heapq.heappush(min_heap, (node.next.val, i, node.next))\n    return dummy.next",
-      "java": "import java.util.PriorityQueue;\n\npublic class Solution {\n    public ListNode mergeKLists(ListNode[] lists) {\n        PriorityQueue<ListNode> minHeap = new PriorityQueue<>((a, b) -> a.val - b.val);\n        for (ListNode node : lists) {\n            if (node != null) minHeap.offer(node);\n        }\n        ListNode dummy = new ListNode(0);\n        ListNode curr = dummy;\n        while (!minHeap.isEmpty()) {\n            ListNode node = minHeap.poll();\n            curr.next = node;\n            curr = curr.next;\n            if (node.next != null) minHeap.offer(node.next);\n        }\n        return dummy.next;\n    }\n}",
-      "cpp": "#include <queue>\n#include <vector>\nusing namespace std;\n\nstruct ListNode {\n    int val;\n    ListNode *next;\n    ListNode() : val(0), next(nullptr) {}\n    ListNode(int x) : val(x), next(nullptr) {}\n};\n\nclass Solution {\npublic:\n    ListNode* mergeKLists(vector<ListNode*>& lists) {\n        auto cmp = [](ListNode* a, ListNode* b) { return a->val > b->val; };\n        priority_queue<ListNode*, vector<ListNode*>, decltype(cmp)> minHeap(cmp);\n        for (auto node : lists) {\n            if (node) minHeap.push(node);\n        }\n        ListNode dummy(0);\n        ListNode* curr = &dummy;\n        while (!minHeap.empty()) {\n            ListNode* node = minHeap.top(); minHeap.pop();\n            curr->next = node;\n            curr = curr->next;\n            if (node->next) minHeap.push(node->next);\n        }\n        return dummy.next;\n    }\n};",
-      "javascript": "/**\n * @param {ListNode[]} lists\n * @return {ListNode}\n */\nvar mergeKLists = function(lists) {\n    const minHeap = new MinPriorityQueue({ priority: x => x.val });\n    for (const node of lists) {\n        if (node) minHeap.enqueue(node);\n    }\n    const dummy = new ListNode(0);\n    let curr = dummy;\n    while (!minHeap.isEmpty()) {\n        const node = minHeap.dequeue().element;\n        curr.next = node;\n        curr = curr.next;\n        if (node.next) minHeap.enqueue(node.next);\n    }\n    return dummy.next;\n};",
-      "go": "import \"container/heap\"\n\ntype ListNodeHeap []*ListNode\n\nfunc (h ListNodeHeap) Len() int            { return len(h) }\nfunc (h ListNodeHeap) Less(i, j int) bool  { return h[i].Val < h[j].Val }\nfunc (h ListNodeHeap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }\nfunc (h *ListNodeHeap) Push(x interface{}) { *h = append(*h, x.(*ListNode)) }\nfunc (h *ListNodeHeap) Pop() interface{} {\n    old := *h\n    n := len(old)\n    x := old[n-1]\n    *h = old[:n-1]\n    return x\n}\n\nfunc mergeKLists(lists []*ListNode) *ListNode {\n    h := &ListNodeHeap{}\n    heap.Init(h)\n    for _, node := range lists {\n        if node != nil {\n            heap.Push(h, node)\n        }\n    }\n    dummy := &ListNode{}\n    curr := dummy\n    for h.Len() > 0 {\n        node := heap.Pop(h).(*ListNode)\n        curr.Next = node\n        curr = curr.Next\n        if node.Next != nil {\n            heap.Push(h, node.Next)\n        }\n    }\n    return dummy.Next\n}",
-      "rust": "use std::cmp::Reverse;\nuse std::collections::BinaryHeap;\n\n#[derive(PartialEq, Eq, PartialOrd, Ord)]\nstruct Wrapper(Reverse<i32>);\n\npub fn merge_k_lists(lists: Vec<Option<Box<ListNode>>>) -> Option<Box<ListNode>> {\n    let mut min_heap: BinaryHeap<Reverse<i32>> = BinaryHeap::new();\n    let mut vals: Vec<i32> = Vec::new();\n    for node in &lists {\n        let mut curr = node;\n        while let Some(n) = curr {\n            vals.push(n.val);\n            curr = &n.next;\n        }\n    }\n    vals.sort();\n    if vals.is_empty() { return None; }\n    let mut head = Box::new(ListNode::new(vals[0]));\n    let mut curr = &mut head;\n    for &val in &vals[1..] {\n        curr.next = Some(Box::new(ListNode::new(val)));\n        curr = curr.next.as_mut().unwrap();\n    }\n    Some(head)\n}"
-    }
+    "link": "https://leetcode.com/problems/merge-k-sorted-lists/"
   },
   {
     "id": "heap-004",
     "leetcode": 295,
     "title": "Find Median from Data Stream",
     "difficulty": "Hard",
-    "description": "The median is the middle value in an ordered integer list. If the size of the list is even, there is no middle value, and the median is the mean of the two middle values. Implement the MedianFinder class: void addNum(int num) adds the integer num from the data stream, double findMedian() returns the median of all elements so far.",
-    "examples": [
-      {
-        "input": "MedianFinder(), addNum(1), addNum(2), findMedian(), addNum(3), findMedian()",
-        "output": "[null, null, null, 1.5, null, 2.0]"
-      }
-    ],
-    "hints": [
-      "Use two heaps: a max-heap for the lower half and a min-heap for the upper half.",
-      "The max-heap stores the smaller half of the numbers, the min-heap stores the larger half.",
-      "Keep the heaps balanced: their sizes differ by at most 1.",
-      "If heaps are equal size, the median is the average of both tops. Otherwise, the larger heap's top is the median."
-    ],
-    "timeComplexity": "O(log n) for addNum, O(1) for findMedian",
-    "spaceComplexity": "O(n)",
-    "solutions": {
-      "python": "import heapq\n\nclass MedianFinder:\n    def __init__(self):\n        self.lo = []  # max-heap (inverted)\n        self.hi = []  # min-heap\n\n    def addNum(self, num):\n        heapq.heappush(self.lo, -num)\n        heapq.heappush(self.hi, -heapq.heappop(self.lo))\n        if len(self.hi) > len(self.lo):\n            heapq.heappush(self.lo, -heapq.heappop(self.hi))\n\n    def findMedian(self):\n        if len(self.lo) > len(self.hi):\n            return -self.lo[0]\n        return (-self.lo[0] + self.hi[0]) / 2.0",
-      "java": "import java.util.PriorityQueue;\n\npublic class MedianFinder {\n    private PriorityQueue<Integer> lo;\n    private PriorityQueue<Integer> hi;\n\n    public MedianFinder() {\n        lo = new PriorityQueue<>((a, b) -> b - a);\n        hi = new PriorityQueue<>();\n    }\n\n    public void addNum(int num) {\n        lo.offer(num);\n        hi.offer(lo.poll());\n        if (hi.size() > lo.size()) {\n            lo.offer(hi.poll());\n        }\n    }\n\n    public double findMedian() {\n        if (lo.size() > hi.size()) {\n            return lo.peek();\n        }\n        return (lo.peek() + hi.peek()) / 2.0;\n    }\n}",
-      "cpp": "#include <queue>\nusing namespace std;\n\nclass MedianFinder {\nprivate:\n    priority_queue<int> lo;\n    priority_queue<int, vector<int>, greater<int>> hi;\npublic:\n    MedianFinder() {}\n\n    void addNum(int num) {\n        lo.push(num);\n        hi.push(lo.top());\n        lo.pop();\n        if (hi.size() > lo.size()) {\n            lo.push(hi.top());\n            hi.pop();\n        }\n    }\n\n    double findMedian() {\n        if (lo.size() > hi.size()) return lo.top();\n        return (lo.top() + hi.top()) / 2.0;\n    }\n};",
-      "javascript": "/**\n * Initialize your data structure here.\n */\nvar MedianFinder = function() {\n    this.lo = new MaxPriorityQueue();\n    this.hi = new MinPriorityQueue();\n};\n\n/**\n * @param {number} num\n * @return {void}\n */\nMedianFinder.prototype.addNum = function(num) {\n    this.lo.enqueue(num);\n    this.hi.enqueue(this.lo.dequeue().element);\n    if (this.hi.size() > this.lo.size()) {\n        this.lo.enqueue(this.hi.dequeue().element);\n    }\n};\n\n/**\n * @return {number}\n */\nMedianFinder.prototype.findMedian = function() {\n    if (this.lo.size() > this.hi.size()) {\n        return this.lo.front().element;\n    }\n    return (this.lo.front().element + this.hi.front().element) / 2;\n};",
-      "go": "import \"container/heap\"\n\ntype MaxHeap []int\nfunc (h MaxHeap) Len() int            { return len(h) }\nfunc (h MaxHeap) Less(i, j int) bool  { return h[i] > h[j] }\nfunc (h MaxHeap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }\nfunc (h *MaxHeap) Push(x interface{}) { *h = append(*h, x.(int)) }\nfunc (h *MaxHeap) Pop() interface{} {\n    old := *h\n    n := len(old)\n    x := old[n-1]\n    *h = old[:n-1]\n    return x\n}\n\ntype MinHeap []int\nfunc (h MinHeap) Len() int            { return len(h) }\nfunc (h MinHeap) Less(i, j int) bool  { return h[i] < h[j] }\nfunc (h MinHeap) Swap(i, j int)       { h[i], h[j] = h[j], h[i] }\nfunc (h *MinHeap) Push(x interface{}) { *h = append(*h, x.(int)) }\nfunc (h *MinHeap) Pop() interface{} {\n    old := *h\n    n := len(old)\n    x := old[n-1]\n    *h = old[:n-1]\n    return x\n}\n\ntype MedianFinder struct {\n    lo MaxHeap\n    hi MinHeap\n}\n\nfunc Constructor() MedianFinder {\n    return MedianFinder{}\n}\n\nfunc (mf *MedianFinder) AddNum(num int) {\n    heap.Push(&mf.lo, num)\n    heap.Push(&mf.hi, heap.Pop(&mf.lo))\n    if mf.hi.Len() > mf.lo.Len() {\n        heap.Push(&mf.lo, heap.Pop(&mf.hi))\n    }\n}\n\nfunc (mf *MedianFinder) FindMedian() float64 {\n    if mf.lo.Len() > mf.hi.Len() {\n        return float64(mf.lo[0])\n    }\n    return float64(mf.lo[0]+mf.hi[0]) / 2.0\n}",
-      "rust": "use std::cmp::Reverse;\nuse std::collections::BinaryHeap;\n\npub struct MedianFinder {\n    lo: BinaryHeap<i32>,\n    hi: BinaryHeap<Reverse<i32>>,\n}\n\nimpl MedianFinder {\n    pub fn new() -> Self {\n        MedianFinder { lo: BinaryHeap::new(), hi: BinaryHeap::new() }\n    }\n\n    pub fn add_num(&mut self, num: i32) {\n        self.lo.push(num);\n        self.hi.push(Reverse(self.lo.pop().unwrap()));\n        if self.hi.len() > self.lo.len() {\n            self.lo.push(self.hi.pop().unwrap().0);\n        }\n    }\n\n    pub fn find_median(&self) -> f64 {\n        if self.lo.len() > self.hi.len() {\n            *self.lo.peek().unwrap() as f64\n        } else {\n            (*self.lo.peek().unwrap() as f64 + *self.hi.peek().unwrap().0 as f64) / 2.0\n        }\n    }\n}"
-    }
+    "link": "https://leetcode.com/problems/find-median-from-data-stream/"
   }
 ]
