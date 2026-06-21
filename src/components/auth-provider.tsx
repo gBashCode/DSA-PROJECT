@@ -7,23 +7,14 @@ import type { User } from "@supabase/supabase-js";
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  signInWithMagicLink: (email: string) => Promise<{ error?: string }>;
   signOut: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,
-  signInWithMagicLink: async () => ({}),
   signOut: async () => {},
 });
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function authCallback(setUser: (u: User | null) => void) {
-  return (_event: any, session: any) => {
-    setUser(session?.user ?? null);
-  };
-}
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -47,27 +38,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setLoading(false);
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(authCallback(setUser));
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (_event: any, session: any) => {
+        setUser(session?.user ?? null);
+      }
+    );
 
     return () => subscription.unsubscribe();
   }, [getSupabase]);
-
-  const signInWithMagicLink = async (email: string) => {
-    const { error } = await getSupabase().auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
-      },
-    });
-    return { error: error?.message };
-  };
 
   const signOut = async () => {
     await getSupabase().auth.signOut();
   };
 
   return (
-    <AuthContext.Provider value={{ user, loading, signInWithMagicLink, signOut }}>
+    <AuthContext.Provider value={{ user, loading, signOut }}>
       {children}
     </AuthContext.Provider>
   );
