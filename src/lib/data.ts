@@ -30,14 +30,45 @@ import bitManipulation from "@/data/problems/bit-manipulation.json";
 
 let globalProblemCounter = 0;
 
-function normalizeProblems(arr: unknown[], slug: string): Problem[] {
-  return (arr as Record<string, unknown>[]).map((p) => {
+interface SectionData {
+  section: string;
+  problems: Record<string, unknown>[];
+}
+
+function isSectionFormat(data: unknown[]): data is SectionData[] {
+  const first = data[0] as Record<string, unknown>;
+  return data.length > 0 && "section" in first && "problems" in first;
+}
+
+function extractProblems(data: unknown): Record<string, unknown>[] {
+  if (Array.isArray(data)) {
+    if (isSectionFormat(data)) {
+      return data.flatMap((section) => section.problems || []);
+    }
+    return data as Record<string, unknown>[];
+  }
+  return [];
+}
+
+function normalizeProblems(data: unknown, slug: string): Problem[] {
+  const raw = extractProblems(data);
+  return raw.map((p) => {
     globalProblemCounter++;
     return {
       ...p,
       id: `${slug}-${globalProblemCounter}`,
-    };
-  }) as Problem[];
+      title: p.title || "Untitled",
+      difficulty: p.difficulty || "Medium",
+      link: p.link || `https://leetcode.com/problems/${(p.title as string || "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/-+$/, "")}/`,
+      leetcode: p.leetcode || 0,
+      description: p.description || "",
+      examples: p.examples || [],
+      hints: p.hints || [],
+      timeComplexity: p.timeComplexity || "",
+      spaceComplexity: p.spaceComplexity || "",
+      solutions: p.solutions || { python: "", java: "", cpp: "", javascript: "", go: "", rust: "" },
+    } as Problem;
+  });
 }
 
 const problemMap: Record<string, Problem[]> = {
